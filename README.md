@@ -1,37 +1,23 @@
-## Welcome to GitHub Pages
+## Welcome to Researcher Project system
 
-You can use the [editor on GitHub](https://github.com/Sakchai/ResearchProject/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This project is for provide researcher registration and research project proposal system.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## ResearchProject Repos
 
-### Markdown
+For this reference app, we built serveral consumer and line-of-business apps. You can find all ResearchProject Repos in this location 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Project.Api
+Project.Api uses a microservice oriented architecture implemented using containers. There are various services developed in .NET Core 2.2 and use data stores SQL Server.
 
-```markdown
-Syntax highlighted code block
+### Project.Domain
+Project.Domain uses developed in .NET Core 2.2, AutoMapper.
 
-# Header 1
-## Header 2
-### Header 3
+### Project.Entity
+Project.Entity uses developed in .NET Core 2.2, Microsoft EntityFramworkCore.
 
-- Bulleted
-- List
+### Project.Web
+Project.Entity uses developed in .NET Core 2.2, Microsoft AspNetCore Mvc 2.2, Microsoft Entensions Logging 2.2.
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Sakchai/ResearchProject/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Screen
+ResearchProject Web Apps
+![Image](src)
