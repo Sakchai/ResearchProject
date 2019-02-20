@@ -1,0 +1,27 @@
+﻿
+
+https://www.nuget.org/packages/Microsoft.Extensions.Configuration/
+PM> Install-Package Microsoft.Extensions.Configuration -Version 2.1.1
+
+https://www.newtonsoft.com/json
+PM> Install-Package Newtonsoft.Json
+
+http://dapper-tutorial.net/dapper
+PM> Install-Package Dapper
+
+https://www.nuget.org/packages/Dapper.Contrib/
+PM> Install-Package Dapper.Contrib -Version 1.50.5
+
+https://fluentmigrator.github.io/articles/intro.html
+https://www.nuget.org/packages/FluentMigrator/
+PM> Install-Package FluentMigrator -Version 3.1.3
+
+
+NOTE: not implemented 
+https://www.nuget.org/packages/Dapper.FluentMap/
+PM> Install-Package Dapper.FluentMap -Version 1.6.0
+
+
+
+
+

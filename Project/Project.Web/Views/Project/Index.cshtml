@@ -1,0 +1,85 @@
+﻿<environment names="Development">
+    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.css" asp-append-version="true"/>
+</environment>
+<environment names="Staging,Production">
+    <link rel="stylesheet" href="~/lib/datatables/media/css/dataTables.bootstrap.min.css" asp-append-version="true" />
+</environment>
+
+<environment names="Development">
+    <script src="~/lib/datatables/media/js/jquery.dataTables.js" asp-append-version="true"></script>
+    <script src="~/lib/datatables/media/js/dataTables.bootstrap.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/lib/datatables/media/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+    <script src="~/lib/datatables/media/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
+</environment>
+<div class="box">
+    <div class="box-body">
+        <form asp-controller="Project" asp-action="Index" method="post">
+            <button class="btn btn-sm btn-primary" type="submit">Create</button>
+        </form>
+    </div>
+</div>
+<div class="box">
+    <div class="box-body table-responsive">
+        <table class="table table-bordered table-hover" id="TableId" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <th>ลำดับ</th>
+                    <th>ปีงบ</th>
+                    <th>รหัสโครงการ</th>
+                    <th>ชื่อโครงการ</th>
+                    <th>วันที่ยื่นข้อเสนอ</th>
+                    <th>งบวิจัย</th>
+                    <th>สถานะ</th>
+                    <th>การกระทำ</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#TableId').DataTable(
+        {
+            searchDelay: 500,
+            "columnDefs": [
+                { "width": "13%", "targets": [7] },
+                { "className": "text-center", "targets": [0, 1, 2, 4, 5, 6,7] },
+                { "defaultContent": "<button class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-print'></span></button> <button class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-eye-open'></span></button> <button class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span></button>", "targets": [7] },
+                { "searchable": false, "targets": [0,2,4,5,6] },
+
+            ],
+            "language":
+                {
+                    "processing": "<div class=''><i class='fa fa-cog fa-spin site-loader-color'></i></div>",
+                    "search": "filter",
+                    "searchPlaceholder": "project name"
+                },
+            "processing": true,
+            "serverSide": true,
+            "ajax":
+                {
+                    "url": "/Project/GetData",
+                    "type": "POST",
+                    "dataType": "JSON"
+                },
+            "columns": [
+                        { "data": "id" },
+                        { "data": "fiscalYear" },
+                        { "data": "projectCode" },
+                        { "data": "projectNameTh" },
+                        { "data": "startDate" },
+                        { "data": "fundAmount" },
+                        { "data": "projectStatus" },
+            ],
+            "dom": "<'row'<'col-sm-6'l><'col-sm-6'<'#buttonContainer.site-datatable-button-container'>f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        });
+        
+        $("#buttonContainer").addClass("pull-right").append("<button class='btn btn-sm bg-olive'>Create</button>");
+
+    });
+</script>
