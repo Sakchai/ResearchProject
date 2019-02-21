@@ -20,4 +20,5 @@ Project.Entity uses developed in .NET Core 2.2, Microsoft AspNetCore Mvc 2.2, Mi
 
 ### Screen
 ResearchProject Web Apps
-![Image](src)
+
+![Image](https://github.com/Sakchai/ResearchProject/blob/master/Document/Screen-1.jpg)
