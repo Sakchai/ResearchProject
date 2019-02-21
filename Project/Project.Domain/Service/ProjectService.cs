@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Project.Domain.Service
 {
-    public class ProjectService : GenericService<ProjectViewModel, Entity.Project>
+    public class ProjectService : GenericService<ProjectModel, Entity.Project>
     {
         protected IUnitOfWork _unitOfWork;
 
@@ -23,10 +23,10 @@ namespace Project.Domain.Service
             return true;
         }
 
-        public override IEnumerable<ProjectViewModel> GetAll()
+        public override IEnumerable<ProjectModel> GetAll()
         {
             IEnumerable<Entity.Project> entities = _unitOfWork.GetRepository<Entity.Project>().GetAll();
-            return Mapper.Map<IEnumerable<ProjectViewModel>>(source: entities);
+            return Mapper.Map<IEnumerable<ProjectModel>>(source: entities);
         }
 
         public IEnumerable<ProjectGridViewModel> GetGridAll()
@@ -35,10 +35,10 @@ namespace Project.Domain.Service
             return Mapper.Map<IEnumerable<ProjectGridViewModel>>(source: entities);
         }
 
-        public override ProjectViewModel GetOne(int id)
+        public override ProjectModel GetOne(int id)
         {
             var entity = _unitOfWork.GetRepository<Entity.Project>().GetOne(id);
-            return Mapper.Map<ProjectViewModel>(source: entity);
+            return Mapper.Map<ProjectModel>(source: entity);
         }
     }
 }

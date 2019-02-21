@@ -17,6 +17,8 @@ namespace AdminLTE.Controllers
         {
             AddPageHeader("Dashboard", "");
             return View();
+
+            //return RedirectToAction("Project/List");
         }
 
         [HttpPost]

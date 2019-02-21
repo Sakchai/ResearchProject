@@ -1,0 +1,65 @@
+﻿@model Project.Web.Models.ProjectViewModels.CreateVm
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form method="post" asp-action="Create" asp-antiforgery="true" class="form-horizontal">
+
+    <div class="form-group">
+        <label asp-for="FiscalScheduleId" class="col-md-2 control-label"></label>
+        <select asp-for="FiscalScheduleId" asp-items="Model.AvailableFiscalSchedules"></select>
+        <span asp-validation-for="FiscalScheduleId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectNameTh" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ProjectNameTh" class="form-control" />
+            <span asp-validation-for="ProjectNameTh" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ResearchIssueId" class="col-md-2 control-label"></label>
+        <select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchIssues"></select>
+        <span asp-validation-for="ResearchIssueId"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FundAmount" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="FundAmount" class="form-control" />
+            <span asp-validation-for="FundAmount" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="InternalProfessorId" class="col-md-2 control-label"></label>
+        <select asp-for="InternalProfessorId" asp-items="Model.AvailableProfessors"></select>
+        <span asp-validation-for="InternalProfessorId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="InternalProfessor2Id" class="col-md-2 control-label"></label>
+        <select asp-for="InternalProfessor2Id" asp-items="Model.AvailableProfessors"></select>
+        <span asp-validation-for="InternalProfessor2Id"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ExternalProfessorId" class="col-md-2 control-label"></label>
+        <select asp-for="ExternalProfessorId" asp-items="Model.AvailableProfessors"></select>
+        <span asp-validation-for="ExternalProfessorId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProposalUploadId" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ProposalUploadId" class="form-control" />
+            <span asp-validation-for="ProposalUploadId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-4">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
+            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -8,7 +8,7 @@ namespace Project.Domain
     /// <summary>
     /// A Researcher attached to a Project
     /// </summary>
-    public class ProjectViewModel : BaseDomain
+    public class ProjectModel : BaseDomain
     {
         public string ProjectCode { get; set; }
         public string ProjectNameTh { get; set; }

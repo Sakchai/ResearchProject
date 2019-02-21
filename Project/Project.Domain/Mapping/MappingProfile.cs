@@ -23,8 +23,8 @@ namespace Project.Domain.Mapping
                 .ForMember(dest => dest.Roles, opts => opts.MapFrom(src => src.Roles.Split(";", StringSplitOptions.RemoveEmptyEntries)));
             CreateMap<RoleViewModel, Role>();
             CreateMap<Role, RoleViewModel>();
-            CreateMap<ProjectViewModel, Entity.Project>();
-            CreateMap<Entity.Project, ProjectViewModel>();
+            CreateMap<ProjectModel, Entity.Project>();
+            CreateMap<Entity.Project, ProjectModel>();
             CreateMap<Entity.Project, ProjectGridViewModel>();
             CreateMap<ResearcherViewModel, Researcher>();
             CreateMap<Researcher, ResearcherViewModel>();

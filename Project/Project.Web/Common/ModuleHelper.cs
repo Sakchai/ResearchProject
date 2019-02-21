@@ -69,15 +69,15 @@ namespace AdminLTE.Common
                         URLPath = "/Project",
                         LinkCounter = counter,
                     };
-                case Module.Dashboards:
-                    return new SidebarMenu
-                    {
-                        Type = SidebarMenuType.Link,
-                        Name = "Dashboards",
-                        IconClassName = "fa fa-link",
-                        URLPath = "/Dashboards",
-                        LinkCounter = counter,
-                    };
+                //case Module.Dashboards:
+                //    return new SidebarMenu
+                //    {
+                //        Type = SidebarMenuType.Link,
+                //        Name = "Dashboards",
+                //        IconClassName = "fa fa-link",
+                //        URLPath = "/Dashboards",
+                //        LinkCounter = counter,
+                //    };
                 case Module.Login:
                     return new SidebarMenu
                     {
@@ -114,15 +114,15 @@ namespace AdminLTE.Common
                         URLPath = "/Home/Contact",
                         LinkCounter = counter,
                     };
-                case Module.Error:
-                    return new SidebarMenu
-                    {
-                        Type = SidebarMenuType.Link,
-                        Name = "Error",
-                        IconClassName = "fa fa-warning",
-                        URLPath = "/Home/Error",
-                        LinkCounter = counter,
-                    };
+                //case Module.Error:
+                //    return new SidebarMenu
+                //    {
+                //        Type = SidebarMenuType.Link,
+                //        Name = "Error",
+                //        IconClassName = "fa fa-warning",
+                //        URLPath = "/Home/Error",
+                //        LinkCounter = counter,
+                //    };
                 case Module.SuperAdmin:
                     return new SidebarMenu
                     {

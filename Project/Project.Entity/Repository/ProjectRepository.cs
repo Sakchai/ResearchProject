@@ -56,13 +56,19 @@ namespace Project.Entity.Repository
             int retval = -1;
             if (entity != null)
             {
-                string sQuery = @"INSERT INTO Projects(ProjectCode, ProjectNameTH, ProjectNameEN, FiscalYear, ResearchIssueId,FundAmount 
+                string sQuery = @"declare 
+                                    @NextProjectCode varchar(10);
+                                  begin
+                                     select @NextProjectCode = 'pp-' + substring(cast(cast(max(substring(ProjectCode,4,6)) as int) + 1000001 as varchar(7)),2,6) 
+                                     from Projects where ProjectStatusId=1;
+                                    INSERT INTO Projects(ProjectCode, ProjectNameTH, ProjectNameEN, FiscalYear, ResearchIssueId,FundAmount 
                                   , InternalProfessorId, InternalProfessor2Id, ExternalProfessorId, ProposalUploadId, ProjectStatusId, StartContractDate
                                   , EndContractDate, Published, Utilization, AbstractTitle, CompletedUploadId, FiscalScheduleId, Created, LastUpdateBy)
-                                  VALUES(@ProjectCode, @ProjectNameTH, @ProjectNameEN, @FiscalYear, @ResearchIssueId, @FundAmount, @InternalProfessorId
+                                  VALUES(@NextProjectCode, @ProjectNameTH, @ProjectNameEN, @FiscalYear, @ResearchIssueId, @FundAmount, @InternalProfessorId
                                   , @InternalProfessor2Id, @ExternalProfessorId, @ProposalUploadId, @ProjectStatusId, @StartContractDate, @EndContractDate
-                                  , @Published, @Utilization, @AbstractTitle, @CompletedUploadId, @FiscalScheduleId, GETUTCDATE(), @LastUpdateBy)";
-                sQuery += "SELECT CAST(SCOPE_IDENTITY() as int); ";
+                                  , @Published, @Utilization, @AbstractTitle, @CompletedUploadId, @FiscalScheduleId, GETUTCDATE(), @LastUpdateBy);
+                                  SELECT CAST(SCOPE_IDENTITY() as int); 
+                                 end ";
                 if (_transaction == null) Transaction = _connection.BeginTransaction();
                 retval = _connection.Query<int>(sQuery, entity, _transaction).Single();
             }

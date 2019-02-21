@@ -17,6 +17,7 @@ using Project.Domain.Mapping;
 using Project.Domain.Service;
 using Project.Entity.Context;
 using Project.Entity.UnitofWork;
+using Project.Web.Factories;
 
 namespace AdminLTE
 {
@@ -80,6 +81,7 @@ namespace AdminLTE
             services.AddTransient(typeof(RoleService), typeof(RoleService));
             services.AddTransient(typeof(ResearcherService), typeof(ResearcherService));
             services.AddTransient(typeof(ProjectService), typeof(ProjectService));
+            services.AddTransient<IProjectModelFactory, ProjectModelFactory>();
             #endregion
 
             //data mapper profiler setting
@@ -131,7 +133,7 @@ namespace AdminLTE
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Project}/{action=List}/{id?}");
             });
 
 
