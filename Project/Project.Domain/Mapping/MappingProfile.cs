@@ -25,7 +25,7 @@ namespace Project.Domain.Mapping
             CreateMap<Role, RoleViewModel>();
             CreateMap<ProjectModel, Entity.Project>();
             CreateMap<Entity.Project, ProjectModel>();
-            CreateMap<Entity.Project, ProjectGridViewModel>();
+            CreateMap<Entity.Project, ProjectGridModel>();
             CreateMap<ResearcherViewModel, Researcher>();
             CreateMap<Researcher, ResearcherViewModel>();
 

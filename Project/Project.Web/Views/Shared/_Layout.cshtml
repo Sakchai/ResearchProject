@@ -14,10 +14,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css" />
+        <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/AdminLTE.css" />
         <link rel="stylesheet" href="~/css/skins/skin-blue.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/lib/kendo/2014.1.318/kendo.rtl.min.css"  />
+        <link rel="stylesheet" href="~/lib/kendo/2014.1.318/kendo.rtl.min.css" />
         <link rel="stylesheet" href="~/lib/kendo/2014.1.318/kendo.default.min.css" />
         <link rel="stylesheet" href="~/lib/kendo/2014.1.318/kendo.common.min.css" />
     </environment>
@@ -25,6 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/AdminLTE.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/skins/skin-blue.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
@@ -78,14 +80,14 @@ desired effect
         <!-- Left side column. contains the logo and sidebar -->
         @await Component.InvokeAsync("Sidebar")
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height: 663px;">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            @*<section class="content-header">
                 @await Component.InvokeAsync("PageHeader")
                 @await Component.InvokeAsync("Breadcrumb")
                 <br />
                 @await Component.InvokeAsync("PageAlert")
-            </section>
+            </section>*@
             <!-- Main content -->
             <section class="content">
                 <!-- Your Page Content Here -->

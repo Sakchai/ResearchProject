@@ -5,6 +5,9 @@
 }
 <form asp-controller="Project" asp-action="List" method="post">
     <div class="content-header clearfix">
+        <h1 class="pull-left">
+            ข้อเสนอโครงการวิจัย
+        </h1>
         <div class="pull-right">
             <a asp-action="Create" class="btn bg-blue">
                 <i class="fa fa-plus-square"></i>
@@ -60,7 +63,7 @@
                                 <div class="form-group">
                                     <label asp-for="SearchProjectName" class="col-md-4 control-label"></label>
                                     <div class="col-md-8">
-                                        <input asp-for="SearchProjectName" class="form-control" />
+                                        <input asp-for="SearchProjectName" class="form-control text-box single-line" />
                                         <span asp-validation-for="SearchProjectName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -191,9 +194,7 @@
                 }, {
                     field: "startDate",
                     title: "วันที่ยื่นข้อเสนอ",
-                    width: 100,
-                    type: "date",
-                    format: "{0:G}"
+                    width: 100
                 }, {
                     field: "fundAmount",
                     title: "งบวิจัย",

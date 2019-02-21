@@ -29,10 +29,10 @@ namespace Project.Domain.Service
             return Mapper.Map<IEnumerable<ProjectModel>>(source: entities);
         }
 
-        public IEnumerable<ProjectGridViewModel> GetGridAll()
+        public IEnumerable<ProjectGridModel> GetGridAll()
         {
             IEnumerable<Entity.Project> entities = _unitOfWork.GetRepository<Entity.Project>().GetAll();
-            return Mapper.Map<IEnumerable<ProjectGridViewModel>>(source: entities);
+            return Mapper.Map<IEnumerable<ProjectGridModel>>(source: entities);
         }
 
         public override ProjectModel GetOne(int id)

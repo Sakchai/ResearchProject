@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project.Web.Models.ProjectViewModels
 {
-    public class ProjectListModel : BasePagedListModel<ProjectGridViewModel>
+    public class ProjectListModel : BasePagedListModel<ProjectGridModel>
     {
     }
 }

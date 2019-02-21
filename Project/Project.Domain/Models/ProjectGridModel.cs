@@ -8,7 +8,7 @@ namespace Project.Domain
     /// <summary>
     /// A Researcher attached to a Project
     /// </summary>
-    public class ProjectGridViewModel : BaseDomain
+    public class ProjectGridModel : BaseDomain
     {
         public int FiscalYear { get; set; }
         public string ProjectCode { get; set; }
