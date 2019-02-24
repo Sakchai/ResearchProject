@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Project.Domain;
+using Project.Web.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Project.Web.Models.ProjectViewModels
 {
-    public class CreateVm
+    public class CreateVm : BaseSearchModel
     {
         public CreateVm()
         {
@@ -13,6 +14,8 @@ namespace Project.Web.Models.ProjectViewModels
             this.AvailableProfessors = new List<SelectListItem>();
             this.AvailableResearchIssues = new List<SelectListItem>();
         }
+
+        public int Id { get; set; }
 
         [Display(Name = "ชื่อโครงการวิจัย(ไทย)")]
         public string ProjectNameTh { get; set; }

@@ -13,6 +13,7 @@ namespace Project.Entity
         public virtual ProjectRole ProjectRole { get { return (ProjectRole)ProjectRoleId; } }
         public virtual Project Project { get; set; }
         public virtual Researcher Researcher { get; set; }
+        public virtual string ResearcherName { get; set; }
     }
 
 

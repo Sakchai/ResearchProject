@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Dapper;
+using Project.Entity.Context;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
-using Project.Entity;
-using Project.Entity.Context;
-using Project.Entity.Repository;
-using Dapper;
 
 namespace Project.Entity.Repository
 {
@@ -44,7 +40,6 @@ namespace Project.Entity.Repository
             return _connection.Query<ProjectResearcher>(sQuery, null).Where(predicate);
         }
 
-
         public int Insert(ProjectResearcher entity)
         {
             int retval = -1;
@@ -75,8 +70,8 @@ namespace Project.Entity.Repository
                                    SET Portion = @Portion
                                       ,ProjectRole = @ProjectRole
                                  WHERE ProjectId = @ProjectId
-                                      and ResearcherId = @ResearcherId";                
-            if (_transaction == null) Transaction = _connection.BeginTransaction();
+                                      and ResearcherId = @ResearcherId";
+                if (_transaction == null) Transaction = _connection.BeginTransaction();
                 _connection.Query(sQuery, entity, _transaction);
             }
         }
@@ -101,11 +96,22 @@ namespace Project.Entity.Repository
             }
         }
 
-        public ProjectResearcher GetOne(int projectId, int researcherId)
+        public ProjectResearcher GetProjectResearcher(int projectId, int researcherId)
         {
-              string sQuery = "SELECT * FROM ProjectResearchers WHERE ProjectId = @ProjectId and ResearcherId = @ResearcherId";
-              return _connection.Query<ProjectResearcher>(sQuery, new { ProjectId = projectId,
-                                                                        ResearcherId = researcherId}).FirstOrDefault();
+            string sQuery = "SELECT * FROM ProjectResearchers WHERE ProjectId = @ProjectId and ResearcherId = @ResearcherId";
+            return _connection.Query<ProjectResearcher>(sQuery, new
+            {
+                ProjectId = projectId,
+                ResearcherId = researcherId
+            }).FirstOrDefault();
+        }
+
+        public IEnumerable<ProjectResearcher> GetProjectResearcherByProjectId(int projectid)
+        {
+            string sQuery = @"SELECT ProjectResearchers.*, Researcheres.FirstName + ' ' +  Researcheres.LastName as ResearcherName 
+                            FROM ProjectResearchers join Researcheres on  Researcheres.Id = ProjectResearchers.ResearcherId
+                            WHERE ProjectResearchers.ProjectId = @Projectid";
+            return _connection.Query<ProjectResearcher>(sQuery, new { ProjectId = projectid });
         }
 
         public ProjectResearcher GetOne(object id)

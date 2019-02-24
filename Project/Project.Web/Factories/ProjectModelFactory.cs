@@ -2,16 +2,17 @@
 using Project.Domain;
 using Project.Domain.Service;
 using Project.Web.Models.ProjectViewModels;
+using System.Collections.Generic;
 
 namespace Project.Web.Factories
 {
     public class ProjectModelFactory : IProjectModelFactory
     {
-        private readonly ProjectService _projectService;
+        private readonly ProjectResearcherService _projectResearcherService;
 
-        public ProjectModelFactory(ProjectService projectService)
+        public ProjectModelFactory(ProjectResearcherService projectResearcherService)
         {
-            _projectService = projectService;
+            _projectResearcherService = projectResearcherService;
         }
 
         public CreateVm PrepareProjectCreateModel(CreateVm model)
@@ -28,15 +29,25 @@ namespace Project.Web.Factories
             {
                 //fill in model values from the entity
                 model = model ?? new ModifyVm();
-                model.AvailableFiscalSchedules.Add(new SelectListItem { Text = "--โปรดระบุปีงบประมาณ--", Value = "", Selected = true });
-                model.AvailableProfessors.Add(new SelectListItem { Text = "--โปรดระบุผู้ทรงคุณวุฒิ--", Value = "", Selected = true });
-                model.AvailableResearchIssues.Add(new SelectListItem { Text = "--โปรดระบุประเด็นการวิจัย--", Value = "", Selected = true });
-                model.AvailableProjectStatuses.Add(new SelectListItem { Text = "--โปรดระบุสถานะโครงการ--", Value = "", Selected = true });
+                model.ProjectId = project.Id;
+                model.ProjectCode = project.ProjectCode;
+                model.ProjectNameTh = project.ProjectNameTh;
+                model.FiscalYear = project.FiscalYear;
+                model.StartContractDate = project.StartContractDate;
+                model.EndContractDate = project.EndContractDate;
+                model.FundAmount = project.FundAmount;
+                model.Modified = project.Modified;
+                model.LastUpdateBy = project.LastUpdateBy;
+                model.AvailableProfessors.Add(new SelectListItem { Text = "--ระบุผู้ทรงคุณวุฒิ--", Value = "", Selected = true });
+                model.AvailableResearchIssues.Add(new SelectListItem { Text = "--ระบุประเด็นการวิจัย--", Value = "", Selected = true });
+                model.AvailableProjectStatuses.Add(new SelectListItem { Text = "--ระบุสถานะโครงการ--", Value = "", Selected = true });
+
+
             }
             return model;
         }
 
-        public ProjectSearchViewModel PrepareProjectSearchModel(ProjectSearchViewModel searchModel)
+        public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
             searchModel.AvailableFaculties.Add(new SelectListItem { Text = "--หน่วยงานหลัก--", Value = "", Selected = true });
             searchModel.AvailableFiscalYears.Add(new SelectListItem { Text = "--ปีงบประมาณ--", Value = "", Selected = true });

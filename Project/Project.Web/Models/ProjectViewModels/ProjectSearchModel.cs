@@ -5,15 +5,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Project.Web.Models.ProjectViewModels
 {
-    public class ProjectSearchViewModel : BaseSearchModel
+    public class ProjectSearchModel : BaseSearchModel
     {
-        public ProjectSearchViewModel()
+        public ProjectSearchModel()
         {
             AvailableFiscalYears = new List<SelectListItem>();
             AvailableFaculties = new List<SelectListItem>();
             AvailableProjectStatuses = new List<SelectListItem>();
             AvailableResearchStatuses = new List<SelectListItem>();
         }
+
+        public int Id { get; set; }
 
         [Display(Name = "ชื่อโครงการวิจัย")]
         public string SearchProjectName { get; set; }

@@ -19,15 +19,18 @@ namespace Project.Web.Controllers
         private readonly IProjectModelFactory _projectModelFactory;
         private readonly ProjectService _projectService;
         private readonly ResearcherService _researcherService;
+        private readonly ProjectResearcherService _projectResearcherService;
         private readonly ILogger _logger;
 
         public ProjectController(ProjectService projectService
                                 , ResearcherService researcherService
                                 , IProjectModelFactory projectModelFactory
+                                , ProjectResearcherService projectResearcherService
                                 , ILoggerFactory loggerFactory)
         {
             _researcherService = researcherService;
             _projectService = projectService;
+            _projectResearcherService = projectResearcherService;
             _projectModelFactory = projectModelFactory;
             _logger = loggerFactory.CreateLogger<ProjectController>();
 
@@ -38,7 +41,7 @@ namespace Project.Web.Controllers
             return RedirectToAction("List");
         }
 
-        public virtual IActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
 
             //try to get a project with the specified id
@@ -64,7 +67,7 @@ namespace Project.Web.Controllers
         {
             AddPageHeader("ข้อเสนอโครงการวิจัย", "");
             //prepare model
-            var model = _projectModelFactory.PrepareProjectSearchModel(new ProjectSearchViewModel());
+            var model = _projectModelFactory.PrepareProjectSearchModel(new ProjectSearchModel());
 
             return View(model);
         }
@@ -96,7 +99,7 @@ namespace Project.Web.Controllers
 
 
         [HttpPost, ActionName("List")]
-        public virtual IActionResult ExportXmlAll(ProjectSearchViewModel model)
+        public virtual IActionResult ExportXmlAll(ProjectSearchModel model)
         {
             return View();
         }
@@ -107,12 +110,22 @@ namespace Project.Web.Controllers
         }
 
         [HttpPost, ActionName("List")]
-        public virtual IActionResult ExportExcelAll(ProjectSearchViewModel model)
+        public virtual IActionResult ExportExcelAll(ProjectSearchModel model)
         {
             return View();
         }
-       // [HttpPost]
-        public ActionResult ProjectList(ProjectSearchViewModel searchModel)
+        [HttpPost]
+        public ActionResult ProjectResearcherList(int projectId)
+        {
+            var data = _projectResearcherService.GetProjectResearcherByProjectId(projectId).ToList();
+            var model = new ProjectResearcherListModel();
+            model.Data = data;
+            model.Total = data.Count;
+            model.Errors = "";
+            return Json(model);
+        }
+        [HttpPost]
+        public ActionResult ProjectList(ProjectSearchModel searchModel)
         {
             var data = _projectService.GetGridAll().ToList();
             var model = new ProjectListModel();

@@ -28,7 +28,8 @@ namespace Project.Domain.Mapping
             CreateMap<Entity.Project, ProjectGridModel>();
             CreateMap<ResearcherViewModel, Researcher>();
             CreateMap<Researcher, ResearcherViewModel>();
-
+            CreateMap<ProjectResearcherViewModel, ProjectResearcher>();
+            CreateMap<ProjectResearcher, ProjectResearcherViewModel>();
             //CreateMap<AnswerSetViewModel, AnswerSet>()
             //    .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.DateAnswersSubmitted))
             //    .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.AnswerSetId))

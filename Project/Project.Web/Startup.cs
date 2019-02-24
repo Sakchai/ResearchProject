@@ -81,6 +81,7 @@ namespace AdminLTE
             services.AddTransient(typeof(RoleService), typeof(RoleService));
             services.AddTransient(typeof(ResearcherService), typeof(ResearcherService));
             services.AddTransient(typeof(ProjectService), typeof(ProjectService));
+            services.AddTransient(typeof(ProjectResearcherService), typeof(ProjectResearcherService));
             services.AddTransient<IProjectModelFactory, ProjectModelFactory>();
             #endregion
 

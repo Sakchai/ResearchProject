@@ -3,73 +3,224 @@
     ViewData["Title"] = "Edit Project";
 }
 
-<h2>@ViewData["Title"].</h2>
-
 <div asp-validation-summary="All" class="text-danger"></div>
+<form asp-controller="Project" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            แก้ไขข้อเสนอโครงการวิจัย
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกรายการ
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>
+            <span id="product-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                ลบรายการ
+            </span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label asp-for="ProjectCode" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="ProjectCode" class="form-control" readonly />
+                                        <input asp-for="ProjectId" type="hidden" />
+                                        <span asp-validation-for="ProjectCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="FiscalYear" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="FiscalYear" class="form-control" readonly />
+                                        <span asp-validation-for="FiscalYear" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ProjectNameTh" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <textarea asp-for="ProjectNameTh" class="form-control" rows="4"></textarea>
+                                        <span asp-validation-for="ProjectNameTh" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ResearchIssueId" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchIssues"></select>
+                                        <span asp-validation-for="ResearchIssueId"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ProposalUploadId" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="ProposalUploadId" type="file" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Modified" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="Modified" class="form-control" readonly/>
+                                    </div>
+                                </div>
 
-<form method="post" asp-action="Edit" asp-antiforgery="true" class="form-horizontal">
-    <div class="form-group">
-        <label asp-for="ProjectCode" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ProjectCode" class="form-control" />
-            <span asp-validation-for="ProjectCode" class="text-danger"></span>
-        </div>
-    </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label asp-for="FundAmount" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="FundAmount" class="form-control" />
+                                        <span asp-validation-for="FundAmount" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="InternalProfessorId" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <select asp-for="InternalProfessorId" asp-items="Model.AvailableProfessors"></select>
+                                        <span asp-validation-for="InternalProfessorId"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="InternalProfessor2Id" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <select asp-for="InternalProfessor2Id" asp-items="Model.AvailableProfessors"></select>
+                                        <span asp-validation-for="InternalProfessor2Id"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ExternalProfessorId" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <select asp-for="ExternalProfessorId" asp-items="Model.AvailableProfessors"></select>
+                                        <span asp-validation-for="ExternalProfessorId"></span>
+                                    </div>
+                                </div>
 
-    <div class="form-group">
-        <label asp-for="FiscalYear" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="FiscalYear" class="form-control" />
-            <span asp-validation-for="FiscalYear" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ProjectNameTh" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ProjectNameTh" class="form-control" />
-            <span asp-validation-for="ProjectNameTh" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ResearchIssueId" class="col-md-2 control-label"></label>
-        <select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchIssues"></select>
-        <span asp-validation-for="ResearchIssueId"></span>
-    </div>
+                                <div class="form-group">
+                                    <label asp-for="StartContractDate" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="StartContractDate" class="form-control"  />
+                                        <span asp-validation-for="StartContractDate"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="EndContractDate" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="EndContractDate" class="form-control" />
+                                        <span asp-validation-for="EndContractDate"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ProjectStatusId" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <select asp-for="ProjectStatusId" asp-items="Model.AvailableProjectStatuses"></select>
+                                        <span asp-validation-for="ProjectStatusId"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="LastUpdateBy" class="col-md-5 control-label"></label>
+                                    <div class="col-md-7">
+                                        <input asp-for="LastUpdateBy" class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="form-group">
-        <label asp-for="FundAmount" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="FundAmount" class="form-control" />
-            <span asp-validation-for="FundAmount" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="InternalProfessorId" class="col-md-2 control-label"></label>
-        <select asp-for="InternalProfessorId" asp-items="Model.AvailableProfessors"></select>
-        <span asp-validation-for="InternalProfessorId"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="InternalProfessor2Id" class="col-md-2 control-label"></label>
-        <select asp-for="InternalProfessor2Id" asp-items="Model.AvailableProfessors"></select>
-        <span asp-validation-for="InternalProfessor2Id"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ExternalProfessorId" class="col-md-2 control-label"></label>
-        <select asp-for="ExternalProfessorId" asp-items="Model.AvailableProfessors"></select>
-        <span asp-validation-for="ExternalProfessorId"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ProposalUploadId" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ProposalUploadId" class="form-control" />
-            <span asp-validation-for="ProposalUploadId" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-4">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="reset" class="btn btn-primary">Reset</button>
-            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="projects-grid"></div>
+                        <script>
+    $(document).ready(function() {
+        $("#projects-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ProjectResearcherList", "Project"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: function() {
+                            var data = {
+                                projectId: $('#@Html.IdFor(model => model.ProjectId)').val()
+                            };
+                            
+                            return data;
+                        }
+                    }
+                },
+                schema: {
+                    data: "data",
+                    total: "total",
+                    errors: "errors"
+                },
+                error: function(e) {
+                    //display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    //this.cancelChanges();
+                },
+                pageSize: @(Model.PageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(Model.AvailablePageSizes)],
+                messages: {
+                            display: "",
+                            empty: "ไม่มีข้อมูล",
+                            page: "Page",
+                            of: "Pager Of",
+                            itemsPerPage: "รายการต่อหน้า",
+                            first: "First",
+                            previous: "Previous",
+                            next: "Next",
+                            last: "Last",
+                            refresh: "Refresh",
+                            allPages: "All",
+                            morePages: "MorePages"
+                        }
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "researcherName",
+                    title: "ชื่อนักวิจัย",
+                    width: 800
+                }, {
+                    field: "projectRole",
+                    title: "บทบาทในโครงการ",
+                    width: 300
+                }, {
+                    field: "portion",
+                    title: "สัดส่วน",
+                    width: 100
+                }, {
+                    field: "researcherId",
+                    title: "การกระทำ",
+                    width: 200,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                    template: '<a class="btn btn-default" href="Add/#=projectId#/#=researcherId#"><i class="fa fa-plus-square"></i></a> <a class="btn btn-default" href="Delete/#=projectId#/#=researcherId#"><i class="fa fa-trash-o"></i></a>'
+                }
+            ]
+        });
+    });
+                        </script>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>

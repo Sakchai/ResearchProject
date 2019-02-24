@@ -7,6 +7,6 @@ namespace Project.Web.Factories
     {
         CreateVm PrepareProjectCreateModel(CreateVm model);
         ModifyVm PrepareProjectEditModel(ModifyVm model, ProjectModel project);
-        ProjectSearchViewModel PrepareProjectSearchModel(ProjectSearchViewModel searchModel);
+        ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel);
     }
 }

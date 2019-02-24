@@ -16,7 +16,7 @@ namespace Project.Entity.UnitofWork
         IRoleRepository GetRoleRepository();
         IResearcherRepository GetResearcherRepository();
         IRepositoryAsync<TEntity> GetRepositoryAsync<TEntity>() where TEntity : class;
-
+        IProjectResearcherRepository GetProjectResearcherRepository();
         ProjectContext Context { get; }
         bool Save();
         Task<bool> SaveAsync();
@@ -128,6 +128,11 @@ namespace Project.Entity.UnitofWork
         public IResearcherRepository GetResearcherRepository()
         {
             return new ResearcherRepository(Context);
+        }
+
+        public IProjectResearcherRepository GetProjectResearcherRepository()
+        {
+            return new ProjectResearcherRepository(Context);
         }
     }
 }

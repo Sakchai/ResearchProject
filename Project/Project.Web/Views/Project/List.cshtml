@@ -1,4 +1,4 @@
-﻿@model Project.Web.Models.ProjectViewModels.ProjectSearchViewModel
+﻿@model Project.Web.Models.ProjectViewModels.ProjectSearchModel
 @{
     //page title
     ViewBag.Title = "List Project";
@@ -209,7 +209,7 @@
                     width: 50,
                     headerAttributes: { style: "text-align:center" },
                     attributes: { style: "text-align:center" },
-                    template: '<a class="btn btn-default" href="Edit/#=id#"><i class="fa fa-pencil"></i>Edit</a>'
+                    template: '<a class="btn btn-default" href="Project/Edit/#=id#"><i class="fa fa-pencil"></i>Edit</a>'
                 }
             ]
         });
