@@ -3,6 +3,9 @@ using Project.Domain;
 using Project.Domain.Service;
 using Project.Web.Models.ProjectViewModels;
 using System.Collections.Generic;
+using System;
+using Project.Enum;
+using System.Linq;
 
 namespace Project.Web.Factories
 {
@@ -38,11 +41,20 @@ namespace Project.Web.Factories
                 model.FundAmount = project.FundAmount;
                 model.Modified = project.Modified;
                 model.LastUpdateBy = project.LastUpdateBy;
-                model.AvailableProfessors.Add(new SelectListItem { Text = "--ระบุผู้ทรงคุณวุฒิ--", Value = "", Selected = true });
-                model.AvailableResearchIssues.Add(new SelectListItem { Text = "--ระบุประเด็นการวิจัย--", Value = "", Selected = true });
-                model.AvailableProjectStatuses.Add(new SelectListItem { Text = "--ระบุสถานะโครงการ--", Value = "", Selected = true });
+                model.AvailableProfessors.Add(new SelectListItem { Selected = false, Text = "--ระบุผู้ทรงคุณวุฒิ--", Value = ""});
+                model.AvailableResearchIssues.Add(new SelectListItem { Selected = false, Text = "--ระบุประเด็นการวิจัย--", Value = ""});
+                model.AvailableProjectStatuses.Add(new SelectListItem { Selected=false, Text = "--ระบุสถานะโครงการ--", Value = ""});
+                var projectStatusOptionsIds = System.Enum.GetValues(typeof(ProjectStatus)).Cast<int>().ToList();
 
-
+                foreach (var value in projectStatusOptionsIds)
+                {
+                    model.AvailableProjectStatuses.Add(new SelectListItem
+                    {
+                        Selected = project.ProjectStatusId == value,
+                        Text = StringEnum.GetStringValue((ProjectStatus)value),
+                        Value = value.ToString()
+                    });
+                }
             }
             return model;
         }
@@ -52,8 +64,18 @@ namespace Project.Web.Factories
             searchModel.AvailableFaculties.Add(new SelectListItem { Text = "--หน่วยงานหลัก--", Value = "", Selected = true });
             searchModel.AvailableFiscalYears.Add(new SelectListItem { Text = "--ปีงบประมาณ--", Value = "", Selected = true });
             searchModel.AvailablePageSizes = "10";
-            searchModel.AvailableProjectStatuses.Add(new SelectListItem { Text = "--สถานะโครงการ--", Value = "", Selected = true });
             searchModel.AvailableResearchStatuses.Add(new SelectListItem { Text = "--สถานะโครงการวิจัย--", Value = "", Selected = true });
+            searchModel.AvailableProjectStatuses.Add(new SelectListItem { Text = "--สถานะโครงการ--", Value = "", Selected = true });
+            var projectStatusOptionsIds = System.Enum.GetValues(typeof(ProjectStatus)).Cast<int>().ToList();
+
+            foreach (var value in projectStatusOptionsIds)
+            {
+                searchModel.AvailableProjectStatuses.Add(new SelectListItem
+                {
+                    Text = StringEnum.GetStringValue((ProjectStatus)value),
+                    Value = value.ToString()
+                });
+            }
 
             return searchModel;
         }
