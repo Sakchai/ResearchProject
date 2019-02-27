@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Api", "Project\Project.Api\Project.Api.csproj", "{C26F8217-99E3-456A-90B1-D3865354B58A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Api", "Project.Api\Project.Api.csproj", "{C26F8217-99E3-456A-90B1-D3865354B58A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Domain", "Project\Project.Domain\Project.Domain.csproj", "{2F645CBF-6EBA-432C-9CDE-D5AD84B1FA91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Domain", "Project.Domain\Project.Domain.csproj", "{2F645CBF-6EBA-432C-9CDE-D5AD84B1FA91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Entity", "Project\Project.Entity\Project.Entity.csproj", "{E8BDFAB9-0B12-4526-8D7F-EBE980E97977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Entity", "Project.Entity\Project.Entity.csproj", "{E8BDFAB9-0B12-4526-8D7F-EBE980E97977}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndentityServer", "Project\IndentityServer\IndentityServer.csproj", "{E173069C-38B6-4092-82D9-DCA87F0F2BA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndentityServer", "IndentityServer\IndentityServer.csproj", "{E173069C-38B6-4092-82D9-DCA87F0F2BA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Web", "Project\Project.Web\Project.Web.csproj", "{18111DF8-C2F3-4AA6-86EF-A8C763BCCFA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Web", "Project.Web\Project.Web.csproj", "{18111DF8-C2F3-4AA6-86EF-A8C763BCCFA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.AdminLTE", "Project\Project.Admin\Project.AdminLTE.csproj", "{9EAA8D6A-2897-4D3E-BAFD-29445DA3DBB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.AdminLTE", "Project.Admin\Project.AdminLTE.csproj", "{9EAA8D6A-2897-4D3E-BAFD-29445DA3DBB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
