@@ -1,0 +1,120 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginModel
+@inject IWebHelper webHelper
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "";
+    //register URL with return URL (if specified)
+    var registerUrl = Url.RouteUrl("Register", null, webHelper.CurrentRequestProtocol);
+    if (!string.IsNullOrEmpty(this.Context.Request.Query["returnUrl"]))
+    {
+        registerUrl = webHelper.ModifyQueryString(registerUrl, "returnurl", this.Context.Request.Query["returnUrl"]);
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Project Proposal | Login</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css" />
+
+        <link rel="stylesheet" href="~/css/animation.css" />
+        <link rel="stylesheet" href="~/css/login.css" />
+
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.min.css" asp-append-version="true" />
+
+        <link rel="stylesheet" href="~/lib/Ionicons/css/animation.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/authenty.css" asp-append-version="true" />
+
+    </environment>
+
+</head>
+<body id="signin_main" class="authenty signin-main">
+    <div class="section-content">
+        <div class="wrap">
+            <div class="container">
+                <div class="form-wrap">
+                    <div class="row">
+                        @* <div class="title animated fadeInDown">
+                                <h2>ระบบบริหารงานวิจัย</h2>
+                            </div>*@
+
+                        <form asp-controller="User" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                            <div>
+                                <div class="form-header">
+                                    @*<i class="fa fa-user"></i>
+                                        <img src="~/images/smarthr-sm.png" alt="adminlte" />*@
+                                    ระบบบริหารงานวิจัย
+                                </div>
+                                <div class="form-main">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="Email" class="control-label"></label>
+                                        <input asp-for="Email" type="text" class="form-control" />
+                                        @*<span asp-validation-for="Email" class="text-danger"></span>*@
+                                        <label asp-for="Password" class="control-label"></label> (<a asp-action="ForgotPassword">ลืมรหัสผ่าน?</a>)
+                                        <input asp-for="Password" class="form-control" />
+                                        @*<span asp-validation-for="Password" class="text-danger"></span>*@
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block btn-flat" type="submit">เข้าสู่ระบบ</button>
+
+                                        <div>
+                                            <div class="checkbox">
+                                                <label asp-for="RememberMe" class="text-muted">
+                                                    <input asp-for="RememberMe" />
+                                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-footer">
+                                    <div class="row">
+                                        <div class="col-xs">
+                                            <i class="fa fa-check"></i>
+                                            @*<a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">ยังไม่มีบัญชีผู้ใช้งาน สมัครสมาชิก!</a>*@
+                                            <input type="button" class="button-1 register-button" onclick="location.href='@registerUrl'" value="ยังไม่มีบัญชีผู้ใช้งาน สมัครสมาชิก!" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/js/adminlte.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/adminlte.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
+</body>
+</html>

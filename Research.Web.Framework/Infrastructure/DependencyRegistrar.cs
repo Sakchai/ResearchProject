@@ -1,0 +1,255 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Autofac;
+using Autofac.Builder;
+using Autofac.Core;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Research.Configuration;
+using Research.Core;
+using Research.Core.Caching;
+using Research.Core.Data;
+using Research.Core.Domain.Common;
+using Research.Data;
+using Research.Data.Infrastructure;
+using Research.Infrastructure;
+using Research.Services;
+using Research.Services.Authentication;
+using Research.Services.Configuration;
+using Research.Services.Directory;
+using Research.Services.Events;
+using Research.Services.Helpers;
+using Research.Services.Logging;
+using Research.Services.Media;
+using Research.Services.Messages;
+using Research.Services.Roles;
+using Research.Services.Security;
+using Research.Services.Tasks;
+using Research.Services.Users;
+using Research.Web.Factories;
+using Research.Web.Framework;
+using Research.Web.Framework.Mvc.Routing;
+
+namespace Research.Web.Infrastructure
+{
+    /// <summary>
+    /// Dependency registrar
+    /// </summary>
+    public class DependencyRegistrar : IDependencyRegistrar
+    {
+        /// <summary>
+        /// Register services and interfaces
+        /// </summary>
+        /// <param name="builder">Container builder</param>
+        /// <param name="typeFinder">Type finder</param>
+        /// <param name="config">Config</param>
+        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, ResearchConfig config)
+        {
+            //file provider
+            builder.RegisterType<ResearchFileProvider>().As<IResearchFileProvider>().InstancePerLifetimeScope();
+
+            builder.RegisterType<CommonSettings>().As<ISettings>().InstancePerLifetimeScope();
+
+            //web helper
+            builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
+
+            //user agent helper
+            builder.RegisterType<UserAgentHelper>().As<IUserAgentHelper>().InstancePerLifetimeScope();
+
+            //data layer
+            builder.RegisterType<EfDataProviderManager>().As<IDataProviderManager>().InstancePerDependency();
+            builder.Register(context => context.Resolve<IDataProviderManager>().DataProvider).As<IDataProvider>().InstancePerDependency();
+            builder.Register(context => new ResearchObjectContext(context.Resolve<DbContextOptions<ResearchObjectContext>>()))
+                .As<IDbContext>().InstancePerLifetimeScope();
+
+            //repositories
+            builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+
+            //plugins
+            //builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
+
+            //cache manager
+            builder.RegisterType<PerRequestCacheManager>().As<ICacheManager>().InstancePerLifetimeScope();
+
+            //static cache manager
+            //if (config.RedisCachingEnabled)
+            //{
+            //    builder.RegisterType<RedisConnectionWrapper>()
+            //        .As<ILocker>()
+            //        .As<IRedisConnectionWrapper>()
+            //        .SingleInstance();
+            //    builder.RegisterType<RedisCacheManager>().As<IStaticCacheManager>().InstancePerLifetimeScope();
+            //}
+            //else
+            //{
+            builder.RegisterType<MemoryCacheManager>()
+                .As<ILocker>()
+                .As<IStaticCacheManager>()
+                .SingleInstance();
+            //}
+            builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
+            //work context
+            builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
+
+            //store context
+            //builder.RegisterType<WebStoreContext>().As<IStoreContext>().InstancePerLifetimeScope();
+
+            //services
+            builder.RegisterType<ProjectService>().As<IProjectService>().InstancePerLifetimeScope();
+            builder.RegisterType<ResearcherService>().As<IResearcherService>().InstancePerLifetimeScope();
+
+            //builder.RegisterType<PriceFormatter>().As<IPriceFormatter>().InstancePerLifetimeScope();
+            //builder.RegisterType<TopicTemplateService>().As<ITopicTemplateService>().InstancePerLifetimeScope();
+            //builder.RegisterType<SearchTermService>().As<ISearchTermService>().InstancePerLifetimeScope();
+            //builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
+            //builder.RegisterType<FulltextService>().As<IFulltextService>().InstancePerLifetimeScope();
+            //builder.RegisterType<MaintenanceService>().As<IMaintenanceService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<RoleService>().As<IRoleService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
+            //builder.RegisterType<UserReportService>().As<IUserReportService>().InstancePerLifetimeScope();
+            builder.RegisterType<PermissionService>().As<IPermissionService>().InstancePerLifetimeScope();
+            //builder.RegisterType<AclService>().As<IAclService>().InstancePerLifetimeScope();
+            //builder.RegisterType<GeoLookupService>().As<IGeoLookupService>().InstancePerLifetimeScope();
+            builder.RegisterType<CountryService>().As<ICountryService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProvinceService>().As<IProvinceService>().InstancePerLifetimeScope();
+            //builder.RegisterType<StoreService>().As<IStoreService>().InstancePerLifetimeScope();
+            //builder.RegisterType<StoreMappingService>().As<IStoreMappingService>().InstancePerLifetimeScope();
+            //builder.RegisterType<LocalizationService>().As<ILocalizationService>().InstancePerLifetimeScope();
+            //builder.RegisterType<LocalizedEntityService>().As<ILocalizedEntityService>().InstancePerLifetimeScope();
+            //builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerLifetimeScope();
+            builder.RegisterType<DownloadService>().As<IDownloadService>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerLifetimeScope();
+            builder.RegisterType<QueuedEmailService>().As<IQueuedEmailService>().InstancePerLifetimeScope();
+            builder.RegisterType<EmailAccountService>().As<IEmailAccountService>().InstancePerLifetimeScope();
+            builder.RegisterType<WorkflowMessageService>().As<IWorkflowMessageService>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageTokenProvider>().As<IMessageTokenProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerLifetimeScope();
+            builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
+            //builder.RegisterType<CustomNumberFormatter>().As<ICustomNumberFormatter>().InstancePerLifetimeScope();
+            builder.RegisterType<EncryptionService>().As<IEncryptionService>().InstancePerLifetimeScope();
+            builder.RegisterType<CookieAuthenticationService>().As<IAuthenticationService>().InstancePerLifetimeScope();
+            //builder.RegisterType<UrlRecordService>().As<IUrlRecordService>().InstancePerLifetimeScope();
+            //builder.RegisterType<DateRangeService>().As<IDateRangeService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserActivityService>().As<IUserActivityService>().InstancePerLifetimeScope();
+            //builder.RegisterType<DateTimeHelper>().As<IDateTimeHelper>().InstancePerLifetimeScope();
+            //builder.RegisterType<PageHeadBuilder>().As<IPageHeadBuilder>().InstancePerLifetimeScope();
+            builder.RegisterType<ScheduleTaskService>().As<IScheduleTaskService>().InstancePerLifetimeScope();
+            //builder.RegisterType<ExportManager>().As<IExportManager>().InstancePerLifetimeScope();
+            //builder.RegisterType<ImportManager>().As<IImportManager>().InstancePerLifetimeScope();
+            //builder.RegisterType<PdfService>().As<IPdfService>().InstancePerLifetimeScope();
+            //builder.RegisterType<UploadService>().As<IUploadService>().InstancePerLifetimeScope();
+            //builder.RegisterType<ThemeProvider>().As<IThemeProvider>().InstancePerLifetimeScope();
+            //builder.RegisterType<ThemeContext>().As<IThemeContext>().InstancePerLifetimeScope();
+            //builder.RegisterType<ExternalAuthenticationService>().As<IExternalAuthenticationService>().InstancePerLifetimeScope();
+            builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
+            //builder.RegisterType<ReviewTypeService>().As<IReviewTypeService>().SingleInstance();
+            builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
+            builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
+            builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
+
+
+            builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+
+            //register all settings
+             builder.RegisterSource(new SettingsSource());
+
+            //picture service
+            //if (!string.IsNullOrEmpty(config.AzureBlobStorageConnectionString))
+            //    builder.RegisterType<AzurePictureService>().As<IPictureService>().InstancePerLifetimeScope();
+            //else
+                builder.RegisterType<PictureService>().As<IPictureService>().InstancePerLifetimeScope();
+
+            //installation service
+            //if (!DataSettingsManager.DatabaseIsInstalled)
+            //{
+            //    if (config.UseFastInstallationService)
+            //        builder.RegisterType<SqlFileInstallationService>().As<IInstallationService>().InstancePerLifetimeScope();
+            //    else
+            //        builder.RegisterType<CodeFirstInstallationService>().As<IInstallationService>().InstancePerLifetimeScope();
+            //}
+
+            //event consumers
+            var consumers = typeFinder.FindClassesOfType(typeof(IConsumer<>)).ToList();
+            foreach (var consumer in consumers)
+            {
+                builder.RegisterType(consumer)
+                    .As(consumer.FindInterfaces((type, criteria) =>
+                    {
+                        var isMatch = type.IsGenericType && ((Type)criteria).IsAssignableFrom(type.GetGenericTypeDefinition());
+                        return isMatch;
+                    }, typeof(IConsumer<>)))
+                    .InstancePerLifetimeScope();
+            }
+
+            //admin factories
+            builder.RegisterType<ProjectModelFactory>().As<IProjectModelFactory>().InstancePerLifetimeScope();
+
+        }
+
+        /// <summary>
+        /// Gets order of this dependency registrar implementation
+        /// </summary>
+        public int Order
+        {
+            get { return 0; }
+        }
+    }
+
+
+    /// <summary>
+    /// Setting source
+    /// </summary>
+    public class SettingsSource : IRegistrationSource
+    {
+        static readonly MethodInfo BuildMethod = typeof(SettingsSource).GetMethod(
+            "BuildRegistration",
+            BindingFlags.Static | BindingFlags.NonPublic);
+
+        /// <summary>
+        /// Registrations for
+        /// </summary>
+        /// <param name="service">Service</param>
+        /// <param name="registrations">Registrations</param>
+        /// <returns>Registrations</returns>
+        public IEnumerable<IComponentRegistration> RegistrationsFor(
+            Service service,
+            Func<Service, IEnumerable<IComponentRegistration>> registrations)
+        {
+            var ts = service as TypedService;
+            if (ts != null && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
+            {
+                var buildMethod = BuildMethod.MakeGenericMethod(ts.ServiceType);
+                yield return (IComponentRegistration)buildMethod.Invoke(null, null);
+            }
+        }
+
+        static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ISettings, new()
+        {
+            return RegistrationBuilder
+                .ForDelegate((c, p) =>
+                {
+                   // var currentStoreId = c.Resolve<IStoreContext>().CurrentStore.Id;
+                    //uncomment the code below if you want load settings per store only when you have two stores installed.
+                    //var currentStoreId = c.Resolve<IStoreService>().GetAllStores().Count > 1
+                    //    c.Resolve<IStoreContext>().CurrentStore.Id : 0;
+
+                    //although it's better to connect to your database and execute the following SQL:
+                    //DELETE FROM [Setting] WHERE [StoreId] > 0
+                    //return c.Resolve<ISettingService>().LoadSetting<TSettings>(currentStoreId);
+                    //chai
+                    return c.Resolve<ISettingService>().LoadSetting<TSettings>(0);
+                })
+                .InstancePerLifetimeScope()
+                .CreateRegistration();
+        }
+
+        /// <summary>
+        /// Is adapter for individual components
+        /// </summary>
+        public bool IsAdapterForIndividualComponents { get { return false; } }
+    }
+
+}
