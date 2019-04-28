@@ -1,11 +1,17 @@
-﻿using Research.Core.Domain.Common;
-using Research.Infrastructure;
-using Research.Web.Framework.Models;
+﻿
 
-namespace Research.Web.Common
+using Research.Core.Domain.Common;
+using Research.Infrastructure;
+
+namespace Research.Web.Framework.Models
 {
+    /// <summary>
+    /// Represents base search model
+    /// </summary>
     public abstract partial class BaseSearchModel : BaseResearchModel, IPagingRequestModel
     {
+        #region Ctor
+
         public BaseSearchModel()
         {
             //set the default values
@@ -13,6 +19,9 @@ namespace Research.Web.Common
             this.PageSize = 10;
         }
 
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets a page number
@@ -28,6 +37,8 @@ namespace Research.Web.Common
         /// Gets or sets a comma-separated list of available page sizes
         /// </summary>
         public string AvailablePageSizes { get; set; }
+
+        #endregion
 
         #region Methods
 

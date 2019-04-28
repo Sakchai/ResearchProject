@@ -1,0 +1,456 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Research.Core.Caching;
+using Research.Enum;
+using Research.Services;
+using Research.Services.AcademicRanks;
+using Research.Services.Directory;
+using Research.Services.Faculties;
+using Research.Services.Helpers;
+using Research.Services.Logging;
+using Research.Services.Messages;
+using Research.Services.Professors;
+using Research.Services.ResearchIssues;
+using Research.Services.Agencies;
+using Research.Services.EducationLevels;
+using Research.Services.StrategyGroups;
+
+namespace Research.Web.Models.Factories
+{
+    /// <summary>
+    /// Represents the implementation of the base model factory that implements a most common admin model factories methods
+    /// </summary>
+    public partial class BaseAdminModelFactory : IBaseAdminModelFactory
+    {
+        #region Fields
+
+        private readonly IFacultyService _facultyService;
+        private readonly ICountryService _countryService;
+        private readonly IUserActivityService _userActivityService;
+        private readonly IUserService _userService;
+        private readonly IDateTimeHelper _dateTimeHelper;
+        private readonly IEmailAccountService _emailAccountService;
+        private readonly IProfessorService _professorService;
+        private readonly IProvinceService _provinceService;
+        private readonly IStaticCacheManager _cacheManager;
+        private readonly IAcademicRankService _academicRankService;
+        private readonly IResearchIssueService _researchIssueService;
+        private readonly IAgencyService _agencyService;
+        private readonly IResearcherService _researcherService;
+        private readonly IEducationLevelService _educationLevelService;
+        private readonly IStrategyGroupService _strategyGroupService;
+
+        #endregion
+
+        #region Ctor
+
+        public BaseAdminModelFactory(IFacultyService facultyService,
+            ICountryService countryService,
+            IUserActivityService userActivityService,
+            IUserService userService,
+            IDateTimeHelper dateTimeHelper,
+            IEmailAccountService emailAccountService,
+            IProfessorService professorService,
+            IProvinceService provinceService,
+            IStaticCacheManager cacheManager,
+            IAcademicRankService academicRankService,
+            IResearchIssueService researchIssueService,
+            IAgencyService agencyService,
+            IResearcherService researcherService,
+            IEducationLevelService educationLevelService,
+            IStrategyGroupService strategyGroupService)
+        {
+            this._facultyService = facultyService;
+            this._countryService = countryService;
+            this._userActivityService = userActivityService;
+            this._userService = userService;
+            this._dateTimeHelper = dateTimeHelper;
+            this._emailAccountService = emailAccountService;
+            this._professorService = professorService;
+            this._provinceService = provinceService;
+            this._cacheManager = cacheManager;
+            this._academicRankService = academicRankService;
+            this._researchIssueService = researchIssueService;
+            this._agencyService = agencyService;
+            this._researcherService = researcherService;
+            this._educationLevelService = educationLevelService;
+            this._strategyGroupService = strategyGroupService;
+        }
+
+        #endregion
+
+        #region Utilities
+
+        /// <summary>
+        /// Prepare default item
+        /// </summary>
+        /// <param name="items">Available items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use "All" text</param>
+        protected virtual void PrepareDefaultItem(IList<SelectListItem> items, bool withSpecialDefaultItem, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //whether to insert the first special item for the default value
+            if (!withSpecialDefaultItem)
+                return;
+
+            //at now we use "0" as the default value
+            const string value = "0";
+
+            //prepare item text
+          //  defaultItemText = defaultItemText ?? _localizationService.GetResource("Admin.Common.All");
+
+            //insert this default item at first
+            items.Insert(0, new SelectListItem { Text = defaultItemText, Value = value });
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Prepare available activity log types
+        /// </summary>
+        /// <param name="items">Activity log type items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareActivityLogTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available activity log types
+            var availableActivityTypes = _userActivityService.GetAllActivityTypes();
+            foreach (var activityType in availableActivityTypes)
+            {
+                items.Add(new SelectListItem { Value = activityType.Id.ToString(), Text = activityType.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available order statuses
+        /// </summary>
+        /// <param name="items">Order status items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareProjectStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available order statuses
+            var availableStatusItems = ProjectStatus.WaitingApproval.ToSelectList(false);
+            foreach (var statusItem in availableStatusItems)
+            {
+                items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available Research Issues
+        /// </summary>
+        /// <param name="items">Research issues items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareResearchIssues(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available research issues
+            var researchIssuesStatusItems = _researchIssueService.GetAllResearchIssues();
+            foreach (var researchIssue in researchIssuesStatusItems)
+            {
+                items.Add(new SelectListItem { Value = researchIssue.Id.ToString(), Text = researchIssue.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available agencies
+        /// </summary>
+        /// <param name="items">Agencies items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareAgencies(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available shipping statuses
+            var agenciesStatusItems = _agencyService.GetAllAgencies();
+            foreach (var agency in agenciesStatusItems)
+            {
+                items.Add(new SelectListItem { Value = agency.Id.ToString(), Text = agency.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available countries
+        /// </summary>
+        /// <param name="items">Country items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareCountries(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available countries
+            var availableCountries = _countryService.GetAllCountries(showHidden: true);
+            foreach (var country in availableCountries)
+            {
+                items.Add(new SelectListItem { Value = country.Id.ToString(), Text = country.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "Thailand");
+        }
+
+        /// <summary>
+        /// Prepare available states and provinces
+        /// </summary>
+        /// <param name="items">State and province items</param>
+        /// <param name="countryId">Country identifier; pass null to don't load states and provinces</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareProvinces(IList<SelectListItem> items, int? countryId,
+            bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            if (countryId.HasValue)
+            {
+                //prepare available states and provinces of the country
+                var availableStates = _provinceService.GetProvincesByCountryId(countryId.Value, showHidden: true);
+                foreach (var state in availableStates)
+                {
+                    items.Add(new SelectListItem { Value = state.Id.ToString(), Text = state.Name });
+                }
+
+                //insert special item for the default value
+                if (items.Any())
+                    PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "กรุงเทพมหานคร");
+            }
+
+            //insert special item for the default value
+            if (!items.Any())
+                PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "Thailand");
+        }
+
+        /// <summary>
+        /// Prepare available user roles
+        /// </summary>
+        /// <param name="items">User role items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareUserRoles(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+            //prepare available order statuses
+            var availableStatusItems = UserType.Researcher.ToSelectList(false);
+            foreach (var statusItem in availableStatusItems)
+            {
+                items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available email accounts
+        /// </summary>
+        /// <param name="items">Email account items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareEmailAccounts(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available email accounts
+            var availableEmailAccounts = _emailAccountService.GetAllEmailAccounts();
+            foreach (var emailAccount in availableEmailAccounts)
+            {
+                items.Add(new SelectListItem { Value = emailAccount.Id.ToString(), Text = $"{emailAccount.DisplayName} ({emailAccount.Email})" });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available Academic Ranks
+        /// </summary>
+        /// <param name="items">eAcademic Rank items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareAcademicRanks(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+            
+            //prepare available academic ranks
+            var availableAcademicRanks = _academicRankService.GetAllAcademicRanks();
+            foreach (var academicRank in availableAcademicRanks)
+            {
+                items.Add(new SelectListItem { Value = academicRank.Id.ToString(), Text = academicRank.NameTh });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุ Academic Rank");
+        }
+
+        /// <summary>
+        /// Prepare available facuties
+        /// </summary>
+        /// <param name="items">Faculty items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareFacuties(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available facuties
+            var availableFaculties = _facultyService.GetAllFaculties();
+            foreach (var faculty in availableFaculties)
+            {
+                items.Add(new SelectListItem { Value = faculty.Id.ToString(), Text = faculty.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุคณะ");
+        }
+
+        /// <summary>
+        /// Prepare available professors
+        /// </summary>
+        /// <param name="items">Professor items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareProfessors(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available professors
+            var availableProfessors = _professorService.GetAllProfessors();
+            foreach (var professor in availableProfessors)
+            {
+                items.Add(new SelectListItem { Value = professor.Id.ToString(), Text = $"{professor.TitleName}{professor.FirstName} {professor.LastName}" });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุผู้ทรงคุณวุฒิ");
+        }
+
+        /// <summary>
+        /// Prepare available researchers
+        /// </summary>
+        /// <param name="items">Researcher items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareResearchers(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available researchers            
+            var availableResearchers = _researcherService.GetAllResearchers();
+            foreach (var researcher in availableResearchers)
+            {
+                items.Add(new SelectListItem { Value = researcher.Id.ToString(), Text = $"{researcher.TitleName}{researcher.FirstName} {researcher.LastName}" });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุผู้วิจัย");
+        }
+
+        /// <summary>
+        /// Prepare available Education Levels
+        /// </summary>
+        /// <param name="items">Education Levels items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareEducationLevels(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available education levels
+            var availableEducationLevels = _educationLevelService.GetAllEducationLevels();
+            foreach (var educationLevel in availableEducationLevels)
+            {
+                items.Add(new SelectListItem { Value = educationLevel.Id.ToString(), Text = educationLevel.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุระดับการศึกษา");
+        }
+
+        /// <summary>
+        /// Prepare available Strategy Groups
+        /// </summary>
+        /// <param name="items">Strategy Groups items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareStrategyGroups(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available education levels
+            var availableStrategyGroups = _strategyGroupService.GetAllStrategyGroups();
+            foreach (var strategyGroup in availableStrategyGroups)
+            {
+                items.Add(new SelectListItem { Value = strategyGroup.Id.ToString(), Text = strategyGroup.Name });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุ Strategy Group");
+        }
+
+        /// <summary>
+        /// Prepare available log levels
+        /// </summary>
+        /// <param name="items">Log level items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareLogLevels(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available log levels
+            var availableLogLevelItems = LogLevel.Debug.ToSelectList(false);
+            foreach (var logLevelItem in availableLogLevelItems)
+            {
+                items.Add(logLevelItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        #endregion
+    }
+}

@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 
 namespace Research.Core.Caching
@@ -19,6 +17,9 @@ namespace Research.Core.Caching
 
         #region Ctor
 
+        /// <summary>
+        /// Gets a key/value collection that can be used to share data within the scope of this request 
+        /// </summary>
         public PerRequestCacheManager(IHttpContextAccessor httpContextAccessor)
         {
             this._httpContextAccessor = httpContextAccessor;
@@ -41,31 +42,18 @@ namespace Research.Core.Caching
         #region Methods
 
         /// <summary>
-        /// Get a cached item. If it's not in the cache yet, then load and cache it
+        /// Gets or sets the value associated with the specified key.
         /// </summary>
         /// <typeparam name="T">Type of cached item</typeparam>
-        /// <param name="key">Cache key</param>
-        /// <param name="acquire">Function to load item if it's not in the cache yet</param>
-        /// <param name="cacheTime">Cache time in minutes; pass 0 to do not cache; pass null to use the default time</param>
+        /// <param name="key">Key of cached item</param>
         /// <returns>The cached value associated with the specified key</returns>
-        public virtual T Get<T>(string key, Func<T> acquire, int? cacheTime = null)
+        public virtual T Get<T>(string key)
         {
             var items = GetItems();
             if (items == null)
-                return acquire();
+                return default(T);
 
-            //item already is in cache, so return it
-            if (items[key] != null)
-                return (T)items[key];
-
-            //or create it using passed function
-            var result = acquire();
-
-            //and set in cache (if cache time is defined)
-            if (result != null && (cacheTime ?? ResearchCachingDefaults.CacheTime) > 0)
-                items[key] = result;
-
-            return result;
+            return (T)items[key];
         }
 
         /// <summary>
@@ -117,15 +105,7 @@ namespace Research.Core.Caching
             if (items == null)
                 return;
 
-            //get cache keys that matches pattern
-            var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var matchesKeys = items.Keys.Select(p => p.ToString()).Where(key => regex.IsMatch(key)).ToList();
-
-            //remove matching values
-            foreach (var key in matchesKeys)
-            {
-                items.Remove(key);
-            }
+            this.RemoveByPattern(pattern, items.Keys.Select(p => p.ToString()));
         }
 
         /// <summary>

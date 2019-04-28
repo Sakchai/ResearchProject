@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
+using Research.Core.Caching;
 
 namespace Research.Core.Caching
 {
@@ -15,13 +15,13 @@ namespace Research.Core.Caching
     {
         #region Fields
 
-        private readonly IMemoryCache _cache;
-
         /// <summary>
         /// All keys of cache
         /// </summary>
         /// <remarks>Dictionary value indicating whether a key still exists in cache</remarks> 
         protected static readonly ConcurrentDictionary<string, bool> _allKeys;
+
+        private readonly IMemoryCache _cache;
 
         /// <summary>
         /// Cancellation token for clear cache
@@ -32,11 +32,18 @@ namespace Research.Core.Caching
 
         #region Ctor
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
         static MemoryCacheManager()
         {
             _allKeys = new ConcurrentDictionary<string, bool>();
         }
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="cache">Cache</param>
         public MemoryCacheManager(IMemoryCache cache)
         {
             _cache = cache;
@@ -135,27 +142,14 @@ namespace Research.Core.Caching
         #region Methods
 
         /// <summary>
-        /// Get a cached item. If it's not in the cache yet, then load and cache it
+        /// Gets or sets the value associated with the specified key.
         /// </summary>
         /// <typeparam name="T">Type of cached item</typeparam>
-        /// <param name="key">Cache key</param>
-        /// <param name="acquire">Function to load item if it's not in the cache yet</param>
-        /// <param name="cacheTime">Cache time in minutes; pass 0 to do not cache; pass null to use the default time</param>
+        /// <param name="key">Key of cached item</param>
         /// <returns>The cached value associated with the specified key</returns>
-        public virtual T Get<T>(string key, Func<T> acquire, int? cacheTime = null)
+        public virtual T Get<T>(string key)
         {
-            //item already is in cache, so return it
-            if (_cache.TryGetValue(key, out T value))
-                return value;
-
-            //or create it using passed function
-            var result = acquire();
-
-            //and set in cache (if cache time is defined)
-            if ((cacheTime ?? ResearchCachingDefaults.CacheTime) > 0)
-                Set(key, result, cacheTime ?? ResearchCachingDefaults.CacheTime);
-
-            return result;
+            return _cache.Get<T>(key);
         }
 
         /// <summary>
@@ -226,15 +220,7 @@ namespace Research.Core.Caching
         /// <param name="pattern">String key pattern</param>
         public virtual void RemoveByPattern(string pattern)
         {
-            //get cache keys that matches pattern
-            var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var matchesKeys = _allKeys.Where(p => p.Value).Select(p => p.Key).Where(key => regex.IsMatch(key)).ToList();
-
-            //remove matching values
-            foreach (var key in matchesKeys)
-            {
-                _cache.Remove(RemoveKey(key));
-            }
+            this.RemoveByPattern(pattern, _allKeys.Where(p => p.Value).Select(p => p.Key));
         }
 
         /// <summary>
