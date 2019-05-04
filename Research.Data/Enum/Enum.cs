@@ -11,7 +11,9 @@ namespace Research.Enum
         [EnumMember(Value = "เจ้าหน้าสถาบันพัฒนาวิจัย")]
         ResearchDevelopmentInstituteStaff = 2,
         [EnumMember(Value = "ผู้ประสานงานวิจัย")]
-        ResearchCoordinator = 3
+        ResearchCoordinator = 3,
+        [EnumMember(Value = "ผู้บริหาร")]
+        Management = 4
     }
     //public enum RoleType
     //{

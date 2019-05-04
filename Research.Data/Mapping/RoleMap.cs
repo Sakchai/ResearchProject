@@ -30,6 +30,10 @@ namespace Research.Data.Mapping
 
             entity.Property(e => e.RoleName)
                 .HasMaxLength(100);
+            entity.Property(e => e.RoleDesc)
+                .HasMaxLength(200);
+            entity.Ignore(e => e.RolePrograms);
+            entity.Ignore(e => e.UserRoles);
 
             base.Configure(entity);
         }

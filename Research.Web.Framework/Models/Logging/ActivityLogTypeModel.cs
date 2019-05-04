@@ -2,7 +2,7 @@
 
 using Research.Web.Framework.Models;
 
-namespace Research.Web.Models.ActivityLogs
+namespace Research.Web.Models.Logging
 {
     /// <summary>
     /// Represents an activity log type model

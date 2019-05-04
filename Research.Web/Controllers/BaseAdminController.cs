@@ -55,7 +55,7 @@ namespace Research.Web.Controllers
             if (string.IsNullOrEmpty(tabName))
                 return;
 
-            var dataKey = "nop.selected-tab-name";
+            var dataKey = "research.selected-tab-name";
             if (!string.IsNullOrEmpty(dataKeyPrefix))
                 dataKey += $"-{dataKeyPrefix}";
 

@@ -5,7 +5,7 @@ using Research.Services.Helpers;
 using Research.Services.Logging;
 using Research.Web.Areas.Admin.Factories;
 using Research.Web.Framework.Mapper.Extensions;
-using Research.Web.Models.ActivityLogs;
+using Research.Web.Models.Logging;
 
 namespace Research.Web.Models.Factories
 {
@@ -57,8 +57,8 @@ namespace Research.Web.Models.Factories
         /// <returns>Activity log search model</returns>
         public virtual ActivityLogSearchModel PrepareActivityLogSearchModel(ActivityLogSearchModel searchModel)
         {
-            if (searchModel == null)
-                throw new ArgumentNullException(nameof(searchModel));
+            //if (searchModel == null)
+            //    throw new ArgumentNullException(nameof(searchModel));
 
             //prepare available activity log types
             _baseAdminModelFactory.PrepareActivityLogTypes(searchModel.ActivityLogType);

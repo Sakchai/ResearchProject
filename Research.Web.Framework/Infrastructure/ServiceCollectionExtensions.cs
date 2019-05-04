@@ -302,9 +302,9 @@ namespace Research.Infrastructure.Extensions
         /// Register base object context
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        public static void AddResearchObjectContext(this IServiceCollection services)
+        public static void AddProjectdbContext(this IServiceCollection services)
         {
-            services.AddDbContext<ResearchObjectContext>(optionsBuilder =>
+            services.AddDbContext<ProjectdbContext>(optionsBuilder =>
             {
                 optionsBuilder.UseSqlServerWithLazyLoading(services);
             });

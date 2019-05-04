@@ -19,7 +19,7 @@ namespace Research.Web.Framework.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             //add object context
-            services.AddResearchObjectContext();
+            services.AddProjectdbContext();
 
             //add EF services
             services.AddEntityFrameworkSqlServer();

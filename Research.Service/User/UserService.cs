@@ -746,7 +746,15 @@ namespace Research.Services.Users
 
         public User GetUserByGuid(Guid userGuid)
         {
-            throw new NotImplementedException();
+            if (userGuid == Guid.Empty)
+                return null;
+
+            var query = from c in _userRepository.Table
+                        where c.UserGuid == userGuid
+                        orderby c.Id
+                        select c;
+            var customer = query.FirstOrDefault();
+            return customer;
         }
 
         #endregion

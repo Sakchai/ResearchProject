@@ -52,7 +52,7 @@ namespace Research.Data.Mapping
             entity.Property(e => e.StrategyGroupId).HasColumnName("StrategyGroupId");
             entity.Property(e => e.FiscalScheduleId).HasColumnName("FiscalScheduleId");
             entity.Property(e => e.ProjectStatusId).HasColumnName("ProjectStatusId");
-            entity.Ignore(e => e.ProjectStatus);
+            
 
             entity.HasOne(e => e.InternalProfessor)
                 .WithMany()
@@ -75,7 +75,10 @@ namespace Research.Data.Mapping
                 .WithMany()
                 .HasForeignKey(e => e.FiscalScheduleId);
 
-
+            entity.Ignore(e => e.ProjectStatus);
+            entity.Ignore(e => e.ProjectProgresses);
+            entity.Ignore(e => e.ProjectResearchers);
+            entity.Ignore(e => e.ProjectHistories);
             base.Configure(entity);
         }
 

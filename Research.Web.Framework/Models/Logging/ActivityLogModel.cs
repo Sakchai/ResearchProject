@@ -1,7 +1,7 @@
 ﻿using Research.Web.Framework.Models;
 using System;
 
-namespace Research.Web.Models.ActivityLogs
+namespace Research.Web.Models.Logging
 {
     /// <summary>
     /// Represents an activity log model
@@ -14,10 +14,10 @@ namespace Research.Web.Models.ActivityLogs
         public string ActivityLogTypeName { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.Customer")]
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.Customer")]
-        public string CustomerEmail { get; set; }
+       // public string UserEmail { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.Comment")]
         public string Comment { get; set; }

@@ -9,6 +9,7 @@ namespace Research.Data
         ICollection<UserRole> _userRoles;
 
         public string RoleName { get; set; }
+        public string RoleDesc { get; set; }
         public bool IsActive { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTime Created { get; set; }

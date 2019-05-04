@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Research.Web.Models.ActivityLogs;
+﻿using Research.Web.Models.Logging;
+using System.Collections.Generic;
 
 namespace Research.Web.Areas.Admin.Factories
 {

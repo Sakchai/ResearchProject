@@ -1,13 +1,14 @@
 ﻿
 using Research.Data;
 using Research.Enum;
+using Research.Web.Framework.Models;
 
 namespace Research.Web.Models.Researchers
 {
     /// <summary>
     /// A ... attached to an Researcher
     /// </summary>
-    public class ResearcherViewModel : BaseDomain
+    public class ResearcherModel : BaseEntityModel
     {
         public int TitleId { get; set; }
         public string FirstName { get; set; }

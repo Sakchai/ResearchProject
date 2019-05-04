@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Research.Web.Common;
 
-namespace Research.Web.Models.ActivityLogs
+namespace Research.Web.Models.Logging
 {
     /// <summary>
     /// Represents an activity log search model
@@ -24,19 +24,24 @@ namespace Research.Web.Models.ActivityLogs
 
        // [NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.CreatedOnFrom")]
         [UIHint("DateNullable")]
+        [Display(Name = "เริ่มวันที่")]
         public DateTime? CreatedOnFrom { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.CreatedOnTo")]
         [UIHint("DateNullable")]
+        [Display(Name = "สิ้นสุดวันที่")]
         public DateTime? CreatedOnTo { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.ActivityLogType")]
+        
         public int ActivityLogTypeId { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.ActivityLogType")]
+        [Display(Name = "ประเภท Log")]
         public IList<SelectListItem> ActivityLogType { get; set; }
-        
+
         //[NopResourceDisplayName("Admin.Customers.Customers.ActivityLog.IpAddress")]
+        [Display(Name = "IP Address")]
         public string IpAddress { get; set; }
 
         #endregion

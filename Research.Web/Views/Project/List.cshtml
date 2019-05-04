@@ -1,4 +1,4 @@
-﻿@model Research.Web.Models.Projects.ProjectSearchModel
+﻿@model ProjectSearchModel
 @{
     //page title
     ViewBag.Title = "List Project";
@@ -154,20 +154,7 @@
             pageable: {
                 refresh: true,
                 pageSizes: [@(Model.AvailablePageSizes)],
-                messages: {
-                            display: "Display",
-                            empty: "ไม่มีข้อมูล",
-                            page: "Page",
-                            of: "Pager Of",
-                            itemsPerPage: "รายการต่อหน้า",
-                            first: "First",
-                            previous: "Previous",
-                            next: "Next",
-                            last: "Last",
-                            refresh: "Refresh",
-                            allPages: "All",
-                            morePages: "MorePages"
-                        }
+                @await Html.PartialAsync("_GridPagerMessages")
             },
             scrollable: false,
             columns: [

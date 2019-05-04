@@ -29,6 +29,7 @@ namespace Research.Data.Mapping
 
             entity.Property(e => e.Name)
                 .HasMaxLength(100);
+            entity.Ignore(e => e.Projects);
             base.Configure(entity);
         }
 

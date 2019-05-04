@@ -35,9 +35,11 @@ using Research.Services.Security;
 using Research.Services.StrategyGroups;
 using Research.Services.Tasks;
 using Research.Services.Users;
+using Research.Web.Areas.Admin.Factories;
 using Research.Web.Factories;
 using Research.Web.Framework;
 using Research.Web.Framework.Mvc.Routing;
+using Research.Web.Models.Factories;
 
 namespace Research.Web.Infrastructure
 {
@@ -68,9 +70,10 @@ namespace Research.Web.Infrastructure
             //data layer
             builder.RegisterType<EfDataProviderManager>().As<IDataProviderManager>().InstancePerDependency();
             builder.Register(context => context.Resolve<IDataProviderManager>().DataProvider).As<IDataProvider>().InstancePerDependency();
-            builder.Register(context => new ResearchObjectContext(context.Resolve<DbContextOptions<ResearchObjectContext>>()))
+            //builder.Register(context => new ResearchObjectContext(context.Resolve<DbContextOptions<ResearchObjectContext>>()))
+            //    .As<IDbContext>().InstancePerLifetimeScope();
+            builder.Register(context => new ProjectdbContext(context.Resolve<DbContextOptions<ProjectdbContext>>()))
                 .As<IDbContext>().InstancePerLifetimeScope();
-
             //repositories
             builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
@@ -178,8 +181,10 @@ namespace Research.Web.Infrastructure
             }
 
             //admin factories
+            builder.RegisterType<BaseAdminModelFactory>().As<IBaseAdminModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ProjectModelFactory>().As<IProjectModelFactory>().InstancePerLifetimeScope();
-
+            builder.RegisterType<UserModelFactory>().As<IUserModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<ActivityLogModelFactory>().As<IActivityLogModelFactory>().InstancePerLifetimeScope();
         }
 
         /// <summary>

@@ -213,7 +213,7 @@ namespace Research.Web.Framework.UI
             //var result = !string.IsNullOrEmpty(metaDescription) ? metaDescription : _seoSettings.DefaultMetaDescription;
             //return result;
 
-            return string.Empty;
+            return string.Join(", ", _metaDescriptionParts.AsEnumerable().Reverse().ToArray());
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Research.Web.Framework.UI
             //var metaKeyword = string.Join(", ", _metaKeywordParts.AsEnumerable().Reverse().ToArray());
             //var result = !string.IsNullOrEmpty(metaKeyword) ? metaKeyword : _seoSettings.DefaultMetaKeywords;
             //return result;
-            return string.Empty;
+            return string.Join(", ", _metaKeywordParts.AsEnumerable().Reverse().ToArray());
         }
 
         /// <summary>

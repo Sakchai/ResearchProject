@@ -7,12 +7,12 @@ namespace Research.Data
     {
         public int RoleId { get; set; }
         public int ProgramId { get; set; }
-        public bool? CanAdd { get; set; }
-        public bool? CanView { get; set; }
-        public bool? CanEdit { get; set; }
-        public bool? CanDelete { get; set; }
-        public bool? CanPrint { get; set; }
-        public bool? CanEmail { get; set; }
+        public bool CanAdd { get; set; }
+        public bool CanView { get; set; }
+        public bool CanEdit { get; set; }
+        public bool CanDelete { get; set; }
+        public bool CanPrint { get; set; }
+        public bool CanEmail { get; set; }
         public string LastUpdateBy { get; set; }
 
         public virtual Program Program { get; set; }

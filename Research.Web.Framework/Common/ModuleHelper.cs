@@ -22,6 +22,7 @@ namespace Research.Common
             Register,
             SuperAdmin,
             Role,
+            ActivityLogs
         }
 
         public static SidebarMenu AddHeader(string name)
@@ -67,7 +68,16 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "ข้อเสนอโครงการวิจัย",
                         IconClassName = "fa fa-link",
-                        URLPath = "/Project",
+                        URLPath = "/Project/List",
+                        LinkCounter = counter,
+                    };
+                case Module.ActivityLogs:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "Activity Log",
+                        IconClassName = "fa fa-link",
+                        URLPath = "/ActivityLog/ListLogs",
                         LinkCounter = counter,
                     };
                 //case Module.Dashboards:

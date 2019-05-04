@@ -19,7 +19,7 @@ namespace Research.Data
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
-        public int? UserTypeId { get; set; }
+        public int UserTypeId { get; set; }
         public UserType UserType {
             get => (UserType)UserTypeId;
             set => UserTypeId = (int) value;
@@ -31,9 +31,9 @@ namespace Research.Data
         public bool IsSystemAccount { get; set; }
         public string Roles { get; set; }
         public string Password { get; set; }
-        public int? ResearcherId { get; set; }
+        public int ResearcherId { get; set; }
         public string SessionId { get; set; }
-        public int? AgencyId { get; set; }
+        public int AgencyId { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }
@@ -75,22 +75,22 @@ namespace Research.Data
             set => _userRoles = value;
         }
 
-        [Computed]
-        public string DecryptedPassword
-        {
-            get { return Decrypt(Password); }
-            set { Password = Encrypt(value); }
-        }
+        //[Computed]
+        //public string DecryptedPassword
+        //{
+        //    get { return Decrypt(Password); }
+        //    set { Password = Encrypt(value); }
+        //}
         public Guid UserGuid { get; set; }
 
-        private string Decrypt(string cipherText)
-        {
-            return EntityHelper.Decrypt(cipherText);
-        }
-        private string Encrypt(string clearText)
-        {
-            return EntityHelper.Encrypt(clearText);
-        }
+        //private string Decrypt(string cipherText)
+        //{
+        //    return EntityHelper.Decrypt(cipherText);
+        //}
+        //private string Encrypt(string clearText)
+        //{
+        //    return EntityHelper.Encrypt(clearText);
+        //}
         //chai
         public virtual bool IsRegistered()
         {

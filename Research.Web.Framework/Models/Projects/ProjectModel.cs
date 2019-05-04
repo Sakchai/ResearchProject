@@ -4,13 +4,14 @@ using Research.Data;
 using System;
 using System.Collections.Generic;
 using Research.Web.Models.Researchers;
+using Research.Web.Framework.Models;
 
 namespace Research.Web.Models.Projects
 {
     /// <summary>
     /// A Researcher attached to a Project
     /// </summary>
-    public class ProjectModel : BaseDomain
+    public class ProjectModel : BaseEntityModel
     {
         public string ProjectCode { get; set; }
         public string ProjectNameTh { get; set; }

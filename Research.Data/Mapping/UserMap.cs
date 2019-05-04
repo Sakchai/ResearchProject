@@ -32,8 +32,6 @@ namespace Research.Data.Mapping
 
             entity.Property(e => e.SessionId).HasMaxLength(500);
 
-            entity.Ignore(e => e.UserType);
-
             entity.HasOne(d => d.Agency)
                 .WithMany()
                 .HasForeignKey(d => d.AgencyId);
@@ -45,6 +43,8 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.Title)
                 .WithMany()
                 .HasForeignKey(d => d.TitleId);
+            entity.Ignore(d => d.UserRoles);
+            entity.Ignore(d => d.UserType);
 
             base.Configure(entity);
         }

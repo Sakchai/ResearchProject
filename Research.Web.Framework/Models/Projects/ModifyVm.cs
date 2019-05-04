@@ -17,7 +17,7 @@ namespace Research.Web.Models.Projects
             this.AvailableProfessors = new List<SelectListItem>();
             this.AvailableProjectStatuses = new List<SelectListItem>();
             this.AvailableResearchIssues = new List<SelectListItem>();
-            this.ProjectResearchers = new List<ProjectResearcherViewModel>();
+            this.ProjectResearchers = new List<ProjectResearcherModel>();
         }
         public int ProjectId { get; set; }
         [Display(Name = "รหัสโครงการวิจัย")]
@@ -59,6 +59,6 @@ namespace Research.Web.Models.Projects
         public string LastUpdateBy { get; set; }
 
         public IList<SelectListItem> AvailableFiscalSchedules { get; set; }
-        public virtual ICollection<ProjectResearcherViewModel> ProjectResearchers { get; set; }
+        public virtual ICollection<ProjectResearcherModel> ProjectResearchers { get; set; }
     }
 }

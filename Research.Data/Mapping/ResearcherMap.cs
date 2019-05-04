@@ -61,6 +61,11 @@ namespace Research.Data.Mapping
                 .HasForeignKey(d => d.AddressId);
             entity.Ignore(e => e.Gender);
             entity.Ignore(e => e.PersonType);
+            entity.Ignore(e => e.ProjectResearchers);
+            entity.Ignore(e => e.ResearcherEducations);
+            entity.Ignore(e => e.ResearcherHistories);
+            entity.Ignore(e => e.Users);
+
             base.Configure(entity);
         }
 

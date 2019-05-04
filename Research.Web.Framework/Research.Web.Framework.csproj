@@ -5,14 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\ManageViewModels\IndexViewModel.cs" />
-    <Compile Remove="Models\ManageViewModels\ManageLoginsViewModel.cs" />
-    <Compile Remove="Models\RoleViewModels\EditRoleVm.cs" />
+    <Compile Remove="Models\Manages\IndexViewModel.cs" />
+    <Compile Remove="Models\Manages\ManageLoginsViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.2.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />

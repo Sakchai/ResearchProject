@@ -26,7 +26,7 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.User)
                 .WithMany()
                 .HasForeignKey(d => d.UserId);
-
+            entity.Ignore(d => d.RolePrograms);
             base.Configure(entity);
         }
 

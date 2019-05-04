@@ -33,8 +33,9 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.Title)
                 .WithMany()
                 .HasForeignKey(d => d.TitleId);
+
             entity.Ignore(e => e.ProfessorType);
-  
+            entity.Ignore(e => e.ProfessorHistories);
             base.Configure(entity);
         }
 

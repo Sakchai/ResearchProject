@@ -27,7 +27,7 @@ namespace Research.Data.Mapping
             entity.Property(e => e.ProgramUrl)
                 .HasColumnName("ProgramURL")
                 .HasMaxLength(300);
-
+            entity.Ignore(e => e.RolePrograms);
             base.Configure(entity);
         }
 

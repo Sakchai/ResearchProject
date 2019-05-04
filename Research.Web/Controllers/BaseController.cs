@@ -267,7 +267,7 @@ namespace Research.Controllers
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         protected virtual void AddNotification(NotifyType type, string message, bool persistForTheNextRequest)
         {
-            var dataKey = $"nop.notifications.{type}";
+            var dataKey = $"research.notifications.{type}";
 
             if (persistForTheNextRequest)
             {

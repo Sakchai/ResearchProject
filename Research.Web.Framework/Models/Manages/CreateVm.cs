@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Research.Web.Models.SuperAdmins
+namespace Research.Web.Models.Manages
 {
     public class CreateVm
     {

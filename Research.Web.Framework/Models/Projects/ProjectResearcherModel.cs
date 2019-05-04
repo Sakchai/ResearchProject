@@ -1,10 +1,11 @@
 ﻿
 using Research.Data;
 using Research.Enum;
+using Research.Web.Framework.Models;
 
 namespace Research.Web.Models.Projects
 {
-    public class ProjectResearcherViewModel : BaseDomain
+    public class ProjectResearcherModel : BaseEntityModel
     {
         public int ProjectId { get; set; }
         public int ResearcherId { get; set; }

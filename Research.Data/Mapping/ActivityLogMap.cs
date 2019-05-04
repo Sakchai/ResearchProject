@@ -25,13 +25,11 @@ namespace Research.Data.Mapping
 
             builder.HasOne(logItem => logItem.ActivityLogType)
                 .WithMany()
-                .HasForeignKey(logItem => logItem.ActivityLogTypeId)
-                .IsRequired();
+                .HasForeignKey(logItem => logItem.ActivityLogTypeId);
 
             builder.HasOne(logItem => logItem.User)
                 .WithMany()
-                .HasForeignKey(logItem => logItem.UserId)
-                .IsRequired();
+                .HasForeignKey(logItem => logItem.UserId);
 
             base.Configure(builder);
         }

@@ -1,4 +1,5 @@
-﻿using Research.Enum;
+﻿
+using Research.Enum;
 using System;
 using System.Collections.Generic;
 

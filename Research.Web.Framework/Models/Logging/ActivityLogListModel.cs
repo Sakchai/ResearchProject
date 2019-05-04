@@ -1,5 +1,5 @@
 ﻿
-namespace Research.Web.Models.ActivityLogs
+namespace Research.Web.Models.Logging
 {
     /// <summary>
     /// Represents an activity log list model

@@ -6,7 +6,7 @@ using Research.Services.Logging;
 using Research.Services.Security;
 using Research.Web.Areas.Admin.Factories;
 using Research.Web.Framework.Mvc;
-using Research.Web.Models.ActivityLogs;
+using Research.Web.Models.Logging;
 
 namespace Research.Web.Controllers
 {
