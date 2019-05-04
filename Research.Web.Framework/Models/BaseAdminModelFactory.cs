@@ -16,6 +16,7 @@ using Research.Services.ResearchIssues;
 using Research.Services.Agencies;
 using Research.Services.EducationLevels;
 using Research.Services.StrategyGroups;
+using Research.Services.FiscalSchedules;
 
 namespace Research.Web.Models.Factories
 {
@@ -41,7 +42,7 @@ namespace Research.Web.Models.Factories
         private readonly IResearcherService _researcherService;
         private readonly IEducationLevelService _educationLevelService;
         private readonly IStrategyGroupService _strategyGroupService;
-
+        private readonly IFiscalScheduleService _fiscalScheduleService;
         #endregion
 
         #region Ctor
@@ -60,7 +61,8 @@ namespace Research.Web.Models.Factories
             IAgencyService agencyService,
             IResearcherService researcherService,
             IEducationLevelService educationLevelService,
-            IStrategyGroupService strategyGroupService)
+            IStrategyGroupService strategyGroupService,
+            IFiscalScheduleService fiscalScheduleService)
         {
             this._facultyService = facultyService;
             this._countryService = countryService;
@@ -77,6 +79,7 @@ namespace Research.Web.Models.Factories
             this._researcherService = researcherService;
             this._educationLevelService = educationLevelService;
             this._strategyGroupService = strategyGroupService;
+            this._fiscalScheduleService = fiscalScheduleService;
         }
 
         #endregion
@@ -445,6 +448,38 @@ namespace Research.Web.Models.Factories
             foreach (var logLevelItem in availableLogLevelItems)
             {
                 items.Add(logLevelItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        public void PrepareFiscalSchedules(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available activity log types
+            var availableFiscalSchedules = _fiscalScheduleService.GetAllFiscalSchedules();
+            foreach (var fiscalSchedule in availableFiscalSchedules)
+            {
+                items.Add(new SelectListItem { Value = fiscalSchedule.Id.ToString(), Text = fiscalSchedule.ScholarName });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        public void PrepareProgressStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available order statuses
+            var availableStatusItems = ProgressStatus.Started.ToSelectList(false);
+            foreach (var statusItem in availableStatusItems)
+            {
+                items.Add(statusItem);
             }
 
             //insert special item for the default value

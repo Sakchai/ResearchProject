@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Research.Web.Common;
+using Research.Web.Models.Factories;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,6 +8,7 @@ namespace Research.Web.Models.Projects
 {
     public class ProjectSearchModel : BaseSearchModel
     {
+
         public ProjectSearchModel()
         {
             AvailableFiscalYears = new List<SelectListItem>();

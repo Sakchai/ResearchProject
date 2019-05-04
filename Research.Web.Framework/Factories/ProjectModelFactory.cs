@@ -7,25 +7,30 @@ using Research.Enum;
 using Research.Services;
 using Research.Data;
 using Research.Domain;
-
+using Research.Web.Models.Factories;
 
 namespace Research.Web.Factories
 {
     public class ProjectModelFactory : IProjectModelFactory
     {
-        private readonly IProjectService _projectResearcherService;
+        private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         private readonly IProjectService _projectService;
 
-        public ProjectModelFactory(IProjectService projectService)
+        public ProjectModelFactory(IBaseAdminModelFactory baseAdminModelFactory, 
+            IProjectService projectService)
         {
-            _projectService = projectService;
+            this._baseAdminModelFactory = baseAdminModelFactory;
+            this._projectService = projectService;
         }
 
         public CreateVm PrepareProjectCreateModel(CreateVm model)
         {
-            model.AvailableFiscalSchedules.Add(new SelectListItem { Text = "--โปรดระบุปีงบประมาณ--", Value = "", Selected = true });
-            model.AvailableProfessors.Add(new SelectListItem { Text = "--โปรดระบุผู้ทรงคุณวุฒิ--", Value = "", Selected = true });
-            model.AvailableResearchIssues.Add(new SelectListItem { Text = "--โปรดระบุประเด็นการวิจัย--", Value = "", Selected = true });
+            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues);
+            _baseAdminModelFactory.PrepareProfessors(model.AvailableFiscalSchedules);
+            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules);
+            //model.AvailableFiscalSchedules.Add(new SelectListItem { Text = "--โปรดระบุปีงบประมาณ--", Value = "", Selected = true });
+            //model.AvailableProfessors.Add(new SelectListItem { Text = "--โปรดระบุผู้ทรงคุณวุฒิ--", Value = "", Selected = true });
+            //model.AvailableResearchIssues.Add(new SelectListItem { Text = "--โปรดระบุประเด็นการวิจัย--", Value = "", Selected = true });
             return model;
         }
 
@@ -96,22 +101,12 @@ namespace Research.Web.Factories
 
         public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
-            searchModel.AvailableFaculties.Add(new SelectListItem { Text = "--หน่วยงานหลัก--", Value = "", Selected = true });
-            searchModel.AvailableFiscalYears.Add(new SelectListItem { Text = "--ปีงบประมาณ--", Value = "", Selected = true });
-            searchModel.AvailablePageSizes = "10";
-            searchModel.AvailableResearchStatuses.Add(new SelectListItem { Text = "--สถานะโครงการวิจัย--", Value = "", Selected = true });
-            searchModel.AvailableProjectStatuses.Add(new SelectListItem { Text = "--สถานะโครงการ--", Value = "", Selected = true });
-            var projectStatusOptionsIds = System.Enum.GetValues(typeof(ProjectStatus)).Cast<int>().ToList();
-
-            foreach (var value in projectStatusOptionsIds)
-            {
-                searchModel.AvailableProjectStatuses.Add(new SelectListItem
-                {
-                   //Text = StringEnum.GetStringValue((ProjectStatus)value),
-                    Value = value.ToString()
-                });
-            }
-
+            _baseAdminModelFactory.PrepareFacuties(searchModel.AvailableFaculties,true, "--หน่วยงานหลัก--");
+            _baseAdminModelFactory.PrepareFiscalSchedules(searchModel.AvailableFiscalYears,true, "--ปีงบประมาณ--");
+            _baseAdminModelFactory.PrepareProjectStatuses(searchModel.AvailableProjectStatuses,true, "--สถานะโครงการ--");
+            _baseAdminModelFactory.PrepareProgressStatuses(searchModel.AvailableResearchStatuses,true, "--สถานะโครงการวิจัย--");
+            //prepare page parameters
+            searchModel.SetGridPageSize();
             return searchModel;
         }
     }

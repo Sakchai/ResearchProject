@@ -24,6 +24,7 @@ using Research.Services.Directory;
 using Research.Services.EducationLevels;
 using Research.Services.Events;
 using Research.Services.Faculties;
+using Research.Services.FiscalSchedules;
 using Research.Services.Helpers;
 using Research.Services.Logging;
 using Research.Services.Media;
@@ -107,6 +108,7 @@ namespace Research.Web.Infrastructure
             //builder.RegisterType<WebStoreContext>().As<IStoreContext>().InstancePerLifetimeScope();
 
             //services
+            builder.RegisterType<FiscalScheduleService>().As<IFiscalScheduleService>().InstancePerLifetimeScope();
             builder.RegisterType<AcademicRankService>().As<IAcademicRankService>().InstancePerLifetimeScope();
             builder.RegisterType<AgencyService>().As<IAgencyService>().InstancePerLifetimeScope();
             builder.RegisterType<EducationLevelService>().As<IEducationLevelService>().InstancePerLifetimeScope();
