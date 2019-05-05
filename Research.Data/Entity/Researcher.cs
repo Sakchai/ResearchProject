@@ -29,12 +29,8 @@ namespace Research.Data
         public int? AddressId { get; set; }
         public int? AcademicRankId { get; set; }
         public string LastUpdateBy { get; set; }
-        public int GenderId { get; set; }
-        public Gender Gender
-        {
-            get => (Gender) GenderId;
-            set => GenderId = (int) value;
-        }
+        public string Gender { get; set; }
+
         public PersonType PersonType {
             get => (PersonType)PersonTypeId;
             set => PersonType = value;

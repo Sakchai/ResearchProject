@@ -17,6 +17,7 @@ using Research.Services.Agencies;
 using Research.Services.EducationLevels;
 using Research.Services.StrategyGroups;
 using Research.Services.FiscalSchedules;
+using Research.Services.Titles;
 
 namespace Research.Web.Models.Factories
 {
@@ -43,6 +44,7 @@ namespace Research.Web.Models.Factories
         private readonly IEducationLevelService _educationLevelService;
         private readonly IStrategyGroupService _strategyGroupService;
         private readonly IFiscalScheduleService _fiscalScheduleService;
+        private readonly ITitleService _titleService;
         #endregion
 
         #region Ctor
@@ -62,7 +64,8 @@ namespace Research.Web.Models.Factories
             IResearcherService researcherService,
             IEducationLevelService educationLevelService,
             IStrategyGroupService strategyGroupService,
-            IFiscalScheduleService fiscalScheduleService)
+            IFiscalScheduleService fiscalScheduleService,
+            ITitleService titleService)
         {
             this._facultyService = facultyService;
             this._countryService = countryService;
@@ -80,6 +83,11 @@ namespace Research.Web.Models.Factories
             this._educationLevelService = educationLevelService;
             this._strategyGroupService = strategyGroupService;
             this._fiscalScheduleService = fiscalScheduleService;
+            this._titleService = titleService;
+        }
+
+        public BaseAdminModelFactory()
+        {
         }
 
         #endregion
@@ -485,6 +493,40 @@ namespace Research.Web.Models.Factories
             //insert special item for the default value
             PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
         }
+
+        public void PrepareGenders(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available order statuses
+            var availableStatusItems = Gender.Male.ToSelectList(false);
+            foreach (var statusItem in availableStatusItems)
+            {
+                items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        public void PrepareTitles(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available activity log types
+            var availableTitles = _titleService.GetAllTitles();
+            foreach (var title in availableTitles)
+            {
+                items.Add(new SelectListItem { Value = title.Id.ToString(), Text = title.TitleNameTH });
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+ 
 
         #endregion
     }

@@ -1,57 +1,146 @@
-﻿@model RegisterViewModel
+﻿@model RegisterModel
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+
+@inject IWebHelper webHelper
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "ลงทะเบียนสมัครนักวิจัย";
+    Layout = "";
+    //register URL with return URL (if specified)
+    var registerUrl = Url.RouteUrl("Register", null, webHelper.CurrentRequestProtocol);
+    if (!string.IsNullOrEmpty(this.Context.Request.Query["returnUrl"]))
+    {
+        registerUrl = webHelper.ModifyQueryString(registerUrl, "returnurl", this.Context.Request.Query["returnUrl"]);
+    }
 }
 
-<h2>@ViewData["Title"].</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Project Proposal | Login</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css" />
+        <link rel="stylesheet" href="~/css/AdminLTE.css" />
+        <link rel="stylesheet" href="~/css/animation.css" />
+        <link rel="stylesheet" href="~/css/login.css" />
 
-<form id="ccSelectForm" asp-controller="User" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <h4>Create a new account.</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="FirstName" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="FirstName" class="form-control"/>
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="LastName" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Register</button>
-        </div>
-    </div>
-</form>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.min.css" asp-append-version="true" />
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+        <link rel="stylesheet" href="~/lib/Ionicons/css/animation.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/authenty.css" asp-append-version="true" />
 
+    </environment>
+
+</head>
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <p class="login-box-msg">ลงทะเบียนสมัครนักวิจัย</p>
+        </div>
+
+        <div class="register-box-body">
+            
+            <form id="ccSelectForm" asp-controller="User" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="TitleId" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <select asp-for="TitleId" asp-items="Model.AvailableTitles"></select>
+                        <span asp-validation-for="TitleId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label asp-for="Gender" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <div class="col-md-4">
+                            <input type="radio" asp-for="Gender" value="M" checked="@(Model.Gender == "M")" id="gender-male" />
+                            เพศชาย
+                        </div>
+                        <div class="col-md-4">
+                            <input type="radio" asp-for="Gender" value="F" checked="@(Model.Gender == "F")" id="gender-female" />
+                            เพศหญิง
+                        </div>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label asp-for="AgencyId" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <select asp-for="AgencyId" asp-items="Model.AvailableAgencies"></select>
+                        <span asp-validation-for="AgencyId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label asp-for="IDCard" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="IDCard" class="form-control" />
+                        <span asp-validation-for="IDCard" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+                <h3>ข้อมูลเข้าสู่ระบบ</h3>
+
+                <div class="form-group has-feedback">
+                    <label asp-for="Email" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Email" class="form-control" placeholder="อีเมล"/>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label asp-for="Password" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Password" class="form-control" placeholder="รหัสผ่าน" />
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label asp-for="ConfirmPassword" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน"/>
+                        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">ลงทะเบียน</button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_FooterScriptsPartial"); }
+    }
+</body>
+</html>

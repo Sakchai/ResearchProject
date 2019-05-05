@@ -646,17 +646,17 @@ td.k-state-focused.k-state-selected {
 .main-header .logo {
     padding: 0;
 }
-.main-header .logo-lg {
-    background: url(images/logo.png) no-repeat 50% 50%;
-    height: 50px;
-}
-.main-header .logo-mini {
-    background: url(images/logo-mini.png) no-repeat 50% 50%;
-    height: 50px;
-}
+    .main-header .logo-lg {
+        background: url(images/logo.jpg) no-repeat 50% 50%;
+        height: 50px;
+    }
+    .main-header .logo-mini {
+        background: url(images/logo-mini.jpg) no-repeat 50% 50%;
+        height: 50px;
+    }
 
 /* SIDE BAR */
-.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header {
+        .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header {
     white-space: normal;
 }
 .sidebar-menu .treeview-menu>li>a {

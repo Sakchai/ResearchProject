@@ -13,6 +13,7 @@ namespace Research.Common
         public enum Module
         {
             Home,
+            AddProject,
             Projects,
             Dashboards,
             About,
@@ -22,7 +23,16 @@ namespace Research.Common
             Register,
             SuperAdmin,
             Role,
-            ActivityLogs
+            ActivityLogs,
+            AddResearcher,
+            Researchs,
+            Professors,
+            AddProfessor,
+            EditResearcher,
+            Users,
+            AddUser,
+            ResearchIssues,
+            FiscalSchedules,
         }
 
         public static SidebarMenu AddHeader(string name)
@@ -53,65 +63,138 @@ namespace Research.Common
 
             switch (module)
             {
-                //case Module.Home:
-                //    return new SidebarMenu
-                //    {
-                //        Type = SidebarMenuType.Link,
-                //        Name = "Home",
-                //        IconClassName = "fa fa-link",
-                //        URLPath = "/",
-                //        LinkCounter = counter,
-                //    };
+
                 case Module.Projects:
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
                         Name = "ข้อเสนอโครงการวิจัย",
-                        IconClassName = "fa fa-link",
+                        IconClassName = "fa fa-calendar",
                         URLPath = "/Project/List",
+                        LinkCounter = counter,
+                    };
+                case Module.AddProject:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "ยื่นข้อเสนอโครงการวิจัย",
+                        IconClassName = "fa fa-graduation-cap",
+                        URLPath = "/Project/Add",
+                        LinkCounter = counter,
+                    };
+                case Module.ResearchIssues:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "รายการประเด็นการวิจัย",
+                        IconClassName = "fa fa-heart-o",
+                        URLPath = "/ResearchIssue/List",
+                        LinkCounter = counter,
+                    };
+                case Module.FiscalSchedules:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "วันเปิดรับข้อเสนอ",
+                        IconClassName = "fa fa-hourglass-half",
+                        URLPath = "/ResearchIssue/List",
+                        LinkCounter = counter,
+                    };
+                case Module.Researchs:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "รายการข้อมูลนักวิจัย",
+                        IconClassName = "fa fa-users",
+                        URLPath = "/Researcher/List",
+                        LinkCounter = counter,
+                    };
+                case Module.AddResearcher:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "เพิ่มผู้วิจัย",
+                        IconClassName = "fa fa-user-plus",
+                        URLPath = "/Researcher/Add",
+                        LinkCounter = counter,
+                    };
+                case Module.Professors:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "รายการข้อมูลผู้ทรงคุณวุฒิ",
+                        IconClassName = "fa fa-users",
+                        URLPath = "/Professor/List",
+                        LinkCounter = counter,
+                    };
+                case Module.AddProfessor:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "เพิ่มผู้ทรงคุณวุฒิ",
+                        IconClassName = "fa fa-user-plus",
+                        URLPath = "/Professor/Add",
+                        LinkCounter = counter,
+                    };
+                case Module.Users:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "รายการบัญชีผู้ดูแลระบบ",
+                        IconClassName = "fa fa-users",
+                        URLPath = "/User/List",
+                        LinkCounter = counter,
+                    };
+                case Module.AddUser:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "เพิ่มผู้ใช้",
+                        IconClassName = "fa fa-user-plus",
+                        URLPath = "/User/Add",
                         LinkCounter = counter,
                     };
                 case Module.ActivityLogs:
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
-                        Name = "Activity Log",
-                        IconClassName = "fa fa-link",
+                        Name = "ข้อมูลการเข้าใช้ระบบ",
+                        IconClassName = "fa fa-laptop",
                         URLPath = "/ActivityLog/ListLogs",
                         LinkCounter = counter,
                     };
-                //case Module.Dashboards:
-                //    return new SidebarMenu
-                //    {
-                //        Type = SidebarMenuType.Link,
-                //        Name = "Dashboards",
-                //        IconClassName = "fa fa-link",
-                //        URLPath = "/Dashboards",
-                //        LinkCounter = counter,
-                //    };
+                case Module.Dashboards:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "ภาพรวม",
+                        IconClassName = "fa fa-dashboard",
+                        URLPath = "/Dashboards",
+                        LinkCounter = counter,
+                    };
                 case Module.Login:
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
                         Name = "Login",
                         IconClassName = "fa fa-sign-in",
-                        URLPath = "/Account/Login",
+                        URLPath = "/User/Login",
                         LinkCounter = counter,
                     };
                 case Module.Register:
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
-                        Name = "Register",
+                        Name = "ลงทะเบียนผู้วิจัย",
                         IconClassName = "fa fa-user-plus",
-                        URLPath = "/Account/Register",
+                        URLPath = "/User/Register",
                         LinkCounter = counter,
                     };
                 case Module.About:
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
-                        Name = "About",
+                        Name = "เกี่ยวกับโครงการ",
                         IconClassName = "fa fa-group",
                         URLPath = "/Home/About",
                         LinkCounter = counter,
@@ -120,38 +203,12 @@ namespace Research.Common
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
-                        Name = "Contact",
+                        Name = "ผู้ติดต่อ",
                         IconClassName = "fa fa-phone",
                         URLPath = "/Home/Contact",
                         LinkCounter = counter,
                     };
-                //case Module.Error:
-                //    return new SidebarMenu
-                //    {
-                //        Type = SidebarMenuType.Link,
-                //        Name = "Error",
-                //        IconClassName = "fa fa-warning",
-                //        URLPath = "/Home/Error",
-                //        LinkCounter = counter,
-                //    };
-                case Module.SuperAdmin:
-                    return new SidebarMenu
-                    {
-                        Type = SidebarMenuType.Link,
-                        Name = "User",
-                        IconClassName = "fa fa-link",
-                        URLPath = "/SuperAdmin",
-                        LinkCounter = counter,
-                    };
-                case Module.Role:
-                    return new SidebarMenu
-                    {
-                        Type = SidebarMenuType.Link,
-                        Name = "Role",
-                        IconClassName = "fa fa-link",
-                        URLPath = "/Role",
-                        LinkCounter = counter,
-                    };
+ 
 
                 default:
                     break;

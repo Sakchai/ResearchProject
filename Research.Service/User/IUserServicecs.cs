@@ -47,6 +47,13 @@ namespace Research.Services
             int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
 
         /// <summary>
+        /// Get user by ID card
+        /// </summary>
+        /// <param name="idCard">idCard</param>
+        /// <returns>User</returns>
+        User GetUserByIDCard(string idCard);
+
+        /// <summary>
         /// Gets online users
         /// </summary>
         /// <param name="lastActivityFromUtc">User last activity date (from)</param>

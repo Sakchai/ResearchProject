@@ -22,7 +22,8 @@ namespace Research.Data.Mapping
                 .HasMaxLength(100);
             entity.Property(e => e.TitleNameTH)
                 .HasMaxLength(100);
-            entity.Ignore(e => e.Gender);
+            entity.Property(e => e.Gender)
+                .HasMaxLength(1);
             base.Configure(entity);
         }
 

@@ -35,6 +35,7 @@ using Research.Services.Roles;
 using Research.Services.Security;
 using Research.Services.StrategyGroups;
 using Research.Services.Tasks;
+using Research.Services.Titles;
 using Research.Services.Users;
 using Research.Web.Areas.Admin.Factories;
 using Research.Web.Factories;
@@ -71,8 +72,6 @@ namespace Research.Web.Infrastructure
             //data layer
             builder.RegisterType<EfDataProviderManager>().As<IDataProviderManager>().InstancePerDependency();
             builder.Register(context => context.Resolve<IDataProviderManager>().DataProvider).As<IDataProvider>().InstancePerDependency();
-            //builder.Register(context => new ResearchObjectContext(context.Resolve<DbContextOptions<ResearchObjectContext>>()))
-            //    .As<IDbContext>().InstancePerLifetimeScope();
             builder.Register(context => new ProjectdbContext(context.Resolve<DbContextOptions<ProjectdbContext>>()))
                 .As<IDbContext>().InstancePerLifetimeScope();
             //repositories
@@ -108,6 +107,7 @@ namespace Research.Web.Infrastructure
             //builder.RegisterType<WebStoreContext>().As<IStoreContext>().InstancePerLifetimeScope();
 
             //services
+            builder.RegisterType<TitleService>().As<ITitleService>().InstancePerLifetimeScope();
             builder.RegisterType<FiscalScheduleService>().As<IFiscalScheduleService>().InstancePerLifetimeScope();
             builder.RegisterType<AcademicRankService>().As<IAcademicRankService>().InstancePerLifetimeScope();
             builder.RegisterType<AgencyService>().As<IAgencyService>().InstancePerLifetimeScope();
@@ -182,7 +182,7 @@ namespace Research.Web.Infrastructure
                     .InstancePerLifetimeScope();
             }
 
-            //admin factories
+            //factories
             builder.RegisterType<BaseAdminModelFactory>().As<IBaseAdminModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ProjectModelFactory>().As<IProjectModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<UserModelFactory>().As<IUserModelFactory>().InstancePerLifetimeScope();

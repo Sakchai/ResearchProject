@@ -757,6 +757,19 @@ namespace Research.Services.Users
             return customer;
         }
 
+        public User GetUserByIDCard(string idCard)
+        {
+            if (string.IsNullOrWhiteSpace(idCard))
+                return null;
+
+            var query = from c in _userRepository.Table
+                        orderby c.Id
+                        where c.Researcher.IDCard == idCard
+                        select c;
+            var user = query.FirstOrDefault();
+            return user;
+        }
+
         #endregion
 
         #endregion

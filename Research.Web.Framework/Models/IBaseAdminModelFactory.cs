@@ -16,6 +16,8 @@ namespace Research.Web.Models.Factories
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareActivityLogTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
         void PrepareFiscalSchedules(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareGenders(IList<SelectListItem> availableGenders, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareTitles(IList<SelectListItem> availableTitles, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
         /// <summary>
         /// Prepare available project statuses

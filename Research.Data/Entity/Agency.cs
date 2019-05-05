@@ -13,6 +13,7 @@ namespace Research.Data
         //    get => _users ?? (_users = new List<User>());
         //    set => _users = value;
         //}
-        public virtual Researcher Researcher  { get;  set; }
+       // public int ResearcherId { get; set; }
+        //public virtual Researcher Researcher  { get;  set; }
     }
 }

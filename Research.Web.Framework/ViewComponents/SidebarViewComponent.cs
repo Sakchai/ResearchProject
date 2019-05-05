@@ -22,12 +22,31 @@ namespace Research.Web.ViewComponents
             //{
             //}
 
-           // sidebars.Add(ModuleHelper.AddHeader("MAIN NAVIGATION"));
-           // sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Home));
-            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Projects));
-            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs));
-            // sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Dashboards));
-            // sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Error, Tuple.Create(0, 0, 1)));
+            // sidebars.Add(ModuleHelper.AddHeader("MAIN NAVIGATION"));
+            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Dashboards));
+            sidebars.Add(ModuleHelper.AddTree("โครงการวิจัย", "fa fa-calendar"));
+            sidebars.Last().TreeChild = new List<SidebarMenu>()
+            {
+                ModuleHelper.AddModule(ModuleHelper.Module.Projects),
+                ModuleHelper.AddModule(ModuleHelper.Module.AddProject)
+            };
+            sidebars.Add(ModuleHelper.AddTree("ผู้วิจัย/ผู้ทรงคุณวุฒิ", "fa fa-users"));
+            sidebars.Last().TreeChild = new List<SidebarMenu>()
+            {
+                ModuleHelper.AddModule(ModuleHelper.Module.Researchs),
+                ModuleHelper.AddModule(ModuleHelper.Module.AddResearcher),
+                ModuleHelper.AddModule(ModuleHelper.Module.Professors),
+                ModuleHelper.AddModule(ModuleHelper.Module.AddProfessor),
+            };
+            sidebars.Add(ModuleHelper.AddTree("ข้อมูลของระบบ", "fa fa-university"));
+            sidebars.Last().TreeChild = new List<SidebarMenu>()
+            {
+                ModuleHelper.AddModule(ModuleHelper.Module.ResearchIssues),
+                ModuleHelper.AddModule(ModuleHelper.Module.FiscalSchedules),
+                ModuleHelper.AddModule(ModuleHelper.Module.Users),
+                ModuleHelper.AddModule(ModuleHelper.Module.AddUser),
+                ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs)
+            };
             sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.About, Tuple.Create(0, 1, 0)));
             sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Contact, Tuple.Create(1, 0, 0)));
             sidebars.Add(ModuleHelper.AddTree("Account"));

@@ -48,15 +48,9 @@
             <div class="container">
                 <div class="form-wrap">
                     <div class="row">
-                        @* <div class="title animated fadeInDown">
-                                <h2>ระบบบริหารงานวิจัย</h2>
-                            </div>*@
-
                         <form asp-controller="User" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                             <div>
                                 <div class="form-header">
-                                    @*<i class="fa fa-user"></i>
-                                        <img src="~/images/smarthr-sm.png" alt="adminlte" />*@
                                     ระบบบริหารงานวิจัย
                                 </div>
                                 <div class="form-main">
@@ -64,10 +58,8 @@
                                     <div class="form-group">
                                         <label asp-for="Email" class="control-label"></label>
                                         <input asp-for="Email" type="text" class="form-control" />
-                                        @*<span asp-validation-for="Email" class="text-danger"></span>*@
                                         <label asp-for="Password" class="control-label"></label> (<a asp-action="ForgotPassword">ลืมรหัสผ่าน?</a>)
-                                        <input asp-for="Password" class="form-control" />
-                                        @*<span asp-validation-for="Password" class="text-danger"></span>*@
+                                        <input asp-for="Password" type="text" class="form-control" />
                                     </div>
 
                                     <div class="form-group">
@@ -76,7 +68,7 @@
                                         <div>
                                             <div class="checkbox">
                                                 <label asp-for="RememberMe" class="text-muted">
-                                                    <input asp-for="RememberMe" />
+                                                    <input asp-for="RememberMe" type="checkbox" />
                                                     @Html.DisplayNameFor(m => m.RememberMe)
                                                 </label>
                                             </div>
@@ -87,8 +79,7 @@
                                     <div class="row">
                                         <div class="col-xs">
                                             <i class="fa fa-check"></i>
-                                            @*<a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">ยังไม่มีบัญชีผู้ใช้งาน สมัครสมาชิก!</a>*@
-                                            <input type="button" class="button-1 register-button" onclick="location.href='@registerUrl'" value="ยังไม่มีบัญชีผู้ใช้งาน สมัครสมาชิก!" />
+                                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">ยังไม่มีบัญชีผู้ใช้งาน สมัครสมาชิก!</a>
                                         </div>
                                     </div>
                                 </div>
@@ -100,21 +91,8 @@
             </div>
         </div>
     </div>
-    <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
-        <script src="~/js/adminlte.js" asp-append-version="true"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-        <script src="~/js/adminlte.min.js" asp-append-version="true"></script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-
     @section Scripts {
-        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        @{ await Html.RenderPartialAsync("_FooterScriptsPartial"); }
     }
 </body>
 </html>

@@ -31,7 +31,8 @@ namespace Research.Data.Mapping
             entity.Property(e => e.FirstName).HasMaxLength(200);
 
             entity.Property(e => e.LastName).HasMaxLength(200);
-
+            entity.Property(e => e.Gender).HasColumnName("Gender")
+                .HasMaxLength(1);
             entity.Property(e => e.IDCard).HasColumnName("IDCard")
                 .HasMaxLength(13);
 
@@ -59,7 +60,7 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.Address)
                 .WithMany()
                 .HasForeignKey(d => d.AddressId);
-            entity.Ignore(e => e.Gender);
+           // entity.Ignore(e => e.Gender);
             entity.Ignore(e => e.PersonType);
             entity.Ignore(e => e.ProjectResearchers);
             entity.Ignore(e => e.ResearcherEducations);

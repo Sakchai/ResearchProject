@@ -3252,14 +3252,14 @@ table.text-center th {
 }
 .login-box,
 .register-box {
-  width: 360px;
-  margin: 7% auto;
+  width: 768px;
+  margin: 1% auto;
 }
 @media (max-width: 768px) {
   .login-box,
   .register-box {
     width: 90%;
-    margin-top: 20px;
+    margin-top: 5px;
   }
 }
 .login-box-body,
@@ -3277,7 +3277,7 @@ table.text-center th {
 .register-box-msg {
   margin: 0;
   text-align: center;
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 0px 20px;
 }
 .social-auth-links {
   margin: 10px 0;
