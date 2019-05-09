@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Research.Core;
 using Research.Core.Domain.Users;
+using Research.Data;
 using Research.Enum;
 using Research.Services;
 using Research.Services.Authentication;
@@ -83,6 +84,7 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Register(RegisterModel model, string returnUrl)
         {
+            var form = model.Form;
             //check whether registration is allowed
             if (_userSettings.UserRegistrationType == UserRegistrationType.Disabled)
                 return RedirectToRoute("RegisterResult", new { resultId = (int)UserRegistrationType.Disabled });
@@ -186,10 +188,7 @@ namespace Research.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                if (_userSettings.UsernamesEnabled && model.UserName != null)
-                {
-                    model.UserName = model.UserName.Trim();
-                }
+
                 var loginResult = _userRegistrationService.ValidateUser(_userSettings.UsernamesEnabled ? model.UserName : model.Email, model.Password);
                 switch (loginResult)
                 {
@@ -206,7 +205,7 @@ namespace Research.Web.Controllers
                             _eventPublisher.Publish(new UserLoggedinEvent(user));
 
                             //activity log
-                           // _userActivityService.InsertActivity(user, "PublicStore.Login","ActivityLog.PublicStore.Login", user);
+                            //_userActivityService.InsertActivity(user, "PublicStore.Login","ActivityLog.PublicStore.Login", user);
 
                             if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
                                 return RedirectToRoute("HomePage");

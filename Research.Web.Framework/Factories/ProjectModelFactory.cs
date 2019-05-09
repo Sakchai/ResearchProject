@@ -103,8 +103,8 @@ namespace Research.Web.Factories
         {
             _baseAdminModelFactory.PrepareFacuties(searchModel.AvailableFaculties,true, "--หน่วยงานหลัก--");
             _baseAdminModelFactory.PrepareFiscalSchedules(searchModel.AvailableFiscalYears,true, "--ปีงบประมาณ--");
-            _baseAdminModelFactory.PrepareProjectStatuses(searchModel.AvailableProjectStatuses,true, "--สถานะโครงการ--");
-            _baseAdminModelFactory.PrepareProgressStatuses(searchModel.AvailableResearchStatuses,true, "--สถานะโครงการวิจัย--");
+            _baseAdminModelFactory.PrepareProjectStatuses(searchModel.AvailableProjectStatuses,true, "--สถานะผลการพิจารณา--");
+            _baseAdminModelFactory.PrepareProgressStatuses(searchModel.AvailableProgressStatuses,true, "--สถานะโครงการวิจัย--");
             //prepare page parameters
             searchModel.SetGridPageSize();
             return searchModel;

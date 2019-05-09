@@ -1,12 +1,15 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, Research.Web.Framework
 @addTagHelper *, MiniProfiler.AspNetCore.Mvc
 
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
-@using Research.Web.ViewComponents
+
 @using Research.Core
+@using Research.Services.Events
 @using Research.Web.Models
+@using Research.Web.Framework.Events
+@using Research.Web.ViewComponents
 @using Research.Web.Models.Projects
 @using Research.Web.Models.Users
 @using Research.Web.Models.Researchers

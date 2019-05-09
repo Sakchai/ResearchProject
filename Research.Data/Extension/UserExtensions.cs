@@ -1,14 +1,16 @@
-using Research.Data;
+using Research.Core.Domain;
 using System;
 using System.Linq;
 
-namespace Research.Core.Domain.Users
+namespace Research.Data
 {
     /// <summary>
     /// User extensions
     /// </summary>
     public static class UserExtensions
     {
+        #region User role
+
         /// <summary>
         /// Gets a value indicating whether user is in a certain user role
         /// </summary>
@@ -109,7 +111,7 @@ namespace Research.Core.Domain.Users
         }
 
         /// <summary>
-        /// Gets a value indicating whether user is vendor
+        /// Gets a value indicating whether user is researcher
         /// </summary>
         /// <param name="user">User</param>
         /// <param name="onlyActiveUserRoles">A value indicating whether we should look only in active user roles</param>
@@ -119,23 +121,6 @@ namespace Research.Core.Domain.Users
             return IsInUserRole(user, ResearchUserDefaults.ResearchersRoleName, onlyActiveUserRoles);
         }
 
-        /// <summary>
-        /// Get user role identifiers
-        /// </summary>
-        /// <param name="user">User</param>
-        /// <param name="showHidden">A value indicating whether to load hidden records</param>
-        /// <returns>User role identifiers</returns>
-        public static int[] GetUserRoleIds(this User user, bool showHidden = false)
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
-            var userRolesIds = user.UserRoles
-               .Where(cr => showHidden || cr.Role.IsActive)
-               .Select(cr => cr.Id)
-               .ToArray();
-
-            return userRolesIds;
-        }
+        #endregion
     }
 }

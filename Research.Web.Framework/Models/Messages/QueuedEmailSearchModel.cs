@@ -1,4 +1,4 @@
-﻿using Research.Web.Common;
+﻿
 using System;
 using System.ComponentModel.DataAnnotations;
 

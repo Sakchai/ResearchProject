@@ -1,6 +1,5 @@
 ﻿
 
-using Research.Web.Common;
 
 namespace Research.Web.Models.Messages
 {

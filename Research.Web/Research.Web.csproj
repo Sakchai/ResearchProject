@@ -95,6 +95,11 @@
   <ItemGroup>
     <None Include="Views\ActivityLog\ListLogs.cshtml" />
     <None Include="Views\ActivityLog\ListTypes.cshtml" />
+    <None Include="Views\Researcher\Create.cshtml" />
+    <None Include="Views\Researcher\List.cshtml" />
+    <None Include="Views\Researcher\_CreateOrUpdate.cshtml" />
+    <None Include="Views\Researcher\_CreateOrUpdate.Info.cshtml" />
+    <None Include="wwwroot\js\bbeditor\ed.js" />
   </ItemGroup>
 
   <ItemGroup>

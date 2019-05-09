@@ -1,0 +1,187 @@
+﻿@model ResearcherSearchModel
+
+@{
+    //page title
+    ViewBag.Title = "ข้อมูลนักวิจัย";
+
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        ข้อมูลนักวิจัย
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            เพิ่ม
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <input asp-for="FirstName" class="form-control text-box single-line" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName" class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <input asp-for="LastName" class="form-control text-box single-line" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AgencyId" class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <select asp-for="AgencyId" asp-items="Model.AvailableAgencies"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PersonTypeId" class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <select asp-for="PersonTypeId" asp-items="Model.AvailablePersonTypes"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IsCompleted" class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <input asp-for="IsCompleted" type="checkbox"/>
+                                </div>
+                            </div>                            
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-researchers" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        ค้นหา
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="researchers-grid"></div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#researchers-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("List", "Researcher"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: function() {
+                                                var data = {
+                                                    FirstName: $('#FirstName').val(),
+                                                    LastName: $('#LastName').val(),
+                                                    AgencyId: $('#AgencyId').val(),
+                                                    PersonTypeId: $('#PersonTypeId').val(),
+                                                    IsCompleted: $('#IsCompleted').val(),
+                                                };
+                                                //addAntiForgeryToken(data);
+                                                return data;
+                                            }
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors"
+                                    },
+                                    error: function (e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(Model.PageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(Model.AvailablePageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "คุณต้องการลบรายการนี้ใช่หรือไม่",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                {
+                                    field: "ResearcherCode",
+                                    title: "รหัสนักวิจัย",
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "FirstName",
+                                    title: "ชื่อ",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "LastName",
+                                    title: "นามสกุล",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "AgencyName",
+                                    title: "หน่วยงาน",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "PersonType",
+                                    title: "ประเภทบุคลากร",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "IsCompleted",
+                                    title: "สถานะเข้าใช้งาน",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '# if(IsCompleted) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                }, {
+                                    field: "Id",
+                                    title: "การกระทำ",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '<a class="btn btn-default" href="/Researcher/Info/#=Id#"><i class="fa fa-eye"></i></a>'                                }
+                                ]
+                            });
+                        });
+                    </script>
+
+                    <script>
+                        $(document).ready(function () {
+                            //search button
+                            $('#search-researchers').click(function () {
+                                //search
+                                var grid = $('#researchers-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                                return false;
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,4 @@
 ﻿@model RegisterModel
-@using System.Collections.Generic
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
 
 @inject IWebHelper webHelper
 @{
@@ -21,7 +18,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Project Proposal | Login</title>
+    <title>ลงทะเบียนสมัครนักวิจัย</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -51,8 +48,7 @@
 
         <div class="register-box-body">
             
-            <form id="ccSelectForm" asp-controller="User" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                <div asp-validation-summary="All" class="text-danger"></div>
+            <form asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                 <div class="form-group">
                     <label asp-for="TitleId" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
@@ -63,14 +59,14 @@
                 <div class="form-group">
                     <label asp-for="FirstName" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input asp-for="FirstName" class="form-control" />
+                        <input asp-for="FirstName" maxlength="100" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label asp-for="LastName" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input asp-for="LastName" class="form-control" />
+                        <input asp-for="LastName" maxlength="100" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
@@ -98,7 +94,7 @@
                 <div class="form-group has-feedback">
                     <label asp-for="IDCard" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input asp-for="IDCard" class="form-control" />
+                        <input asp-for="IDCard" maxlength="13" type="number" class="form-control" />
                         <span asp-validation-for="IDCard" class="text-danger"></span>
                     </div>
                 </div>
@@ -108,7 +104,7 @@
                 <div class="form-group has-feedback">
                     <label asp-for="Email" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input asp-for="Email" class="form-control" placeholder="อีเมล"/>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="อีเมล"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
@@ -116,7 +112,7 @@
                 <div class="form-group has-feedback">
                     <label asp-for="Password" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input asp-for="Password" class="form-control" placeholder="รหัสผ่าน" />
+                        <input asp-for="Password" type="password" class="form-control" placeholder="รหัสผ่าน" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
@@ -124,14 +120,14 @@
                 <div class="form-group has-feedback">
                     <label asp-for="ConfirmPassword" class="col-md-4 control-label"></label>
                     <div class="col-md-8">
-                        <input asp-for="ConfirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน"/>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="ยืนยันรหัสผ่าน"/>
                         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-8">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">ลงทะเบียน</button>
+                        <input type="submit" value="ลงทะเบียน" class="btn btn-primary btn-block btn-flat">
                     </div>
                 </div>
             </form>

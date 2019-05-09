@@ -2,6 +2,7 @@
 using Research.Data.Infrastructure;
 using Research.Infrastructure.Mapper;
 using Research.Web.Framework.Models;
+using Research.Web.Models;
 using System;
 
 namespace Research.Web.Framework.Mapper.Extensions

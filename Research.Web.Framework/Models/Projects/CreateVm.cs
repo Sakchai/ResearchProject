@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Research.Domain;
-using Research.Web.Common;
 using Research.Web.Models.Researchers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

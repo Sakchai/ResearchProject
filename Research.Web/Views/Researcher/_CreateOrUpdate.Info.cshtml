@@ -1,0 +1,101 @@
+﻿@model ResearcherModel
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group advanced-setting">
+                <div class="col-md-3">
+                    <nop-label asp-for="TitleId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles"/>
+                    <span asp-validation-for="TitleId"></span>
+                </div>
+            </div>
+            @if (Model.Id > 0)
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="FirstName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="FirstName" />
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
+                </div>
+            }
+            <div class="form-group advanced-setting">
+                <div class="col-md-3">
+                    <nop-label asp-for="LastName" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="LastName" />
+                    <span asp-validation-for="LastName"></span>
+                </div>
+            </div>
+            <div class="form-group advanced-setting">
+                <div class="col-md-3">
+                    <nop-label asp-for="Gender" />
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="col-md-3">
+                        <input type="radio" asp-for="Gender" value="M" checked="@(Model.Gender == "M")" id="gender-male" />
+                        เพศชาย
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" asp-for="Gender" value="F" checked="@(Model.Gender == "F")" id="gender-female" />
+                        เพศหญิง
+                    </div>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PersonTypeId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="PersonTypeId"  asp-items="Model.AvailablePersonTypes"/>
+                    <span asp-validation-for="PersonTypeId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="Email" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="IsActive" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="IsActive" />
+                    <span asp-validation-for="IsActive"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PhoneNumber" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber"></span>
+                </div>
+            </div>
+            <div class="form-group advanced-setting">
+                <div class="col-md-3">
+                    <nop-label asp-for="AgencyId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AgencyId"  asp-items="Model.AvailableAgencies"/>
+                    <span asp-validation-for="AgencyId"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -2,7 +2,7 @@
 using Research.Infrastructure;
 using Research.Web.Framework.Models;
 
-namespace Research.Web.Common
+namespace Research.Web.Models
 {
     public abstract partial class BaseSearchModel : BaseResearchModel, IPagingRequestModel
     {

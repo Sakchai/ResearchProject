@@ -91,11 +91,7 @@ namespace Research.Data
         //{
         //    return EntityHelper.Encrypt(clearText);
         //}
-        //chai
-        public virtual bool IsRegistered()
-        {
-            return true;
-        }
+
     }
 
 

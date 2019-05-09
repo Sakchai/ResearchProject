@@ -27,7 +27,7 @@ namespace Research.Web.Models.Logging
 
         //[NopResourceDisplayName("Admin.Customers.Customers.ActivityLog.IpAddress")]
         public string IpAddress { get; set; }
-
+        public string UserEmail { get; set; }
         #endregion
     }
 }

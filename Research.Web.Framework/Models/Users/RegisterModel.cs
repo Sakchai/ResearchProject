@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using FluentValidation.Attributes;
 using System.ComponentModel.DataAnnotations;
 using Research.Web.Validators.Users;
-
 namespace Research.Web.Models.Users
 {
     /// <summary>
     /// Represents a register model
     /// </summary>
-    [Validator(typeof(RegisterValidator))]
-    public class RegisterModel
+    //[Validator(typeof(RegisterValidator))]
+    public class RegisterModel : BaseResearchModel
     {
         public RegisterModel()
         {
@@ -18,7 +17,7 @@ namespace Research.Web.Models.Users
             this.AvailableAgencies = new List<SelectListItem>();
         }
         [Required]
-        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "อีเมล")]
         public string Email { get; set; }
 

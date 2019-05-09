@@ -1,7 +1,6 @@
 ﻿
-using Research.Web.Framework.Models;
 
-namespace Research.Web.Framework.Models
+namespace Research.Web.Models
 {
     /// <summary>
     /// Represents base nopCommerce entity model

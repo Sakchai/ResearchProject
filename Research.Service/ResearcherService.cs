@@ -3,6 +3,7 @@ using Research.Data;
 using System.Linq;
 using Research.Core;
 using Research.Core.Data;
+using Research.Core.Caching;
 
 namespace Research.Services
 {
@@ -93,9 +94,23 @@ namespace Research.Services
             return customers;
         }
 
-        public Researcher GetResearcherById(int? researcherId)
+
+        public void InsertResearcher(Researcher researcher)
         {
-            throw new NotImplementedException();
+            if (researcher == null)
+                throw new ArgumentNullException(nameof(researcher));
+
+            if (researcher is IEntityForCaching)
+                throw new ArgumentException("Cacheable entities are not supported by Entity Framework");
+
+            _researcherRepository.Insert(researcher);
+
+            //cache
+            //_cacheManager.RemoveByPattern(ResearchResearcherDefaults.ResearchersPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchResearcherDefaults.ResearchersPatternCacheKey);
+
+            ////event notification
+            //_eventPublisher.EntityInserted(researcher);
         }
     }
 }

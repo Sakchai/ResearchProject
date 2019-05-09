@@ -3,6 +3,7 @@ using Research.Core.Domain.Users;
 using Research.Data;
 using Research.Infrastructure.Mapper;
 using Research.Web.Framework.Models;
+using Research.Web.Models;
 using Research.Web.Models.Directory;
 using Research.Web.Models.Logging;
 using Research.Web.Models.Messages;
@@ -93,8 +94,10 @@ namespace Research.Web.Framework.Infrastructure.Mapper
         {
             CreateMap<ActivityLog, ActivityLogModel>()
                 .ForMember(model => model.ActivityLogTypeName, options => options.MapFrom(entity => entity.ActivityLogType.Name))
-                .ForMember(model => model.CreatedOn, options => options.Ignore());
+                .ForMember(model => model.CreatedOn, options => options.Ignore())
+                //chai
                 //.ForMember(model => model.UserEmail, options => options.MapFrom(entity => entity.User.Email));
+                .ForMember(model => model.UserEmail, options => options.Ignore());
             CreateMap<ActivityLogModel, ActivityLog>()
                 .ForMember(entity => entity.ActivityLogType, options => options.Ignore())
                 .ForMember(entity => entity.ActivityLogTypeId, options => options.Ignore())
@@ -167,9 +170,21 @@ namespace Research.Web.Framework.Infrastructure.Mapper
         /// </summary>
         protected virtual void CreateResearchersMaps()
         {
-            CreateMap<Researcher, ResearcherModel>();
+            CreateMap<Researcher, ResearcherModel>()
+                .ForMember(model => model.TitleName, options => options.MapFrom(entity => entity.Title != null ? entity.Title.TitleNameTH : null))
+                .ForMember(model => model.AgencyName, options => options.MapFrom(entity => entity.Agency != null ? entity.Agency.Name : null))
+                .ForMember(model => model.FullName, options => options.Ignore())
+                .ForMember(model => model.IsCompleted, options => options.Ignore());
+
             CreateMap<ResearcherModel, Researcher>()
-                .ForMember(entity => entity.Deleted, options => options.Ignore());
+                .ForMember(entity => entity.Deleted, options => options.Ignore())
+                .ForMember(entity => entity.AcademicRank, options => options.Ignore())
+                .ForMember(entity => entity.Address, options => options.Ignore())
+                .ForMember(entity => entity.Agency, options => options.Ignore())
+                .ForMember(entity => entity.Users, options => options.Ignore())
+                .ForMember(entity => entity.PersonType, options => options.Ignore());
+            //CreateMap<User, RegisterModel>();
+            //CreateMap<RegisterModel, User>();
         }
 
         #endregion

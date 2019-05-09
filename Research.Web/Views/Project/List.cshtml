@@ -84,10 +84,10 @@
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label asp-for="ResearchIssueId" class="col-md-4 control-label"></label>
+                                    <label asp-for="ProgressStatusId" class="col-md-4 control-label"></label>
                                     <div class="col-md-8">
-                                        <select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchStatuses"></select>
-                                        <span asp-validation-for="ResearchIssueId"></span>
+                                        <select asp-for="ProgressStatusId" asp-items="Model.AvailableProgressStatuses"></select>
+                                        <span asp-validation-for="ProgressStatusId"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -128,7 +128,7 @@
                                 SearchProjectName: $('#@Html.IdFor(model => model.SearchProjectName)').val(),
                                 FiscalScheduleId: $('#@Html.IdFor(model => model.FiscalScheduleId)').val(),
                                 FacultyId: $('#@Html.IdFor(model => model.FacultyId)').val(),
-                                ResearchIssueId: $('#@Html.IdFor(model => model.ResearchIssueId)').val(),
+                                ResearchIssueId: $('#@Html.IdFor(model => model.ProgressStatusId)').val(),
                                 ProjectStatusId: $('#@Html.IdFor(model => model.ProjectStatusId)').val()
                             };
                             

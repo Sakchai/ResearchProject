@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Research.Web.Common;
-using Research.Web.Models.Factories;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,7 +12,7 @@ namespace Research.Web.Models.Projects
             AvailableFiscalYears = new List<SelectListItem>();
             AvailableFaculties = new List<SelectListItem>();
             AvailableProjectStatuses = new List<SelectListItem>();
-            AvailableResearchStatuses = new List<SelectListItem>();
+            AvailableProgressStatuses = new List<SelectListItem>();
         }
 
         public int Id { get; set; }
@@ -28,15 +26,15 @@ namespace Research.Web.Models.Projects
         [Display(Name = "หน่วยงานหลัก")]
         public int FacultyId { get; set; }
 
-        [Display(Name = "ประเด็นการวิจัย")]
-        public int ResearchIssueId { get; set; }
+        [Display(Name = "สถานะโครงการวิจัย")]
+        public int ProgressStatusId { get; set; }
 
-        [Display(Name = "สถานะโครงการ")]
+        [Display(Name = "สถานะผลการพิจารณา")]
         public int ProjectStatusId { get; set; }
 
         public IList<SelectListItem> AvailableFiscalYears { get; set; }
         public IList<SelectListItem> AvailableFaculties { get; set; }
         public IList<SelectListItem> AvailableProjectStatuses { get; set; }
-        public IList<SelectListItem> AvailableResearchStatuses { get; set; }
+        public IList<SelectListItem> AvailableProgressStatuses { get; set; }
     }
 }

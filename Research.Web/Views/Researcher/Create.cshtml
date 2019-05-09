@@ -1,0 +1,30 @@
+﻿@model ResearcherModel
+
+@{    
+    //page title
+    ViewBag.Title = "เพิ่มรายการนักวิจัย";
+}
+
+<form asp-controller="Researcher" asp-action="Create" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            เพิ่มรายการนักวิจัย
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับสู่หน้ารายการข้อมูลผู้วิจัย</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึก
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>
+            
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

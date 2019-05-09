@@ -28,17 +28,29 @@ namespace Research.Services
         IPagedList<Researcher> GetAllResearchers(string email = null, string username = null, string firstName = null, string lastName = null, int dayOfBirth = 0, int monthOfBirth = 0, string phone = null, string zipPostalCode = null, string ipAddress = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
 
         /// <summary>
+        /// Gets a researcher
+        /// </summary>
+        /// <param name="researcherId">Researcher identifier</param>
+        /// <returns>Researcher</returns>
+        Researcher GetResearcherById(int researcherId);
+
+        /// <summary>
+        /// Inserts researcher
+        /// </summary>
+        /// <param name="researcher">Researcher</param>
+        void InsertResearcher(Researcher researcher);
+
+        /// <summary>
+        /// Updates the researcher
+        /// </summary>
+        /// <param name="researcher">Researcher</param>
+        void UpdateResearcher(Researcher researcher);
+        /// <summary>
         /// Delete a Researcher
         /// </summary>
         /// <param name="researcher">Researcher</param>
         void DeleteResearcher(Researcher researcher);
 
-        /// <summary>
-        /// Gets a Researcher
-        /// </summary>
-        /// <param name="researcherId">Researcher identifier</param>
-        /// <returns>A Researcher</returns>
-        Researcher GetResearcherById(int researcherId);
 
         /// <summary>
         /// Get researcher by email
@@ -47,11 +59,6 @@ namespace Research.Services
         /// <returns>Researcher</returns>
         Researcher GetResearcherByEmail(string email);
 
-        /// <summary>
-        /// Updates the researcher
-        /// </summary>
-        /// <param name="researcher">Researcher</param>
-        void UpdateResearcher(Researcher researcher);
 
 
         /// <summary>
@@ -60,6 +67,5 @@ namespace Research.Services
         /// <param name="customer">Researcher</param>
         /// <param name="address">Address</param>
         void RemoveResearcherEducation(Researcher researcher, ResearcherEducation researcherEducation);
-        Researcher GetResearcherById(int? researcherId);
     }
 }

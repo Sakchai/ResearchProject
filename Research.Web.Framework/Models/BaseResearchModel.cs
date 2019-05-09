@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Research.Web.Framework.Models
+namespace Research.Web.Models
 {
     /// <summary>
-    /// Represents base nopCommerce model
+    /// Represents base research model
     /// </summary>
     public partial class BaseResearchModel
     {
