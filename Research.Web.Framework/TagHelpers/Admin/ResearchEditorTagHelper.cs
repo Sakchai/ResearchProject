@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Research.Core;
-using Research.Web.Framework.Extensions;
+using Research.Web.Extensions;
 
 namespace Research.Web.Framework.TagHelpers.Admin
 {

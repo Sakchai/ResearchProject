@@ -1,8 +1,6 @@
 using System;
-using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Research.Core.Data;
+
 using Research.Data;
 using Research.Services.Events;
 
@@ -15,18 +13,23 @@ namespace Research.Services.Media
     {
         #region Fields
 
-        private readonly IEventPublisher _eventPubisher;
         private readonly IRepository<Download> _downloadRepository;
+        private readonly IEventPublisher _eventPubisher;
 
         #endregion
 
         #region Ctor
 
-        public DownloadService(IEventPublisher eventPubisher,
-            IRepository<Download> downloadRepository)
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="downloadRepository">Download repository</param>
+        /// <param name="eventPubisher"></param>
+        public DownloadService(IRepository<Download> downloadRepository,
+            IEventPublisher eventPubisher)
         {
-            _eventPubisher = eventPubisher;
             _downloadRepository = downloadRepository;
+            _eventPubisher = eventPubisher;
         }
 
         #endregion
@@ -42,7 +45,7 @@ namespace Research.Services.Media
         {
             if (downloadId == 0)
                 return null;
-
+            
             return _downloadRepository.GetById(downloadId);
         }
 
@@ -105,23 +108,7 @@ namespace Research.Services.Media
             _eventPubisher.EntityUpdated(download);
         }
 
-        /// <summary>
-        /// Gets the download binary array
-        /// </summary>
-        /// <param name="file">File</param>
-        /// <returns>Download binary array</returns>
-        public virtual byte[] GetDownloadBits(IFormFile file)
-        {
-            using (var fileStream = file.OpenReadStream())
-            {
-                using (var ms = new MemoryStream())
-                {
-                    fileStream.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    return fileBytes;
-                }
-            }
-        }
+     
 
         #endregion
     }

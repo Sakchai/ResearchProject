@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Research.Web.Framework.Extensions;
+using Research.Web.Extensions;
 
 namespace Research.Web.Framework.TagHelpers.Admin
 {

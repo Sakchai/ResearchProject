@@ -74,8 +74,8 @@
                         <nop-date-picker asp-day-name="@Html.NameFor(x => x.DateOfBirthDay)"
                                          asp-month-name="@Html.NameFor(x => x.DateOfBirthMonth)"
                                          asp-year-name="@Html.NameFor(x => x.DateOfBirthYear)"
-                                         asp-begin-year="@(DateTime.Now.Year - 110)"
-                                         asp-end-year="@(DateTime.Now.Year)"
+                                         asp-begin-year="@(DateTime.Now.Year + 543 - 110)"
+                                         asp-end-year="@(DateTime.Now.Year + 543)"
                                          asp-selected-day="@Model.DateOfBirthDay"
                                          asp-selected-month="@Model.DateOfBirthMonth"
                                          asp-selected-year="@Model.DateOfBirthYear" />
@@ -141,8 +141,18 @@
                 </div>
                 <div class="col-md-9">
                     <nop-editor asp-for="PictureId" />
+                    <span asp-validation-for="PictureId"></span>
                 </div>
             </div>
+            @*<div class="form-group">
+                <div class="col-md-3">
+                    รูปภาพ
+                </div>
+                <div class="col-md-9">
+                    <input name="uploadedFile" type="file" />
+
+                </div>
+            </div>*@
 
 
         </div>

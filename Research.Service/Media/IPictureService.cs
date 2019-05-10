@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Research.Core;
+using Research.Core.Domain.Media;
 using Research.Data;
 using Research.Enum;
 
@@ -16,7 +18,7 @@ namespace Research.Services.Media
         /// <returns>Picture binary</returns>
         byte[] LoadPictureBinary(Picture picture);
 
- 
+
         /// <summary>
         /// Gets the default picture URL
         /// </summary>
@@ -24,7 +26,7 @@ namespace Research.Services.Media
         /// <param name="defaultPictureType">Default picture type</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <returns>Picture URL</returns>
-        string GetDefaultPictureUrl(int targetSize = 0,
+        string GetDefaultPictureUrl(int targetSize = 0, 
             PictureType defaultPictureType = PictureType.Entity,
             string storeLocation = null);
 
@@ -37,10 +39,10 @@ namespace Research.Services.Media
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <param name="defaultPictureType">Default picture type</param>
         /// <returns>Picture URL</returns>
-        string GetPictureUrl(int pictureId,
+        string GetPictureUrl(int pictureId, 
             int targetSize = 0,
-            bool showDefaultPicture = true,
-            string storeLocation = null,
+            bool showDefaultPicture = true, 
+            string storeLocation = null, 
             PictureType defaultPictureType = PictureType.Entity);
 
         /// <summary>
@@ -52,10 +54,10 @@ namespace Research.Services.Media
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <param name="defaultPictureType">Default picture type</param>
         /// <returns>Picture URL</returns>
-        string GetPictureUrl(Picture picture,
+        string GetPictureUrl(Picture picture, 
             int targetSize = 0,
-            bool showDefaultPicture = true,
-            string storeLocation = null,
+            bool showDefaultPicture = true, 
+            string storeLocation = null, 
             PictureType defaultPictureType = PictureType.Entity);
 
         /// <summary>
@@ -88,6 +90,13 @@ namespace Research.Services.Media
         /// <returns>Paged list of pictures</returns>
         IPagedList<Picture> GetPictures(int pageIndex = 0, int pageSize = int.MaxValue);
 
+        /// <summary>
+        /// Gets picture by Researcher identifier
+        /// </summary>
+        /// <param name="researchtId">Researcher identifier</param>
+        /// <param name="recordsToReturn">Number of records to return. 0 if you want to get all items</param>
+        /// <returns>Pictures</returns>
+        Picture GetPicturesByResearcherId(int researchtId, int recordsToReturn = 0);
 
         /// <summary>
         /// Inserts a picture
@@ -100,7 +109,7 @@ namespace Research.Services.Media
         /// <param name="isNew">A value indicating whether the picture is new</param>
         /// <param name="validateBinary">A value indicating whether to validated provided picture binary</param>
         /// <returns>Picture</returns>
-        Picture InsertPicture(byte[] pictureBinary, string mimeType, string seoFilename,
+        Picture InsertPicture(byte[] pictureBinary, string mimeType, string seoFilename, 
             string altAttribute = null, string titleAttribute = null,
             bool isNew = true, bool validateBinary = true);
 
@@ -121,7 +130,6 @@ namespace Research.Services.Media
             bool isNew = true, bool validateBinary = true);
 
 
-
         /// <summary>
         /// Validates input picture dimensions
         /// </summary>
@@ -130,20 +138,16 @@ namespace Research.Services.Media
         /// <returns>Picture binary or throws an exception</returns>
         byte[] ValidatePicture(byte[] pictureBinary, string mimeType);
 
-
+        /// <summary>
+        /// Gets or sets a value indicating whether the images should be stored in data base.
+        /// </summary>
+        bool StoreInDb { get; set; }
 
         /// <summary>
         /// Get pictures hashes
         /// </summary>
         /// <param name="picturesIds">Pictures Ids</param>
         /// <returns></returns>
-       // IDictionary<int, string> GetPicturesHash(int[] picturesIds);
-
-        /// <summary>
-        /// Get researcher picture 
-        /// </summary>
-        /// <param name="researcher">Researcher</param>
-        /// <returns>Picture</returns>
-        Picture GetResearcherPicture(Researcher researcher);
+        IDictionary<int, string> GetPicturesHash(int [] picturesIds);
     }
 }

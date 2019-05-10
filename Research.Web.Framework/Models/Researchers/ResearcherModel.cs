@@ -1,8 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Research.Data;
-using Research.Enum;
-using Research.Web.Framework.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -56,7 +52,7 @@ namespace Research.Web.Models.Researchers
             DateTime? dateOfBirth = null;
             try
             {
-                dateOfBirth = new DateTime(DateOfBirthYear.Value, DateOfBirthMonth.Value, DateOfBirthDay.Value);
+                dateOfBirth = new DateTime(DateOfBirthYear.Value - 543 , DateOfBirthMonth.Value, DateOfBirthDay.Value);
             }
             catch { }
             return dateOfBirth;
@@ -76,6 +72,7 @@ namespace Research.Web.Models.Researchers
         [Display(Name = "โทรศัพท์")]
         public string Telephone { get; set; }
         public string LastUpdateBy { get; set; }
+        [UIHint("Picture")]
         [Display(Name = "รูปภาพนักวิจัย")]
         public int? PictureId { get; set; }
 

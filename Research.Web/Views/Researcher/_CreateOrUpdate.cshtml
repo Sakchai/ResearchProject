@@ -13,16 +13,16 @@
                 </div>
             </div>
         </div>*@
-        <nop-tabs id="topic-edit">
+        <nop-tabs id="researcher-edit">
             <nop-tab asp-name="tab-info" asp-default="true" asp-title="รายละเอียดนักวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-tab>
-            <nop-tab asp-name="tab-edu" class="advanced-setting" asp-title="ข้อมูลที่อยู่และข้อมูลการศึกษา">@await Html.PartialAsync("_CreateOrUpdate.Edu", Model)</nop-tab>
+            <nop-tab asp-name="tab-edu" asp-title="ข้อมูลที่อยู่และข้อมูลการศึกษา">@await Html.PartialAsync("_CreateOrUpdate.Edu", Model)</nop-tab>
         </nop-tabs>
     </div>
 </div>
 
 @{
     //custom tabs
-    var eventMessage = new AdminTabStripCreated(this.Html, "research-edit");
+    var eventMessage = new AdminTabStripCreated(this.Html, "researcher-edit");
     eventPublisher.Publish(eventMessage);
     foreach (var eventBlock in eventMessage.BlocksToRender)
     {

@@ -1,7 +1,5 @@
-using System;
-using Microsoft.AspNetCore.Http;
 using Research.Data;
-
+using System;
 namespace Research.Services.Media
 {
     /// <summary>
@@ -41,11 +39,6 @@ namespace Research.Services.Media
         /// <param name="download">Download</param>
         void UpdateDownload(Download download);
 
-        /// <summary>
-        /// Gets the download binary array
-        /// </summary>
-        /// <param name="file">File</param>
-        /// <returns>Download binary array</returns>
-        byte[] GetDownloadBits(IFormFile file);
+
     }
 }

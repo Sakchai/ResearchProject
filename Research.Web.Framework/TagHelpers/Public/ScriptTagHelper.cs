@@ -5,7 +5,7 @@ using System;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Research.Web.Framework.UI;
-using Research.Web.Framework.Extensions;
+using Research.Web.Extensions;
 
 namespace Research.Web.Framework.TagHelpers.Public
 {

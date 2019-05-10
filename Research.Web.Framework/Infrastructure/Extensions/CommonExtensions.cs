@@ -7,7 +7,7 @@ using Research.Services.Helpers;
 using Research.Web.Framework.Kendoui;
 using Research.Web.Framework.Models;
 
-namespace Research.Web.Framework.Extensions
+namespace Research.Web.Extensions
 {
     /// <summary>
     /// Extensions

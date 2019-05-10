@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Core;
 using Research.Data;
 using Research.Services;
-using Research.Web.Factories;
-using Research.Web.Framework.Extensions;
-using Research.Web.Framework.Mapper.Extensions;
+using Research.Web.Extensions;
 using Research.Web.Models.Factories;
 using Research.Web.Models.Researchers;
 

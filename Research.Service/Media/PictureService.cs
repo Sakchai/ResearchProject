@@ -31,42 +31,55 @@ namespace Research.Services.Media
     {
         #region Fields
 
-        private readonly IDataProvider _dataProvider;
-        private readonly IDbContext _dbContext;
-        private readonly IEventPublisher _eventPublisher;
-        private readonly IResearchFileProvider _fileProvider;
         private readonly IRepository<Picture> _pictureRepository;
-        private readonly IRepository<PictureBinary> _pictureBinaryRepository;
-        private readonly IRepository<Researcher> _researcherPictureRepository;
+        private readonly IRepository<Researcher> _researcherRepository;
         private readonly ISettingService _settingService;
         private readonly IWebHelper _webHelper;
+        private readonly IDbContext _dbContext;
+        private readonly IEventPublisher _eventPublisher;
         private readonly MediaSettings _mediaSettings;
+        private readonly IDataProvider _dataProvider;
+        private readonly IResearchFileProvider _fileProvider;
+        private readonly IRepository<PictureBinary> _pictureBinaryRepository;
 
         #endregion
 
         #region Ctor
 
-        public PictureService(IDataProvider dataProvider,
-            IDbContext dbContext,
-            IEventPublisher eventPublisher,
-            IResearchFileProvider fileProvider,
-            IRepository<Picture> pictureRepository,
-            IRepository<PictureBinary> pictureBinaryRepository,
-            IRepository<Researcher> researcherPictureRepository,
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="pictureRepository">Picture repository</param>
+        /// <param name="productPictureRepository">Product picture repository</param>
+        /// <param name="settingService">Setting service</param>
+        /// <param name="webHelper">Web helper</param>
+        /// <param name="dbContext">Database context</param>
+        /// <param name="eventPublisher">Event publisher</param>
+        /// <param name="mediaSettings">Media settings</param>
+        /// <param name="dataProvider">Data provider</param>
+        /// <param name="fileProvider">File provider</param>
+        /// <param name="pictureBinaryRepository">PictureBinary repository</param>
+        public PictureService(IRepository<Picture> pictureRepository,
+            IRepository<Researcher> productPictureRepository,
             ISettingService settingService,
             IWebHelper webHelper,
-            MediaSettings mediaSettings)
+            IDbContext dbContext,
+            IEventPublisher eventPublisher,
+            MediaSettings mediaSettings,
+            IDataProvider dataProvider,
+            IResearchFileProvider fileProvider,
+            IRepository<PictureBinary> pictureBinaryRepository)
         {
-            this._dataProvider = dataProvider;
-            this._dbContext = dbContext;
-            this._eventPublisher = eventPublisher;
-            this._fileProvider = fileProvider;
             this._pictureRepository = pictureRepository;
-            this._pictureBinaryRepository = pictureBinaryRepository;
-            this._researcherPictureRepository = researcherPictureRepository;
+            this._researcherRepository = productPictureRepository;
             this._settingService = settingService;
             this._webHelper = webHelper;
+            this._dbContext = dbContext;
+            this._eventPublisher = eventPublisher;
             this._mediaSettings = mediaSettings;
+            this._dataProvider = dataProvider;
+            this._fileProvider = fileProvider;
+            this._pictureBinaryRepository = pictureBinaryRepository;
         }
 
         #endregion
@@ -79,7 +92,7 @@ namespace Research.Services.Media
         /// <param name="originalSize">The original picture size</param>
         /// <param name="targetSize">The target picture size (longest side)</param>
         /// <param name="resizeType">Resize type</param>
-        /// <param name="ensureSizePositive">A value indicating whether we should ensure that size values are positive</param>
+        /// <param name="ensureSizePositive">A value indicatingh whether we should ensure that size values are positive</param>
         /// <returns></returns>
         protected virtual Size CalculateDimensions(Size originalSize, int targetSize,
             ResizeType resizeType = ResizeType.LongestSide, bool ensureSizePositive = true)
@@ -101,7 +114,6 @@ namespace Research.Services.Media
                         width = targetSize;
                         height = originalSize.Height * (targetSize / (float)originalSize.Width);
                     }
-
                     break;
                 case ResizeType.Width:
                     width = targetSize;
@@ -115,13 +127,13 @@ namespace Research.Services.Media
                     throw new Exception("Not supported ResizeType");
             }
 
-            if (!ensureSizePositive) 
-                return new Size((int)Math.Round(width), (int)Math.Round(height));
-
-            if (width < 1)
-                width = 1;
-            if (height < 1)
-                height = 1;
+            if (ensureSizePositive)
+            {
+                if (width < 1)
+                    width = 1;
+                if (height < 1)
+                    height = 1;
+            }
 
             //we invoke Math.Round to ensure that no white background is rendered - https://www.nopcommerce.com/boards/t/40616/image-resizing-bug.aspx
             return new Size((int)Math.Round(width), (int)Math.Round(height));
@@ -153,7 +165,6 @@ namespace Research.Services.Media
                     lastPart = "ico";
                     break;
             }
-
             return lastPart;
         }
 
@@ -251,8 +262,7 @@ namespace Research.Services.Media
             //storeLocation = !string.IsNullOrEmpty(storeLocation)
             //                        ? storeLocation
             //                        : _webHelper.GetStoreLocation();
-            //var url = storeLocation + "images/thumbs/";
-            var url = "images/thumbs/";
+            var url = storeLocation + "/images/thumbs/";
 
             if (_mediaSettings.MultipleThumbDirectories)
             {
@@ -347,7 +357,7 @@ namespace Research.Services.Media
                         break;
 
                     case PngEncoder pngEncoder:
-                        pngEncoder.ColorType = PngColorType.RgbWithAlpha;
+                        //pngEncoder.Gamma = (float) PngColorType.RgbWithAlpha;
                         pngEncoder.Encode(image, stream);
                         break;
 
@@ -365,7 +375,6 @@ namespace Research.Services.Media
                         imageEncoder.Encode(image, stream);
                         break;
                 }
-
                 return stream.ToArray();
             }
         }
@@ -416,6 +425,7 @@ namespace Research.Services.Media
         }
 
 
+
         /// <summary>
         /// Gets the default picture URL
         /// </summary>
@@ -431,27 +441,28 @@ namespace Research.Services.Media
             switch (defaultPictureType)
             {
                 case PictureType.Avatar:
-                    defaultImageFileName = _settingService.GetSettingByKey("Media.Customer.DefaultAvatarImageName", ResearchMediaDefaults.DefaultAvatarFileName);
+                    defaultImageFileName = _settingService.GetSettingByKey("Media.User.DefaultAvatarImageName", ResearchMediaDefaults.DefaultAvatarFileName);
                     break;
                 case PictureType.Entity:
                 default:
                     defaultImageFileName = _settingService.GetSettingByKey("Media.DefaultImageName", ResearchMediaDefaults.DefaultImageFileName);
                     break;
             }
-
             var filePath = GetPictureLocalPath(defaultImageFileName);
             if (!_fileProvider.FileExists(filePath))
             {
-                return string.Empty;
+                return "";
             }
+
 
             if (targetSize == 0)
             {
                 //var url = (!string.IsNullOrEmpty(storeLocation)
                 //                 ? storeLocation
                 //                 : _webHelper.GetStoreLocation())
-                //                 + "images/" + defaultImageFileName;
-                var url =  "images/" + defaultImageFileName;
+                //                 + 
+                //                 "images/" + defaultImageFileName;
+                var url = "images/" + defaultImageFileName;
                 return url;
             }
             else
@@ -472,7 +483,6 @@ namespace Research.Services.Media
                         SaveThumb(thumbFilePath, thumbFileName, imageFormat.DefaultMimeType, pictureBinary);
                     }
                 }
-
                 var url = GetThumbUrl(thumbFileName, storeLocation);
                 return url;
             }
@@ -522,7 +532,6 @@ namespace Research.Services.Media
                 {
                     url = GetDefaultPictureUrl(targetSize, defaultPictureType, storeLocation);
                 }
-
                 return url;
             }
 
@@ -557,7 +566,6 @@ namespace Research.Services.Media
                     ? $"{picture.Id:0000000}_{seoFileName}_{targetSize}.{lastPart}"
                     : $"{picture.Id:0000000}_{targetSize}.{lastPart}";
             }
-
             var thumbFilePath = GetThumbLocalPath(thumbFileName);
 
             //the named mutex helps to avoid creating the same files in different threads,
@@ -597,8 +605,8 @@ namespace Research.Services.Media
 
                     mutex.ReleaseMutex();
                 }
-            }
 
+            }
             url = GetThumbUrl(thumbFileName, storeLocation);
             return url;
         }
@@ -767,7 +775,33 @@ namespace Research.Services.Media
             return picture;
         }
 
-    
+        /// <summary>
+        /// Updates a SEO filename of a picture
+        /// </summary>
+        /// <param name="pictureId">The picture identifier</param>
+        /// <param name="seoFilename">The SEO filename</param>
+        /// <returns>Picture</returns>
+        public virtual Picture SetSeoFilename(int pictureId, string seoFilename)
+        {
+            var picture = GetPictureById(pictureId);
+            if (picture == null)
+                throw new ArgumentException("No picture found with the specified id");
+
+            //update if it has been changed
+            if (seoFilename != picture.SeoFilename)
+            {
+                //update picture
+                picture = UpdatePicture(picture.Id,
+                    LoadPictureBinary(picture),
+                    picture.MimeType,
+                    seoFilename,
+                    picture.AltAttribute,
+                    picture.TitleAttribute,
+                    true,
+                    false);
+            }
+            return picture;
+        }
 
         /// <summary>
         /// Validates input picture dimensions
@@ -798,26 +832,35 @@ namespace Research.Services.Media
         /// </summary>
         /// <param name="picturesIds">Pictures Ids</param>
         /// <returns></returns>
-        //public IDictionary<int, string> GetPicturesHash(int[] picturesIds)
-        //{
-        //    var supportedLengthOfBinaryHash = _dataProvider.SupportedLengthOfBinaryHash;
-        //    if (supportedLengthOfBinaryHash == 0 || !picturesIds.Any())
-        //        return new Dictionary<int, string>();
-
-        //    const string strCommand = "SELECT [PictureId], HASHBYTES('sha1', substring([BinaryData], 0, {0})) as [Hash] FROM [PictureBinary] where [PictureId] in ({1})";
-        //    return _dbContext
-        //        .QueryFromSql<PictureHashItem>(string.Format(strCommand, supportedLengthOfBinaryHash, picturesIds.Select(p => p.ToString()).Aggregate((all, current) => all + ", " + current))).Distinct()
-        //        .ToDictionary(p => p.PictureId, p => BitConverter.ToString(p.Hash).Replace("-", string.Empty));
-        //}
-
-        /// <summary>
-        /// Get product picture (for shopping cart and order details pages)
-        /// </summary>
-        /// <param name="product">Product</param>
-        /// <returns>Picture</returns>
-        public Picture GetResearcherPicture(Researcher researcher)
+        public IDictionary<int, string> GetPicturesHash(int[] picturesIds)
         {
-            throw new NotImplementedException();
+            var supportedLengthOfBinaryHash = _dataProvider.SupportedLengthOfBinaryHash;
+            if (supportedLengthOfBinaryHash == 0 || !picturesIds.Any())
+                return new Dictionary<int, string>();
+
+            const string strCommand = "SELECT [Id] as [PictureId], HASHBYTES('sha1', substring([PictureBinary], 0, {0})) as [Hash] FROM [Picture] where [Id] in ({1})";
+            return _dbContext
+                .QueryFromSql<PictureHashItem>(string.Format(strCommand, supportedLengthOfBinaryHash, picturesIds.Select(p => p.ToString()).Aggregate((all, current) => all + ", " + current))).Distinct()
+                .ToDictionary(p => p.PictureId, p => BitConverter.ToString(p.Hash).Replace("-", ""));
+        }
+
+    
+        public Picture GetPicturesByResearcherId(int researcherId, int recordsToReturn = 0)
+        {
+            if (researcherId == 0)
+                return new Picture();
+
+
+            var query = from p in _pictureRepository.Table
+                        join pp in _researcherRepository.Table on p.Id equals pp.PictureId
+                        where pp.Id == researcherId
+                        select p;
+
+            if (recordsToReturn > 0)
+                query = query.Take(recordsToReturn);
+
+            var pic = query.FirstOrDefault();
+            return pic;
         }
 
         #endregion
@@ -829,11 +872,14 @@ namespace Research.Services.Media
         /// </summary>
         public virtual bool StoreInDb
         {
-            get => _settingService.GetSettingByKey("Media.Images.StoreInDB", true);
+            get
+            {
+                return _settingService.GetSettingByKey("Media.Images.StoreInDB", true);
+            }
             set
             {
                 //check whether it's a new value
-                if (StoreInDb == value)
+                if (this.StoreInDb == value)
                     return;
 
                 //save the new setting value
@@ -878,7 +924,6 @@ namespace Research.Services.Media
                             //raise event?
                             //_eventPublisher.EntityUpdated(picture);
                         }
-
                         //save all at once
                         _pictureRepository.Update(pictures);
                         //detach them in order to release memory
@@ -888,9 +933,8 @@ namespace Research.Services.Media
                         }
                     }
                 }
-                catch
+                finally
                 {
-                    // ignored
                 }
             }
         }

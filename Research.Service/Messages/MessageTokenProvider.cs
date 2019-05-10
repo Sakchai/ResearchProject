@@ -22,7 +22,7 @@ namespace Research.Services.Messages
 
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly IUserService _userService;
-        private readonly IDownloadService _downloadService;
+       // private readonly IDownloadService _downloadService;
         private readonly IEventPublisher _eventPublisher;
         private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IWorkContext _workContext;
@@ -35,7 +35,7 @@ namespace Research.Services.Messages
 
         public MessageTokenProvider(IActionContextAccessor actionContextAccessor,
             IUserService userService,
-            IDownloadService downloadService,
+        //    IDownloadService downloadService,
             IEventPublisher eventPublisher,
             IUrlHelperFactory urlHelperFactory,
             IWorkContext workContext,
@@ -43,7 +43,7 @@ namespace Research.Services.Messages
         {
             this._actionContextAccessor = actionContextAccessor;
             this._userService = userService;
-            this._downloadService = downloadService;
+       //     this._downloadService = downloadService;
             this._eventPublisher = eventPublisher;
             this._urlHelperFactory = urlHelperFactory;
             this._workContext = workContext;

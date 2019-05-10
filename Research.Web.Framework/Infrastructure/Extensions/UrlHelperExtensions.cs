@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Research.Web.Framework.Extensions
+namespace Research.Web.Extensions
 {
     /// <summary>
     /// IUrlHelper extensions 

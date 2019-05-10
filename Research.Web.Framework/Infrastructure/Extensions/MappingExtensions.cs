@@ -5,7 +5,7 @@ using Research.Web.Framework.Models;
 using Research.Web.Models;
 using System;
 
-namespace Research.Web.Framework.Mapper.Extensions
+namespace Research.Web.Extensions
 {
     /// <summary>
     /// Represents the extensions to map entity to model and vise versa

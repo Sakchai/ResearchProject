@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Research.Core;
-using Research.Web.Framework.Extensions;
+using Research.Web.Extensions;
 using Research.Core.Domain.Common;
 
 namespace Research.Web.Framework.TagHelpers.Admin

@@ -41,6 +41,7 @@ using Research.Web.Areas.Admin.Factories;
 using Research.Web.Factories;
 using Research.Web.Framework;
 using Research.Web.Framework.Mvc.Routing;
+using Research.Web.Framework.UI;
 using Research.Web.Models.Factories;
 
 namespace Research.Web.Infrastructure
@@ -137,12 +138,13 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<CookieAuthenticationService>().As<IAuthenticationService>().InstancePerLifetimeScope();
             builder.RegisterType<UserActivityService>().As<IUserActivityService>().InstancePerLifetimeScope();
             builder.RegisterType<DateTimeHelper>().As<IDateTimeHelper>().InstancePerLifetimeScope();
-            //builder.RegisterType<PageHeadBuilder>().As<IPageHeadBuilder>().InstancePerLifetimeScope();
+            builder.RegisterType<PageHeadBuilder>().As<IPageHeadBuilder>().InstancePerLifetimeScope();
             builder.RegisterType<ScheduleTaskService>().As<IScheduleTaskService>().InstancePerLifetimeScope();
             //builder.RegisterType<ExportManager>().As<IExportManager>().InstancePerLifetimeScope();
             //builder.RegisterType<ImportManager>().As<IImportManager>().InstancePerLifetimeScope();
             //builder.RegisterType<PdfService>().As<IPdfService>().InstancePerLifetimeScope();
             //builder.RegisterType<UploadService>().As<IUploadService>().InstancePerLifetimeScope();
+            builder.RegisterType<PictureService>().As<IPictureService>().SingleInstance();
             builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();

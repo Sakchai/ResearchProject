@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Research.Data;
 using Research.Services;
 using Research.Services.Logging;
+using Research.Services.Media;
 using Research.Services.Security;
 using Research.Web.Factories;
-using Research.Web.Framework.Mapper.Extensions;
+using Research.Web.Extensions;
 using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Researchers;
 
@@ -20,6 +23,7 @@ namespace Research.Web.Controllers
         private readonly IPermissionService _permissionService;
         private readonly IResearcherModelFactory _researcherModelFactory;
         private readonly IResearcherService _researcherService;
+        private readonly IPictureService _pictureService;
 
         #endregion Fields
 
@@ -29,13 +33,15 @@ namespace Research.Web.Controllers
             IUserService userService,
             IPermissionService permissionService,
             IResearcherModelFactory researcherModelFactory,
-            IResearcherService researcherService)
+            IResearcherService researcherService,
+            IPictureService pictureService)
         {
             this._userActivityService = userActivityService;
             this._userService = userService;
             this._permissionService = permissionService;
             this._researcherModelFactory = researcherModelFactory;
             this._researcherService = researcherService;
+            this._pictureService = pictureService;
         }
 
         #endregion
@@ -182,8 +188,9 @@ namespace Research.Web.Controllers
             {
 
                 var researcher = model.ToEntity<Researcher>();
-                _researcherService.InsertResearcher(researcher);
 
+               // uploadResearcherPicture(uploadedFile, researcher);
+                _researcherService.InsertResearcher(researcher);
                 SuccessNotification("Admin.ContentManagement.Researchers.Added");
 
                 //activity log
@@ -205,6 +212,7 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
+   
         public virtual IActionResult Edit(int id)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
@@ -235,6 +243,9 @@ namespace Research.Web.Controllers
             if (ModelState.IsValid)
             {
                 researcher = model.ToEntity(researcher);
+
+               // uploadResearcherPicture(uploadedFile, researcher);
+
                 _researcherService.UpdateResearcher(researcher);
 
                 SuccessNotification("Researcher Updated");

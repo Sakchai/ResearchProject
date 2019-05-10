@@ -4,7 +4,7 @@ using System.Linq;
 using Research.Services.Helpers;
 using Research.Services.Logging;
 using Research.Web.Areas.Admin.Factories;
-using Research.Web.Framework.Mapper.Extensions;
+using Research.Web.Extensions;
 using Research.Web.Models.Logging;
 
 namespace Research.Web.Models.Factories
