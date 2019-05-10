@@ -24,7 +24,6 @@ namespace Research.Data.Mapping
             entity.Property(e => e.LastName).HasMaxLength(200);
 
             entity.Property(e => e.LastUpdateBy)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
 

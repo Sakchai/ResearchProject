@@ -16,9 +16,18 @@ namespace Research.Data
         public string TitleName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FirstNameEN { get; set; }
+        public string LastNameEN { get; set; }
         public string IDCard { get; set; }
         public string ResearcherCode { get; set; }
-        public int? PersonTypeId { get; set; }
+        public int PersonalTypeId { get; set; }
+
+        public PersonalType PersonalType
+        {
+            get => (PersonalType)PersonalTypeId;
+            set => PersonalTypeId = (int) value;
+        }
+        public DateTime? Birthdate { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
@@ -30,11 +39,6 @@ namespace Research.Data
         public int? AcademicRankId { get; set; }
         public string LastUpdateBy { get; set; }
         public string Gender { get; set; }
-
-        public PersonType PersonType {
-            get => (PersonType)PersonTypeId;
-            set => PersonType = value;
-        }
         public virtual PictureBinary Picture { get; set; }
         public virtual Title Title { get; set; }
         public virtual AcademicRank AcademicRank { get; set; }

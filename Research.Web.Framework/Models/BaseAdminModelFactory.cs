@@ -526,13 +526,13 @@ namespace Research.Web.Models.Factories
             PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
         }
 
-        public void PreparePersonTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        public void PreparePersonalTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
             //prepare available order statuses
-            var availableStatusItems = PersonType.Academic.ToSelectList(false);
+            var availableStatusItems = PersonalType.Academic.ToSelectList(false);
             foreach (var statusItem in availableStatusItems)
             {
                 items.Add(statusItem);

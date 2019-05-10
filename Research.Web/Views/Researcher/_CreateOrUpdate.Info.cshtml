@@ -3,41 +3,11 @@
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="form-group advanced-setting">
-                <div class="col-md-3">
-                    <nop-label asp-for="TitleId" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles"/>
-                    <span asp-validation-for="TitleId"></span>
-                </div>
-            </div>
-            @if (Model.Id > 0)
-            {
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="FirstName" />
-                    </div>
-                    <div class="col-md-9">
-                        <nop-editor asp-for="FirstName" />
-                        <span asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-            }
-            <div class="form-group advanced-setting">
-                <div class="col-md-3">
-                    <nop-label asp-for="LastName" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="LastName" />
-                    <span asp-validation-for="LastName"></span>
-                </div>
-            </div>
-            <div class="form-group advanced-setting">
+            <div class="form-group">
                 <div class="col-md-3">
                     <nop-label asp-for="Gender" />
                 </div>
-                
+
                 <div class="col-md-9">
                     <div class="col-md-3">
                         <input type="radio" asp-for="Gender" value="M" checked="@(Model.Gender == "M")" id="gender-male" />
@@ -52,11 +22,83 @@
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="PersonTypeId" />
+                    <nop-label asp-for="TitleId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="PersonTypeId"  asp-items="Model.AvailablePersonTypes"/>
-                    <span asp-validation-for="PersonTypeId"></span>
+                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" />
+                    <span asp-validation-for="TitleId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="FirstName" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="FirstName" />
+                    <span asp-validation-for="FirstName"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="LastName" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="LastName" />
+                    <span asp-validation-for="LastName"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="FirstNameEN" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="FirstNameEN" />
+                    <span asp-validation-for="FirstNameEN"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="LastNameEN" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="LastNameEN" />
+                    <span asp-validation-for="LastNameEN"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    วัน/เดือน/ปีเกิด
+                </div>
+                <div class="col-md-9">
+                    <div class="inputs date-of-birth">
+                        <nop-date-picker asp-day-name="@Html.NameFor(x => x.DateOfBirthDay)"
+                                         asp-month-name="@Html.NameFor(x => x.DateOfBirthMonth)"
+                                         asp-year-name="@Html.NameFor(x => x.DateOfBirthYear)"
+                                         asp-begin-year="@(DateTime.Now.Year - 110)"
+                                         asp-end-year="@(DateTime.Now.Year)"
+                                         asp-selected-day="@Model.DateOfBirthDay"
+                                         asp-selected-month="@Model.DateOfBirthMonth"
+                                         asp-selected-year="@Model.DateOfBirthYear" />
+                        <span asp-validation-for="DateOfBirthDay"></span>
+                        <span asp-validation-for="DateOfBirthMonth"></span>
+                        <span asp-validation-for="DateOfBirthYear"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="IDCard" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="IDCard" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="Telephone" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="Telephone" />
                 </div>
             </div>
             <div class="form-group">
@@ -70,31 +112,39 @@
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="IsActive" />
+                    <nop-label asp-for="AgencyId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="IsActive" />
-                    <span asp-validation-for="IsActive"></span>
+                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
+                    <span asp-validation-for="AgencyId"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="PhoneNumber" />
+                    <nop-label asp-for="PersonalTypeId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="PhoneNumber" />
-                    <span asp-validation-for="PhoneNumber"></span>
+                    <nop-select asp-for="PersonalTypeId" asp-items="Model.AvailablePersonalTypes" />
                 </div>
             </div>
-            <div class="form-group advanced-setting">
+            <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AgencyId" />
+                    <nop-label asp-for="AcademicRankId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AgencyId"  asp-items="Model.AvailableAgencies"/>
-                    <span asp-validation-for="AgencyId"></span>
+                    <nop-select asp-for="AcademicRankId" asp-items="Model.AvailableAcademicRanks" />
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PictureId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="PictureId" />
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

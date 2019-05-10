@@ -60,7 +60,7 @@ namespace Research.Web.Factories
 
             //prepare available stores
             _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies);
-            _baseAdminModelFactory.PreparePersonTypes(searchModel.AvailablePersonTypes);
+            _baseAdminModelFactory.PreparePersonalTypes(searchModel.AvailablePersonTypes);
 
             //prepare page parameters
             searchModel.SetGridPageSize();
@@ -100,7 +100,7 @@ namespace Research.Web.Factories
                     researcherModel.TitleId = researcher.TitleId;
                     researcherModel.FirstName = researcher.FirstName;
                     researcherModel.LastName = researcher.LastName;
-                    researcherModel.PersonTypeName = researcher.PersonType.ToString();
+                    researcherModel.PersonalTypeName = researcher.PersonalType.ToString();
                     researcherModel.AgencyName = researcher.Agency != null ? researcher.Agency.Name : string.Empty;
 
                     return researcherModel;
@@ -127,10 +127,23 @@ namespace Research.Web.Factories
                 model.TitleId = researcher.TitleId;
                 model.FirstName = researcher.FirstName;
                 model.LastName = researcher.LastName;
-                model.PersonTypeId = (int) researcher.PersonType;
+                model.FirstNameEN = researcher.FirstNameEN;
+                model.LastNameEN = researcher.LastNameEN;
+                model.DateOfBirthDay = researcher.Birthdate?.Day;
+                model.DateOfBirthMonth = researcher.Birthdate?.Month;
+                model.DateOfBirthYear = researcher.Birthdate?.Year;
+                model.IDCard = researcher.IDCard;
+                model.Telephone = researcher.Telephone;
+                model.Email = researcher.Email;
+                model.PictureId = researcher.PictureId;
+                model.PersonalTypeId = researcher.PersonalTypeId;
+                model.AgencyId = researcher.AgencyId;
+                model.AcademicRankId = researcher.AcademicRankId;
+
                 _baseAdminModelFactory.PrepareTitles(model.AvailableTitles);
                 _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies);
-                _baseAdminModelFactory.PreparePersonTypes(model.AvailablePersonTypes);
+                _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks);
+                _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes);
             }
 
 

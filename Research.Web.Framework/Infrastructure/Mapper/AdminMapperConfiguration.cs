@@ -182,7 +182,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(entity => entity.Address, options => options.Ignore())
                 .ForMember(entity => entity.Agency, options => options.Ignore())
                 .ForMember(entity => entity.Users, options => options.Ignore())
-                .ForMember(entity => entity.PersonType, options => options.Ignore());
+                .ForMember(entity => entity.PersonalType, options => options.Ignore());
             //CreateMap<User, RegisterModel>();
             //CreateMap<RegisterModel, User>();
         }

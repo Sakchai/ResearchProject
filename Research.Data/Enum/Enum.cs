@@ -325,7 +325,7 @@ namespace Research.Enum
         AssistanceAcademic = 2,
     }
 
-    public enum PersonType
+    public enum PersonalType
     {
         [EnumMember(Value = "สายวิชาการ")]
         Academic = 1,

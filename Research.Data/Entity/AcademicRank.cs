@@ -10,8 +10,8 @@ namespace Research.Data
         {
         }
         public int PersonTypeId { get; set; }
-        public PersonType PersonType {
-            get => (PersonType) PersonTypeId;
+        public PersonalType PersonType {
+            get => (PersonalType) PersonTypeId;
             set => PersonTypeId = (int) value; 
         }
 

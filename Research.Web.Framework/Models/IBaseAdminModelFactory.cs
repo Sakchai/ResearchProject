@@ -34,7 +34,7 @@ namespace Research.Web.Models.Factories
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareProgressStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
-        void PreparePersonTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PreparePersonalTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
         /// <summary>
         /// Prepare available payment statuses
