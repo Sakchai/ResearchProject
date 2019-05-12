@@ -7,5 +7,6 @@ namespace Research.Web.Models.Directory
 {
     public class CountryModel : BaseEntityModel
     {
+        public string Name { get; set; }
     }
 }

@@ -78,8 +78,6 @@ namespace Research.Services.Directory
             var query = _provinceRepository.Table.Where(state => state.Abbreviation == abbreviation);
 
             //filter by country
-            if (countryId.HasValue)
-                query = query.Where(state => state.CountryId == countryId);
 
             var province = query.FirstOrDefault();
             return province;
@@ -99,8 +97,7 @@ namespace Research.Services.Directory
             {
                 var query = from sp in _provinceRepository.Table
                             orderby sp.DisplayOrder, sp.Name
-                            where sp.CountryId == countryId &&
-                            (showHidden || sp.Published)
+                            where (showHidden || sp.Published)
                             select sp;
                 var provinces = query.ToList();
 
@@ -124,12 +121,13 @@ namespace Research.Services.Directory
         /// <returns>s</returns>
         public virtual IList<Province> GetProvinces(bool showHidden = false)
         {
-            var query = from sp in _provinceRepository.Table
-                        orderby sp.CountryId, sp.DisplayOrder, sp.Name
-                        where showHidden || sp.Published
-                        select sp;
-            var provinces = query.ToList();
-            return provinces;
+            var query = _provinceRepository.Table;
+                        //orderby sp.Name
+                        //where showHidden || sp.Published
+                        //select sp;
+            //ar provinces = query.ToList();
+            //var provinces = query.ToList();
+            return query.ToList();
         }
 
         /// <summary>

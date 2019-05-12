@@ -22,9 +22,6 @@ namespace Research.Data.Mapping
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(state => state.Abbreviation).HasMaxLength(100);
 
-            entity.HasOne(state => state.Country)
-                .WithMany(country => country.Provinces)
-                .HasForeignKey(state => state.CountryId);
             base.Configure(entity);
         }
 

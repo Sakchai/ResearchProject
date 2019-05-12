@@ -3,7 +3,6 @@
 @{
     //page title
     ViewBag.Title = "ข้อมูลนักวิจัย";
-
 }
 
 <div class="content-header clearfix">
@@ -24,43 +23,56 @@
             <div class="panel panel-default panel-search">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="FirstName" class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="FirstName" />
+                                </div>
                                 <div class="col-md-8">
-                                    <input asp-for="FirstName" class="form-control text-box single-line" />
+                                    <nop-editor asp-for="FirstName" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label asp-for="LastName" class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="LastName" />
+                                </div>
                                 <div class="col-md-8">
-                                    <input asp-for="LastName" class="form-control text-box single-line" />
+                                    <nop-editor asp-for="LastName" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="AgencyId" class="col-md-4 control-label"></label>
-                                <div class="col-md-8">
-                                    <select asp-for="AgencyId" asp-items="Model.AvailableAgencies"></select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="PersonTypeId" class="col-md-4 control-label"></label>
-                                <div class="col-md-8">
-                                    <select asp-for="PersonTypeId" asp-items="Model.AvailablePersonTypes"></select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="IsCompleted" class="col-md-4 control-label"></label>
-                                <div class="col-md-8">
-                                    <input asp-for="IsCompleted" type="checkbox"/>
-                                </div>
-                            </div>                            
+
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
                                     <button type="button" id="search-researchers" class="btn btn-primary btn-search">
                                         <i class="fa fa-search"></i>
                                         ค้นหา
                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="AgencyId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="PersonTypeId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="PersonTypeId" asp-items="Model.AvailablePersonTypes" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="IsCompleted" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="IsCompleted" type="checkbox" />
                                 </div>
                             </div>
                         </div>

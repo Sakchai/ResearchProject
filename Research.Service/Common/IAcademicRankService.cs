@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Research.Core;
 using Research.Data;
 
-namespace Research.Services.AcademicRanks
+namespace Research.Services.Common
 {
     /// <summary>
     /// AcademicRank service interface

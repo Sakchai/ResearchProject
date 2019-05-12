@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.AcademicRanks
+namespace Research.Services.Common
 {
     /// <summary>
     /// AcademicRank service    

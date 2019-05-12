@@ -10,7 +10,7 @@ namespace Research.Web.Models.Projects
         public ProjectSearchModel()
         {
             AvailableFiscalYears = new List<SelectListItem>();
-            AvailableFaculties = new List<SelectListItem>();
+            AvailableAgencies = new List<SelectListItem>();
             AvailableProjectStatuses = new List<SelectListItem>();
             AvailableProgressStatuses = new List<SelectListItem>();
         }
@@ -23,8 +23,8 @@ namespace Research.Web.Models.Projects
         [Display(Name = "ปีงบประมาณ")]
         public int FiscalScheduleId { get; set; }
 
-        [Display(Name = "หน่วยงานหลัก")]
-        public int FacultyId { get; set; }
+        [Display(Name = "หน่วยงาน")]
+        public int AgencyId { get; set; }
 
         [Display(Name = "สถานะโครงการวิจัย")]
         public int ProgressStatusId { get; set; }
@@ -33,7 +33,7 @@ namespace Research.Web.Models.Projects
         public int ProjectStatusId { get; set; }
 
         public IList<SelectListItem> AvailableFiscalYears { get; set; }
-        public IList<SelectListItem> AvailableFaculties { get; set; }
+        public IList<SelectListItem> AvailableAgencies { get; set; }
         public IList<SelectListItem> AvailableProjectStatuses { get; set; }
         public IList<SelectListItem> AvailableProgressStatuses { get; set; }
     }

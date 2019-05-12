@@ -1,0 +1,43 @@
+﻿@model AddressModel
+
+
+<input asp-for="Id" type="hidden" />
+
+<div class="form-group">
+    <div class="col-md-3">
+        <nop-label asp-for="Address1" />
+    </div>
+    <div class="col-md-9">
+        <nop-editor asp-for="Address1" />
+        <span asp-validation-for="Address1"></span>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="col-md-3">
+        <nop-label asp-for="Address2" />
+    </div>
+    <div class="col-md-9">
+        <nop-editor asp-for="Address2" />
+        <span asp-validation-for="Address2"></span>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-3">
+        <nop-label asp-for="ProvinceId" />
+    </div>
+    <div class="col-md-9">
+        <nop-select asp-for="ProvinceId" asp-items="Model.AvailableProvinces" />
+        <span asp-validation-for="ProvinceId"></span>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-3">
+        <nop-label asp-for="ZipCode" />
+    </div>
+    <div class="col-md-9">
+        <nop-editor asp-for="ZipCode" />
+        <span asp-validation-for="ZipCode"></span>
+    </div>
+</div>

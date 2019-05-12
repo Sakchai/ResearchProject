@@ -11,46 +11,8 @@
         <div class="pull-right">
             <a asp-action="Create" class="btn bg-blue">
                 <i class="fa fa-plus-square"></i>
-                Add New
+                เพิ่มข้อเสนอโครงการวิจัย
             </a>
-            <div class="btn-group">
-                <button type="button" class="btn btn-success">
-                    <i class="fa fa-download"></i>
-                    Export
-                </button>
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">&nbsp;</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <button type="submit" name="exportxml-all">
-                            <i class="fa fa-file-code-o"></i>
-                            Export Xml All
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" id="exportxml-selected">
-                            <i class="fa fa-file-code-o"></i>
-                            ExportToXml Selected
-                        </button>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <button type="submit" name="exportexcel-all">
-                            <i class="fa fa-file-excel-o"></i>
-                            ExportToExcel All
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" id="exportexcel-selected">
-                            <i class="fa fa-file-excel-o"></i>
-                            ExportToExcel Selected
-                        </button>
-                    </li>
-                </ul>
-
-            </div>
         </div>
     </div>
     <div class="content">
@@ -59,52 +21,59 @@
                 <div class="panel panel-default panel-search">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="SearchProjectName" class="col-md-4 control-label"></label>
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchProjectName" />
+                                    </div>
                                     <div class="col-md-8">
-                                        <input asp-for="SearchProjectName" class="form-control text-box single-line" />
-                                        <span asp-validation-for="SearchProjectName" class="text-danger"></span>
+                                        <nop-editor asp-for="SearchProjectName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="FiscalScheduleId" class="col-md-4 control-label"></label>
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="FiscalScheduleId" />
+                                    </div>
                                     <div class="col-md-8">
-                                        <select asp-for="FiscalScheduleId" asp-items="Model.AvailableFiscalYears"></select>
-                                        <span asp-validation-for="FiscalScheduleId"></span>
+                                        <nop-select asp-for="FiscalScheduleId" asp-items="Model.AvailableFiscalYears" />
                                     </div>
                                 </div>
+
                                 <div class="form-group">
-                                    <label asp-for="FacultyId" class="col-md-4 control-label"></label>
-                                    <div class="col-md-8">
-                                        <select asp-for="FacultyId" asp-items="Model.AvailableFaculties"></select>
-                                        <span asp-validation-for="FacultyId"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label asp-for="ProgressStatusId" class="col-md-4 control-label"></label>
-                                    <div class="col-md-8">
-                                        <select asp-for="ProgressStatusId" asp-items="Model.AvailableProgressStatuses"></select>
-                                        <span asp-validation-for="ProgressStatusId"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="ProjectStatusId" class="col-md-4 control-label"></label>
-                                    <div class="col-md-8">
-                                        <select asp-for="ProjectStatusId" asp-items="Model.AvailableProjectStatuses"></select>
-                                        <span asp-validation-for="ProjectStatusId"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-4 control-label">
+                                    <div class="col-md-8 col-md-offset-4">
                                         <button type="button" id="search-projects" class="btn btn-primary btn-search">
                                             <i class="fa fa-search"></i>
-                                            Search
+                                            ค้นหา
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="AgencyId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="ProgressStatusId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="ProgressStatusId" asp-items="Model.AvailableProgressStatuses" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="ProjectStatusId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="ProjectStatusId" asp-items="Model.AvailableProjectStatuses" />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         
@@ -127,7 +96,7 @@
                             var data = {
                                 SearchProjectName: $('#@Html.IdFor(model => model.SearchProjectName)').val(),
                                 FiscalScheduleId: $('#@Html.IdFor(model => model.FiscalScheduleId)').val(),
-                                FacultyId: $('#@Html.IdFor(model => model.FacultyId)').val(),
+                                AgencyId: $('#@Html.IdFor(model => model.AgencyId)').val(),
                                 ResearchIssueId: $('#@Html.IdFor(model => model.ProgressStatusId)').val(),
                                 ProjectStatusId: $('#@Html.IdFor(model => model.ProjectStatusId)').val()
                             };

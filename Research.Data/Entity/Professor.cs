@@ -7,9 +7,6 @@ namespace Research.Data
     {
 
         ICollection<ProfessorHistory> _professorHistories;
-        //public Professor()
-        //{
-        //}
 
         public int TitleId { get; set; }
         public string TitleName { get; set; }
@@ -22,10 +19,10 @@ namespace Research.Data
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
         public string Comment { get; set; }
-        public virtual ProfessorType ProfessorType { get; set; }
-        //    get => (ProfessorType)ProfessorTypeId;
-        //    set => ProfessorTypeId = (int) value;
-        //}
+        public virtual ProfessorType ProfessorType {
+            get => (ProfessorType)ProfessorTypeId;
+            set => ProfessorTypeId = (int)value;
+        }
 
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }

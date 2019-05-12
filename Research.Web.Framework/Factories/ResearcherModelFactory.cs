@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Core;
 using Research.Data;
 using Research.Services;
 using Research.Web.Extensions;
+using Research.Web.Models.Common;
 using Research.Web.Models.Factories;
 using Research.Web.Models.Researchers;
 
@@ -57,8 +60,8 @@ namespace Research.Web.Factories
                 throw new ArgumentNullException(nameof(searchModel));
 
             //prepare available stores
-            _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies);
-            _baseAdminModelFactory.PreparePersonalTypes(searchModel.AvailablePersonTypes);
+            _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies,true,"--รหัสหน่วยงาน--");
+            _baseAdminModelFactory.PreparePersonalTypes(searchModel.AvailablePersonTypes,true,"--รหัสประเภทบุคลากร--");
 
             //prepare page parameters
             searchModel.SetGridPageSize();
@@ -142,11 +145,76 @@ namespace Research.Web.Factories
                     model.DateOfBirthMonth = researcher.Birthdate.Value.Month;
                     model.DateOfBirthYear = researcher.Birthdate.Value.Year + 543;
                 }
+                if (researcher.Address != null)
+                {
+                    var addr = new AddressModel {
+                        Id = researcher.Address.Id,
+                        Address1 = researcher.Address.Address1,
+                        Address2 = researcher.Address.Address2,
+                        ProvinceId = researcher.Address.ProvinceId,
+                        ZipCode = researcher.Address.ZipCode
+                    };
+                    model.Address = addr;
+                }
+                else
+                {
+                    model.Address = new AddressModel();
+                }
             }
-            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles);
-            _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies);
-            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks);
-            _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes);
+
+            _baseAdminModelFactory.PrepareProvinces(model.Address.AvailableProvinces,true,"--โปรดระบุจังหวัด--");
+            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");
+            _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies,true, "--โปรดระบุประเภทหน่วยงาน--");
+            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, true, "--โปรดระบุตำแหน่งวิชาการ--");
+            _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes, true, "--โปรดระบุประเภทบุคลากร--");
+
+            _baseAdminModelFactory.PrepareDegrees(model.AvailableAddEducationDegrees, true, "--โปรดระบุระดับปริญญา--");
+            _baseAdminModelFactory.PrepareEducationLevels(model.AvailableAddEducationEducationLevels, true, "--โปรดระบุวุฒิการศึกษา--");
+            _baseAdminModelFactory.PrepareInstitutes(model.AvailableAddEducationInstitutes, true, "--โปรดระบุสถาบันการศึกษา--");
+            _baseAdminModelFactory.PrepareCountries(model.AvailableAddEducationCountries, true, "--โปรดระบุประเทศ--");
+            return model;
+        }
+
+        /// <summary>
+        /// Prepare paged researcher education list model
+        /// </summary>
+        /// <param name="searchModel">Researcher education search model</param>
+        /// <param name="researcher">Researcher</param>
+        /// <returns>Researcher education list model</returns>
+        public ResearcherEducationListModel PrepareResearcherEducationListModel(ResearcherEducationSearchModel searchModel, Researcher researcher)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (researcher == null)
+                throw new ArgumentNullException(nameof(researcher));
+
+            //get researcher educations
+            var researcherEducations = researcher.ResearcherEducations.OrderByDescending(edu => edu.Degree).ToList();
+
+            //prepare list model
+            var model = new ResearcherEducationListModel
+            {
+                Data = researcherEducations.PaginationByRequestModel(searchModel).Select(education =>
+                {
+                    //fill in model values from the entity        
+                    var researcherEducationModel = new ResearcherEducationModel
+                    {
+                        Id = education.Id,
+                        ResearcherId = education.ResearcherId,
+                        Degress = education.Degree.ToString(),
+                        EducationLevelName = education.EducationLevel.Name,
+                        InstituteName = education.Institute.Name,
+                        CountryName = education.Country.Name,
+                        GraduationYear = education.GraduationYear
+                    };
+
+
+
+                    return researcherEducationModel;
+                }),
+                Total = researcherEducations.Count
+            };
 
             return model;
         }

@@ -16,8 +16,7 @@ using Research.Data;
 using Research.Data.Infrastructure;
 using Research.Infrastructure;
 using Research.Services;
-using Research.Services.AcademicRanks;
-using Research.Services.Agencies;
+using Research.Services.Common;
 using Research.Services.Authentication;
 using Research.Services.Configuration;
 using Research.Services.Directory;
@@ -30,12 +29,9 @@ using Research.Services.Logging;
 using Research.Services.Media;
 using Research.Services.Messages;
 using Research.Services.Professors;
-using Research.Services.ResearchIssues;
 using Research.Services.Roles;
 using Research.Services.Security;
-using Research.Services.StrategyGroups;
 using Research.Services.Tasks;
-using Research.Services.Titles;
 using Research.Services.Users;
 using Research.Web.Areas.Admin.Factories;
 using Research.Web.Factories;
@@ -109,6 +105,8 @@ namespace Research.Web.Infrastructure
 
             //services
             builder.RegisterType<TitleService>().As<ITitleService>().InstancePerLifetimeScope();
+            builder.RegisterType<InstituteService>().As<IInstituteService>().InstancePerLifetimeScope();
+            builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
             builder.RegisterType<FiscalScheduleService>().As<IFiscalScheduleService>().InstancePerLifetimeScope();
             builder.RegisterType<AcademicRankService>().As<IAcademicRankService>().InstancePerLifetimeScope();
             builder.RegisterType<AgencyService>().As<IAgencyService>().InstancePerLifetimeScope();

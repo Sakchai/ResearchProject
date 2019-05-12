@@ -1,0 +1,205 @@
+﻿@model ResearcherModel
+
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="researchereducations-grid"></div>
+
+            <script>
+                $(document).ready(function() {
+                    $("#researchereducations-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("ResearcherEducationsSelect", "Researcher"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: function() {
+                                        var data = {
+                                            ResearcherId: '@(Model.Id)'
+                                        };
+                                        //addAntiForgeryToken(data);
+                                        return data;
+                                    }
+                                },
+                                destroy: {
+                                    url: "@Html.Raw(Url.Action("ResearcherEducationDelete", "Researcher", new { researcherId = Model.Id }))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    //data: addAntiForgeryToken
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors",
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        //do not implicitly specify all fields
+                                        //we do it only for fields which implicitly require it
+                                        //otherwise, they'll be formatted wrong way
+                                        CreatedOn: { type: "date" }
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(Model.ResearcherEducationSearchModel.PageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(Model.ResearcherEducationSearchModel.AvailablePageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        editable: {
+                            confirmation: "คุณต้องการจะลบรายการนี้ใช่หรือไม่",
+                            mode: "inline"
+                        },
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "Degree",
+                                title: "ระดับปริญญา",
+                                width: 100,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                field: "EducationLevelName",
+                                title: "วุฒิการศึกษา",
+                                width: 100,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                field: "InstituteName",
+                                title: "สถาบันการศึกษา",
+                                width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                field: "CountryName",
+                                title: "ประเทศ",
+                                width: 100,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                field: "GraduationYear",
+                                title: "ปีการศึกษาที่จบ",
+                                width: 100,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                command: { name: "destroy", text: "ลบรายการ" },
+                                title: "การกระทำ",
+                                width: 100,
+                                headerAttributes: { style: "text-align:center" },
+                            }
+                        ]
+                    });
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            เพิ่มรายการสถาบันการศึกษา
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddEducationDegreeId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddEducationDegreeId" asp-items="Model.AvailableAddEducationDegrees" />
+                    <span asp-validation-for="AddEducationDegreeId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddEducationEducationLevelId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddEducationEducationLevelId" asp-items="Model.AvailableAddEducationEducationLevels" />
+                    <span asp-validation-for="AddEducationEducationLevelId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddEducationInstituteId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddEducationInstituteId" asp-items="Model.AvailableAddEducationInstitutes" />
+                    <span asp-validation-for="AddEducationInstituteId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddEducationCountryId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddEducationCountryId" asp-items="Model.AvailableAddEducationCountries" />
+                    <span asp-validation-for="AddEducationCountryId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddEducationGraduationYear" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddEducationGraduationYear" />
+                    <span asp-validation-for="AddEducationGraduationYear"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button type="button" id="addResearcherEducation" class="btn btn-primary">เพิ่มรายการข้อมูลการศึกษา</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#addResearcherEducation').click(function() {
+            var educationDegreeId = $("#@Html.IdFor(model => model.AddEducationDegreeId)").val();
+            var eduLevelId = $("#@Html.IdFor(model => model.AddEducationEducationLevelId)").val();
+            var educationInstituteId = $("#@Html.IdFor(model => model.AddEducationInstituteId)").val();
+            var educationCountryId = $("#@Html.IdFor(model => model.AddEducationCountryId)").val();
+            var educationGraduationYear = $("#@Html.IdFor(model => model.AddEducationGraduationYear)").val();
+
+            $('#addResearcherEducation').attr('disabled', true);
+
+            var postData = {
+                researcherId: '@(Model.Id)',
+                degreeId: educationDegreeId,
+                educationLevelId = eduLevelId,
+                institudeId = educationInstituteId,
+                countryId = educationCountryId,
+                graduationYear = educationGraduationYear
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@( Url.Action("ResearcherEducationAdd", "Researcher"))",
+                data: postData,
+                success: function(data) {
+                    var grid = $("#researchereducations-grid").data('kendoGrid');
+                    grid.dataSource.read();
+                    $('#addResearcherEducation').attr('disabled', false);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to add researcher note.');
+                    $('#addResearcherEducation').attr('disabled', false);
+                }
+            });
+        });
+    });
+</script>
+

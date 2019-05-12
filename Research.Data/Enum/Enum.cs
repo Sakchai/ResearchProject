@@ -4,6 +4,15 @@ using System.Runtime.Serialization;
 
 namespace Research.Enum
 {
+    public enum Degree
+    {
+        [EnumMember(Value = "ปริญญาตรี")]
+        BachelorDegrees  = 1,
+        [EnumMember(Value = "ปริญญาโท")]
+        MasterDegrees = 2,
+        [EnumMember(Value = "ปริญญาเอก")]
+        DoctorDegrees = 3
+    }
 
     /// <summary>
     /// Rounding type

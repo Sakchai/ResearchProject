@@ -4,6 +4,7 @@ using Research.Data;
 using Research.Infrastructure.Mapper;
 using Research.Web.Framework.Models;
 using Research.Web.Models;
+using Research.Web.Models.Common;
 using Research.Web.Models.Directory;
 using Research.Web.Models.Logging;
 using Research.Web.Models.Messages;
@@ -23,13 +24,13 @@ namespace Research.Web.Framework.Infrastructure.Mapper
         public AdminMapperConfiguration()
         {
             //create specific maps
-            CreateUsersMaps();
+            CreateCommonMaps();
             CreateDirectoryMaps();
             CreateLoggingMaps();
             CreateMessagesMaps();
             CreateTasksMaps();
             CreateResearchersMaps();
-
+            CreateUsersMaps();
             //add some generic mapping rules
             ForAllMaps((mapConfiguration, map) =>
             {
@@ -73,18 +74,28 @@ namespace Research.Web.Framework.Infrastructure.Mapper
 
         }
 
+
+        /// <summary>
+        /// Create common maps 
+        /// </summary>
+        protected virtual void CreateCommonMaps()
+        {
+            CreateMap<Address, AddressModel>()
+                .ForMember(model => model.ProvinceName, options => options.MapFrom(entity => entity.Province != null ? entity.Province.Name : null));
+            CreateMap<AddressModel, Address>()
+                .ForMember(entity => entity.Province, options => options.Ignore());
+
+        }
         /// <summary>
         /// Create directory maps 
         /// </summary>
         protected virtual void CreateDirectoryMaps()
         {
             CreateMap<Country, CountryModel>();
-            CreateMap<CountryModel, Country>()
-                .ForMember(entity => entity.Provinces, options => options.Ignore());
+            CreateMap<CountryModel, Country>();
 
             CreateMap<Province, ProvinceModel>();
-            CreateMap<ProvinceModel, Province>()
-                .ForMember(entity => entity.Country, options => options.Ignore());
+            CreateMap<ProvinceModel, Province>();
         }
 
         /// <summary>
@@ -177,7 +188,19 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(model => model.TitleName, options => options.MapFrom(entity => entity.Title != null ? entity.Title.TitleNameTH : null))
                 .ForMember(model => model.AgencyName, options => options.MapFrom(entity => entity.Agency != null ? entity.Agency.Name : null))
                 .ForMember(model => model.FullName, options => options.Ignore())
-                .ForMember(model => model.IsCompleted, options => options.Ignore());
+                .ForMember(model => model.IsCompleted, options => options.Ignore())
+                .ForMember(model => model.AvailableTitles, options => options.Ignore())
+                .ForMember(model => model.AddEducationCountryId, options => options.Ignore())
+                .ForMember(model => model.AddEducationDegreeId, options => options.Ignore())
+                .ForMember(model => model.AddEducationEducationLevelId, options => options.Ignore())
+                .ForMember(model => model.AddEducationGraduationYear, options => options.Ignore())
+                .ForMember(model => model.AddEducationInstituteId, options => options.Ignore())
+                .ForMember(model => model.ResearcherEducationSearchModel, options => options.Ignore())
+                .ForMember(model => model.AvailableAddEducationCountries, options => options.Ignore())
+                .ForMember(model => model.AvailableAddEducationDegrees, options => options.Ignore())
+                .ForMember(model => model.AvailableAddEducationEducationLevels, options => options.Ignore())
+                .ForMember(model => model.AvailableAddEducationInstitutes, options => options.Ignore())
+                .ForMember(model => model.Address, options => options.Ignore());
 
             CreateMap<ResearcherModel, Researcher>()
                 .ForMember(entity => entity.Deleted, options => options.Ignore())

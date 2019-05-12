@@ -19,9 +19,6 @@ namespace Research.Data.Mapping
             entity.ToTable(nameof(ResearcherEducation));
             entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Subject)
-                .HasMaxLength(100);
-
             entity.HasOne(d => d.Country)
                 .WithMany()
                 .HasForeignKey(d => d.CountryId);
@@ -37,6 +34,7 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.Researcher)
                 .WithMany()
                 .HasForeignKey(d => d.ResearcherId);
+            entity.Ignore(d => d.Degree);
 
             base.Configure(entity);
         }

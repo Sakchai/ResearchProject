@@ -5,8 +5,6 @@ namespace Research.Data
 {
     public partial class Country : BaseEntity
     {
-        private ICollection<ResearcherEducation> _researcherEducations;
-        private ICollection<Province> _provinces;
 
         public string Name { get; set; }
         /// <summary>
@@ -32,17 +30,6 @@ namespace Research.Data
         /// Gets or sets the display order
         /// </summary>
         public int DisplayOrder { get; set; }
-        public virtual ICollection<ResearcherEducation> ResearcherEducations {
-            get => _researcherEducations ?? (_researcherEducations = new List<ResearcherEducation>());
-            set => _researcherEducations = value;
-        }
-        /// <summary>
-        /// Gets or sets the state/provinces
-        /// </summary>
-        public virtual ICollection<Province> Provinces
-        {
-            get => _provinces ?? (_provinces = new List<Province>());
-            protected set => _provinces = value;
-        }
+ 
     }
 }

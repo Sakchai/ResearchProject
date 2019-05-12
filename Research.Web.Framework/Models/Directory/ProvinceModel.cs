@@ -7,5 +7,6 @@ namespace Research.Web.Models.Directory
 {
     public class ProvinceModel : BaseEntityModel
     {
+        public string Name { get; set; } 
     }
 }

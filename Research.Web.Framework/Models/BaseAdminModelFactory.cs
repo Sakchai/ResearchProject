@@ -5,19 +5,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Research.Core.Caching;
 using Research.Enum;
 using Research.Services;
-using Research.Services.AcademicRanks;
+using Research.Services.Common;
 using Research.Services.Directory;
 using Research.Services.Faculties;
 using Research.Services.Helpers;
 using Research.Services.Logging;
 using Research.Services.Messages;
 using Research.Services.Professors;
-using Research.Services.ResearchIssues;
-using Research.Services.Agencies;
 using Research.Services.EducationLevels;
-using Research.Services.StrategyGroups;
 using Research.Services.FiscalSchedules;
-using Research.Services.Titles;
 
 namespace Research.Web.Models.Factories
 {
@@ -45,6 +41,7 @@ namespace Research.Web.Models.Factories
         private readonly IStrategyGroupService _strategyGroupService;
         private readonly IFiscalScheduleService _fiscalScheduleService;
         private readonly ITitleService _titleService;
+        private readonly IInstituteService _instituteService;
         #endregion
 
         #region Ctor
@@ -65,7 +62,8 @@ namespace Research.Web.Models.Factories
             IEducationLevelService educationLevelService,
             IStrategyGroupService strategyGroupService,
             IFiscalScheduleService fiscalScheduleService,
-            ITitleService titleService)
+            ITitleService titleService,
+            IInstituteService instituteService)
         {
             this._facultyService = facultyService;
             this._countryService = countryService;
@@ -84,6 +82,7 @@ namespace Research.Web.Models.Factories
             this._strategyGroupService = strategyGroupService;
             this._fiscalScheduleService = fiscalScheduleService;
             this._titleService = titleService;
+            this._instituteService = instituteService;
         }
 
         public BaseAdminModelFactory()
@@ -240,16 +239,15 @@ namespace Research.Web.Models.Factories
         /// <param name="countryId">Country identifier; pass null to don't load states and provinces</param>
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-        public virtual void PrepareProvinces(IList<SelectListItem> items, int? countryId,
-            bool withSpecialDefaultItem = true, string defaultItemText = null)
+        public virtual void PrepareProvinces(IList<SelectListItem> items,bool withSpecialDefaultItem = true, string defaultItemText = null)
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
-            if (countryId.HasValue)
-            {
+            //if (countryId.HasValue)
+            //{
                 //prepare available states and provinces of the country
-                var availableStates = _provinceService.GetProvincesByCountryId(countryId.Value, showHidden: true);
+                var availableStates = _provinceService.GetProvinces(showHidden: true);
                 foreach (var state in availableStates)
                 {
                     items.Add(new SelectListItem { Value = state.Id.ToString(), Text = state.Name });
@@ -258,11 +256,11 @@ namespace Research.Web.Models.Factories
                 //insert special item for the default value
                 if (items.Any())
                     PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "กรุงเทพมหานคร");
-            }
+            //}
 
-            //insert special item for the default value
-            if (!items.Any())
-                PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "Thailand");
+            ////insert special item for the default value
+            //if (!items.Any())
+            //    PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "Thailand");
         }
 
         /// <summary>
@@ -536,6 +534,38 @@ namespace Research.Web.Models.Factories
             foreach (var statusItem in availableStatusItems)
             {
                 items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        public void PrepareDegrees(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available order statuses
+            var availableStatusItems = Degree.BachelorDegrees.ToSelectList(false);
+            foreach (var statusItem in availableStatusItems)
+            {
+                items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        public void PrepareInstitutes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available activity log types
+            var availableInstitutes = _instituteService.GetAllInstitutes();
+            foreach (var institute in availableInstitutes)
+            {
+                items.Add(new SelectListItem { Value = institute.Id.ToString(), Text = institute.Name });
             }
 
             //insert special item for the default value

@@ -5,10 +5,7 @@ namespace Research.Data
 {
     public partial class Province : BaseEntity
     {
-        /// <summary>
-        /// Gets or sets the country identifier
-        /// </summary>
-        public int CountryId { get; set; }
+
 
         /// <summary>
         /// Gets or sets the name
@@ -30,9 +27,6 @@ namespace Research.Data
         /// </summary>
         public int DisplayOrder { get; set; }
 
-        /// <summary>
-        /// Gets or sets the country
-        /// </summary>
-        public virtual Country Country { get; set; }
+
     }
 }

@@ -87,7 +87,7 @@ namespace Research.Web.Factories
 
         public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
-            _baseAdminModelFactory.PrepareFacuties(searchModel.AvailableFaculties,true, "--หน่วยงานหลัก--");
+            _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies,true, "--หน่วยงาน--");
             _baseAdminModelFactory.PrepareFiscalSchedules(searchModel.AvailableFiscalYears,true, "--ปีงบประมาณ--");
             _baseAdminModelFactory.PrepareProjectStatuses(searchModel.AvailableProjectStatuses,true, "--สถานะผลการพิจารณา--");
             _baseAdminModelFactory.PrepareProgressStatuses(searchModel.AvailableProgressStatuses,true, "--สถานะโครงการวิจัย--");

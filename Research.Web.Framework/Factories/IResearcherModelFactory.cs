@@ -31,5 +31,6 @@ namespace Research.Web.Factories
         /// <param name="excludeProperties">Whether to exclude populating of some properties of model</param>
         /// <returns>Researcher model</returns>
         ResearcherModel PrepareResearcherModel(ResearcherModel model, Researcher researcher, bool excludeProperties = false);
+        ResearcherEducationListModel PrepareResearcherEducationListModel(ResearcherEducationSearchModel searchModel, Researcher researcher);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Research.Web.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,12 @@ namespace Research.Web.Models.Researchers
             AvailableAgencies = new List<SelectListItem>();
             AvailableAcademicRanks = new List<SelectListItem>();
             AvailablePersonalTypes = new List<SelectListItem>();
+            AvailableAddEducationDegrees = new List<SelectListItem>();
+            AvailableAddEducationEducationLevels = new List<SelectListItem>();
+            AvailableAddEducationInstitutes = new List<SelectListItem>();
+            AvailableAddEducationCountries = new List<SelectListItem>();
+            Address = new AddressModel();
+            ResearcherEducationSearchModel = new ResearcherEducationSearchModel();
         }
         [Display(Name = "คำนำหน้า(ไทย)")]
         public int TitleId { get; set; }
@@ -75,9 +82,32 @@ namespace Research.Web.Models.Researchers
         [UIHint("Picture")]
         [Display(Name = "รูปภาพนักวิจัย")]
         public int? PictureId { get; set; }
-
+        public AddressModel Address { get; set; }
         public string FullName { get => $"{TitleName}{FirstName} {LastName}"; }
     
         public bool IsCompleted { get => IsActive && IsAcceptedConditions; }
+
+        #region Researcher educations
+
+        [Display(Name = "ระดับปริญญา")]
+        public int AddEducationDegreeId { get; set; }
+        public IList<SelectListItem> AvailableAddEducationDegrees { get; set; }
+
+        [Display(Name = "วุฒิการศึกษา")]
+        public int AddEducationEducationLevelId { get; set; }
+        public IList<SelectListItem> AvailableAddEducationEducationLevels { get; set; }
+
+        [Display(Name = "สถาบันการศึกษา")]
+        public int AddEducationInstituteId { get; set; }
+        public IList<SelectListItem> AvailableAddEducationInstitutes { get; set; }
+
+        [Display(Name = "ประเทศ")]
+        public int AddEducationCountryId { get; set; }
+        public IList<SelectListItem> AvailableAddEducationCountries { get; set; }
+
+        [Display(Name = "ปีการศึกษาที่จบ")]
+        public int AddEducationGraduationYear { get; set; }
+        public ResearcherEducationSearchModel ResearcherEducationSearchModel { get; set; }
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Research.Services.StrategyGroups
+namespace Research.Services.Common
 {
     /// <summary>
     /// Represents default values related to strategyGroup services

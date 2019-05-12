@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Research.Services.Titles
+namespace Research.Services.Common
 {
     /// <summary>
     /// Represents default values related to title services

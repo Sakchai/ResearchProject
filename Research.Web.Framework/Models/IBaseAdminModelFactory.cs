@@ -67,8 +67,7 @@ namespace Research.Web.Models.Factories
         /// <param name="countryId">Country identifier; pass null to don't load states and provinces</param>
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-        void PrepareProvinces(IList<SelectListItem> items, int? countryId, 
-            bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareProvinces(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
         /// <summary>
         /// Prepare available customer roles
@@ -109,6 +108,7 @@ namespace Research.Web.Models.Factories
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareProfessors(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareDegrees(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
         /// <summary>
         /// Prepare available researchers
@@ -117,6 +117,7 @@ namespace Research.Web.Models.Factories
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareResearchers(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareInstitutes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
         /// <summary>
         /// Prepare available shopping cart types

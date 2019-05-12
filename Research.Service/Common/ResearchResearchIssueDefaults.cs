@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Research.Services.ResearchIssues
+namespace Research.Services.Common
 {
     /// <summary>
     /// Represents default values related to researchIssue services

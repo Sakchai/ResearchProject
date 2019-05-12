@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Research.Enum;
+using System;
 using System.Collections.Generic;
 
 namespace Research.Data
@@ -8,7 +9,12 @@ namespace Research.Data
         public int ResearcherId { get; set; }
         public int EducationLevelId { get; set; }
         public int InstituteId { get; set; }
-        public string Subject { get; set; }
+        public int DegreeId { get; set; }
+        public virtual Degree Degree
+        {
+            get => (Degree)DegreeId;
+            set => DegreeId = (int)value;
+        }
         public int CountryId { get; set; }
         public int GraduationYear { get; set; }
         public virtual Country Country { get; set; }

@@ -16,7 +16,7 @@
         <nop-tabs id="researcher-edit">
             <nop-tab asp-name="tab-info" asp-default="true" asp-title="รายละเอียดนักวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-tab>
             <nop-tab asp-name="tab-addr" asp-title="ข้อมูลที่อยู่">@await Html.PartialAsync("_CreateOrUpdate.Addr", Model)</nop-tab>
-            <nop-tab asp-name="tab-edu" asp-title="ข้อมูลการศึกษา">@await Html.PartialAsync("_CreateOrUpdate.Edu", Model)</nop-tab>
+            <nop-tab asp-name="tab-edu" asp-title="ข้อมูลการศึกษา">@await Html.PartialAsync("_CreateOrUpdate.Edus", Model)</nop-tab>
             <nop-tab asp-name="tab-prof" asp-title="รายการผู้ทรงคุณวุฒิ">@await Html.PartialAsync("_CreateOrUpdate.Prof", Model)</nop-tab>
             <nop-tab asp-name="tab-proj" asp-title="รายการเสนอโครงการ">@await Html.PartialAsync("_CreateOrUpdate.Proj", Model)</nop-tab>
         </nop-tabs>

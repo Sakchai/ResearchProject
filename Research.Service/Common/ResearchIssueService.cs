@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.ResearchIssues
+namespace Research.Services.Common
 {
     /// <summary>
     /// ResearchIssue service    

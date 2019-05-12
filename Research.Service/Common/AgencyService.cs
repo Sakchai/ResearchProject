@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.Agencies
+namespace Research.Services.Common
 {
     /// <summary>
     /// Agency service    

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.Titles
+namespace Research.Services.Common
 {
     /// <summary>
     /// Title service    

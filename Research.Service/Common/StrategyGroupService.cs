@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.StrategyGroups
+namespace Research.Services.Common
 {
     /// <summary>
     /// StrategyGroup service    
