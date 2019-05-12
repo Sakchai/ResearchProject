@@ -166,8 +166,8 @@ namespace Research.Web.Controllers
         #endregion
 
         #region Create / Edit / Delete
-
-        public virtual IActionResult Create()
+        [HttpPost]
+        public virtual IActionResult Add()
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
             //    return AccessDeniedView();
@@ -189,7 +189,8 @@ namespace Research.Web.Controllers
 
                 var researcher = model.ToEntity<Researcher>();
 
-               // uploadResearcherPicture(uploadedFile, researcher);
+                if (model.ParseDateOfBirth() != null)
+                    researcher.Birthdate = model.ParseDateOfBirth();
                 _researcherService.InsertResearcher(researcher);
                 SuccessNotification("Admin.ContentManagement.Researchers.Added");
 
@@ -243,9 +244,8 @@ namespace Research.Web.Controllers
             if (ModelState.IsValid)
             {
                 researcher = model.ToEntity(researcher);
-
-               // uploadResearcherPicture(uploadedFile, researcher);
-
+                if (model.ParseDateOfBirth() != null)
+                    researcher.Birthdate = model.ParseDateOfBirth();
                 _researcherService.UpdateResearcher(researcher);
 
                 SuccessNotification("Researcher Updated");

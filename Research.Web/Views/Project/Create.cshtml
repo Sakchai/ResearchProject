@@ -1,4 +1,4 @@
-﻿@model Research.Web.Models.Projects.CreateVm
+﻿@model ProjectModel
 @{
     ViewData["Title"] = "Create Project";
 }
@@ -45,13 +45,7 @@
                                         <span asp-validation-for="ResearchIssueId"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="ProposalUploadId" class="col-md-5 control-label"></label>
-                                    <div class="col-md-7">
-                                        <input asp-for="ProposalUploadId" class="form-control" />
-                                        <span asp-validation-for="ProposalUploadId" class="text-danger"></span>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -88,7 +82,7 @@
 
                     </div>
                 </div>
-                <div class="panel panel-default">
+                @*<div class="panel panel-default">
                     <div class="panel-body">
                         <div id="projects-grid"></div>
                         <script>
@@ -172,7 +166,7 @@
                         </script>
  
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>

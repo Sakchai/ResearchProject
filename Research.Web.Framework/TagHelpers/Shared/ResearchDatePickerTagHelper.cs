@@ -29,8 +29,8 @@ namespace Research.Web.Framework.TagHelpers.Shared
         private const string SelectedYearAttributeName = "asp-selected-year";
 
         private const string WrapTagsAttributeName = "asp-wrap-tags";
-
         private readonly IHtmlHelper _htmlHelper;
+        private string[] Months = new string[] { "มกราคม", "กุมภาพันธ์",  "มีนาคม",  "เมษายน",  "พฤษภาคม", "มิถุนายน",    "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม",  "พฤศจิกายน",   "ธันวาคม"};
 
         /// <summary>
         /// HtmlGenerator
@@ -184,7 +184,9 @@ namespace Research.Web.Framework.TagHelpers.Shared
                 months.AppendFormat("<option value='{0}'{1}>{2}</option>",
                     i,
                     (SelectedMonth.HasValue && SelectedMonth.Value == i) ? " selected=\"selected\"" : null,
-                    CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(i));
+                    //CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(i)
+                    Months[i-1]
+                    );
             }
             
             years.AppendFormat("<option value='{0}'>{1}</option>", "0", "ปี");

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace Research.Web.Controllers
 {
-    public class ProjectController : BasePublicController
+    public class ProjectController : BaseAdminController
     {
         private readonly IProjectModelFactory _projectModelFactory;
         private readonly IProjectService _projectService;
@@ -39,7 +39,7 @@ namespace Research.Web.Controllers
                 return RedirectToAction("List");
 
             //prepare model
-            var model = _projectModelFactory.PrepareProjectEditModel(null, project);
+            var model = _projectModelFactory.PrepareProjectModel(new ProjectModel(), project);
 
             return View(model);
         }
@@ -47,8 +47,7 @@ namespace Research.Web.Controllers
         public IActionResult Create()
         {
             AddPageHeader("เพิ่มข้อเสนอโครงการวิจัย", "");
-            var model = new CreateVm();
-            model = _projectModelFactory.PrepareProjectCreateModel(model);
+            var model = _projectModelFactory.PrepareProjectModel(new ProjectModel(),null);
             return View(model);
         }
         public virtual IActionResult List()
@@ -106,7 +105,7 @@ namespace Research.Web.Controllers
         public ActionResult ProjectResearcherList(int projectId)
         {
            // var data = _projectService.GetProjectResearcherByProjectId(projectId).ToList();
-            var model = new ProjectResearcherListModel();
+           var model = new ProjectListModel();
             //model.Data = data;
             //model.Total = data.Count;
             //model.Errors = "";

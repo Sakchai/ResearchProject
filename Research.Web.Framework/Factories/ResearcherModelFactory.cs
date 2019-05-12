@@ -77,14 +77,12 @@ namespace Research.Web.Factories
                 throw new ArgumentNullException(nameof(searchModel));
 
             //get researchers
-            var researchers = _researcherService.GetAllResearchers();
+            var researchers = _researcherService.GetAllResearchers(agency:searchModel.AgencyId,
+                                                             personalType:searchModel.PersonTypeId,
+                                                             firstName:searchModel.FirstName,
+                                                             lastName:searchModel.LastName,
+                                                             isActive:searchModel.IsCompleted);
 
-            //filter researchers
-            //TODO: move filter to researcher service
-            //if (!string.IsNullOrEmpty(searchModel.FirstName))
-            //{
-            //    researchers = researchers.Where(researcher => researcher.FirstName.Contains(searchModel.FirstName)).ToList();
-            //}
 
             //prepare grid model
             var model = new ResearcherListModel
@@ -95,7 +93,7 @@ namespace Research.Web.Factories
                     var researcherModel = researcher.ToModel<ResearcherModel>();
 
                     //little performance optimization: ensure that "Body" is not returned
-                    researcherModel.TitleId = researcher.TitleId;
+                    researcherModel.ResearcherCode   = researcher.ResearcherCode;
                     researcherModel.FirstName = researcher.FirstName;
                     researcherModel.LastName = researcher.LastName;
                     researcherModel.PersonalTypeName = researcher.PersonalType.ToString();
@@ -122,6 +120,7 @@ namespace Research.Web.Factories
             {
                 //fill in model values from the entity
                 model = model ?? researcher.ToModel<ResearcherModel>();
+                model.ResearcherCode = researcher.ResearcherCode;
                 model.TitleId = researcher.TitleId;
                 model.FirstName = researcher.FirstName;
                 model.LastName = researcher.LastName;
@@ -137,15 +136,17 @@ namespace Research.Web.Factories
                 model.PersonalTypeId = researcher.PersonalTypeId;
                 model.AgencyId = researcher.AgencyId;
                 model.AcademicRankId = researcher.AcademicRankId;
-
-                _baseAdminModelFactory.PrepareTitles(model.AvailableTitles);
-                _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies);
-                _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks);
-                _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes);
+                if (researcher.Birthdate.HasValue)
+                {
+                    model.DateOfBirthDay = researcher.Birthdate.Value.Day;
+                    model.DateOfBirthMonth = researcher.Birthdate.Value.Month;
+                    model.DateOfBirthYear = researcher.Birthdate.Value.Year + 543;
+                }
             }
-
-
-
+            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles);
+            _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies);
+            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks);
+            _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes);
 
             return model;
         }

@@ -77,12 +77,16 @@ namespace Research.Services
 
         }
 
-        public IPagedList<Researcher> GetAllResearchers(string email, string username, string firstName, string lastName, int dayOfBirth, int monthOfBirth, string phone, string zipPostalCode, string ipAddress, int pageIndex, int pageSize, bool getOnlyTotalCount)
+        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, bool isActive = true, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = _researcherRepository.Table;
+            query = query.Where(c => c.Deleted != true);
 
-            if (!string.IsNullOrWhiteSpace(email))
-                query = query.Where(c => c.Email.Contains(email));
+            if (agency != 0)
+                query = query.Where(c => c.Agency.Id == agency);
+
+            if (personalType != 0)
+                query = query.Where(c => c.PersonalTypeId == personalType);
 
             if (!string.IsNullOrWhiteSpace(firstName))
                 query = query.Where(c => c.FirstName.Contains(firstName));
@@ -90,10 +94,10 @@ namespace Research.Services
             if (!string.IsNullOrWhiteSpace(lastName))
                 query = query.Where(c => c.LastName.Contains(lastName));
 
+            //query = query.Where(c => c.IsActive == isActive);
             var customers = new PagedList<Researcher>(query, pageIndex, pageSize, getOnlyTotalCount);
             return customers;
         }
-
 
         public void InsertResearcher(Researcher researcher)
         {
@@ -112,5 +116,7 @@ namespace Research.Services
             ////event notification
             //_eventPublisher.EntityInserted(researcher);
         }
+
+
     }
 }

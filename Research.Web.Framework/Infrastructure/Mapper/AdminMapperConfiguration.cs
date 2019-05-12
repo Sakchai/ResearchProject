@@ -171,6 +171,9 @@ namespace Research.Web.Framework.Infrastructure.Mapper
         protected virtual void CreateResearchersMaps()
         {
             CreateMap<Researcher, ResearcherModel>()
+                .ForMember(model => model.AvailableAcademicRanks, options => options.Ignore())
+                .ForMember(model => model.AvailableAgencies, options => options.Ignore())
+                .ForMember(model => model.AvailablePersonalTypes, options => options.Ignore())
                 .ForMember(model => model.TitleName, options => options.MapFrom(entity => entity.Title != null ? entity.Title.TitleNameTH : null))
                 .ForMember(model => model.AgencyName, options => options.MapFrom(entity => entity.Agency != null ? entity.Agency.Name : null))
                 .ForMember(model => model.FullName, options => options.Ignore())

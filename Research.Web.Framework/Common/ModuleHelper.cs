@@ -169,7 +169,7 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "ภาพรวม",
                         IconClassName = "fa fa-dashboard",
-                        URLPath = "/Dashboards",
+                        URLPath = "/Dashboards/Dashboard2",
                         LinkCounter = counter,
                     };
                 case Module.Login:

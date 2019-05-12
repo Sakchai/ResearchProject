@@ -23,47 +23,33 @@ namespace Research.Web.Factories
             this._projectService = projectService;
         }
 
-        public CreateVm PrepareProjectCreateModel(CreateVm model)
+        public ProjectModel PrepareProjectModel(ProjectModel model)
         {
-            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues);
-            _baseAdminModelFactory.PrepareProfessors(model.AvailableFiscalSchedules);
-            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules);
-            //model.AvailableFiscalSchedules.Add(new SelectListItem { Text = "--โปรดระบุปีงบประมาณ--", Value = "", Selected = true });
-            //model.AvailableProfessors.Add(new SelectListItem { Text = "--โปรดระบุผู้ทรงคุณวุฒิ--", Value = "", Selected = true });
-            //model.AvailableResearchIssues.Add(new SelectListItem { Text = "--โปรดระบุประเด็นการวิจัย--", Value = "", Selected = true });
+            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
+            _baseAdminModelFactory.PrepareProfessors(model.AvailableResearchIssues, true, "--ระบุผู้ทรงคุณวุฒิ--");
+            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules, true, "--ระบุปีงบประมาณ--");
+            _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");
+
             return model;
         }
 
-        public ModifyVm PrepareProjectEditModel(ModifyVm model, Project project)
+        public ProjectModel PrepareProjectModel(ProjectModel model, Project project)
         {
             if (project != null)
             {
                 //fill in model values from the entity
-                model = model ?? new ModifyVm();
-                model.ProjectId = project.Id;
                 model.ProjectCode = project.ProjectCode;
                 model.ProjectNameTh = project.ProjectNameTh;
                 model.FiscalYear = project.FiscalYear;
                 model.StartContractDate = project.ProjectStartDate;
                 model.EndContractDate = project.ProjectEndDate;
                 model.FundAmount = project.FundAmount;
-                model.Modified = project.Modified;
                 model.LastUpdateBy = project.LastUpdateBy;
-                model.AvailableProfessors.Add(new SelectListItem { Selected = false, Text = "--ระบุผู้ทรงคุณวุฒิ--", Value = ""});
-                model.AvailableResearchIssues.Add(new SelectListItem { Selected = false, Text = "--ระบุประเด็นการวิจัย--", Value = ""});
-                model.AvailableProjectStatuses.Add(new SelectListItem { Selected=false, Text = "--ระบุสถานะโครงการ--", Value = ""});
-                var projectStatusOptionsIds = System.Enum.GetValues(typeof(ProjectStatus)).Cast<int>().ToList();
-
-                foreach (var value in projectStatusOptionsIds)
-                {
-                    model.AvailableProjectStatuses.Add(new SelectListItem
-                    {
-                        Selected = project.ProjectStatusId == value,
-                       // Text = StringEnum.GetStringValue((ProjectStatus)value),
-                        Value = value.ToString()
-                    });
-                }
             }
+            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues,true, "--ระบุประเด็นการวิจัย--");
+            _baseAdminModelFactory.PrepareProfessors(model.AvailableResearchIssues, true, "--ระบุผู้ทรงคุณวุฒิ--");
+            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules,true, "--ระบุปีงบประมาณ--");
+            _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses,true, "--ระบุผลการพิจารณา--");
             return model;
         }
 

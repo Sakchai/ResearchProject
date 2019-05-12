@@ -11,7 +11,7 @@
         ข้อมูลนักวิจัย
     </h1>
     <div class="pull-right">
-        <a asp-action="Create" class="btn bg-blue">
+        <a asp-action="Add" class="btn bg-blue">
             <i class="fa fa-plus-square"></i>
             เพิ่มรายการนักวิจัย
         </a>
@@ -145,7 +145,7 @@
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                 }, {
-                                    field: "PersonType",
+                                    field: "PersonalTypeName",
                                     title: "ประเภทบุคลากร",
                                     width: 150,
                                     headerAttributes: { style: "text-align:center" },
@@ -163,7 +163,7 @@
                                     width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '<a class="btn btn-default" href="/Researcher/Info/#=Id#"><i class="fa fa-eye"></i></a>'                                }
+                                    template: '<a class="btn btn-default" href="/Researcher/Edit/#=Id#"><i class="fa fa-eye"></i></a>'                                }
                                 ]
                             });
                         });

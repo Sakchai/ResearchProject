@@ -7,6 +7,11 @@
   <ItemGroup>
     <Compile Remove="Models\Manages\IndexViewModel.cs" />
     <Compile Remove="Models\Manages\ManageLoginsViewModel.cs" />
+    <Compile Remove="Models\Projects\CreateVm.cs" />
+    <Compile Remove="Models\Projects\ModifyVm.cs" />
+    <Compile Remove="Models\Projects\ProjectGridModel.cs" />
+    <Compile Remove="Models\Projects\ProjectResearcherListModel.cs" />
+    <Compile Remove="Models\Projects\ProjectResearcherModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
