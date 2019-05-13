@@ -5,20 +5,24 @@ using Research.Core;
 using Research.Core.Data;
 using Research.Core.Caching;
 
-namespace Research.Services
+namespace Research.Services.Researchers
 {
     public class ResearcherService : IResearcherService
     {
         private readonly IDataProvider _dataProvider;
         private readonly IDbContext _dbContext;
         private readonly IRepository<Researcher> _researcherRepository;
+        private readonly IRepository<ResearcherEducation> _researcherEducationRepository;
+
         private readonly string _entityName;
 
         public ResearcherService(IDbContext dbContext,
-                                IRepository<Researcher> researcherRepository)
+                                IRepository<Researcher> researcherRepository,
+                                IRepository<ResearcherEducation> researcherEducationRepository)
         {
             this._dbContext = dbContext;
             this._researcherRepository = researcherRepository;
+            this._researcherEducationRepository = researcherEducationRepository;
             this._entityName = typeof(Researcher).Name;
         }
         public void DeleteResearcher(Researcher researcher)
@@ -117,6 +121,63 @@ namespace Research.Services
             //_eventPublisher.EntityInserted(researcher);
         }
 
+        public void DeleteResearcherEducation(ResearcherEducation researcherEducation)
+        {
 
+            if (researcherEducation == null)
+                throw new ArgumentNullException(nameof(researcherEducation));
+
+
+            DeleteResearcherEducation(researcherEducation);
+        }
+
+        /// <summary>
+        /// Updates the researcherEducation
+        /// </summary>
+        /// <param name="researcherEducation">ResearcherEducation</param>
+        public virtual void UpdateResearcherEducation(ResearcherEducation researcherEducation)
+        {
+            if (researcherEducation == null)
+                throw new ArgumentNullException(nameof(researcherEducation));
+
+            _researcherEducationRepository.Update(researcherEducation);
+        }
+
+        public ResearcherEducation GetResearcherEducationById(int researcherEducationId)
+        {
+            if (researcherEducationId == 0)
+                return null;
+
+            return _researcherEducationRepository.GetById(researcherEducationId);
+        }
+
+
+
+        public IPagedList<ResearcherEducation> GetAllResearcherEducations(int researcherId = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        {
+            var query = _researcherEducationRepository.Table;
+
+            query = query.Where(c => c.ResearcherId == researcherId).OrderByDescending(x => x.DegreeId);
+            var researcherEducations = new PagedList<ResearcherEducation>(query, pageIndex, pageSize, getOnlyTotalCount);
+            return researcherEducations;
+        }
+
+        public void InsertResearcherEducation(ResearcherEducation researcherEducation)
+        {
+            if (researcherEducation == null)
+                throw new ArgumentNullException(nameof(researcherEducation));
+
+            if (researcherEducation is IEntityForCaching)
+                throw new ArgumentException("Cacheable entities are not supported by Entity Framework");
+
+            _researcherEducationRepository.Insert(researcherEducation);
+
+            //cache
+            //_cacheManager.RemoveByPattern(ResearchResearcherEducationDefaults.ResearcherEducationsPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchResearcherEducationDefaults.ResearcherEducationsPatternCacheKey);
+
+            ////event notification
+            //_eventPublisher.EntityInserted(researcherEducation);
+        }
     }
 }

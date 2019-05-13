@@ -200,7 +200,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(model => model.AvailableAddEducationDegrees, options => options.Ignore())
                 .ForMember(model => model.AvailableAddEducationEducationLevels, options => options.Ignore())
                 .ForMember(model => model.AvailableAddEducationInstitutes, options => options.Ignore())
-                .ForMember(model => model.Address, options => options.Ignore());
+                .ForMember(model => model.AddressModel, options => options.Ignore());
 
             CreateMap<ResearcherModel, Researcher>()
                 .ForMember(entity => entity.Deleted, options => options.Ignore())

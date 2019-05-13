@@ -4,7 +4,7 @@ using Research.Data;
 using System.Linq;
 using Research.Core.Data;
 
-namespace Research.Services
+namespace Research.Services.Projects
 {
     public class ProjectService : IProjectService
     {

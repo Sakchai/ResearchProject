@@ -2,7 +2,7 @@
 using Research.Data;
 using Research.Enum;
 
-namespace Research.Services
+namespace Research.Services.Researchers
 {
     public partial interface IResearcherService
     {
@@ -61,5 +61,39 @@ namespace Research.Services
         /// <param name="customer">Researcher</param>
         /// <param name="address">Address</param>
         void RemoveResearcherEducation(Researcher researcher, ResearcherEducation researcherEducation);
+
+        /// <summary>
+        /// Gets all researcherEducations
+        /// </summary>
+        /// <param name="researcherId">researcherId; null to load all researcherEducations</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <param name="getOnlyTotalCount">A value in indicating whether you want to load only total number of records. Set to "true" if you don't want to load data from database</param>
+        /// <returns>ResearcherEducations</returns>
+        IPagedList<ResearcherEducation> GetAllResearcherEducations(int researcherId = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
+
+        /// <summary>
+        /// Gets a researcherEducation
+        /// </summary>
+        /// <param name="researcherEducationId">ResearcherEducation identifier</param>
+        /// <returns>ResearcherEducation</returns>
+        ResearcherEducation GetResearcherEducationById(int researcherEducationId);
+
+        /// <summary>
+        /// Inserts researcherEducation
+        /// </summary>
+        /// <param name="researcherEducation">ResearcherEducation</param>
+        void InsertResearcherEducation(ResearcherEducation researcherEducation);
+
+        /// <summary>
+        /// Updates the researcherEducation
+        /// </summary>
+        /// <param name="researcherEducation">ResearcherEducation</param>
+        void UpdateResearcherEducation(ResearcherEducation researcherEducation);
+        /// <summary>
+        /// Delete a ResearcherEducation
+        /// </summary>
+        /// <param name="researcherEducation">ResearcherEducation</param>
+        void DeleteResearcherEducation(ResearcherEducation researcherEducation);
     }
 }

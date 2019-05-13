@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.Faculties
+namespace Research.Services.Common
 {
     /// <summary>
     /// Faculty service    

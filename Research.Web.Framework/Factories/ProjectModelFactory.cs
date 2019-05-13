@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Research.Web.Models.Projects;
-using Research.Enum;
-using Research.Services;
 using Research.Data;
-using Research.Domain;
 using Research.Web.Models.Factories;
+using Research.Services.Projects;
 
 namespace Research.Web.Factories
 {

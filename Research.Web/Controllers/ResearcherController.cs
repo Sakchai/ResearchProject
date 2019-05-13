@@ -13,6 +13,8 @@ using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Researchers;
 using Research.Services.Common;
 using Research.Web.Framework.Mvc;
+using Research.Web.Models.Common;
+using Research.Services.Researchers;
 
 namespace Research.Web.Controllers
 { 
@@ -197,7 +199,7 @@ namespace Research.Web.Controllers
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
 
-                SaveAddress(model, researcher);
+                SaveAddress(model.AddressModel, researcher);
 
                 _researcherService.InsertResearcher(researcher);
                 SuccessNotification("Admin.ContentManagement.Researchers.Added");
@@ -221,16 +223,16 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
-        private void SaveAddress(ResearcherModel model, Researcher researcher)
+        private void SaveAddress(AddressModel model, Researcher researcher)
         {
             if (researcher.AddressId == 0)
             {
                 var address = new Address
                 {
-                    Address1 = model.Address.Address1,
-                    Address2 = model.Address.Address2,
-                    ProvinceId = model.Address.ProvinceId,
-                    ZipCode = model.Address.ZipCode
+                    Address1 = model.Address1,
+                    Address2 = model.Address2,
+                    ProvinceId = model.ProvinceId,
+                    ZipCode = model.ZipCode
                 };
                 //_addressService.InsertAddress(address);
                 researcher.Address = address;
@@ -238,10 +240,10 @@ namespace Research.Web.Controllers
             else
             {
                 var address = _addressService.GetAddressById(researcher.AddressId.Value);
-                address.Address1 = model.Address.Address1;
-                address.Address2 = model.Address.Address2;
-                address.ProvinceId = model.Address.ProvinceId;
-                address.ZipCode = model.Address.ZipCode;
+                address.Address1 = model.Address1;
+                address.Address2 = model.Address2;
+                address.ProvinceId = model.ProvinceId;
+                address.ZipCode = model.ZipCode;
                 _addressService.UpdateAddress(address);
             }
         }
@@ -278,7 +280,7 @@ namespace Research.Web.Controllers
                 researcher = model.ToEntity(researcher);
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
-                SaveAddress(model, researcher);
+                SaveAddress(model.AddressModel, researcher);
 
                 _researcherService.UpdateResearcher(researcher);
 
@@ -373,15 +375,17 @@ namespace Research.Web.Controllers
 
             var researcherEducation = new ResearcherEducation
             {
+                ResearcherId = researcher.Id,
                 DegreeId = degreeId,
                 EducationLevelId = educationLevelId,
                 InstituteId = institudeId,
                 CountryId = countryId,
                 GraduationYear = graduationYear
             };
-            researcher.ResearcherEducations.Add(researcherEducation);
-            _researcherService.UpdateResearcher(researcher);
-
+            _researcherService.InsertResearcherEducation(researcherEducation);
+          //  researcher.ResearcherEducations.Add(researcherEducation);
+          //  _researcherService.UpdateResearcher(researcher);
+            
             return Json(new { Result = true });
         }
 

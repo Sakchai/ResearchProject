@@ -20,9 +20,7 @@ using Research.Services.Common;
 using Research.Services.Authentication;
 using Research.Services.Configuration;
 using Research.Services.Directory;
-using Research.Services.EducationLevels;
 using Research.Services.Events;
-using Research.Services.Faculties;
 using Research.Services.FiscalSchedules;
 using Research.Services.Helpers;
 using Research.Services.Logging;
@@ -39,6 +37,8 @@ using Research.Web.Framework;
 using Research.Web.Framework.Mvc.Routing;
 using Research.Web.Framework.UI;
 using Research.Web.Models.Factories;
+using Research.Services.Projects;
+using Research.Services.Researchers;
 
 namespace Research.Web.Infrastructure
 {

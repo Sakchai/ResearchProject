@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Core;
 using Research.Data;
-using Research.Services;
+using Research.Services.Researchers;
 using Research.Web.Extensions;
 using Research.Web.Models.Common;
 using Research.Web.Models.Factories;
@@ -145,24 +142,10 @@ namespace Research.Web.Factories
                     model.DateOfBirthMonth = researcher.Birthdate.Value.Month;
                     model.DateOfBirthYear = researcher.Birthdate.Value.Year + 543;
                 }
-                if (researcher.Address != null)
-                {
-                    var addr = new AddressModel {
-                        Id = researcher.Address.Id,
-                        Address1 = researcher.Address.Address1,
-                        Address2 = researcher.Address.Address2,
-                        ProvinceId = researcher.Address.ProvinceId,
-                        ZipCode = researcher.Address.ZipCode
-                    };
-                    model.Address = addr;
-                }
-                else
-                {
-                    model.Address = new AddressModel();
-                }
-            }
+                PrepareAddressModel(model.AddressModel, researcher);
+                PrepareResearcherEducationSearchModel(model.ResearcherEducationSearchModel, researcher);
+            } 
 
-            _baseAdminModelFactory.PrepareProvinces(model.Address.AvailableProvinces,true,"--โปรดระบุจังหวัด--");
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");
             _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies,true, "--โปรดระบุประเภทหน่วยงาน--");
             _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, true, "--โปรดระบุตำแหน่งวิชาการ--");
@@ -175,6 +158,60 @@ namespace Research.Web.Factories
             return model;
         }
 
+        /// <summary>
+        /// Prepare Researcher Education search model
+        /// </summary>
+        /// <param name="searchModel">Researcher Education search model</param>
+        /// <param name="researcher">Researcher</param>
+        /// <returns>Researcher Education search model</returns>
+        protected virtual ResearcherEducationSearchModel PrepareResearcherEducationSearchModel(ResearcherEducationSearchModel searchModel, Researcher researcher)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (researcher == null)
+                throw new ArgumentNullException(nameof(researcher));
+
+            searchModel.ResearcherId = researcher.Id;
+
+            //prepare page parameters
+            searchModel.SetGridPageSize();
+
+            return searchModel;
+        }
+
+        /// <summary>
+        /// Prepare address model
+        /// </summary>
+        /// <param name="model">Address model</param>
+        /// <param name="address">Address</param>
+        protected virtual void PrepareAddressModel(AddressModel model, Researcher researcher)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            if (researcher.Address != null)
+            {
+                var addr = new AddressModel
+                {
+                    Id = researcher.Address.Id,
+                    Address1 = researcher.Address.Address1,
+                    Address2 = researcher.Address.Address2,
+                    ProvinceId = researcher.Address.ProvinceId,
+                    ZipCode = researcher.Address.ZipCode
+                };
+                model = addr;
+            }
+            else
+            {
+                model = new AddressModel();
+
+            }
+            //prepare available Provinces
+            _baseAdminModelFactory.PrepareProvinces(model.AvailableProvinces, true, "--โปรดระบุจังหวัด--");
+
+
+        }
         /// <summary>
         /// Prepare paged researcher education list model
         /// </summary>

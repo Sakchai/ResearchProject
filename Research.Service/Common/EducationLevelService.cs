@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Research.Services.EducationLevels
+namespace Research.Services.Common
 {
     /// <summary>
     /// EducationLevel service    

@@ -167,7 +167,7 @@
     $(document).ready(function() {
         $('#addResearcherEducation').click(function() {
             var educationDegreeId = $("#@Html.IdFor(model => model.AddEducationDegreeId)").val();
-            var eduLevelId = $("#@Html.IdFor(model => model.AddEducationEducationLevelId)").val();
+            var educationLevelId = $("#@Html.IdFor(model => model.AddEducationEducationLevelId)").val();
             var educationInstituteId = $("#@Html.IdFor(model => model.AddEducationInstituteId)").val();
             var educationCountryId = $("#@Html.IdFor(model => model.AddEducationCountryId)").val();
             var educationGraduationYear = $("#@Html.IdFor(model => model.AddEducationGraduationYear)").val();
@@ -177,10 +177,10 @@
             var postData = {
                 researcherId: '@(Model.Id)',
                 degreeId: educationDegreeId,
-                educationLevelId = eduLevelId,
-                institudeId = educationInstituteId,
-                countryId = educationCountryId,
-                graduationYear = educationGraduationYear
+                educationLevelId: educationLevelId,
+                institudeId: educationInstituteId,
+                countryId: educationCountryId,
+                graduationYear: educationGraduationYear
             };
             addAntiForgeryToken(postData);
 
@@ -195,7 +195,7 @@
                     $('#addResearcherEducation').attr('disabled', false);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Failed to add researcher note.');
+                    alert('Failed to add researcher education.');
                     $('#addResearcherEducation').attr('disabled', false);
                 }
             });

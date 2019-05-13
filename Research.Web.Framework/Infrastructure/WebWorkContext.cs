@@ -9,6 +9,7 @@ using Research.Data;
 using Research.Services;
 using Research.Services.Authentication;
 using Research.Services.Helpers;
+using Research.Services.Researchers;
 using Research.Services.Tasks;
 
 namespace Research.Web.Framework

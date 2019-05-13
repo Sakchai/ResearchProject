@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Research.Core;
 using Research.Data;
 
-namespace Research.Services.EducationLevels
+namespace Research.Services.Common
 {
     /// <summary>
     /// EducationLevel service interface

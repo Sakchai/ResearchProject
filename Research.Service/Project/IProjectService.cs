@@ -1,7 +1,7 @@
 ﻿using Research.Core;
 using Research.Data;
 
-namespace Research.Services
+namespace Research.Services.Projects
 {
     public partial interface IProjectService
     {

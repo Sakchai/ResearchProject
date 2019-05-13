@@ -21,7 +21,7 @@ namespace Research.Web.Models.Researchers
             AvailableAddEducationEducationLevels = new List<SelectListItem>();
             AvailableAddEducationInstitutes = new List<SelectListItem>();
             AvailableAddEducationCountries = new List<SelectListItem>();
-            Address = new AddressModel();
+            AddressModel = new AddressModel();
             ResearcherEducationSearchModel = new ResearcherEducationSearchModel();
         }
         [Display(Name = "คำนำหน้า(ไทย)")]
@@ -82,7 +82,7 @@ namespace Research.Web.Models.Researchers
         [UIHint("Picture")]
         [Display(Name = "รูปภาพนักวิจัย")]
         public int? PictureId { get; set; }
-        public AddressModel Address { get; set; }
+        public AddressModel AddressModel { get; set; }
         public string FullName { get => $"{TitleName}{FirstName} {LastName}"; }
     
         public bool IsCompleted { get => IsActive && IsAcceptedConditions; }
