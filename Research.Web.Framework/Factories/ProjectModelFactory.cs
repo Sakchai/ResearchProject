@@ -88,7 +88,11 @@ namespace Research.Web.Factories
                     var projectModel = new ProjectModel
                     {
                         Id = project.Id,
+                        ProjectCode = project.ProjectCode,
                         ProjectNameTh = project.ProjectNameTh,
+                        StartContractDateName = project.ProjectStartDate.ToShortDateString(),
+                        ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
+                        ProjectStatusName = project.ProjectStatus.ToString()
                     };
 
                     return projectModel;

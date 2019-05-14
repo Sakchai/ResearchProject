@@ -177,7 +177,7 @@ namespace Research.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProjectList(ProjectSearchModel searchModel)
+        public ActionResult List(ProjectSearchModel searchModel)
         {
             var model = _projectModelFactory.PrepareProjectListModel(searchModel);
             return Json(model);

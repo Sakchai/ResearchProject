@@ -44,12 +44,15 @@ namespace Research.Web.Models.Projects
         public int ResearchIssueId { get; set; }
         [Display(Name = "งบประมาณ")]
         public decimal FundAmount { get; set; }
+        public string ProjectStatusName { get; set; }
+        public string ProgressStatusName { get; set; }
         public int InternalProfessorId { get; set; }
         public int InternalProfessor2Id { get; set; }
         [Display(Name = "ผู้ทรงคุณวุฒิ (ภายนอก)")]
         public int ExternalProfessorId { get; set; }
         public int ProjectUploadId { get; set; }
         public DateTime StartContractDate { get; set; }
+        public String StartContractDateName { get; set; }
         public DateTime EndContractDate { get; set; }
         public int FiscalScheduleId { get; set; }
         public string LastUpdateBy { get; set; }
@@ -68,10 +71,13 @@ namespace Research.Web.Models.Projects
 
         #region project researchers
         public ProjectResearcherSearchModel ProjectResearcherSearchModel { get; set; }
+        [Display(Name = "ชื่อนักวิจัย")]
         public int AddResearcherResearcherId { get; set; }
         public IList<SelectListItem> AvailableResearchers { get; set; }
+        [Display(Name = "บทบาทในโครงการ")]
         public int AddResearcherRoleId { get; set; }
         public IList<SelectListItem> AvailableResearcherRoles { get; set; }
+        [Display(Name = "สัดส่วน")]
         public int AddResearcherPortion { get; set; }
         #endregion
     }

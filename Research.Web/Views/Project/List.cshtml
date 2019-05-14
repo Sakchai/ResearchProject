@@ -128,13 +128,6 @@
             scrollable: false,
             columns: [
                 {
-                    field: "Id",
-                    headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
-                    headerAttributes: { style: "text-align:center" },
-                    attributes: { style: "text-align:center" },
-                    template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
-                    width: 50
-                }, {
                     field: "FiscalYear",
                     title: "ปีงบ",
                     width: 100
@@ -151,12 +144,12 @@
                     title: "วันที่ยื่นข้อเสนอ",
                     width: 100
                 }, {
-                    field: "FundAmount",
-                    title: "งบวิจัย",
+                    field: "ProjectStatusName",
+                    title: "ผลการพิจารณา",
                     width: 100
                 }, {
-                    field: "ProjectStatus",
-                    title: "สถานะ",
+                    field: "ProgressStatusName",
+                    title: "สถานะโครงการวิจัย",
                     width: 100
                 }, {
                     field: "Id",
@@ -164,7 +157,7 @@
                     width: 50,
                     headerAttributes: { style: "text-align:center" },
                     attributes: { style: "text-align:center" },
-                    template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>Edit</a>'
+                    template: '<a class="btn btn-default" href="Project/Edit/#=Id#"><i class="fa fa-pencil"></i>Edit</a>'
                 }
             ]
         });
