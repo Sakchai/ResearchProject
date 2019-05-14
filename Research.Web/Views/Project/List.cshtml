@@ -1,95 +1,95 @@
 ﻿@model ProjectSearchModel
 @{
     //page title
-    ViewBag.Title = "List Project";
+    ViewBag.Title = "รายละเอียดข้อเสนอโครงการวิจัย";
 }
-<form asp-controller="Project" asp-action="List" method="post">
-    <div class="content-header clearfix">
-        <h1 class="pull-left">
-            ข้อเสนอโครงการวิจัย
-        </h1>
-        <div class="pull-right">
-            <a asp-action="Create" class="btn bg-blue">
-                <i class="fa fa-plus-square"></i>
-                เพิ่มข้อเสนอโครงการวิจัย
-            </a>
-        </div>
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        รายละเอียดข้อเสนอโครงการวิจัย
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            เพิ่มข้อเสนอโครงการวิจัย
+        </a>
     </div>
-    <div class="content">
-        <div class="form-horizontal">
-            <div class="panel-group">
-                <div class="panel panel-default panel-search">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="SearchProjectName" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-editor asp-for="SearchProjectName" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="FiscalScheduleId" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-select asp-for="FiscalScheduleId" asp-items="Model.AvailableFiscalYears" />
-                                    </div>
-                                </div>
+</div>
 
-                                <div class="form-group">
-                                    <div class="col-md-8 col-md-offset-4">
-                                        <button type="button" id="search-projects" class="btn btn-primary btn-search">
-                                            <i class="fa fa-search"></i>
-                                            ค้นหา
-                                        </button>
-                                    </div>
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="SearchProjectName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="SearchProjectName" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="AgencyId" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
-                                    </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="FiscalScheduleId" />
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="ProgressStatusId" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-select asp-for="ProgressStatusId" asp-items="Model.AvailableProgressStatuses" />
-                                    </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="FiscalScheduleId" asp-items="Model.AvailableFiscalYears" />
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <nop-label asp-for="ProjectStatusId" />
-                                    </div>
-                                    <div class="col-md-8">
-                                        <nop-select asp-for="ProjectStatusId" asp-items="Model.AvailableProjectStatuses" />
-                                    </div>
-                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-projects" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        ค้นหา
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="AgencyId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ProgressStatusId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="ProgressStatusId" asp-items="Model.AvailableProgressStatuses" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ProjectStatusId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="ProjectStatusId" asp-items="Model.AvailableProjectStatuses" />
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
+
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div id="projects-grid"></div>
-                        <script>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="projects-grid"></div>
+                    <script>
     $(document).ready(function() {
         $("#projects-grid").kendoGrid({
             dataSource: {
                 type: "json",
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("ProjectList", "Project"))",
+                        url: "@Html.Raw(Url.Action("List", "Project"))",
                         type: "POST",
                         dataType: "json",
                         data: function() {
@@ -100,7 +100,7 @@
                                 ResearchIssueId: $('#@Html.IdFor(model => model.ProgressStatusId)').val(),
                                 ProjectStatusId: $('#@Html.IdFor(model => model.ProjectStatusId)').val()
                             };
-                            
+
                             return data;
                         }
                     }
@@ -164,105 +164,25 @@
                     width: 50,
                     headerAttributes: { style: "text-align:center" },
                     attributes: { style: "text-align:center" },
-                    template: '<a class="btn btn-default" href="Project/Edit/#=Id#"><i class="fa fa-pencil"></i>Edit</a>'
+                    template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>Edit</a>'
                 }
             ]
         });
     });
-                        </script>
-                        <script>
-    var selectedIds = [];
-
-    $(document).ready(function() {
-        //search button
-        $('#search-projects').click(function() {
-            var grid = $('#projects-grid').data('kendoGrid');
-            grid.dataSource.page(1); //new search. Set page size to 1
-            //grid.dataSource.read(); we already loaded the grid above using "page" function
-            //clear selected checkboxes
-            $('.checkboxGroups').attr('checked', false).change();
-            selectedIds = [];
-            return false;
-        });
-
-        @*$("".concat("#@Html.IdFor(model => model.SearchProjectName)").keydown(function(event) {
-            if (event.keyCode === 13) {
-                $("#search-projects").click();
-                return false;
-            }
-        });*@
-
-        $('#mastercheckbox').click(function() {
-            $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
-        });
-
-        //wire up checkboxes.
-        $('#projects-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function(e) {
-            var $check = $(this);
-            var checked = jQuery.inArray($check.val(), selectedIds);
-            if ($check.is(":checked") == true) {
-                if (checked == -1) {
-                    //add id to selectedIds.
-                    selectedIds.push($check.val());
-                }
-            } else if (checked > -1) {
-                //remove id from selectedIds.
-                selectedIds = $.grep(selectedIds, function (item, index) {
-                    return item != $check.val();
-                });
-            }
-            updateMasterCheckbox();
-        });
-    });
-
-    function onDataBound(e) {
-        $('#projects-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function() {
-            var currentId = $(this).val();
-            var checked = jQuery.inArray(currentId, selectedIds);
-            //set checked based on if current checkbox's value is in selectedIds.
-            $(this).attr('checked', checked > -1);
-        });
-
-        updateMasterCheckbox();
-    }
-
-    function updateMasterCheckbox() {
-        var numChkBoxes = $('#projects-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
-        var numChkBoxesChecked = $('#projects-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
-        $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
-    }
-                        </script>
-                    </div>
+                    </script>
+                    <script>
+                        $(document).ready(function () {
+                            //search button
+                            $('#search-projects').click(function () {
+                                //search
+                                var grid = $('#projects-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                                return false;
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
     </div>
-</form>
-@*export selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
-<form asp-controller="Project" asp-action="ExportXmlSelected" method="post" id="export-xml-selected-form">
-    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
-</form>
-<script>
-    $(document).ready(function () {
-        $('#exportxml-selected').click(function (e) {
-            e.preventDefault();
-            var ids = selectedIds.join(",");
-            $('#export-xml-selected-form #selectedIds').val(ids);
-            $('#export-xml-selected-form').submit();
-            return false;
-        });
-    });</script>
-@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
-<form asp-controller="Project" asp-action="ExportExcelSelected" method="post" id="export-excel-selected-form">
-    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
-</form>
-<script>
-    $(document).ready(function () {
-        $('#exportexcel-selected').click(function (e) {
-            e.preventDefault();
-            var ids = selectedIds.join(",");
-            $('#export-excel-selected-form #selectedIds').val(ids);
-            $('#export-excel-selected-form').submit();
-            return false;
-        });
-    });</script>
+</div>

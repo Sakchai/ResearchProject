@@ -1,0 +1,170 @@
+﻿@model ProjectModel
+
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="projectresearchers-grid"></div>
+
+            <script>
+                $(document).ready(function() {
+                    $("#projectresearchers-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("ProjectResearchersSelect", "Project"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: function() {
+                                        var data = {
+                                            ProjectId: '@(Model.Id)'
+                                        };
+                                        //addAntiForgeryToken(data);
+                                        return data;
+                                    }
+                                },
+                                destroy: {
+                                    url: "@Html.Raw(Url.Action("ProjectResearcherDelete", "Researcher", new { researcherId = Model.Id }))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    //data: addAntiForgeryToken
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors",
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        //do not implicitly specify all fields
+                                        //we do it only for fields which implicitly require it
+                                        //otherwise, they'll be formatted wrong way
+                                        CreatedOn: { type: "date" }
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(Model.ProjectResearcherSearchModel.PageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(Model.ProjectResearcherSearchModel.AvailablePageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        editable: {
+                            confirmation: "คุณต้องการจะลบรายการนี้ใช่หรือไม่",
+                            mode: "inline"
+                        },
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "ResearcherName",
+                                title: "ชื่อนักวิจัย",
+                                width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                field: "RoleName",
+                                title: "บทบาทในโครงการ",
+                                width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                command: { name: "destroy", text: "ลบรายการ" },
+                                title: "การกระทำ",
+                                width: 75,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                            }
+                        ]
+                    });
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            เพิ่มบัญชีรายชื่อนักวิจัย
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddResearcherResearcherId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddResearcherResearcherId" asp-items="Model.AvailableResearchers" />
+                    <span asp-validation-for="AddResearcherResearcherId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddResearcherRoleId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddResearcherRoleId" asp-items="Model.AvailableResearcherRoles" />
+                    <span asp-validation-for="AddResearcherRoleId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddResearcherPortion" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddResearcherPortion" />
+                    <span asp-validation-for="AddResearcherPortion"></span>
+                </div>
+            </div>
+  
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button type="button" id="addProjectResearcher" class="btn btn-primary">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#addProjectResearcher').click(function() {
+            var researcherResearcherId = $("#@Html.IdFor(model => model.AddResearcherResearcherId)").val();
+            var researcherRoleId = $("#@Html.IdFor(model => model.AddResearcherRoleId)").val();
+            var researcherPortion = $("#@Html.IdFor(model => model.AddResearcherPortion)").val();
+
+            $('#addProjectResearcher').attr('disabled', true);
+
+            var postData = {
+                projectId: '@(Model.Id)',
+                researcherId: researcherResearcherId,
+                roleId: researcherRoleId,
+                portion: researcherPortion,
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@( Url.Action("ProjectResearcherAdd", "Project"))",
+                data: postData,
+                success: function(data) {
+                    var grid = $("#projectresearchers-grid").data('kendoGrid');
+                    grid.dataSource.read();
+                    $('#addProjectResearcher').attr('disabled', false);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to add project researcher.');
+                    $('#addProjectResearcher').attr('disabled', false);
+                }
+            });
+        });
+    });
+</script>
+

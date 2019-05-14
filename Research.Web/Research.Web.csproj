@@ -35,6 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Project\_CreateOrUpdate.Profs.cshtml" />
+    <Content Remove="Views\Project\_CreateOrUpdate.Progresses.cshtml" />
+    <Content Remove="Views\Project\_CreateOrUpdate.Status.cshtml" />
     <Content Remove="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
 
@@ -95,7 +98,7 @@
   <ItemGroup>
     <None Include="Views\ActivityLog\ListLogs.cshtml" />
     <None Include="Views\ActivityLog\ListTypes.cshtml" />
-    <None Include="Views\Researcher\Add.cshtml" />
+    <None Include="Views\Researcher\Create.cshtml" />
     <None Include="Views\Researcher\List.cshtml" />
     <None Include="Views\Researcher\_CreateOrUpdate.cshtml" />
     <None Include="Views\Researcher\_CreateOrUpdate.Info.cshtml" />
@@ -123,8 +126,6 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\images\NewFolder\" />
-  </ItemGroup>
+
 
 </Project>

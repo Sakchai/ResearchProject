@@ -16,6 +16,7 @@ namespace Research.Data
         public string ProjectNameEn { get; set; }
         public string PlanNameTh { get; set; }
         public string PlanNameEn { get; set; }
+        public string ProjectType { get; set; }
         public int FiscalYear { get; set; }
         public int? ResearchIssueId { get; set; }
         public decimal FundAmount { get; set; }

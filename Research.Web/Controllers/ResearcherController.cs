@@ -173,8 +173,8 @@ namespace Research.Web.Controllers
         #endregion
 
         #region Create / Edit / Delete
-        [HttpGet, ActionName("Add")]
-        public virtual IActionResult Add()
+        [HttpGet, ActionName("Create")]
+        public virtual IActionResult Create()
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
             //    return AccessDeniedView();
@@ -331,8 +331,8 @@ namespace Research.Web.Controllers
             var researcher = _researcherService.GetResearcherById(id);
             if (researcher == null)
                 return RedirectToAction("List");
-
-            _researcherService.DeleteResearcher(researcher);
+            researcher.Deleted = true;
+            _researcherService.UpdateResearcher(researcher);
 
             SuccessNotification("Researchers Deleted");
 
@@ -353,13 +353,18 @@ namespace Research.Web.Controllers
             //    return AccessDeniedKendoGridJson();
 
             //try to get a researcher with the specified id
-            var researcher = _researcherService.GetResearcherById(searchModel.ResearcherId)
-                ?? throw new ArgumentException("No researcher found with the specified id");
+            var researcher = _researcherService.GetResearcherById(searchModel.ResearcherId);
+            //?? throw new ArgumentException("No researcher found with the specified id");
 
             //prepare model
-            var model = _researcherModelFactory.PrepareResearcherEducationListModel(searchModel, researcher);
+            if (researcher != null)
+            {
+                var model = _researcherModelFactory.PrepareResearcherEducationListModel(searchModel, researcher);
 
-            return Json(model);
+                return Json(model);
+            }
+            else
+                return Json(new ResearcherEducationListModel());
         }
 
         public virtual IActionResult ResearcherEducationAdd(int researcherId, int degreeId,

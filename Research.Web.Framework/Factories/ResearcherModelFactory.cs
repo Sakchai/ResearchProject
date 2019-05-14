@@ -144,6 +144,7 @@ namespace Research.Web.Factories
                 }
                 PrepareAddressModel(model.AddressModel, researcher);
                 PrepareResearcherEducationSearchModel(model.ResearcherEducationSearchModel, researcher);
+
             } 
 
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");
@@ -155,6 +156,9 @@ namespace Research.Web.Factories
             _baseAdminModelFactory.PrepareEducationLevels(model.AvailableAddEducationEducationLevels, true, "--โปรดระบุวุฒิการศึกษา--");
             _baseAdminModelFactory.PrepareInstitutes(model.AvailableAddEducationInstitutes, true, "--โปรดระบุสถาบันการศึกษา--");
             _baseAdminModelFactory.PrepareCountries(model.AvailableAddEducationCountries, true, "--โปรดระบุประเทศ--");
+            //Default Thailand
+            model.AddEducationCountryId = 229;
+            model.AddEducationGraduationYear = DateTime.Now.Year + 543;
             return model;
         }
 
@@ -192,15 +196,11 @@ namespace Research.Web.Factories
 
             if (researcher.Address != null)
             {
-                var addr = new AddressModel
-                {
-                    Id = researcher.Address.Id,
-                    Address1 = researcher.Address.Address1,
-                    Address2 = researcher.Address.Address2,
-                    ProvinceId = researcher.Address.ProvinceId,
-                    ZipCode = researcher.Address.ZipCode
-                };
-                model = addr;
+                model.Id = researcher.Address.Id;
+                model.Address1 = researcher.Address.Address1;
+                model.Address2 = researcher.Address.Address2;
+                model.ProvinceId = researcher.Address.ProvinceId;
+                model.ZipCode = researcher.Address.ZipCode;
             }
             else
             {
@@ -227,19 +227,20 @@ namespace Research.Web.Factories
                 throw new ArgumentNullException(nameof(researcher));
 
             //get researcher educations
-            var researcherEducations = researcher.ResearcherEducations.OrderByDescending(edu => edu.Degree).ToList();
-
+            //chai
+            //var researcherEducations = researcher.ResearcherEducations.OrderByDescending(edu => edu.Degree).ToList();
+            var researcherEducations = _researcherService.GetAllResearcherEducations(researcher.Id).ToList();
             //prepare list model
             var model = new ResearcherEducationListModel
             {
                 Data = researcherEducations.PaginationByRequestModel(searchModel).Select(education =>
                 {
-                    //fill in model values from the entity        
+                    //fill in model values from the entity       
                     var researcherEducationModel = new ResearcherEducationModel
                     {
                         Id = education.Id,
-                        ResearcherId = education.ResearcherId,
-                        Degress = education.Degree.ToString(),
+                        ResearcherId = researcher.Id,
+                        DegreeName = CommonHelper.ConvertEnum(education.Degree.ToString()),
                         EducationLevelName = education.EducationLevel.Name,
                         InstituteName = education.Institute.Name,
                         CountryName = education.Country.Name,

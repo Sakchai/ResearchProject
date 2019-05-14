@@ -115,7 +115,7 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "เพิ่มผู้วิจัย",
                         IconClassName = "fa fa-user-plus",
-                        URLPath = "/Researcher/Add",
+                        URLPath = "/Researcher/Create",
                         LinkCounter = counter,
                     };
                 case Module.Professors:

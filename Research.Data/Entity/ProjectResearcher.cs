@@ -9,7 +9,7 @@ namespace Research.Data
         public int ProjectId { get; set; }
         public int ResearcherId { get; set; }
         public int Portion { get; set; }
-        public int? ProjectRoleId { get; set; }
+        public int ProjectRoleId { get; set; }
         public int? TitleId { get; set; }
         public string TitleName { get; set; }
         public string FirstName { get; set; }

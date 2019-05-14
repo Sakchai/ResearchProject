@@ -32,8 +32,9 @@ namespace Research.Data.Mapping
                 .HasForeignKey(d => d.InstituteId);
 
             entity.HasOne(d => d.Researcher)
-                .WithMany()
+                .WithMany(researcher => researcher.ResearcherEducations)
                 .HasForeignKey(d => d.ResearcherId);
+
             entity.Ignore(d => d.Degree);
 
             base.Configure(entity);

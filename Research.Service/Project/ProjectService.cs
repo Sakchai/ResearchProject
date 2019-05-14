@@ -3,6 +3,7 @@ using Research.Core;
 using Research.Data;
 using System.Linq;
 using Research.Core.Data;
+using Research.Core.Caching;
 
 namespace Research.Services.Projects
 {
@@ -12,14 +13,16 @@ namespace Research.Services.Projects
         private readonly IRepository<AcademicRank> _academicRankrepository;
         //private readonly IRepository<ProjectHistory> _projectHistoryRepository;
         //private readonly IRepository<ProjectProgress> _projectProgressRepository;
-        //private readonly IRepository<ProjectResearcher> _projectResearcherRepository;
+        private readonly IRepository<ProjectResearcher> _projectResearcherRepository;
         private readonly string _entityName;
 
         public ProjectService(IRepository<Project> projectRepository,
-                              IRepository<AcademicRank> academicRankRepository)
+                              IRepository<AcademicRank> academicRankRepository,
+                              IRepository<ProjectResearcher> projectResearcherRepository)
         {
             this._projectRepository = projectRepository;
             this._academicRankrepository = academicRankRepository;
+            this._projectResearcherRepository = projectResearcherRepository;
             this._entityName = typeof(Project).Name;
         }
         public void DeleteProject(Project project)
@@ -61,6 +64,48 @@ namespace Research.Services.Projects
                 return null;
 
             return _projectRepository.GetById(projectId);
+        }
+
+        public void RemoveProjectResearcher(Project project, ProjectResearcher projectResearcher)
+        {
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            if (projectResearcher == null)
+                throw new ArgumentNullException(nameof(projectResearcher));
+
+            project.ProjectResearchers.Remove(projectResearcher);
+        }
+
+        public void InsertProjectResearcher(ProjectResearcher projectResearcher)
+        {
+            if (projectResearcher == null)
+                throw new ArgumentNullException(nameof(projectResearcher));
+
+            if (projectResearcher is IEntityForCaching)
+                throw new ArgumentException("Cacheable entities are not supported by Entity Framework");
+
+            _projectResearcherRepository.Insert(projectResearcher);
+        }
+
+        public void InsertProject(Project project)
+        {
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            if (project is IEntityForCaching)
+                throw new ArgumentException("Cacheable entities are not supported by Entity Framework");
+
+            _projectRepository.Insert(project);
+        }
+
+        public IPagedList<ProjectResearcher> GetAllProjectResearchers(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        {
+            var query = _projectResearcherRepository.Table;
+
+            query = query.Where(c => c.ProjectId == projectId);
+            var projectResearcher = new PagedList<ProjectResearcher>(query, pageIndex, pageSize, getOnlyTotalCount);
+            return projectResearcher;
         }
     }
 }

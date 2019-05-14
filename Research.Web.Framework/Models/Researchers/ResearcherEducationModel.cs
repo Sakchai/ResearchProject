@@ -19,7 +19,7 @@ namespace Research.Web.Models.Researchers
         public int InstituteId { get; set; }
         public string InstituteName { get; set; }
         public int DegreeId { get; set; }
-        public string Degress { get; set; }
+        public string DegreeName { get; set; }
         public int CountryId { get; set; }
         public string CountryName { get; set; }
         public int GraduationYear { get; set; }

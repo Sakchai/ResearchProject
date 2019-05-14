@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Web.Models.Projects;
+using Research.Web.Extensions;
 using Research.Data;
 using Research.Web.Models.Factories;
 using Research.Services.Projects;
@@ -29,7 +32,7 @@ namespace Research.Web.Factories
             return model;
         }
 
-        public ProjectModel PrepareProjectModel(ProjectModel model, Project project)
+        public ProjectModel PrepareProjectModel(ProjectModel model, Project project, bool v)
         {
             if (project != null)
             {
@@ -49,6 +52,21 @@ namespace Research.Web.Factories
             return model;
         }
 
+        protected virtual ProjectResearcherSearchModel PrepareProjectResearcherSearchModel(ProjectResearcherSearchModel searchModel, Project project)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            searchModel.ProjectId = project.Id;
+
+            //prepare page parameters
+            searchModel.SetGridPageSize();
+
+            return searchModel;
+        }
         /// <summary>
         /// Prepare paged project list model
         /// </summary>
@@ -83,6 +101,7 @@ namespace Research.Web.Factories
 
         public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
+
             _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies,true, "--หน่วยงาน--");
             _baseAdminModelFactory.PrepareFiscalSchedules(searchModel.AvailableFiscalYears,true, "--ปีงบประมาณ--");
             _baseAdminModelFactory.PrepareProjectStatuses(searchModel.AvailableProjectStatuses,true, "--สถานะผลการพิจารณา--");
@@ -90,6 +109,65 @@ namespace Research.Web.Factories
             //prepare page parameters
             searchModel.SetGridPageSize();
             return searchModel;
+        }
+
+        public ProjectResearcherListModel PrepareProjectResearcherListModel(ProjectResearcherSearchModel searchModel, Project project)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            //get researcher educations
+            //chai
+            //var researcherEducations = researcher.ResearcherEducations.OrderByDescending(edu => edu.Degree).ToList();
+            var projectResearchers = _projectService.GetAllProjectResearchers(project.Id).ToList();
+            //prepare list model
+            var model = new ProjectResearcherListModel
+            {
+                Data = projectResearchers.PaginationByRequestModel(searchModel).Select(x =>
+                {
+                    //fill in model values from the entity       
+                    var projectResearcherModel = new ProjectResearcherModel
+                    {
+                        Id = x.Id,
+                        Portion = x.Portion,
+                        ProjectId = x.ProjectId,
+                        RoleName = x.ProjectRole.ToString(),
+                        ResearcherId = x.ResearcherId,
+                        ProjectRoleId = x.ProjectRoleId,
+                        ResearcherName = $"{x.Researcher.FirstName} {x.Researcher.LastName}"
+                    };
+
+
+
+                    return projectResearcherModel;
+                }),
+                Total = projectResearchers.Count
+            };
+
+            return model;
+        }
+
+        public ProjectModel PrepareProjectModel(ProjectModel model, Project project)
+        {
+            if (project != null)
+            {
+                //fill in model values from the entity
+                model.ProjectCode = project.ProjectCode;
+                model.ProjectNameTh = project.ProjectNameTh;
+                model.FiscalYear = project.FiscalYear;
+                model.StartContractDate = project.ProjectStartDate;
+                model.EndContractDate = project.ProjectEndDate;
+                model.FundAmount = project.FundAmount;
+                model.LastUpdateBy = project.LastUpdateBy;
+            }
+            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
+            _baseAdminModelFactory.PrepareProfessors(model.AvailableResearchIssues, true, "--ระบุผู้ทรงคุณวุฒิ--");
+            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules, true, "--ระบุปีงบประมาณ--");
+            _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");
+            return model;
         }
     }
 }

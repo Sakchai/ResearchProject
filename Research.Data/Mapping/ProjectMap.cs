@@ -42,6 +42,9 @@ namespace Research.Data.Mapping
                 .HasColumnName("PlanNameTH")
                 .HasMaxLength(500);
 
+            entity.Property(e => e.ProjectType)
+                .HasColumnName("ProjectType")
+                .HasMaxLength(1);
 
             entity.Property(e => e.ProjectStartDate).HasColumnType("date");
 
