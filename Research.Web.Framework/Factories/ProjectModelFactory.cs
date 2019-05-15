@@ -88,6 +88,7 @@ namespace Research.Web.Factories
                     var projectModel = new ProjectModel
                     {
                         Id = project.Id,
+                        FiscalYear = project.FiscalYear,
                         ProjectCode = project.ProjectCode,
                         ProjectNameTh = project.ProjectNameTh,
                         StartContractDateName = ConvertToThaiDate(project.ProjectStartDate),
