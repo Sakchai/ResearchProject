@@ -90,7 +90,7 @@ namespace Research.Web.Factories
                         Id = project.Id,
                         ProjectCode = project.ProjectCode,
                         ProjectNameTh = project.ProjectNameTh,
-                        StartContractDateName = project.ProjectStartDate.ToShortDateString(),
+                        StartContractDateName = ConvertToThaiDate(project.ProjectStartDate),
                         ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
                         ProjectStatusName = project.ProjectStatus.ToString()
                     };
@@ -101,8 +101,15 @@ namespace Research.Web.Factories
             };
             return model;
         }
-        
 
+        private string ConvertToThaiDate(DateTime date)
+        {
+            string[] months = new string[] { "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" };
+            int day = date.Day;
+            int year = date.Year + 543;
+            string month = months[date.Month - 1];
+            return $"{day} {month} {year}";
+        }
         public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
 
