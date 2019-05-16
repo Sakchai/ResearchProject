@@ -6,10 +6,14 @@ namespace Research.Web.Factories
 {
     public partial interface IProjectModelFactory
     {
-        ProjectModel PrepareProjectModel(ProjectModel model, Project project, bool excludeProperties = false);
+        ProjectModel PrepareProjectModel(ProjectModel projectModel, Project project);
         ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel);
         ProjectListModel PrepareProjectListModel(ProjectSearchModel searchModel);
+
+        ProjectResearcherSearchModel PrepareProjectResearcherSearchModel(ProjectResearcherSearchModel searchModel, Project project);
         ProjectResearcherListModel PrepareProjectResearcherListModel(ProjectResearcherSearchModel searchModel, Project project);
-        ProjectModel PrepareProjectModel(ProjectModel projectModel, Project project);
+        
+        ProjectProfessorSearchModel PrepareProjectProfessorSearchModel(ProjectProfessorSearchModel searchModel, Project project);
+        ProjectProfessorListModel PrepareProjectProfessorListModel(ProjectProfessorSearchModel searchModel, Project project);
     }
 }

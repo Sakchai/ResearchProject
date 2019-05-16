@@ -9,6 +9,7 @@ namespace Research.Data
         private ICollection<ProjectHistory> _projectHistories;
         private ICollection<ProjectProgress> _projectProgresses;
         private ICollection<ProjectResearcher> _projectResearchers;
+        private ICollection<ProjectProfessor> _projectProfessors;
 
 
         public string ProjectCode { get; set; }
@@ -20,9 +21,6 @@ namespace Research.Data
         public int FiscalYear { get; set; }
         public int? ResearchIssueId { get; set; }
         public decimal FundAmount { get; set; }
-        public int? InternalProfessorId { get; set; }
-        public int? InternalProfessor2Id { get; set; }
-        public int? ExternalProfessorId { get; set; }
         public int? DownloadId { get; set; }
 
         public DateTime ProjectStartDate { get; set; }
@@ -42,9 +40,6 @@ namespace Research.Data
         public virtual FiscalSchedule FiscalSchedule { get; set; }
         public virtual StrategyGroup StrategyGroup { get; set; }
         public virtual ResearchIssue ResearchIssue { get; set; }
-        public virtual Professor InternalProfessor { get; set; }
-        public virtual Professor InternalProfessor2 { get; set; }
-        public virtual Professor ExternalProfessor { get; set; }
         public virtual ICollection<ProjectHistory> ProjectHistories
         {
             get => _projectHistories ?? (_projectHistories = new List<ProjectHistory>());
@@ -61,6 +56,11 @@ namespace Research.Data
             set => _projectResearchers = value;
         }
 
+        public virtual ICollection<ProjectProfessor> ProjectProfessors
+        {
+            get => _projectProfessors ?? (_projectProfessors = new List<ProjectProfessor>());
+            set => _projectProfessors = value;
+        }
     }
 
 }

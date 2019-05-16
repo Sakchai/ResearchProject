@@ -22,9 +22,11 @@ namespace Research.Web.Models.Projects
             AvailableProfessors = new List<SelectListItem>();
             AvailableResearchIssues = new List<SelectListItem>();
             AvailableStrategyGroups = new List<SelectListItem>();
+            AvailableProfessorTypes = new List<SelectListItem>();
             AvailableResearchers = new List<SelectListItem>();
-            AvailableResearcherRoles = new List<SelectListItem>();
+            AvailableProjectRoles = new List<SelectListItem>();
             ProjectResearcherSearchModel = new ProjectResearcherSearchModel();
+            ProjectProfessorSearchModel = new ProjectProfessorSearchModel();
         }
         [Display(Name = "รหัสโครงการวิจัย")]
         public string ProjectCode { get; set; }
@@ -46,10 +48,6 @@ namespace Research.Web.Models.Projects
         public decimal FundAmount { get; set; }
         public string ProjectStatusName { get; set; }
         public string ProgressStatusName { get; set; }
-        public int InternalProfessorId { get; set; }
-        public int InternalProfessor2Id { get; set; }
-        [Display(Name = "ผู้ทรงคุณวุฒิ (ภายนอก)")]
-        public int ExternalProfessorId { get; set; }
         public int ProjectUploadId { get; set; }
         public DateTime StartContractDate { get; set; }
         public String StartContractDateName { get; set; }
@@ -57,7 +55,7 @@ namespace Research.Web.Models.Projects
         public int FiscalScheduleId { get; set; }
         public string LastUpdateBy { get; set; }
         [Display(Name = "กลุ่มเรื่องตามแนวยุทธศาสตร์มหาวิทยาลัย")]
-        public int StrategyGroupId { get; set; }
+        public int? StrategyGroupId { get; set; }
         public IList<SelectListItem> AvailableStrategyGroups { get; set; }
 
         public virtual ICollection<ResearcherModel> Researchers { get; set; }
@@ -66,19 +64,29 @@ namespace Research.Web.Models.Projects
         [Display(Name = "ผลการพิจารณา")]
         public int ProjectStatusId { get; set; }
         public IList<SelectListItem> AvailableProjectStatuses { get; set; }
-        public IList<SelectListItem> AvailableProfessors { get; set; }
+
         public IList<SelectListItem> AvailableResearchIssues { get; set; }
 
         #region project researchers
         public ProjectResearcherSearchModel ProjectResearcherSearchModel { get; set; }
         [Display(Name = "ชื่อนักวิจัย")]
-        public int AddResearcherResearcherId { get; set; }
+        public int AddProjectResearcherId { get; set; }
         public IList<SelectListItem> AvailableResearchers { get; set; }
         [Display(Name = "บทบาทในโครงการ")]
-        public int AddResearcherRoleId { get; set; }
-        public IList<SelectListItem> AvailableResearcherRoles { get; set; }
+        public int AddProjectRoleId { get; set; }
+        public IList<SelectListItem> AvailableProjectRoles { get; set; }
         [Display(Name = "สัดส่วน")]
-        public int AddResearcherPortion { get; set; }
+        public int AddProjectPortion { get; set; }
+        #endregion
+
+        #region project professors
+        public ProjectProfessorSearchModel ProjectProfessorSearchModel { get; set; }
+        [Display(Name = "ชื่อผู้ทรงคุณวุฒิ")]
+        public int AddProjectProfessorId { get; set; }
+        [Display(Name = "บทบาทในโครงการ")]
+        public int AddProjectProfessorTypeId { get; set; }
+        public IList<SelectListItem> AvailableProfessorTypes { get; set; }
+        public IList<SelectListItem> AvailableProfessors { get; set; }
         #endregion
     }
 }

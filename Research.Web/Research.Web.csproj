@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Project\_CreateOrUpdate.Profs.cshtml" />
     <Content Remove="Views\Project\_CreateOrUpdate.Progresses.cshtml" />
     <Content Remove="Views\Project\_CreateOrUpdate.Status.cshtml" />
     <Content Remove="Views\Shared\_LoginPartial.cshtml" />

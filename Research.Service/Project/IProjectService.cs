@@ -28,9 +28,14 @@ namespace Research.Services.Projects
         /// <returns>A Project</returns>
         Project GetProjectById(int projectId);
         void UpdateProject(Project project);
-        void RemoveProjectResearcher(Project project, ProjectResearcher projectEducation);
+        void RemoveProjectResearcher(Project project, ProjectResearcher projectResearcher);
         void InsertProjectResearcher(ProjectResearcher projectResearcher);
         void InsertProject(Project project);
         IPagedList<ProjectResearcher> GetAllProjectResearchers(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
+
+        void RemoveProjectProfessor(Project project, ProjectProfessor projectProfessor);
+        void InsertProjectProfessor(ProjectProfessor projectProfessor);
+        IPagedList<ProjectProfessor> GetAllProjectProfessors(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
+
     }
 }

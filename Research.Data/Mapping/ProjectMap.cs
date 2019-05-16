@@ -49,26 +49,10 @@ namespace Research.Data.Mapping
             entity.Property(e => e.ProjectStartDate).HasColumnType("date");
 
             entity.Property(e => e.DownloadId).HasColumnName("DownloadId");
-            entity.Property(e => e.InternalProfessorId).HasColumnName("InternalProfessorId");
-            entity.Property(e => e.InternalProfessor2Id).HasColumnName("InternalProfessor2Id");
-            entity.Property(e => e.ExternalProfessorId).HasColumnName("ExternalProfessorId");
             entity.Property(e => e.StrategyGroupId).HasColumnName("StrategyGroupId");
             entity.Property(e => e.FiscalScheduleId).HasColumnName("FiscalScheduleId");
             entity.Property(e => e.ProjectStatusId).HasColumnName("ProjectStatusId");
             
-
-            entity.HasOne(e => e.InternalProfessor)
-                .WithMany()
-                .HasForeignKey(e => e.InternalProfessorId);
-
-            entity.HasOne(e => e.InternalProfessor2)
-                .WithMany()
-                .HasForeignKey(e => e.InternalProfessor2Id);
-
-            entity.HasOne(e => e.ExternalProfessor)
-                .WithMany()
-                .HasForeignKey(e => e.ExternalProfessorId);
-
             entity.HasOne(e => e.StrategyGroup)
                 .WithMany()
                 .HasForeignKey(e => e.StrategyGroupId);
@@ -82,6 +66,7 @@ namespace Research.Data.Mapping
             entity.Ignore(e => e.ProjectProgresses);
             entity.Ignore(e => e.ProjectResearchers);
             entity.Ignore(e => e.ProjectHistories);
+            entity.Ignore(e => e.ProjectProfessors);
             base.Configure(entity);
         }
 

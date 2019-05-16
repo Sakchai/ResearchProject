@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Web.Models.Projects;
 using Research.Web.Extensions;
 using Research.Data;
@@ -22,37 +20,23 @@ namespace Research.Web.Factories
             this._projectService = projectService;
         }
 
-        public ProjectModel PrepareProjectModel(ProjectModel model)
+        public virtual ProjectResearcherSearchModel PrepareProjectResearcherSearchModel(ProjectResearcherSearchModel searchModel, Project project)
         {
-            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
-            _baseAdminModelFactory.PrepareProfessors(model.AvailableResearchIssues, true, "--ระบุผู้ทรงคุณวุฒิ--");
-            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules, true, "--ระบุปีงบประมาณ--");
-            _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
 
-            return model;
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            searchModel.ProjectId = project.Id;
+
+            //prepare page parameters
+            searchModel.SetGridPageSize();
+
+            return searchModel;
         }
 
-        public ProjectModel PrepareProjectModel(ProjectModel model, Project project, bool v)
-        {
-            if (project != null)
-            {
-                //fill in model values from the entity
-                model.ProjectCode = project.ProjectCode;
-                model.ProjectNameTh = project.ProjectNameTh;
-                model.FiscalYear = project.FiscalYear;
-                model.StartContractDate = project.ProjectStartDate;
-                model.EndContractDate = project.ProjectEndDate;
-                model.FundAmount = project.FundAmount;
-                model.LastUpdateBy = project.LastUpdateBy;
-            }
-            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues,true, "--ระบุประเด็นการวิจัย--");
-            _baseAdminModelFactory.PrepareProfessors(model.AvailableResearchIssues, true, "--ระบุผู้ทรงคุณวุฒิ--");
-            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules,true, "--ระบุปีงบประมาณ--");
-            _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses,true, "--ระบุผลการพิจารณา--");
-            return model;
-        }
-
-        protected virtual ProjectResearcherSearchModel PrepareProjectResearcherSearchModel(ProjectResearcherSearchModel searchModel, Project project)
+        public virtual ProjectProfessorSearchModel PrepareProjectProfessorSearchModel(ProjectProfessorSearchModel searchModel, Project project)
         {
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
@@ -168,17 +152,65 @@ namespace Research.Web.Factories
             {
                 //fill in model values from the entity
                 model.ProjectCode = project.ProjectCode;
-                model.ProjectNameTh = project.ProjectNameTh;
                 model.FiscalYear = project.FiscalYear;
+                model.ProjectNameTh = project.ProjectNameTh;
+                model.ProjectNameEn = project.ProjectNameEn;
+                model.PlanNameTh = project.PlanNameTh;
+                model.PlanNameEn = project.PlanNameEn;
+                model.ProjectType = project.ProjectType;
+                model.FundAmount = project.FundAmount;
+                model.StrategyGroupId = project.StrategyGroupId;
+
                 model.StartContractDate = project.ProjectStartDate;
                 model.EndContractDate = project.ProjectEndDate;
-                model.FundAmount = project.FundAmount;
                 model.LastUpdateBy = project.LastUpdateBy;
             }
             _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
-            _baseAdminModelFactory.PrepareProfessors(model.AvailableResearchIssues, true, "--ระบุผู้ทรงคุณวุฒิ--");
             _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules, true, "--ระบุปีงบประมาณ--");
             _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");
+
+            _baseAdminModelFactory.PrepareResearchers(model.AvailableResearchers, true, "--ระบุผู้วิจัย--");
+            _baseAdminModelFactory.PrepareProjectRoles(model.AvailableProjectRoles, true, "--ระบุบทบาทในโครงการ--");
+
+            _baseAdminModelFactory.PrepareProfessors(model.AvailableProfessors, true, "--ระบุผู้ทรงคุณวุฒิ--");
+            _baseAdminModelFactory.PrepareProfessorTypes(model.AvailableProfessorTypes, true, "--ระบุประเภทผู้ทรงคุณวุฒิ--");
+            return model;
+        }
+
+        public ProjectProfessorListModel PrepareProjectProfessorListModel(ProjectProfessorSearchModel searchModel, Project project)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            //get researcher educations
+            //chai
+            //var researcherEducations = researcher.ResearcherEducations.OrderByDescending(edu => edu.Degree).ToList();
+            var projectProfessors = _projectService.GetAllProjectProfessors(project.Id).ToList();
+            //prepare list model
+            var model = new ProjectProfessorListModel
+            {
+                Data = projectProfessors.PaginationByRequestModel(searchModel).Select(x =>
+                {
+                    //fill in model values from the entity       
+                    var projectProfessorModel = new ProjectProfessorModel
+                    {
+                        Id = x.Id,
+                        ProjectId = x.ProjectId,
+                        ProfessorId = x.ProfessorId,
+                        ProfessorTypeId = x.ProfessorTypeId,
+                        ProfessorTyperName = x.ProfessorType.ToString()
+                    };
+
+
+
+                    return projectProfessorModel;
+                }),
+                Total = projectProfessors.Count
+            };
+
             return model;
         }
     }

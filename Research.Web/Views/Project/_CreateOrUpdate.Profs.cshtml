@@ -1,31 +1,31 @@
-﻿@model ResearcherModel
+﻿@model ProjectModel
 
 
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div id="researchereducations-grid"></div>
+            <div id="projectprofessors-grid"></div>
 
             <script>
                 $(document).ready(function() {
-                    $("#researchereducations-grid").kendoGrid({
+                    $("#projectprofessors-grid").kendoGrid({
                         dataSource: {
                             type: "json",
                             transport: {
                                 read: {
-                                    url: "@Html.Raw(Url.Action("ResearcherEducationsSelect", "Researcher"))",
+                                    url: "@Html.Raw(Url.Action("ProjectProfessorsSelect", "Project"))",
                                     type: "POST",
                                     dataType: "json",
                                     data: function() {
                                         var data = {
-                                            ResearcherId: '@(Model.Id)'
+                                            ProjectId: '@(Model.Id)'
                                         };
                                         //addAntiForgeryToken(data);
                                         return data;
                                     }
                                 },
                                 destroy: {
-                                    url: "@Html.Raw(Url.Action("ResearcherEducationDelete", "Researcher", new { researcherId = Model.Id }))",
+                                    url: "@Html.Raw(Url.Action("ProjectProfessorDelete", "Professor", new { professorId = Model.Id }))",
                                     type: "POST",
                                     dataType: "json",
                                     //data: addAntiForgeryToken
@@ -50,14 +50,14 @@
                                 // Cancel the changes
                                 this.cancelChanges();
                             },
-                            pageSize: @(Model.ResearcherEducationSearchModel.PageSize),
+                            pageSize: @(Model.ProjectProfessorSearchModel.PageSize),
                             serverPaging: true,
                             serverFiltering: true,
                             serverSorting: true
                         },
                         pageable: {
                             refresh: true,
-                            pageSizes: [@(Model.ResearcherEducationSearchModel.AvailablePageSizes)],
+                            pageSizes: [@(Model.ProjectProfessorSearchModel.AvailablePageSizes)],
                             @await Html.PartialAsync("_GridPagerMessages")
                         },
                         editable: {
@@ -67,32 +67,15 @@
                         scrollable: false,
                         columns: [
                             {
-                                field: "DegreeName",
-                                title: "ระดับปริญญา",
-                                width: 100,
-                                headerAttributes: { style: "text-align:center" },
-                            }, {
-                                field: "EducationLevelName",
-                                title: "วุฒิการศึกษา",
+                                field: "ProfessorName",
+                                title: "ชื่อผู้ทรงคุณวุฒิ",
                                 width: 200,
                                 headerAttributes: { style: "text-align:center" },
                             }, {
-                                field: "InstituteName",
-                                title: "สถาบันการศึกษา",
+                                field: "ProfessorTypeName",
+                                title: "ประเภทผู้ทรงคุณวุฒิ",
                                 width: 200,
                                 headerAttributes: { style: "text-align:center" },
-                            }, {
-                                field: "CountryName",
-                                title: "ประเทศ",
-                                width: 75,
-                                headerAttributes: { style: "text-align:center" },
-                                attributes: { style: "text-align:center" },
-                            }, {
-                                field: "GraduationYear",
-                                title: "ปีการศึกษาที่จบ",
-                                width: 75,
-                                headerAttributes: { style: "text-align:center" },
-                                attributes: { style: "text-align:center" },
                             }, {
                                 command: { name: "destroy", text: "ลบรายการ" },
                                 title: "การกระทำ",
@@ -109,57 +92,31 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            เพิ่มรายการสถาบันการศึกษา
+            เพิ่มบัญชีรายชื่อผู้ทรงคุณวุฒิ
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationDegreeId" />
+                    <nop-label asp-for="AddProjectProfessorId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationDegreeId" asp-items="Model.AvailableAddEducationDegrees" />
-                    <span asp-validation-for="AddEducationDegreeId"></span>
+                    <nop-select asp-for="AddProjectProfessorId" asp-items="Model.AvailableProfessors" />
+                    <span asp-validation-for="AddProjectProfessorId"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationEducationLevelId" />
+                    <nop-label asp-for="AddProjectProfessorTypeId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationEducationLevelId" asp-items="Model.AvailableAddEducationEducationLevels" />
-                    <span asp-validation-for="AddEducationEducationLevelId"></span>
+                    <nop-select asp-for="AddProjectProfessorTypeId" asp-items="Model.AvailableProfessorTypes" />
+                    <span asp-validation-for="AddProjectProfessorTypeId"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AddEducationInstituteId" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="AddEducationInstituteId" asp-items="Model.AvailableAddEducationInstitutes" />
-                    <span asp-validation-for="AddEducationInstituteId"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AddEducationCountryId" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="AddEducationCountryId" asp-items="Model.AvailableAddEducationCountries" />
-                    <span asp-validation-for="AddEducationCountryId"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AddEducationGraduationYear" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="AddEducationGraduationYear" />
-                    <span asp-validation-for="AddEducationGraduationYear"></span>
-                </div>
-            </div>
+
             <div class="form-group">
                 <div class="col-md-9 col-md-offset-3">
-                    <button type="button" id="addResearcherEducation" class="btn btn-primary">บันทึกข้อมูล</button>
+                    <button type="button" id="addProjectProfessor" class="btn btn-primary">บันทึกข้อมูล</button>
                 </div>
             </div>
         </div>
@@ -168,38 +125,32 @@
 
 <script>
     $(document).ready(function() {
-        $('#addResearcherEducation').click(function() {
-            var educationDegreeId = $("#@Html.IdFor(model => model.AddEducationDegreeId)").val();
-            var educationLevelId = $("#@Html.IdFor(model => model.AddEducationEducationLevelId)").val();
-            var educationInstituteId = $("#@Html.IdFor(model => model.AddEducationInstituteId)").val();
-            var educationCountryId = $("#@Html.IdFor(model => model.AddEducationCountryId)").val();
-            var educationGraduationYear = $("#@Html.IdFor(model => model.AddEducationGraduationYear)").val();
+        $('#addProjectProfessor').click(function() {
+            var projectProfessorId = $("#@Html.IdFor(model => model.AddProjectProfessorId)").val();
+            var projectProfessorTypeId = $("#@Html.IdFor(model => model.AddProjectProfessorTypeId)").val();
 
-            $('#addResearcherEducation').attr('disabled', true);
+            $('#addProjectProfessor').attr('disabled', true);
 
             var postData = {
-                researcherId: '@(Model.Id)',
-                degreeId: educationDegreeId,
-                educationLevelId: educationLevelId,
-                institudeId: educationInstituteId,
-                countryId: educationCountryId,
-                graduationYear: educationGraduationYear
+                projectId: '@(Model.Id)',
+                professorId: projectProfessorId,
+                professorTypeId: projectProfessorTypeId,
             };
             addAntiForgeryToken(postData);
 
             $.ajax({
                 cache: false,
                 type: "POST",
-                url: "@( Url.Action("ResearcherEducationAdd", "Researcher"))",
+                url: "@( Url.Action("ProjectProfessorAdd", "Project"))",
                 data: postData,
                 success: function(data) {
-                    var grid = $("#researchereducations-grid").data('kendoGrid');
+                    var grid = $("#projectprofessors-grid").data('kendoGrid');
                     grid.dataSource.read();
-                    $('#addResearcherEducation').attr('disabled', false);
+                    $('#addProjectProfessor').attr('disabled', false);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Failed to add researcher education.');
-                    $('#addResearcherEducation').attr('disabled', false);
+                    alert('Failed to add project professor.');
+                    $('#addProjectProfessor').attr('disabled', false);
                 }
             });
         });

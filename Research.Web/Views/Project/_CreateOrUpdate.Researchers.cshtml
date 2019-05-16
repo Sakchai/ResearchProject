@@ -97,29 +97,29 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddResearcherResearcherId" />
+                    <nop-label asp-for="AddProjectResearcherId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddResearcherResearcherId" asp-items="Model.AvailableResearchers" />
-                    <span asp-validation-for="AddResearcherResearcherId"></span>
+                    <nop-select asp-for="AddProjectResearcherId" asp-items="Model.AvailableResearchers" />
+                    <span asp-validation-for="AddProjectResearcherId"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddResearcherRoleId" />
+                    <nop-label asp-for="AddProjectRoleId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddResearcherRoleId" asp-items="Model.AvailableResearcherRoles" />
-                    <span asp-validation-for="AddResearcherRoleId"></span>
+                    <nop-select asp-for="AddProjectRoleId" asp-items="Model.AvailableProjectRoles" />
+                    <span asp-validation-for="AddProjectRoleId"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddResearcherPortion" />
+                    <nop-label asp-for="AddProjectPortion" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="AddResearcherPortion" />
-                    <span asp-validation-for="AddResearcherPortion"></span>
+                    <nop-editor asp-for="AddProjectPortion" />
+                    <span asp-validation-for="AddProjectPortion"></span>
                 </div>
             </div>
   
@@ -135,17 +135,17 @@
 <script>
     $(document).ready(function() {
         $('#addProjectResearcher').click(function() {
-            var researcherResearcherId = $("#@Html.IdFor(model => model.AddResearcherResearcherId)").val();
-            var researcherRoleId = $("#@Html.IdFor(model => model.AddResearcherRoleId)").val();
-            var researcherPortion = $("#@Html.IdFor(model => model.AddResearcherPortion)").val();
+            var projectResearcherId = $("#@Html.IdFor(model => model.AddProjectResearcherId)").val();
+            var projectRoleId = $("#@Html.IdFor(model => model.AddProjectRoleId)").val();
+            var projectPortion = $("#@Html.IdFor(model => model.AddProjectPortion)").val();
 
             $('#addProjectResearcher').attr('disabled', true);
 
             var postData = {
                 projectId: '@(Model.Id)',
-                researcherId: researcherResearcherId,
-                roleId: researcherRoleId,
-                portion: researcherPortion,
+                researcherId: projectResearcherId,
+                roleId: projectRoleId,
+                portion: projectPortion,
             };
             addAntiForgeryToken(postData);
 
