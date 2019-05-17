@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Research.Core.Domain.Users;
 using Research.Data;
 using Research.Infrastructure.Mapper;
@@ -8,6 +9,7 @@ using Research.Web.Models.Common;
 using Research.Web.Models.Directory;
 using Research.Web.Models.Logging;
 using Research.Web.Models.Messages;
+using Research.Web.Models.Projects;
 using Research.Web.Models.Researchers;
 using Research.Web.Models.Tasks;
 using Research.Web.Models.Users;
@@ -30,6 +32,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
             CreateMessagesMaps();
             CreateTasksMaps();
             CreateResearchersMaps();
+            CreateProjectsMaps();
             CreateUsersMaps();
             //add some generic mapping rules
             ForAllMaps((mapConfiguration, map) =>
@@ -50,6 +53,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
 
         }
 
+ 
         #endregion
 
         #region Utilities
@@ -209,8 +213,42 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(entity => entity.Agency, options => options.Ignore())
                 .ForMember(entity => entity.Users, options => options.Ignore())
                 .ForMember(entity => entity.PersonalType, options => options.Ignore());
-            //CreateMap<User, RegisterModel>();
-            //CreateMap<RegisterModel, User>();
+
+        }
+
+        private void CreateProjectsMaps()
+        {
+            CreateMap<Project, ProjectModel>()
+                .ForMember(model => model.AvailableProfessors, options => options.Ignore())
+                .ForMember(model => model.AvailableProfessorTypes, options => options.Ignore())
+                .ForMember(model => model.AvailableProgressStatuses, options => options.Ignore())
+                .ForMember(model => model.AvailableProjectRoles, options => options.Ignore())
+                .ForMember(model => model.AvailableProjectStatuses, options => options.Ignore())
+                .ForMember(model => model.AvailableResearchers, options => options.Ignore())
+                .ForMember(model => model.AvailableResearchIssues, options => options.Ignore())
+                .ForMember(model => model.AvailableStrategyGroups, options => options.Ignore())
+                .ForMember(model => model.ProgressStatusName, options => options.Ignore())
+                .ForMember(model => model.StartContractDateName, options => options.Ignore())
+                .ForMember(model => model.ProjectProfessorSearchModel, options => options.Ignore())
+                .ForMember(model => model.ProjectProgressSearchModel, options => options.Ignore())
+                .ForMember(model => model.ProjectResearcherSearchModel, options => options.Ignore())
+                .ForMember(model => model.AddProjectPortion, options => options.Ignore())
+                .ForMember(model => model.AddProjectProfessorId, options => options.Ignore())
+                .ForMember(model => model.AddProjectProfessorTypeId, options => options.Ignore())
+                .ForMember(model => model.AddProjectProgressComment, options => options.Ignore())
+                .ForMember(model => model.AddProjectProgressEndDate, options => options.Ignore())
+                .ForMember(model => model.AddProjectProgressStartDate, options => options.Ignore())
+                .ForMember(model => model.AddProjectProgressStatusId, options => options.Ignore())
+                .ForMember(model => model.AddProjectResearcherId, options => options.Ignore())
+                .ForMember(model => model.AddProjectRoleId, options => options.Ignore());
+
+            CreateMap<ProjectModel, Project>()
+                .ForMember(entity => entity.FiscalSchedule, options => options.Ignore())
+                .ForMember(entity => entity.ProjectStatus, options => options.Ignore())
+                .ForMember(entity => entity.ProjectType, options => options.Ignore())
+                .ForMember(entity => entity.ResearchIssue, options => options.Ignore())
+                .ForMember(entity => entity.StrategyGroup, options => options.Ignore());
+
         }
 
         #endregion

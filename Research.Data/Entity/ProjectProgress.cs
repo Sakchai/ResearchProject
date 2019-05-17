@@ -20,12 +20,6 @@ namespace Research.Data
             get => (ProgressStatus)ProgressStatusId;
             set => ProgressStatusId = (int)value;
         }
-
-        public virtual Professor InternalProfessor { get; set; }
-
-        public virtual Professor InternalProfessor2 { get; set; }
-
-        public virtual Professor ExternalProfessor { get; set; }
     }
 
 

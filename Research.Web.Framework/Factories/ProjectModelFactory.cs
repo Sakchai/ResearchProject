@@ -151,6 +151,9 @@ namespace Research.Web.Factories
             if (project != null)
             {
                 //fill in model values from the entity
+
+                model = model ?? project.ToModel<ProjectModel>();
+                model.Id = project.Id;
                 model.ProjectCode = project.ProjectCode;
                 model.FiscalYear = project.FiscalYear;
                 model.ProjectNameTh = project.ProjectNameTh;

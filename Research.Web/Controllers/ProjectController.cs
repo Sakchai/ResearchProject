@@ -357,7 +357,7 @@ namespace Research.Web.Controllers
                 ProgressStartDate = DateTime.Parse(startDate),
                 ProgressEndDate = DateTime.Parse(endDate),
                 Comment = comment,
-
+                Modified = DateTime.Now,
             };
             _projectService.InsertProjectProgress(projectProgress);
             //  project.ProjectProgresss.Add(projectProgress);
