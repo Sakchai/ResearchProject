@@ -17,7 +17,6 @@ namespace Research.Web.Models.Projects
     {
         public ProjectModel()
         {
-            AvailableFiscalSchedules = new List<SelectListItem>();
             AvailableProjectStatuses = new List<SelectListItem>();
             AvailableProfessors = new List<SelectListItem>();
             AvailableResearchIssues = new List<SelectListItem>();
@@ -27,6 +26,8 @@ namespace Research.Web.Models.Projects
             AvailableProjectRoles = new List<SelectListItem>();
             ProjectResearcherSearchModel = new ProjectResearcherSearchModel();
             ProjectProfessorSearchModel = new ProjectProfessorSearchModel();
+            ProjectProgressSearchModel = new ProjectProgressSearchModel();
+            AvailableProgressStatuses = new List<SelectListItem>();
         }
         [Display(Name = "รหัสโครงการวิจัย")]
         public string ProjectCode { get; set; }
@@ -49,20 +50,22 @@ namespace Research.Web.Models.Projects
         public string ProjectStatusName { get; set; }
         public string ProgressStatusName { get; set; }
         public int ProjectUploadId { get; set; }
+        [Display(Name = "วันที่ทำสัญญา")]
         public DateTime StartContractDate { get; set; }
-        public String StartContractDateName { get; set; }
+        public string StartContractDateName { get; set; }
+        [Display(Name = "วันที่สิ้นสุดสัญญา")]
         public DateTime EndContractDate { get; set; }
-        public int FiscalScheduleId { get; set; }
         public string LastUpdateBy { get; set; }
+        [Display(Name = "หมายเหตุ")]
+        public string Comment { get; set; }
         [Display(Name = "กลุ่มเรื่องตามแนวยุทธศาสตร์มหาวิทยาลัย")]
         public int? StrategyGroupId { get; set; }
         public IList<SelectListItem> AvailableStrategyGroups { get; set; }
 
         public virtual ICollection<ResearcherModel> Researchers { get; set; }
 
-        public IList<SelectListItem> AvailableFiscalSchedules { get; set; }
         [Display(Name = "ผลการพิจารณา")]
-        public int ProjectStatusId { get; set; }
+        public int? ProjectStatusId { get; set; }
         public IList<SelectListItem> AvailableProjectStatuses { get; set; }
 
         public IList<SelectListItem> AvailableResearchIssues { get; set; }
@@ -87,6 +90,21 @@ namespace Research.Web.Models.Projects
         public int AddProjectProfessorTypeId { get; set; }
         public IList<SelectListItem> AvailableProfessorTypes { get; set; }
         public IList<SelectListItem> AvailableProfessors { get; set; }
+        #endregion
+
+        #region project progresses
+        public ProjectProgressSearchModel ProjectProgressSearchModel { get; set; }
+        [Display(Name = "สถานะโครงการวิจัย")]
+        public int AddProjectProgressStatusId { get; set; }
+        [Display(Name = "วันที่เริ่มต้น")]
+        public DateTime AddProjectProgressStartDate { get; set; }
+        [Display(Name = "วันที่สิ้นสุด")]
+        public DateTime AddProjectProgressEndDate { get; set; }
+        [Display(Name = "หมายเหตุ")]
+        public string AddProjectProgressComment { get; set; }
+
+        public IList<SelectListItem> AvailableProgressStatuses { get; set; }
+
         #endregion
     }
 }

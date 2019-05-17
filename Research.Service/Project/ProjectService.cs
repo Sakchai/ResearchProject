@@ -12,7 +12,7 @@ namespace Research.Services.Projects
         private readonly IRepository<Project> _projectRepository;
         private readonly IRepository<AcademicRank> _academicRankrepository;
         //private readonly IRepository<ProjectHistory> _projectHistoryRepository;
-        //private readonly IRepository<ProjectProgress> _projectProgressRepository;
+        private readonly IRepository<ProjectProgress> _projectProgressRepository;
         private readonly IRepository<ProjectResearcher> _projectResearcherRepository;
         private readonly IRepository<ProjectProfessor> _projectProfessorRepository;
         private readonly string _entityName;
@@ -20,12 +20,14 @@ namespace Research.Services.Projects
         public ProjectService(IRepository<Project> projectRepository,
                               IRepository<AcademicRank> academicRankRepository,
                               IRepository<ProjectResearcher> projectResearcherRepository,
-                              IRepository<ProjectProfessor> projectProfessorRepository)
+                              IRepository<ProjectProfessor> projectProfessorRepository,
+                              IRepository<ProjectProgress> projectProgressRepository)
         {
             this._projectRepository = projectRepository;
             this._academicRankrepository = academicRankRepository;
             this._projectResearcherRepository = projectResearcherRepository;
             this._projectProfessorRepository = projectProfessorRepository;
+            this._projectProgressRepository = projectProgressRepository;
             this._entityName = typeof(Project).Name;
         }
         public void DeleteProject(Project project)
@@ -140,6 +142,37 @@ namespace Research.Services.Projects
             query = query.Where(c => c.ProjectId == projectId);
             var projectProfessor = new PagedList<ProjectProfessor>(query, pageIndex, pageSize, getOnlyTotalCount);
             return projectProfessor;
+        }
+
+        public void RemoveProjectProgress(Project project, ProjectProgress projectProgress)
+        {
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            if (projectProgress == null)
+                throw new ArgumentNullException(nameof(projectProgress));
+
+            project.ProjectProgresses.Remove(projectProgress);
+        }
+
+        public void InsertProjectProgress(ProjectProgress projectProgress)
+        {
+            if (projectProgress == null)
+                throw new ArgumentNullException(nameof(projectProgress));
+
+            if (projectProgress is IEntityForCaching)
+                throw new ArgumentException("Cacheable entities are not supported by Entity Framework");
+
+            _projectProgressRepository.Insert(projectProgress);
+        }
+
+        public IPagedList<ProjectProgress> GetAllProjectProgresses(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        {
+            var query = _projectProgressRepository.Table;
+
+            query = query.Where(c => c.ProjectId == projectId);
+            var projectProgress = new PagedList<ProjectProgress>(query, pageIndex, pageSize, getOnlyTotalCount);
+            return projectProgress;
         }
     }
 }

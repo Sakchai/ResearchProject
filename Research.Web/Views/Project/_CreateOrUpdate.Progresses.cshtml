@@ -1,31 +1,31 @@
-﻿@model ResearcherModel
+﻿@model ProjectModel
 
 
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div id="researchereducations-grid"></div>
+            <div id="projectprogresses-grid"></div>
 
             <script>
                 $(document).ready(function() {
-                    $("#researchereducations-grid").kendoGrid({
+                    $("#projectprogresses-grid").kendoGrid({
                         dataSource: {
                             type: "json",
                             transport: {
                                 read: {
-                                    url: "@Html.Raw(Url.Action("ResearcherEducationsSelect", "Researcher"))",
+                                    url: "@Html.Raw(Url.Action("ProjectProgressesSelect", "Project"))",
                                     type: "POST",
                                     dataType: "json",
                                     data: function() {
                                         var data = {
-                                            ResearcherId: '@(Model.Id)'
+                                            ProjectId: '@(Model.Id)'
                                         };
                                         //addAntiForgeryToken(data);
                                         return data;
                                     }
                                 },
                                 destroy: {
-                                    url: "@Html.Raw(Url.Action("ResearcherEducationDelete", "Researcher", new { researcherId = Model.Id }))",
+                                    url: "@Html.Raw(Url.Action("ProjectProgressDelete", "Progress", new { progressId = Model.Id }))",
                                     type: "POST",
                                     dataType: "json",
                                     //data: addAntiForgeryToken
@@ -50,14 +50,14 @@
                                 // Cancel the changes
                                 this.cancelChanges();
                             },
-                            pageSize: @(Model.ResearcherEducationSearchModel.PageSize),
+                            pageSize: @(Model.ProjectProgressSearchModel.PageSize),
                             serverPaging: true,
                             serverFiltering: true,
                             serverSorting: true
                         },
                         pageable: {
                             refresh: true,
-                            pageSizes: [@(Model.ResearcherEducationSearchModel.AvailablePageSizes)],
+                            pageSizes: [@(Model.ProjectProgressSearchModel.AvailablePageSizes)],
                             @await Html.PartialAsync("_GridPagerMessages")
                         },
                         editable: {
@@ -67,32 +67,30 @@
                         scrollable: false,
                         columns: [
                             {
-                                field: "DegreeName",
-                                title: "ระดับปริญญา",
+                                field: "ProgressStatusName",
+                                title: "สถานะโครงการวิจัย",
                                 width: 100,
                                 headerAttributes: { style: "text-align:center" },
                             }, {
-                                field: "EducationLevelName",
-                                title: "วุฒิการศึกษา",
-                                width: 200,
+                                field: "ProgressStartDateName",
+                                title: "วันที่เริ่มต้น",
+                                width: 100,
                                 headerAttributes: { style: "text-align:center" },
                             }, {
-                                field: "InstituteName",
-                                title: "สถาบันการศึกษา",
-                                width: 200,
+                                field: "ProgressEndDateName",
+                                title: "วันที่สิ้นสุด",
+                                width: 100,
                                 headerAttributes: { style: "text-align:center" },
                             }, {
-                                field: "CountryName",
-                                title: "ประเทศ",
-                                width: 75,
+                                field: "ModifiedName",
+                                title: "วันที่แก้ไขข้อมูล",
+                                width: 100,
                                 headerAttributes: { style: "text-align:center" },
-                                attributes: { style: "text-align:center" },
                             }, {
-                                field: "GraduationYear",
-                                title: "ปีการศึกษาที่จบ",
-                                width: 75,
+                                field: "LastUpdateBy",
+                                title: "แก้ไขข้อมูลโดย",
+                                width: 100,
                                 headerAttributes: { style: "text-align:center" },
-                                attributes: { style: "text-align:center" },
                             }, {
                                 command: { name: "destroy", text: "ลบรายการ" },
                                 title: "การกระทำ",
@@ -109,57 +107,48 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            เพิ่มรายการสถาบันการศึกษา
+            เพิ่มสถานะโครงการวิจัย
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationDegreeId" />
+                    <nop-label asp-for="AddProjectProgressStatusId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationDegreeId" asp-items="Model.AvailableAddEducationDegrees" />
-                    <span asp-validation-for="AddEducationDegreeId"></span>
+                    <nop-select asp-for="AddProjectProgressStatusId" asp-items="Model.AvailableProgressStatuses" />
+                    <span asp-validation-for="AddProjectProgressStatusId"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationEducationLevelId" />
+                    <nop-label asp-for="AddProjectProgressStartDate" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationEducationLevelId" asp-items="Model.AvailableAddEducationEducationLevels" />
-                    <span asp-validation-for="AddEducationEducationLevelId"></span>
+                    <nop-editor asp-for="AddProjectProgressStartDate" />
+                    <span asp-validation-for="AddProjectProgressStartDate"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationInstituteId" />
+                    <nop-label asp-for="AddProjectProgressEndDate" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationInstituteId" asp-items="Model.AvailableAddEducationInstitutes" />
-                    <span asp-validation-for="AddEducationInstituteId"></span>
+                    <nop-editor asp-for="AddProjectProgressEndDate" />
+                    <span asp-validation-for="AddProjectProgressEndDate"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationCountryId" />
+                    <nop-label asp-for="AddProjectProgressComment" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationCountryId" asp-items="Model.AvailableAddEducationCountries" />
-                    <span asp-validation-for="AddEducationCountryId"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AddEducationGraduationYear" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="AddEducationGraduationYear" />
-                    <span asp-validation-for="AddEducationGraduationYear"></span>
+                    <nop-textarea asp-for="AddProjectProgressComment" />
+                    <span asp-validation-for="AddProjectProgressComment"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-9 col-md-offset-3">
-                    <button type="button" id="addResearcherEducation" class="btn btn-primary">บันทึกข้อมูล</button>
+                    <button type="button" id="addProjectProgress" class="btn btn-primary">บันทึกข้อมูล</button>
                 </div>
             </div>
         </div>
@@ -168,38 +157,37 @@
 
 <script>
     $(document).ready(function() {
-        $('#addResearcherEducation').click(function() {
-            var educationDegreeId = $("#@Html.IdFor(model => model.AddEducationDegreeId)").val();
-            var educationLevelId = $("#@Html.IdFor(model => model.AddEducationEducationLevelId)").val();
-            var educationInstituteId = $("#@Html.IdFor(model => model.AddEducationInstituteId)").val();
-            var educationCountryId = $("#@Html.IdFor(model => model.AddEducationCountryId)").val();
-            var educationGraduationYear = $("#@Html.IdFor(model => model.AddEducationGraduationYear)").val();
+        $('#addProjectProgress').click(function() {
+            var progressStatusId = $("#@Html.IdFor(model => model.AddProjectProgressStatusId)").val();
+            var progressStartDate = $("#@Html.IdFor(model => model.AddProjectProgressStartDate)").val();
+            var progressEndDate = $("#@Html.IdFor(model => model.AddProjectProgressEndDate)").val();
+            var progressComment = $("#@Html.IdFor(model => model.AddProjectProgressComment)").val();
 
-            $('#addResearcherEducation').attr('disabled', true);
+
+            $('#addProjectProgress').attr('disabled', true);
 
             var postData = {
-                researcherId: '@(Model.Id)',
-                degreeId: educationDegreeId,
-                educationLevelId: educationLevelId,
-                institudeId: educationInstituteId,
-                countryId: educationCountryId,
-                graduationYear: educationGraduationYear
+                projectId: '@(Model.Id)',
+                progressStatusId: progressStatusId,
+                startDate: progressStartDate,
+                endDate: progressEndDate,
+                comment: progressComment,
             };
             addAntiForgeryToken(postData);
 
             $.ajax({
                 cache: false,
                 type: "POST",
-                url: "@( Url.Action("ResearcherEducationAdd", "Researcher"))",
+                url: "@( Url.Action("ProjectProgressAdd", "Project"))",
                 data: postData,
                 success: function(data) {
-                    var grid = $("#researchereducations-grid").data('kendoGrid');
+                    var grid = $("#projectprogresses-grid").data('kendoGrid');
                     grid.dataSource.read();
-                    $('#addResearcherEducation').attr('disabled', false);
+                    $('#addProjectProgress').attr('disabled', false);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Failed to add researcher education.');
-                    $('#addResearcherEducation').attr('disabled', false);
+                    alert('Failed to add project progress.');
+                    $('#addProjectProgress').attr('disabled', false);
                 }
             });
         });

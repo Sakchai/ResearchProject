@@ -25,24 +25,12 @@ namespace Research.Data.Mapping
             entity.Property(e => e.ProgressEndDate).HasColumnType("date");
 
             entity.Property(e => e.ProgressStartDate).HasColumnType("date");
-            entity.Ignore(e => e.ProgressStatus);
 
             entity.HasOne(d => d.Project)
                 .WithMany()
                 .HasForeignKey(d => d.ProjectId);
 
-            entity.HasOne(d => d.InternalProfessor)
-                .WithMany()
-                .HasForeignKey(d => d.InternalProfessorId);
-
-            entity.HasOne(d => d.InternalProfessor2)
-                .WithMany()
-                .HasForeignKey(d => d.InternalProfessor2Id);
-
-            entity.HasOne(d => d.ExternalProfessor)
-                .WithMany()
-                .HasForeignKey(d => d.ExternalProfessorId);
-
+            entity.Ignore(e => e.ProgressStatus);
             base.Configure(entity);
         }
 

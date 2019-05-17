@@ -15,5 +15,9 @@ namespace Research.Web.Factories
         
         ProjectProfessorSearchModel PrepareProjectProfessorSearchModel(ProjectProfessorSearchModel searchModel, Project project);
         ProjectProfessorListModel PrepareProjectProfessorListModel(ProjectProfessorSearchModel searchModel, Project project);
+
+        ProjectProgressSearchModel PrepareProjectProgressSearchModel(ProjectProgressSearchModel searchModel, Project project);
+        ProjectProgressListModel PrepareProjectProgressListModel(ProjectProgressSearchModel searchModel, Project project);
+
     }
 }

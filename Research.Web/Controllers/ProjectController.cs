@@ -289,7 +289,6 @@ namespace Research.Web.Controllers
                 ProjectId = project.Id,
                 ProfessorTypeId = professorTypeId,
                 ProfessorId = professorId
-
             };
             _projectService.InsertProjectProfessor(projectProfessor);
             //  project.ProjectProfessors.Add(projectProfessor);
@@ -313,6 +312,75 @@ namespace Research.Web.Controllers
                 ?? throw new ArgumentException("No project researcher found with the specified id", nameof(id));
 
             _projectService.RemoveProjectProfessor(project, projectProfessor);
+
+            return new NullJsonResult();
+        }
+        #endregion
+
+        #region project progress
+        [HttpPost]
+        public virtual IActionResult ProjectProgressesSelect(ProjectProgressSearchModel searchModel)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProgresss))
+            //    return AccessDeniedKendoGridJson();
+
+            //try to get a project with the specified id
+            var project = _projectService.GetProjectById(searchModel.ProjectId);
+            //?? throw new ArgumentException("No project found with the specified id");
+
+            //prepare model
+            if (project != null)
+            {
+                var model = _projectModelFactory.PrepareProjectProgressListModel(searchModel, project);
+
+                return Json(model);
+            }
+            else
+                return Json(new ProjectProgressListModel());
+        }
+
+        public virtual IActionResult ProjectProgressAdd(int projectId, int progressStatusId,
+            string startDate, string endDate, string comment)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProgresss))
+            //    return AccessDeniedView();
+
+            //try to get a project with the specified id
+            var project = _projectService.GetProjectById(projectId);
+            if (project == null)
+                return Json(new { Result = false });
+
+            var projectProgress = new ProjectProgress
+            {
+                ProjectId = project.Id,
+                ProgressStatusId = progressStatusId,
+                ProgressStartDate = DateTime.Parse(startDate),
+                ProgressEndDate = DateTime.Parse(endDate),
+                Comment = comment,
+
+            };
+            _projectService.InsertProjectProgress(projectProgress);
+            //  project.ProjectProgresss.Add(projectProgress);
+            //  _projectService.UpdateProgress(project);
+
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public virtual IActionResult ProjectProgressDelete(int id, int projectId)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProgresss))
+            //    return AccessDeniedView();
+
+            //try to get a project with the specified id
+            var project = _projectService.GetProjectById(projectId)
+                ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
+
+            //try to get a project professor with the specified id
+            var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
+                ?? throw new ArgumentException("No project researcher found with the specified id", nameof(id));
+
+            _projectService.RemoveProjectProgress(project, projectProgress);
 
             return new NullJsonResult();
         }

@@ -37,5 +37,9 @@ namespace Research.Services.Projects
         void InsertProjectProfessor(ProjectProfessor projectProfessor);
         IPagedList<ProjectProfessor> GetAllProjectProfessors(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
 
+        void RemoveProjectProgress(Project project, ProjectProgress projectProgress);
+        void InsertProjectProgress(ProjectProgress projectProgress);
+        IPagedList<ProjectProgress> GetAllProjectProgresses(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
+
     }
 }

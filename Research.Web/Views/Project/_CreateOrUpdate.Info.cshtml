@@ -15,10 +15,19 @@
             </div>
             <div class="form-group">
                 <div class="col-md-3">
+                    <nop-label asp-for="ResearchIssueId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchIssues" />
+                    <span asp-validation-for="ResearchIssueId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
                     <nop-label asp-for="FiscalYear" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="FiscalYear" />
+                    <nop-editor asp-for="FiscalYear" enable="false"/>
                     <span asp-validation-for="FiscalYear"></span>
                 </div>
             </div>
@@ -27,7 +36,7 @@
                     <nop-label asp-for="ProjectNameTh" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="ProjectNameTh" />
+                    <nop-textarea asp-for="ProjectNameTh" />
                     <span asp-validation-for="ProjectNameTh"></span>
                 </div>
             </div>
@@ -36,7 +45,7 @@
                     <nop-label asp-for="ProjectNameEn" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="ProjectNameEn" />
+                    <nop-textarea asp-for="ProjectNameEn" />
                     <span asp-validation-for="ProjectNameEn"></span>
                 </div>
             </div>
@@ -45,7 +54,7 @@
                     <nop-label asp-for="PlanNameTh" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="PlanNameTh" />
+                    <nop-textarea asp-for="PlanNameTh" />
                     <span asp-validation-for="PlanNameTh"></span>
                 </div>
             </div>
@@ -54,7 +63,7 @@
                     <nop-label asp-for="PlanNameEn" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="PlanNameEn" />
+                    <nop-textarea asp-for="PlanNameEn" />
                     <span asp-validation-for="PlanNameEn"></span>
                 </div>
             </div>
@@ -75,15 +84,7 @@
                     <span asp-validation-for="ProjectType" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="ResearchIssueId" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchIssues" />
-                    <span asp-validation-for="ResearchIssueId"></span>
-                </div>
-            </div>
+
             <div class="form-group">
                 <div class="col-md-3">
                     <nop-label asp-for="FundAmount" />

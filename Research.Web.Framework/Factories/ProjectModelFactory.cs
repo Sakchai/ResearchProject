@@ -160,13 +160,16 @@ namespace Research.Web.Factories
                 model.ProjectType = project.ProjectType;
                 model.FundAmount = project.FundAmount;
                 model.StrategyGroupId = project.StrategyGroupId;
-
+                model.ProjectStatusId = project.ProjectStatusId.Value;
                 model.StartContractDate = project.ProjectStartDate;
                 model.EndContractDate = project.ProjectEndDate;
                 model.LastUpdateBy = project.LastUpdateBy;
+                model.Comment = project.Comment;
             }
+            model.AddProjectProgressStartDate = model.StartContractDate;
+            model.AddProjectProgressEndDate = model.StartContractDate.AddDays(30);
+
             _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
-            _baseAdminModelFactory.PrepareFiscalSchedules(model.AvailableFiscalSchedules, true, "--ระบุปีงบประมาณ--");
             _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");
 
             _baseAdminModelFactory.PrepareResearchers(model.AvailableResearchers, true, "--ระบุผู้วิจัย--");
@@ -174,6 +177,8 @@ namespace Research.Web.Factories
 
             _baseAdminModelFactory.PrepareProfessors(model.AvailableProfessors, true, "--ระบุผู้ทรงคุณวุฒิ--");
             _baseAdminModelFactory.PrepareProfessorTypes(model.AvailableProfessorTypes, true, "--ระบุประเภทผู้ทรงคุณวุฒิ--");
+
+            _baseAdminModelFactory.PrepareProgressStatuses(model.AvailableProgressStatuses, true, "--ระบุสถานะโครงการวิจัย--");
             return model;
         }
 
@@ -209,6 +214,59 @@ namespace Research.Web.Factories
                     return projectProfessorModel;
                 }),
                 Total = projectProfessors.Count
+            };
+
+            return model;
+        }
+
+        public ProjectProgressSearchModel PrepareProjectProgressSearchModel(ProjectProgressSearchModel searchModel, Project project)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            searchModel.ProjectId = project.Id;
+            //prepare page parameters
+            searchModel.SetGridPageSize();
+
+            return searchModel;
+        }
+
+        public ProjectProgressListModel PrepareProjectProgressListModel(ProjectProgressSearchModel searchModel, Project project)
+        {
+            if (searchModel == null)
+                throw new ArgumentNullException(nameof(searchModel));
+
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            //get researcher educations
+            //chai
+            //var researcherEducations = researcher.ResearcherEducations.OrderByDescending(edu => edu.Degree).ToList();
+            var projectProgresses = _projectService.GetAllProjectProgresses(project.Id).ToList();
+            //prepare list model
+            var model = new ProjectProgressListModel
+            {
+                Data = projectProgresses.PaginationByRequestModel(searchModel).Select(x =>
+                {
+                    //fill in model values from the entity       
+                    var projectProfessorModel = new ProjectProgressModel
+                    {
+                        Id = x.Id,
+                        ProjectId = x.ProjectId,
+                        Comment = x.Comment,
+                        LastUpdateBy = x.LastUpdateBy,
+                        ModifiedName = ConvertToThaiDate(x.Modified),
+                        ProgressStartDateName = ConvertToThaiDate(x.ProgressStartDate),
+                        ProgressEndDateName = ConvertToThaiDate(x.ProgressEndDate),
+                        ProgressStatusName = x.ProgressStatus.ToString(),                       
+                    };
+
+                    return projectProfessorModel;
+                }),
+                Total = projectProgresses.Count
             };
 
             return model;
