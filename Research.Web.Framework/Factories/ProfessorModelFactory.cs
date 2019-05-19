@@ -98,7 +98,7 @@ namespace Research.Web.Factories
                     var professorModel = professor.ToModel<ProfessorModel>();
 
                     //little performance optimization: ensure that "Body" is not returned
-                    professorModel.ProfessorCode = professor.ProfessorCode;
+                    professorModel.TitleName = professor.Title != null ? professor.Title.TitleNameTH : string.Empty;
                     professorModel.FirstName = professor.FirstName;
                     professorModel.LastName = professor.LastName;
                     professorModel.Telephone = professor.Telephone;
@@ -140,6 +140,7 @@ namespace Research.Web.Factories
             }
             else
             {
+                model.ProfessorCode = _professorService.GetNextProfessorNumber();
                 model.ProfessorType = ProfessorType.InternalExpert.ToString();
                 model.IsActive = true;
             }

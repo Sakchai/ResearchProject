@@ -82,7 +82,7 @@ namespace Research.Services.Researchers
 
         }
 
-        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, bool isActive = true, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, int isActive = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = _researcherRepository.Table;
             query = query.Where(c => c.Deleted != true);
@@ -98,6 +98,12 @@ namespace Research.Services.Researchers
 
             if (!string.IsNullOrWhiteSpace(lastName))
                 query = query.Where(c => c.LastName.Contains(lastName));
+
+            if (isActive != 0)
+            {
+                bool active = isActive == 1 ? true : false;
+                query = query.Where(c => c.IsActive == active);
+            }
 
             //query = query.Where(c => c.IsActive == isActive);
             var customers = new PagedList<Researcher>(query, pageIndex, pageSize, getOnlyTotalCount);
@@ -179,6 +185,15 @@ namespace Research.Services.Researchers
 
             ////event notification
             //_eventPublisher.EntityInserted(researcherEducation);
+        }
+
+        public string GetNextResearcherNumber()
+        {
+            var query = _researcherRepository.Table;
+            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
+            //int? maxNumber = query.Max(e => (int?)e.Id);
+            maxNumber += 1;
+            return $"Res-{maxNumber.ToString("D4")}";
         }
     }
 }

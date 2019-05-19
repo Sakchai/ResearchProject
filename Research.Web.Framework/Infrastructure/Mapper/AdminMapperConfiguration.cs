@@ -9,6 +9,7 @@ using Research.Web.Models.Common;
 using Research.Web.Models.Directory;
 using Research.Web.Models.Logging;
 using Research.Web.Models.Messages;
+using Research.Web.Models.Professors;
 using Research.Web.Models.Projects;
 using Research.Web.Models.Researchers;
 using Research.Web.Models.Tasks;
@@ -32,6 +33,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
             CreateMessagesMaps();
             CreateTasksMaps();
             CreateResearchersMaps();
+            CreateProfessorsMaps();
             CreateProjectsMaps();
             CreateUsersMaps();
             //add some generic mapping rules
@@ -58,25 +60,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
 
         #region Utilities
 
-        /// <summary>
-        /// Create customers maps 
-        /// </summary>
-        protected virtual void CreateUsersMaps()
-        {
-
-            CreateMap<UserRole, UserRoleModel>();
-            CreateMap<UserRoleModel, UserRole>();
-
-            CreateMap<UserSettings, UserSettingsModel>();
-            CreateMap<UserSettingsModel, UserSettings>()
-                .ForMember(settings => settings.AvatarMaximumSizeBytes, options => options.Ignore())
-                .ForMember(settings => settings.DeleteGuestTaskOlderThanMinutes, options => options.Ignore())
-                .ForMember(settings => settings.DownloadableProductsValidateUser, options => options.Ignore())
-                .ForMember(settings => settings.HashedPasswordFormat, options => options.Ignore())
-                .ForMember(settings => settings.OnlineUserMinutes, options => options.Ignore())
-                .ForMember(settings => settings.SuffixDeletedUsers, options => options.Ignore());
-
-        }
+  
 
 
         /// <summary>
@@ -216,6 +200,15 @@ namespace Research.Web.Framework.Infrastructure.Mapper
 
         }
 
+        private void CreateProfessorsMaps()
+        {
+            CreateMap<Professor, ProfessorModel>()
+                .ForMember(model => model.AddressModel, options => options.Ignore())
+                .ForMember(model => model.AvailableProvinces, options => options.Ignore())
+                .ForMember(model => model.AvailableTitles, options => options.Ignore());
+            CreateMap<ProfessorModel, Professor>()
+                 .ForMember(model => model.ProfessorHistories, options => options.Ignore());
+        }
         private void CreateProjectsMaps()
         {
             CreateMap<Project, ProjectModel>()
@@ -251,6 +244,25 @@ namespace Research.Web.Framework.Infrastructure.Mapper
 
         }
 
+        /// <summary>
+        /// Create customers maps 
+        /// </summary>
+        protected virtual void CreateUsersMaps()
+        {
+
+            CreateMap<UserRole, UserRoleModel>();
+            CreateMap<UserRoleModel, UserRole>();
+
+            CreateMap<UserSettings, UserSettingsModel>();
+            CreateMap<UserSettingsModel, UserSettings>()
+                .ForMember(settings => settings.AvatarMaximumSizeBytes, options => options.Ignore())
+                .ForMember(settings => settings.DeleteGuestTaskOlderThanMinutes, options => options.Ignore())
+                .ForMember(settings => settings.DownloadableProductsValidateUser, options => options.Ignore())
+                .ForMember(settings => settings.HashedPasswordFormat, options => options.Ignore())
+                .ForMember(settings => settings.OnlineUserMinutes, options => options.Ignore())
+                .ForMember(settings => settings.SuffixDeletedUsers, options => options.Ignore());
+
+        }
         #endregion
 
         #region Properties

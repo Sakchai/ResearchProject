@@ -121,7 +121,7 @@ namespace Research.Services.Professors
 
             //cache
             _cacheManager.RemoveByPattern(ResearchProfessorDefaults.ProfessorsPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchProfessorDefaults.ProfessorsPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchProfessorDefaults.ProfessorsPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(professor);
@@ -144,7 +144,7 @@ namespace Research.Services.Professors
 
             //cache
             _cacheManager.RemoveByPattern(ResearchProfessorDefaults.ProfessorsPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchProfessorDefaults.ProfessorsPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchProfessorDefaults.ProfessorsPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(professor);
@@ -199,6 +199,15 @@ namespace Research.Services.Professors
         {
             var query = _professorRepository.Table;
             return query.ToList();
+        }
+
+        public string GetNextProfessorNumber()
+        {
+            var query = _professorRepository.Table;
+            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
+            //int? maxNumber = query.Max(e => (int?)e.Id);
+            maxNumber += 1;
+            return $"Prof-{maxNumber.ToString("D4")}";
         }
 
 

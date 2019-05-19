@@ -603,6 +603,22 @@ namespace Research.Web.Models.Factories
             PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
         }
 
+        public void PrepareActiveStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available order statuses
+            var availableStatusItems = ActiveStatus.Active.ToSelectList(false);
+            foreach (var statusItem in availableStatusItems)
+            {
+                items.Add(statusItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
 
 
         #endregion

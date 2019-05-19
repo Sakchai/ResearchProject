@@ -54,22 +54,20 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-md-4">
+                                    <nop-label asp-for="ProfessorTypeId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="ProfessorTypeId" asp-items="Model.AvailableProfessorTypes" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
                                     <nop-label asp-for="LastName" />
                                 </div>
                                 <div class="col-md-8">
                                     <nop-editor asp-for="LastName" />
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <nop-label asp-for="ProfessorTypeId" />
-                                </div>
-                                <div class="col-md-8">
-                                    <nop-select asp-for="ProfessorTypeId" asp-items="Model.AvailableProfessorTypes"/>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -94,7 +92,7 @@
                                                     TitleId: $('#TitleId').val(),
                                                     FirstName: $('#FirstName').val(),
                                                     LastName: $('#LastName').val(),
-                                                    ProfessTypeId: $('#ProfessTypeId').val(),
+                                                    ProfessorTypeId: $('#ProfessorTypeId').val(),
                                                 };
                                                 //addAntiForgeryToken(data);
                                                 return data;
@@ -162,14 +160,13 @@
                                     width: 150,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '# if(IsCompleted) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                 }, {
                                     field: "Id",
                                     title: "การกระทำ",
                                     width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '<a class="btn btn-default" href="/Professor/Edit/#=Id#"><i class="fa fa-eye"></i></a>'                                }
+                                    template: '<a class="btn btn-default" href="/Professor/Edit/#=Id#"><i class="fa fa-pencil"></i></a>'                                }
                                 ]
                             });
                         });

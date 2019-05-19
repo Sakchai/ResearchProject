@@ -306,6 +306,14 @@ namespace Research.Enum
         [EnumMember(Value = "ผู้ทรงคุณวุฒิภายนอก")]
         ExternalExpert = 2,
     }
+    public enum ActiveStatus
+    {
+        [EnumMember(Value = "สำเร็จ")]
+        Active = 1,
+
+        [EnumMember(Value = "ไม่สำเร็จ")]
+        NotActive = 9,
+    }
 
     public enum ProgressStatus
     {

@@ -108,16 +108,20 @@ namespace Research.Web.Controllers
             {
 
                 var professor = model.ToEntity<Professor>();
-
-
-                SaveAddress(model.AddressModel, professor);
-
                 _professorService.InsertProfessor(professor);
+
                 SuccessNotification("Admin.ContentManagement.Professors.Added");
 
                 //activity log
                 _userActivityService.InsertActivity("AddNewProfessor", "ActivityLog.AddNewProfessor", professor);
 
+                var address = model.AddressModel.ToEntity<Address>();
+                SaveAddress(model.AddressModel, address);
+                if (address.Id != 0)
+                {
+                    professor.AddressId = address.Id;
+                    _professorService.UpdateProfessor(professor);
+                }
                 if (!continueEditing)
                     return RedirectToAction("List");
 
@@ -134,28 +138,21 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
-        private void SaveAddress(AddressModel model, Professor professor)
+        private void SaveAddress(AddressModel model, Address address)
         {
-            if (professor.AddressId == 0)
+            if ((model != null) && (address.Id == 0))
             {
-                var address = new Address
-                {
-                    Address1 = model.Address1,
-                    Address2 = model.Address2,
-                    ProvinceId = model.ProvinceId,
-                    ZipCode = model.ZipCode
-                };
-                //_addressService.InsertAddress(address);
-                professor.Address = address;
+                if (!string.IsNullOrEmpty(address.Address1))
+                    _addressService.InsertAddress(address);
             }
             else
             {
-                var address = _addressService.GetAddressById(professor.AddressId.Value);
-                address.Address1 = model.Address1;
-                address.Address2 = model.Address2;
-                address.ProvinceId = model.ProvinceId;
-                address.ZipCode = model.ZipCode;
-                _addressService.UpdateAddress(address);
+                var addr = _addressService.GetAddressById(address.Id);
+                addr.Address1 = model.Address1;
+                addr.Address2 = model.Address2;
+                addr.ProvinceId = model.ProvinceId;
+                addr.ZipCode = model.ZipCode;
+                _addressService.UpdateAddress(addr);
             }
         }
 
@@ -189,9 +186,9 @@ namespace Research.Web.Controllers
             if (ModelState.IsValid)
             {
                 professor = model.ToEntity(professor);
-                SaveAddress(model.AddressModel, professor);
-
                 _professorService.UpdateProfessor(professor);
+                var address = model.AddressModel.ToEntity<Address>();
+                SaveAddress(model.AddressModel, address);
 
                 SuccessNotification("Professor Updated");
 

@@ -145,5 +145,7 @@ namespace Research.Web.Models.Factories
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareLogLevels(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
+        void PrepareActiveStatuses(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+
     }
 }

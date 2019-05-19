@@ -225,7 +225,7 @@ namespace Research.Web.Controllers
 
         private void SaveAddress(AddressModel model, Researcher researcher)
         {
-            if (researcher.AddressId == 0)
+            if (researcher.AddressId == null)
             {
                 var address = new Address
                 {

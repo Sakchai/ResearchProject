@@ -61,7 +61,7 @@ namespace Research.Web.Factories
             //prepare available stores
             _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies,true,"--รหัสหน่วยงาน--");
             _baseAdminModelFactory.PreparePersonalTypes(searchModel.AvailablePersonTypes,true,"--รหัสประเภทบุคลากร--");
-
+            _baseAdminModelFactory.PrepareActiveStatuses(searchModel.AvailableActiveStatues, true, "--รหัสสถานะเข้าใช้งานระบบ--");
             //prepare page parameters
             searchModel.SetGridPageSize();
 
@@ -147,6 +147,10 @@ namespace Research.Web.Factories
                 
                 PrepareResearcherEducationSearchModel(model.ResearcherEducationSearchModel, researcher);
 
+            }
+            else
+            {
+                model.ResearcherCode = _researcherService.GetNextResearcherNumber();
             }
             PrepareAddressModel(model.AddressModel, researcher);
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");

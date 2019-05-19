@@ -15,6 +15,7 @@ namespace Research.Web.Models.Researchers
         {
             AvailableAgencies = new List<SelectListItem>();
             AvailablePersonTypes = new List<SelectListItem>();
+            AvailableActiveStatues = new List<SelectListItem>();
         }
 
         #endregion
@@ -26,12 +27,13 @@ namespace Research.Web.Models.Researchers
         public int PersonTypeId { get; set; }
         public IList<SelectListItem> AvailableAgencies { get; set; }
         public IList<SelectListItem> AvailablePersonTypes { get; set; }
+        public IList<SelectListItem> AvailableActiveStatues { get; set; }
         [Display(Name = "ชื่อ")]
         public string FirstName { get; set; }
         [Display(Name = "นามสกุล")]
         public string LastName { get; set; }
         [Display(Name = "สถานะเข้าใช้งานระบบ")]
-        public bool IsCompleted { get; set; }
+        public int IsCompleted { get; set; }
         #endregion
     }
 }

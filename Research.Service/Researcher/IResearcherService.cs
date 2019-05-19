@@ -19,7 +19,7 @@ namespace Research.Services.Researchers
         /// <param name="pageSize">Page size</param>
         /// <param name="getOnlyTotalCount">A value in indicating whether you want to load only total number of records. Set to "true" if you don't want to load data from database</param>
         /// <returns>Researchers</returns>
-        IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, bool isActive = true, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
+        IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, int isActive = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
 
         /// <summary>
         /// Gets a researcher
@@ -95,5 +95,7 @@ namespace Research.Services.Researchers
         /// </summary>
         /// <param name="researcherEducation">ResearcherEducation</param>
         void DeleteResearcherEducation(ResearcherEducation researcherEducation);
+
+        string GetNextResearcherNumber();
     }
 }

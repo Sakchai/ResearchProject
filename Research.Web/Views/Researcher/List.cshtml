@@ -72,7 +72,7 @@
                                     <nop-label asp-for="IsCompleted" />
                                 </div>
                                 <div class="col-md-8">
-                                    <nop-editor asp-for="IsCompleted" type="checkbox" />
+                                    <nop-select asp-for="IsCompleted" asp-items="Model.AvailableActiveStatues" />
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                     width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '<a class="btn btn-default" href="/Researcher/Edit/#=Id#"><i class="fa fa-eye"></i></a>'                                }
+                                    template: '<a class="btn btn-default" href="/Researcher/Edit/#=Id#"><i class="fa fa-pencil"></i></a>'                                }
                                 ]
                             });
                         });

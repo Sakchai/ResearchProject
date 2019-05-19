@@ -113,7 +113,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchAddressDefaults.AddressesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchAddressDefaults.AddressesPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchAddressDefaults.AddressesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(address);
