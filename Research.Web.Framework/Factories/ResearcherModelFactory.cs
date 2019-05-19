@@ -144,11 +144,11 @@ namespace Research.Web.Factories
                     model.DateOfBirthMonth = researcher.Birthdate.Value.Month;
                     model.DateOfBirthYear = researcher.Birthdate.Value.Year + 543;
                 }
-                PrepareAddressModel(model.AddressModel, researcher);
+                
                 PrepareResearcherEducationSearchModel(model.ResearcherEducationSearchModel, researcher);
 
-            } 
-
+            }
+            PrepareAddressModel(model.AddressModel, researcher);
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");
             _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies,true, "--โปรดระบุประเภทหน่วยงาน--");
             _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, true, "--โปรดระบุตำแหน่งวิชาการ--");
@@ -196,7 +196,7 @@ namespace Research.Web.Factories
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            if (researcher.Address != null)
+            if ((researcher != null) && (researcher.Address != null))
             {
                 model.Id = researcher.Address.Id;
                 model.Address1 = researcher.Address.Address1;
@@ -204,11 +204,7 @@ namespace Research.Web.Factories
                 model.ProvinceId = researcher.Address.ProvinceId;
                 model.ZipCode = researcher.Address.ZipCode;
             }
-            else
-            {
-                model = new AddressModel();
 
-            }
             //prepare available Provinces
             _baseAdminModelFactory.PrepareProvinces(model.AvailableProvinces, true, "--โปรดระบุจังหวัด--");
 

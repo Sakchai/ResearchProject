@@ -25,7 +25,7 @@ namespace Research.Data.Mapping
             entity.Property(e => e.Telephone).HasMaxLength(10);
             entity.Property(e => e.ProfessorCode).HasMaxLength(10);
             entity.Property(e => e.Comment).HasMaxLength(300);
-
+            entity.Property(e => e.ProfessorType).HasMaxLength(20);
             entity.HasOne(d => d.Address)
                 .WithMany()
                 .HasForeignKey(d => d.AddressId);
@@ -34,7 +34,6 @@ namespace Research.Data.Mapping
                 .WithMany()
                 .HasForeignKey(d => d.TitleId);
 
-            entity.Ignore(e => e.ProfessorType);
             entity.Ignore(e => e.ProfessorHistories);
             base.Configure(entity);
         }

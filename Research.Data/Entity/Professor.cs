@@ -13,17 +13,12 @@ namespace Research.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfessorCode { get; set; }
-        public int? ProfessorTypeId { get; set; }
+        public string ProfessorType { get; set; }
         public string Email { get; set; }
         public string Telephone { get; set; }
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
         public string Comment { get; set; }
-        public virtual ProfessorType ProfessorType {
-            get => (ProfessorType)ProfessorTypeId;
-            set => ProfessorTypeId = (int)value;
-        }
-
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
 
