@@ -78,6 +78,7 @@ namespace Research.Services.Researchers
                 throw new ArgumentNullException(nameof(researcherEducation));
 
             researcher.ResearcherEducations.Remove(researcherEducation);
+           // DeleteResearcherEducation(researcherEducation);
 
         }
 
@@ -128,7 +129,7 @@ namespace Research.Services.Researchers
                 throw new ArgumentNullException(nameof(researcherEducation));
 
 
-            DeleteResearcherEducation(researcherEducation);
+            _researcherEducationRepository.Delete(researcherEducation);
         }
 
         /// <summary>

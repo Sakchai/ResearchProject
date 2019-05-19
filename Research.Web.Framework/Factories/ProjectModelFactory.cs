@@ -5,6 +5,8 @@ using Research.Web.Extensions;
 using Research.Data;
 using Research.Web.Models.Factories;
 using Research.Services.Projects;
+using Research.Enum;
+using System.Runtime.Serialization;
 
 namespace Research.Web.Factories
 {
@@ -77,7 +79,7 @@ namespace Research.Web.Factories
                         ProjectNameTh = project.ProjectNameTh,
                         StartContractDateName = ConvertToThaiDate(project.ProjectStartDate),
                         ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
-                        ProjectStatusName = project.ProjectStatus.ToString()
+                        ProjectStatusName = project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value,
                     };
 
                     return projectModel;
@@ -130,7 +132,7 @@ namespace Research.Web.Factories
                         Id = x.Id,
                         Portion = x.Portion,
                         ProjectId = x.ProjectId,
-                        RoleName = x.ProjectRole.ToString(),
+                        RoleName = x.ProjectRole.GetAttributeOfType<EnumMemberAttribute>().Value,
                         ResearcherId = x.ResearcherId,
                         ProjectRoleId = x.ProjectRoleId,
                         ResearcherName = $"{x.Researcher.FirstName} {x.Researcher.LastName}"
@@ -209,7 +211,7 @@ namespace Research.Web.Factories
                         ProjectId = x.ProjectId,
                         ProfessorId = x.ProfessorId,
                         ProfessorTypeId = x.ProfessorTypeId,
-                        ProfessorTyperName = x.ProfessorType.ToString()
+                        ProfessorTyperName = x.ProfessorType.GetAttributeOfType<EnumMemberAttribute>().Value,
                     };
 
 
@@ -264,7 +266,7 @@ namespace Research.Web.Factories
                         ModifiedName = ConvertToThaiDate(x.Modified),
                         ProgressStartDateName = ConvertToThaiDate(x.ProgressStartDate),
                         ProgressEndDateName = ConvertToThaiDate(x.ProgressEndDate),
-                        ProgressStatusName = x.ProgressStatus.ToString(),                       
+                        ProgressStatusName = x.ProgressStatus.GetAttributeOfType<EnumMemberAttribute>().Value,
                     };
 
                     return projectProfessorModel;

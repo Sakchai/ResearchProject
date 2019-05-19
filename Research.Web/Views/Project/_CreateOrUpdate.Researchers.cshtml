@@ -25,7 +25,7 @@
                                     }
                                 },
                                 destroy: {
-                                    url: "@Html.Raw(Url.Action("ProjectResearcherDelete", "Researcher", new { researcherId = Model.Id }))",
+                                    url: "@Html.Raw(Url.Action("ProjectResearcherDelete", "Project", new { researcherId = Model.Id }))",
                                     type: "POST",
                                     dataType: "json",
                                     //data: addAntiForgeryToken
@@ -75,6 +75,12 @@
                                 field: "RoleName",
                                 title: "บทบาทในโครงการ",
                                 width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                            }, {
+                                field: "Portion",
+                                title: "สัดส่วน",
+                                width: 100,
                                 headerAttributes: { style: "text-align:center" },
                                 attributes: { style: "text-align:center" },
                             }, {

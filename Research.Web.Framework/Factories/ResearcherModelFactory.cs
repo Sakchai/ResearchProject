@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Core;
 using Research.Data;
+using Research.Enum;
 using Research.Services.Researchers;
 using Research.Web.Extensions;
 using Research.Web.Models.Common;
@@ -96,7 +98,7 @@ namespace Research.Web.Factories
                     researcherModel.ResearcherCode   = researcher.ResearcherCode;
                     researcherModel.FirstName = researcher.FirstName;
                     researcherModel.LastName = researcher.LastName;
-                    researcherModel.PersonalTypeName = researcher.PersonalType.ToString();
+                    researcherModel.PersonalTypeName = researcher.PersonalType.GetAttributeOfType<EnumMemberAttribute>().Value;
                     researcherModel.AgencyName = researcher.Agency != null ? researcher.Agency.Name : string.Empty;
 
                     return researcherModel;
@@ -235,12 +237,12 @@ namespace Research.Web.Factories
             {
                 Data = researcherEducations.PaginationByRequestModel(searchModel).Select(education =>
                 {
-                    //fill in model values from the entity       
+                    //fill in model values from the entity 
                     var researcherEducationModel = new ResearcherEducationModel
                     {
                         Id = education.Id,
                         ResearcherId = researcher.Id,
-                        DegreeName = CommonHelper.ConvertEnum(education.Degree.ToString()),
+                        DegreeName = education.Degree.GetAttributeOfType<EnumMemberAttribute>().Value,
                         EducationLevelName = education.EducationLevel.Name,
                         InstituteName = education.Institute.Name,
                         CountryName = education.Country.Name,

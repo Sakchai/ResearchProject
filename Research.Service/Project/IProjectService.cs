@@ -32,7 +32,7 @@ namespace Research.Services.Projects
         void InsertProjectResearcher(ProjectResearcher projectResearcher);
         void InsertProject(Project project);
         IPagedList<ProjectResearcher> GetAllProjectResearchers(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
-
+        ProjectResearcher GetProjectResearchersById(int projectResearcherId);
         void RemoveProjectProfessor(Project project, ProjectProfessor projectProfessor);
         void InsertProjectProfessor(ProjectProfessor projectProfessor);
         IPagedList<ProjectProfessor> GetAllProjectProfessors(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);

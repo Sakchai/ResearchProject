@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 
 namespace Research.Enum
@@ -60,9 +62,9 @@ namespace Research.Enum
             foreach (FieldInfo fi in _enumType.GetFields())
             {
                 //Check for our custom attribute
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                DescriptionAttribute[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
                 if (attrs.Length > 0)
-                    values.Add(attrs[0].Value);
+                    values.Add(attrs[0].Description);
 
             }
 
@@ -81,9 +83,9 @@ namespace Research.Enum
             foreach (FieldInfo fi in _enumType.GetFields())
             {
                 //Check for our custom attribute
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                DescriptionAttribute[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
                 if (attrs.Length > 0)
-                    values.Add(new DictionaryEntry(Convert.ChangeType(System.Enum.Parse(_enumType, fi.Name), underlyingType), attrs[0].Value));
+                    values.Add(new DictionaryEntry(Convert.ChangeType(System.Enum.Parse(_enumType, fi.Name), underlyingType), attrs[0].Description));
 
             }
 
@@ -129,23 +131,24 @@ namespace Research.Enum
         /// Gets a string value for a particular enum value.
         /// </summary>
         /// <param name="value">Value.</param>
-        /// <returns>String Value associated via a <see cref="StringValueAttribute"/> attribute, or null if not found.</returns>
+        /// <returns>String Value associated via a <see cref="DescriptionAttribute"/> attribute, or null if not found.</returns>
         public static string GetStringValue(System.Enum value)
         {
             string output = null;
             Type type = value.GetType();
 
             if (_stringValues.ContainsKey(value))
-                output = (_stringValues[value] as StringValueAttribute).Value;
+                output = (_stringValues[value] as DescriptionAttribute).Description;
             else
             {
                 //Look for our 'StringValueAttribute' in the field's custom attributes
                 FieldInfo fi = type.GetField(value.ToString());
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+
+                DescriptionAttribute[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
                 if (attrs.Length > 0)
                 {
                     _stringValues.Add(value, attrs[0]);
-                    output = attrs[0].Value;
+                    output = attrs[0].Description;
                 }
 
             }
@@ -183,9 +186,9 @@ namespace Research.Enum
             foreach (FieldInfo fi in type.GetFields())
             {
                 //Check for our custom attribute
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                DescriptionAttribute[] attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
                 if (attrs.Length > 0)
-                    enumStringValue = attrs[0].Value;
+                    enumStringValue = attrs[0].Description;
 
                 //Check for equality then select actual enum value.
                 if (string.Compare(enumStringValue, stringValue, ignoreCase) == 0)

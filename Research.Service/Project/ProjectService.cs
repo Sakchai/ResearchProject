@@ -79,7 +79,8 @@ namespace Research.Services.Projects
             if (projectResearcher == null)
                 throw new ArgumentNullException(nameof(projectResearcher));
 
-            project.ProjectResearchers.Remove(projectResearcher);
+            //project.ProjectResearchers.Remove(projectResearcher);
+            _projectResearcherRepository.Delete(projectResearcher);
         }
 
         public void InsertProjectResearcher(ProjectResearcher projectResearcher)
@@ -173,6 +174,14 @@ namespace Research.Services.Projects
             query = query.Where(c => c.ProjectId == projectId);
             var projectProgress = new PagedList<ProjectProgress>(query, pageIndex, pageSize, getOnlyTotalCount);
             return projectProgress;
+        }
+
+        public ProjectResearcher GetProjectResearchersById(int projectResearcherId)
+        {
+            var query = _projectResearcherRepository.Table;
+
+            return query.Where(c => c.Id == projectResearcherId).FirstOrDefault();
+
         }
     }
 }

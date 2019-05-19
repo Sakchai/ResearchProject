@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Research.Core;
 using Research.Data;
+using Research.Enum;
 using Research.Infrastructure;
 
 namespace Research.Services
@@ -28,17 +32,25 @@ namespace Research.Services
             if (!typeof(TEnum).IsEnum) throw new ArgumentException("An Enumeration type is required.", "enumObj");
 
             //var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            //var workContext = EngineContext.Current.Resolve<IWorkContext>();
 
             var values = from TEnum enumValue in System.Enum.GetValues(typeof(TEnum))
                          where valuesToExclude == null || !valuesToExclude.Contains(Convert.ToInt32(enumValue))
                          select new { ID = Convert.ToInt32(enumValue), Name =  CommonHelper.ConvertEnum(enumValue.ToString()) };
+                         //select new { ID = Convert.ToInt32(enumValue), Name = enumValue.ToString() };
             object selectedValue = null;
+            //foreach (var item in values)
+            //{
+            //    int i = item.ID;
+            //    var e = EnumHelper.ToEnum<T>(item.Name);
+            //    string value = e.GetAttributeOfType<EnumMemberAttribute>().Value;
+            //}
             if (markCurrentAsSelected)
                 selectedValue = Convert.ToInt32(enumObj);
             return new SelectList(values, "ID", "Name", selectedValue);
         }
 
+       
         /// <summary>
         /// Convert to select list
         /// </summary>

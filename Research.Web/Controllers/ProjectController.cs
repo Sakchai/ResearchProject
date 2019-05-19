@@ -240,8 +240,10 @@ namespace Research.Web.Controllers
             var project = _projectService.GetProjectById(projectId)
                 ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
 
-            //try to get a project education with the specified id
-            var projectResearcher = project.ProjectResearchers.FirstOrDefault(vn => vn.Id == id)
+            ////try to get a project education with the specified id
+            //var projectResearcher = project.ProjectResearchers.FirstOrDefault(vn => vn.Id == id)
+            //    ?? throw new ArgumentException("No project researcher found with the specified id", nameof(id));
+            var projectResearcher = _projectService.GetProjectResearchersById(id)
                 ?? throw new ArgumentException("No project researcher found with the specified id", nameof(id));
 
             _projectService.RemoveProjectResearcher(project, projectResearcher);

@@ -401,14 +401,15 @@ namespace Research.Web.Controllers
             //    return AccessDeniedView();
 
             //try to get a researcher with the specified id
-            var researcher = _researcherService.GetResearcherById(researcherId)
-                ?? throw new ArgumentException("No researcher found with the specified id", nameof(researcherId));
+           // var researcher = _researcherService.GetResearcherById(researcherId)
+            //    ?? throw new ArgumentException("No researcher found with the specified id", nameof(researcherId));
 
             //try to get a researcher education with the specified id
-            var researcherEducation = researcher.ResearcherEducations.FirstOrDefault(vn => vn.Id == id)
+            //var researcherEducation = researcher.ResearcherEducations.FirstOrDefault(vn => vn.Id == id)
+             var researcherEducation = _researcherService.GetResearcherEducationById(id)
                 ?? throw new ArgumentException("No researcher education found with the specified id", nameof(id));
-
-            _researcherService.RemoveResearcherEducation(researcher,researcherEducation);
+            _researcherService.DeleteResearcherEducation(researcherEducation);
+            //_researcherService.RemoveResearcherEducation(researcher,researcherEducation);
 
             return new NullJsonResult();
         }

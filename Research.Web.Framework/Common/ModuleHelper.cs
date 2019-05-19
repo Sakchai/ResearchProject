@@ -79,7 +79,7 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "ยื่นข้อเสนอโครงการวิจัย",
                         IconClassName = "fa fa-graduation-cap",
-                        URLPath = "/Project/Add",
+                        URLPath = "/Project/Create",
                         LinkCounter = counter,
                     };
                 case Module.ResearchIssues:
@@ -133,7 +133,7 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "เพิ่มผู้ทรงคุณวุฒิ",
                         IconClassName = "fa fa-user-plus",
-                        URLPath = "/Professor/Add",
+                        URLPath = "/Professor/Create",
                         LinkCounter = counter,
                     };
                 case Module.Users:
@@ -151,7 +151,7 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "เพิ่มผู้ใช้",
                         IconClassName = "fa fa-user-plus",
-                        URLPath = "/User/Add",
+                        URLPath = "/User/Create",
                         LinkCounter = counter,
                     };
                 case Module.ActivityLogs:
