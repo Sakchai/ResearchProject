@@ -136,7 +136,6 @@ namespace Research.Services.Users
             user.FailedLoginAttempts = 0;
             user.CannotLoginUntilDateUtc = null;
             user.RequireReLogin = false;
-            user.Modified = DateTime.UtcNow;
             _userService.UpdateUser(user);
 
             return UserLoginResults.Successful;

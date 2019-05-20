@@ -7,6 +7,7 @@ using Research.Web.Models.Factories;
 using Research.Services.Projects;
 using Research.Enum;
 using System.Runtime.Serialization;
+using Research.Core;
 
 namespace Research.Web.Factories
 {
@@ -77,7 +78,7 @@ namespace Research.Web.Factories
                         FiscalYear = project.FiscalYear,
                         ProjectCode = project.ProjectCode,
                         ProjectNameTh = project.ProjectNameTh,
-                        StartContractDateName = ConvertToThaiDate(project.ProjectStartDate),
+                        StartContractDateName = CommonHelper.ConvertToThaiDate(project.ProjectStartDate),
                         ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
                         ProjectStatusName = project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value,
                     };
@@ -89,14 +90,7 @@ namespace Research.Web.Factories
             return model;
         }
 
-        private string ConvertToThaiDate(DateTime date)
-        {
-            string[] months = new string[] { "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" };
-            int day = date.Day;
-            int year = date.Year + 543;
-            string month = months[date.Month - 1];
-            return $"{day} {month} {year}";
-        }
+
         public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
 
@@ -170,7 +164,12 @@ namespace Research.Web.Factories
                 model.EndContractDate = project.ProjectEndDate;
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
+            } else
+            {
+                model.ProjectCode = _projectService.GetNextNumber();
+                model.ProjectType = "N";
             }
+
             model.AddProjectProgressStartDate = DateTime.Today;
             model.AddProjectProgressEndDate = model.StartContractDate.AddMonths(5);
 
@@ -184,6 +183,7 @@ namespace Research.Web.Factories
             _baseAdminModelFactory.PrepareProfessorTypes(model.AvailableProfessorTypes, true, "--ระบุประเภทผู้ทรงคุณวุฒิ--");
 
             _baseAdminModelFactory.PrepareProgressStatuses(model.AvailableProgressStatuses, true, "--ระบุสถานะโครงการวิจัย--");
+            _baseAdminModelFactory.PrepareStrategyGroups(model.AvailableStrategyGroups, true, "--ระบุรหัสยุทธศาสตร์--");
             return model;
         }
 
@@ -263,9 +263,9 @@ namespace Research.Web.Factories
                         ProjectId = x.ProjectId,
                         Comment = x.Comment,
                         LastUpdateBy = x.LastUpdateBy,
-                        ModifiedName = ConvertToThaiDate(x.Modified),
-                        ProgressStartDateName = ConvertToThaiDate(x.ProgressStartDate),
-                        ProgressEndDateName = ConvertToThaiDate(x.ProgressEndDate),
+                        ModifiedName = CommonHelper.ConvertToThaiDate(x.Modified),
+                        ProgressStartDateName = CommonHelper.ConvertToThaiDate(x.ProgressStartDate),
+                        ProgressEndDateName = CommonHelper.ConvertToThaiDate(x.ProgressEndDate),
                         ProgressStatusName = x.ProgressStatus.GetAttributeOfType<EnumMemberAttribute>().Value,
                     };
 

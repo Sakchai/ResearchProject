@@ -60,5 +60,6 @@ namespace Research.Services.FiscalSchedules
         /// <returns>FiscalSchedules</returns>
         List<FiscalSchedule> GetFiscalSchedulesByIds(int[] fiscalScheduleIds);
         List<FiscalSchedule> GetAllFiscalSchedules();
+        string GetNextNumber();
     }
 }

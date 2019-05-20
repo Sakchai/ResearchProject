@@ -1,0 +1,181 @@
+﻿@model FiscalScheduleSearchModel
+
+@{
+    //page title
+    ViewBag.Title = "รายการวันเปิดรับข้อเสนอโครงการวิจัย";
+    //active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("FiscalSchedule");
+}
+
+<form asp-controller="FiscalSchedule" asp-action="Create" method="post" id="fiscalschedules-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            รายการวันเปิดรับข้อเสนอโครงการวิจัย
+        </h1>
+        <div class="pull-right">
+            &nbsp;
+            <a asp-action="Create" class="btn btn-primary">เพิ่มรหัสวันเปิดรับข้อเสนอโครงการวิจัย</a>
+            @*@await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.FiscalScheduleListButtons })*@
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ScholarName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="ScholarName"  />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-fiscalschedules" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        ค้นหา
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="fiscalschedules-grid"></div>
+
+                    <script>
+                        $(document).ready(function() {
+                            $("#fiscalschedules-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("List", "FiscalSchedule"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: function() {
+                                                var data = {
+                                                    ScholarName: $('#ScholarName').val(),
+                                                };
+                                                addAntiForgeryToken(data);
+                                                return data;
+                                            }
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("Delete", "FiscalSchedule"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Name: { editable: true, type: "string" },
+                                                FiscalYear: { editable: true, type: "number" },
+                                                Id: { editable: false, type: "number" }
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function(e) {
+                                        if (e.type == "create" || e.type == "update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(Model.PageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(Model.AvailablePageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "คุณต้องการที่จะลบรายการใช่หรือไม่",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "FiscalYear",
+                                        title: "ปี",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 100
+                                    }, {
+                                        field: "FiscalTimes",
+                                        title: "ครั้งที่",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 75
+                                    }, {
+                                        field: "ScholarName",
+                                        title: "ชื่อทุนวิจัย",
+                                        width: 300
+                                    }, {
+                                        field: "OpeningDateName",
+                                        title: "วันเปิดรับ",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                    }, {
+                                        field: "ClosingDateName",
+                                        title: "วันปิดรับ",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                    }, {
+                                        field: "Id",
+                                        title: "แก้ไข",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '<a class="btn btn-default" href="/FiscalSchedule/Edit/#=Id#"><i class="fa fa-pencil"> แก้ไขรายการ</i></a>'  
+                                    }, {
+                                        command: { name: "destroy", text: "ลบรายการ" },
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        title: "ลบ",
+                                        width: 100
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+                    <input type="submit" id="btnRefresh" style="display: none" />
+                    <script>
+                        $(document).ready(function () {
+                            $('#btnRefresh').click(function () {
+                                //refresh grid
+                                var grid = $("#fiscalschedules-grid").data('kendoGrid');
+                                grid.dataSource.read();
+
+                                //return false to don't reload a page
+                                return false;
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

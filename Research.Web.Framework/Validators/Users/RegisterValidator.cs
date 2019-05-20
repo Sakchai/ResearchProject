@@ -21,22 +21,22 @@ namespace Research.Web.Validators.Users
                 .NotEmpty()
                 .EmailAddress()
                 //.WithMessage("Valid Email is required for user to be in 'Registered' role")
-                .WithMessage("โปรดระบุอีเมล");
+                .WithMessage("ระบุอีเมล");
             //only for registered users
             //.When(x => IsRegisteredUserRoleChecked(x, userService));
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("อีเมลซ้ำในระบบ โปรดระบุอีกครั้ง")
+                .WithMessage("อีเมลซ้ำในระบบ ระบุอีกครั้ง")
                 .When(x => IsDuplicateEmailChecked(x, userService));
 
             //form fields
             RuleFor(x => x.IDCard)
                 .NotEmpty()
-                .WithMessage("โปรดระบุเลขประจำตัวประชาชน");
+                .WithMessage("ระบุเลขประจำตัวประชาชน");
 
             RuleFor(x => x.IDCard)
                 .NotEmpty()
-                .WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ โปรดระบุอีกครั้ง")
+                .WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ ระบุอีกครั้ง")
                 .When(x => IsDuplicateIDCardChecked(x, userService));
 
             //only for registered users

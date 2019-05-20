@@ -17,8 +17,7 @@ namespace Research.Data.Mapping
         public override void Configure(EntityTypeBuilder<UserRole> entity)
         {
             entity.ToTable(nameof(UserRole));
-            entity.HasKey(e => e.Id);
-
+            entity.HasKey(d => new { d.RoleId, d.UserId });
             entity.HasOne(d => d.Role)
                 .WithMany()
                 .HasForeignKey(d => d.RoleId);
@@ -26,6 +25,7 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.User)
                 .WithMany()
                 .HasForeignKey(d => d.UserId);
+            entity.Ignore(e => e.Id);
             entity.Ignore(d => d.RolePrograms);
             base.Configure(entity);
         }

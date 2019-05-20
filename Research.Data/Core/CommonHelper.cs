@@ -1,4 +1,4 @@
-using Research.Data;
+﻿using Research.Data;
 using Research.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -57,6 +57,14 @@ namespace Research.Core
             return output;
         }
 
+        public static string ConvertToThaiDate(DateTime date)
+        {
+            string[] months = new string[] { "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" };
+            int day = date.Day;
+            int year = date.Year + 543;
+            string month = months[date.Month - 1];
+            return $"{day} {month} {year}";
+        }
         /// <summary>
         /// Verifies that a string is in valid e-mail format
         /// </summary>

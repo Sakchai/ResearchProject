@@ -1,0 +1,69 @@
+@model FiscalScheduleModel
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="FiscalCode" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="FiscalCode" />
+                            <span asp-validation-for="FiscalCode"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="FiscalYear" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-select asp-for="FiscalYear" asp-items="Model.AvailableFiscalYears" />
+                            <span asp-validation-for="FiscalYear"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="FiscalTimes" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="FiscalTimes" />
+                            <span asp-validation-for="FiscalTimes"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="ScholarName" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="ScholarName" asp-required="true" />
+                            <span asp-validation-for="ScholarName"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="OpeningDate" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="OpeningDate" asp-required="true" />
+                            <span asp-validation-for="OpeningDate"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="ClosingDate" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="ClosingDate" asp-required="true" />
+                            <span asp-validation-for="ClosingDate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

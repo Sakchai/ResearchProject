@@ -153,15 +153,15 @@ namespace Research.Web.Factories
                 model.ResearcherCode = _researcherService.GetNextNumber();
             }
             PrepareAddressModel(model.AddressModel, researcher);
-            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");
-            _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies,true, "--โปรดระบุประเภทหน่วยงาน--");
-            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, true, "--โปรดระบุตำแหน่งวิชาการ--");
-            _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes, true, "--โปรดระบุประเภทบุคลากร--");
+            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--ระบุคำนำหน้าชื่อ--");
+            _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies,true, "--ระบุประเภทหน่วยงาน--");
+            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, true, "--ระบุตำแหน่งวิชาการ--");
+            _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes, true, "--ระบุประเภทบุคลากร--");
 
-            _baseAdminModelFactory.PrepareDegrees(model.AvailableAddEducationDegrees, true, "--โปรดระบุระดับปริญญา--");
-            _baseAdminModelFactory.PrepareEducationLevels(model.AvailableAddEducationEducationLevels, true, "--โปรดระบุวุฒิการศึกษา--");
-            _baseAdminModelFactory.PrepareInstitutes(model.AvailableAddEducationInstitutes, true, "--โปรดระบุสถาบันการศึกษา--");
-            _baseAdminModelFactory.PrepareCountries(model.AvailableAddEducationCountries, true, "--โปรดระบุประเทศ--");
+            _baseAdminModelFactory.PrepareDegrees(model.AvailableAddEducationDegrees, true, "--ระบุระดับปริญญา--");
+            _baseAdminModelFactory.PrepareEducationLevels(model.AvailableAddEducationEducationLevels, true, "--ระบุวุฒิการศึกษา--");
+            _baseAdminModelFactory.PrepareInstitutes(model.AvailableAddEducationInstitutes, true, "--ระบุสถาบันการศึกษา--");
+            _baseAdminModelFactory.PrepareCountries(model.AvailableAddEducationCountries, true, "--ระบุประเทศ--");
             //Default Thailand
             model.AddEducationCountryId = 229;
             model.AddEducationGraduationYear = DateTime.Now.Year + 543;
@@ -210,7 +210,7 @@ namespace Research.Web.Factories
             }
 
             //prepare available Provinces
-            _baseAdminModelFactory.PrepareProvinces(model.AvailableProvinces, true, "--โปรดระบุจังหวัด--");
+            _baseAdminModelFactory.PrepareProvinces(model.AvailableProvinces, true, "--ระบุจังหวัด--");
 
 
         }

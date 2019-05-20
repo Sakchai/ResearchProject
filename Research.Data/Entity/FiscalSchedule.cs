@@ -16,7 +16,7 @@ namespace Research.Data
         public string ScholarName { get; set; }
         public DateTime OpeningDate { get; set; }
         public DateTime ClosingDate { get; set; }
-        public bool RecordStatus { get; set; }
+        public bool Deleted { get; set; }
         public string LastUpdateBy { get; set; }
 
         public DateTime Created { get; set; }

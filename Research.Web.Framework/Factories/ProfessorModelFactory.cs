@@ -145,7 +145,7 @@ namespace Research.Web.Factories
                 model.IsActive = true;
             }
             PrepareAddressModel(model.AddressModel, professor);
-            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles, true, "--โปรดระบุคำนำหน้าชื่อ--");
+            _baseAdminModelFactory.PrepareTitles(model.AvailableTitles, true, "--ระบุคำนำหน้าชื่อ--");
             //Default Thailand
             return model;
         }
@@ -171,7 +171,7 @@ namespace Research.Web.Factories
             }
 
             //prepare available Provinces
-            _baseAdminModelFactory.PrepareProvinces(model.AvailableProvinces, true, "--โปรดระบุจังหวัด--");
+            _baseAdminModelFactory.PrepareProvinces(model.AvailableProvinces, true, "--ระบุจังหวัด--");
 
 
         }

@@ -1,0 +1,105 @@
+@model UserModel
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="UserName" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="UserName" />
+                            <span asp-validation-for="UserName"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="TitleId" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" />
+                            <span asp-validation-for="TitleId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="FirstName" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="FirstName" asp-required="true" />
+                            <span asp-validation-for="FirstName"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="LastName" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="LastName" asp-required="true" />
+                            <span asp-validation-for="LastName"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="AgencyId" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencyies" />
+                            <span asp-validation-for="AgencyId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="MobileNumber" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="MobileNumber" />
+                            <span asp-validation-for="MobileNumber"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="Email" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="Email" />
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="UserTypeId" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-select asp-for="UserTypeId" asp-items="Model.AvailableUserRoles" />
+                            <span asp-validation-for="UserTypeId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="IsActive" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="IsActive" type="checked" />
+                            <span asp-validation-for="IsActive"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <nop-label asp-for="Description" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-textarea asp-for="Description"  />
+                            <span asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

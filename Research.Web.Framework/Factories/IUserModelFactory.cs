@@ -29,5 +29,29 @@ namespace Research.Web.Factories
         RegisterModel PrepareRegisterModel(RegisterModel model);
         RegisterResultModel PrepareRegisterResultModel(int resultId);
         UserAgreementModel PrepareUserAgreementModel(Guid userGuid);
+
+        /// <summary>
+        /// Prepare user search model
+        /// </summary>
+        /// <param name="model">User search model</param>
+        /// <returns>User search model</returns>
+        UserSearchModel PrepareUserSearchModel(UserSearchModel searchModel);
+
+        /// <summary>
+        /// Prepare paged researcher list model
+        /// </summary>
+        /// <param name="searchModel">User search model</param>
+        /// <returns>User list model</returns>
+        UserListModel PrepareUserListModel(UserSearchModel searchModel);
+
+        /// <summary>
+        /// Prepare researcher model
+        /// </summary>
+        /// <param name="model">User model</param>
+        /// <param name="user">User</param>
+        /// <param name="excludeProperties">Whether to exclude populating of some properties of model</param>
+        /// <returns>User model</returns>
+        UserModel PrepareUserModel(UserModel model, User user, bool excludeProperties = false);
+
     }
 }

@@ -190,6 +190,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ResearcherModelFactory>().As<IResearcherModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ProfessorModelFactory>().As<IProfessorModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ResearchIssueModelFactory>().As<IResearchIssueModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<FiscalScheduleModelFactory>().As<IFiscalScheduleModelFactory>().InstancePerLifetimeScope();
+            
         }
 
         /// <summary>

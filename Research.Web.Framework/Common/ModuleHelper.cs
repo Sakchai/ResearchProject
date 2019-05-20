@@ -97,7 +97,7 @@ namespace Research.Common
                         Type = SidebarMenuType.Link,
                         Name = "วันเปิดรับข้อเสนอ",
                         IconClassName = "fa fa-hourglass-half",
-                        URLPath = "/ResearchIssue/List",
+                        URLPath = "/FiscalSchedule/List",
                         LinkCounter = counter,
                     };
                 case Module.Researchs:

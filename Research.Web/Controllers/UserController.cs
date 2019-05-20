@@ -8,7 +8,10 @@ using Research.Services.Authentication;
 using Research.Services.Events;
 using Research.Services.Messages;
 using Research.Services.Users;
+using Research.Web.Extensions;
 using Research.Web.Factories;
+using Research.Web.Framework.Mvc;
+using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Users;
 using System;
 
@@ -239,13 +242,178 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
-  
+
 
         #endregion
 
 
 
- 
+
+
+        #endregion
+
+
+        #region List
+
+        public virtual IActionResult Index()
+        {
+            return RedirectToAction("List");
+        }
+
+        public virtual IActionResult List()
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            //prepare model
+            var model = _userModelFactory.PrepareUserSearchModel(new UserSearchModel());
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult List(UserSearchModel searchModel)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedKendoGridJson();
+
+            //prepare model
+            var model = _userModelFactory.PrepareUserListModel(searchModel);
+
+            return Json(model);
+        }
+
+        #endregion
+
+        #region Create / Edit / Delete
+        [HttpGet, ActionName("Create")]
+        public virtual IActionResult Create()
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            //prepare model
+            var model = _userModelFactory.PrepareUserModel(new UserModel(), null);
+
+            return View(model);
+        }
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Create(UserModel model, bool continueEditing)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            if (ModelState.IsValid)
+            {
+
+                var user = model.ToEntity<User>();
+                user.UserName = model.UserName;
+                user.TitleId = model.TitleId;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.AgencyId = model.AgencyId;
+                user.MobileNumber = model.MobileNumber;
+                user.Email = model.Email;
+                user.UserTypeId = model.UserTypeId;
+                user.IsActive = model.IsActive;
+                user.Description = model.Description;
+                _userService.InsertUser(user);
+
+                return continueEditing ? RedirectToAction("Edit", new { user.Id }) : RedirectToAction("List");
+            }
+
+            //prepare model
+            model = _userModelFactory.PrepareUserModel(model, null, true);
+
+            //if we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
+        public virtual IActionResult Edit(int id)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            //try to get a user with the specified id
+            var user = _userService.GetUserById(id);
+            if (user == null)
+                return RedirectToAction("List");
+
+            //prepare model
+            var model = _userModelFactory.PrepareUserModel(null, user);
+
+            return View(model);
+        }
+
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Edit(UserModel model, bool continueEditing)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            //try to get a user with the specified id
+            var user = _userService.GetUserById(model.Id);
+            if (user == null)
+                return RedirectToAction("List");
+
+            if (ModelState.IsValid)
+            {
+                user = model.ToEntity(user);
+                user.UserName = model.UserName;
+                user.TitleId = model.TitleId;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.AgencyId = model.AgencyId;
+                user.MobileNumber = model.MobileNumber;
+                user.Email = model.Email;
+                user.UserTypeId = model.UserTypeId;
+                user.IsActive = model.IsActive;
+                user.Description = model.Description;
+                _userService.UpdateUser(user);
+
+                return continueEditing ? RedirectToAction("Edit", new { user.Id }) : RedirectToAction("List");
+
+            }
+
+            //prepare model
+            model = _userModelFactory.PrepareUserModel(model, user, true);
+
+            //if we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        public virtual IActionResult Info(int id)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            //try to get a user with the specified id
+            var user = _userService.GetUserById(id);
+            if (user == null)
+                return RedirectToAction("List");
+
+            //prepare model
+            var model = _userModelFactory.PrepareUserModel(null, user);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult Delete(int id)
+        {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+            //    return AccessDeniedView();
+
+            //try to get a user with the specified id
+            var user = _userService.GetUserById(id)
+                ?? throw new ArgumentException("ไม่พบรายการผู้ใช้");
+
+            user.Deleted = true;
+            _userService.UpdateUser(user);
+
+            return new NullJsonResult();
+        }
 
         #endregion
     }

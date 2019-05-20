@@ -84,7 +84,7 @@ namespace Research.Services.Users
             DateTime? createdToUtc = null, int researcherId = 0,
             int[] userRoleIds = null, string email = null, string username = null,
             string firstName = null, string lastName = null,
-            int dayOfBirth = 0, int monthOfBirth = 0,
+            int dayOfBirth = 0, int monthOfBirth = 0,int agencyId = 0,
             string company = null, string phone = null, string zipPostalCode = null,
             string ipAddress = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
@@ -93,9 +93,11 @@ namespace Research.Services.Users
                 query = query.Where(c => createdFromUtc.Value <= c.Created);
             if (createdToUtc.HasValue)
                 query = query.Where(c => createdToUtc.Value >= c.Created);
-            if (researcherId > 0)
+            if (researcherId != 0)
                 query = query.Where(c => researcherId == c.ResearcherId);
-            query = query.Where(c => !c.Deleted);
+            if (agencyId != 0)
+                query = query.Where(c => agencyId == c.AgencyId);
+            query = query.Where(c => c.Deleted == false);
 
             //if (userRoleIds != null && userRoleIds.Length > 0)
             //{
@@ -116,87 +118,9 @@ namespace Research.Services.Users
             if (!string.IsNullOrWhiteSpace(lastName))
                 query = query.Where(c => c.LastName.Contains(lastName));
 
-            ////date of birth is stored as a string into database.
-            ////we also know that date of birth is stored in the following format YYYY-MM-DD (for example, 1983-02-18).
-            ////so let's search it as a string
-            //if (dayOfBirth > 0 && monthOfBirth > 0)
-            //{
-            //    //both are specified
-            //    var dateOfBirthStr = monthOfBirth.ToString("00", CultureInfo.InvariantCulture) + "-" + dayOfBirth.ToString("00", CultureInfo.InvariantCulture);
+      
 
-            //    //z.Attribute.Value.Length - dateOfBirthStr.Length = 5
-            //    //dateOfBirthStr.Length = 5
-            //    query = query
-            //        .Join(_gaRepository.Table, x => x.Id, y => y.EntityId, (x, y) => new { User = x, Attribute = y })
-            //        .Where(z => z.Attribute.KeyGroup == _entityName &&
-            //                    z.Attribute.Key == ResearchUserDefaults.DateOfBirthAttribute &&
-            //                    z.Attribute.Value.Substring(5, 5) == dateOfBirthStr)
-            //        .Select(z => z.User);
-            //}
-            //else if (dayOfBirth > 0)
-            //{
-            //    //only day is specified
-            //    var dateOfBirthStr = dayOfBirth.ToString("00", CultureInfo.InvariantCulture);
-
-            //    //z.Attribute.Value.Length - dateOfBirthStr.Length = 8
-            //    //dateOfBirthStr.Length = 2
-            //    query = query
-            //        .Join(_gaRepository.Table, x => x.Id, y => y.EntityId, (x, y) => new { User = x, Attribute = y })
-            //        .Where(z => z.Attribute.KeyGroup == _entityName &&
-            //                    z.Attribute.Key == ResearchUserDefaults.DateOfBirthAttribute &&
-            //                    z.Attribute.Value.Substring(8, 2) == dateOfBirthStr)
-            //        .Select(z => z.User);
-            //}
-            //else if (monthOfBirth > 0)
-            //{
-            //    //only month is specified
-            //    var dateOfBirthStr = "-" + monthOfBirth.ToString("00", CultureInfo.InvariantCulture) + "-";
-            //    query = query
-            //        .Join(_gaRepository.Table, x => x.Id, y => y.EntityId, (x, y) => new { User = x, Attribute = y })
-            //        .Where(z => z.Attribute.KeyGroup == _entityName &&
-            //                    z.Attribute.Key == ResearchUserDefaults.DateOfBirthAttribute &&
-            //                    z.Attribute.Value.Contains(dateOfBirthStr))
-            //        .Select(z => z.User);
-            //}
-            ////search by company
-            //if (!string.IsNullOrWhiteSpace(company))
-            //{
-            //    query = query
-            //        .Join(_gaRepository.Table, x => x.Id, y => y.EntityId, (x, y) => new { User = x, Attribute = y })
-            //        .Where(z => z.Attribute.KeyGroup == _entityName &&
-            //                    z.Attribute.Key == ResearchUserDefaults.CompanyAttribute &&
-            //                    z.Attribute.Value.Contains(company))
-            //        .Select(z => z.User);
-            //}
-            ////search by phone
-            //if (!string.IsNullOrWhiteSpace(phone))
-            //{
-            //    query = query
-            //        .Join(_gaRepository.Table, x => x.Id, y => y.EntityId, (x, y) => new { User = x, Attribute = y })
-            //        .Where(z => z.Attribute.KeyGroup == _entityName &&
-            //                    z.Attribute.Key == ResearchUserDefaults.PhoneAttribute &&
-            //                    z.Attribute.Value.Contains(phone))
-            //        .Select(z => z.User);
-            //}
-            ////search by zip
-            //if (!string.IsNullOrWhiteSpace(zipPostalCode))
-            //{
-            //    query = query
-            //        .Join(_gaRepository.Table, x => x.Id, y => y.EntityId, (x, y) => new { User = x, Attribute = y })
-            //        .Where(z => z.Attribute.KeyGroup == _entityName &&
-            //                    z.Attribute.Key == ResearchUserDefaults.ZipPostalCodeAttribute &&
-            //                    z.Attribute.Value.Contains(zipPostalCode))
-            //        .Select(z => z.User);
-            //}
-
-            ////search by IpAddress
-            //if (!string.IsNullOrWhiteSpace(ipAddress) && CommonHelper.IsValidIpAddress(ipAddress))
-            //{
-            //    query = query.Where(w => w.LastIpAddress == ipAddress);
-            //}
-
-
-            query = query.OrderByDescending(c => c.FirstName);
+            query = query.OrderBy(c => c.FirstName);
 
             var users = new PagedList<User>(query, pageIndex, pageSize, getOnlyTotalCount);
             return users;
@@ -768,6 +692,15 @@ namespace Research.Services.Users
                         select c;
             var user = query.FirstOrDefault();
             return user;
+        }
+
+        public string GetNextNumber()
+        {
+            var query = _userRepository.Table;
+            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
+            //int? maxNumber = query.Max(e => (int?)e.Id);
+            maxNumber += 1;
+            return $"stf-{maxNumber.ToString("D4")}";
         }
 
         #endregion

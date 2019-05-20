@@ -75,6 +75,7 @@ namespace Research.Services.FiscalSchedules
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
             var query = _fiscalScheduleRepository.Table;
+            query = query.Where(a => a.Deleted != true);
             if (!string.IsNullOrEmpty(fiscalScheduleName))
                 query = query.Where(a => a.ScholarName == fiscalScheduleName);
 
@@ -113,7 +114,7 @@ namespace Research.Services.FiscalSchedules
 
             //cache
             _cacheManager.RemoveByPattern(ResearchFiscalScheduleDefaults.FiscalSchedulesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchFiscalScheduleDefaults.FiscalSchedulesPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchFiscalScheduleDefaults.FiscalSchedulesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(fiscalSchedule);
@@ -136,7 +137,7 @@ namespace Research.Services.FiscalSchedules
 
             //cache
             _cacheManager.RemoveByPattern(ResearchFiscalScheduleDefaults.FiscalSchedulesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchFiscalScheduleDefaults.FiscalSchedulesPatternCacheKey);
+           // _staticCacheManager.RemoveByPattern(ResearchFiscalScheduleDefaults.FiscalSchedulesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(fiscalSchedule);
@@ -191,6 +192,15 @@ namespace Research.Services.FiscalSchedules
         {
             var query = _fiscalScheduleRepository.Table;
             return query.ToList();
+        }
+
+        public string GetNextNumber()
+        {
+            var query = _fiscalScheduleRepository.Table;
+            query = query.Where(a => a.Deleted != true);
+            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
+            maxNumber += 1;
+            return $"t-{maxNumber.ToString("D4")}";
         }
 
 

@@ -324,7 +324,7 @@ namespace Research.Web.Models.Factories
             }
 
             //insert special item for the default value
-            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุ Academic Rank");
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "ระบุ Academic Rank");
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace Research.Web.Models.Factories
             }
 
             //insert special item for the default value
-            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุคณะ");
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "ระบุคณะ");
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Research.Web.Models.Factories
             }
 
             //insert special item for the default value
-            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุผู้ทรงคุณวุฒิ");
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "ระบุผู้ทรงคุณวุฒิ");
         }
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace Research.Web.Models.Factories
             }
 
             //insert special item for the default value
-            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุผู้วิจัย");
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "ระบุผู้วิจัย");
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace Research.Web.Models.Factories
             }
 
             //insert special item for the default value
-            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุระดับการศึกษา");
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "ระบุระดับการศึกษา");
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Research.Web.Models.Factories
             }
 
             //insert special item for the default value
-            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "โปรดระบุ Strategy Group");
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText ?? "ระบุ Strategy Group");
         }
 
         /// <summary>

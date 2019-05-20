@@ -7,6 +7,7 @@ using Research.Web.Framework.Models;
 using Research.Web.Models;
 using Research.Web.Models.Common;
 using Research.Web.Models.Directory;
+using Research.Web.Models.FiscalSchedules;
 using Research.Web.Models.Logging;
 using Research.Web.Models.Messages;
 using Research.Web.Models.Professors;
@@ -77,6 +78,10 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(model => model.AvailableFiscalYears, options => options.Ignore());
             CreateMap<ResearchIssueModel, ResearchIssue>()
                 .ForMember(model => model.Projects, options => options.Ignore());
+            CreateMap<FiscalSchedule, FiscalScheduleModel>()
+                .ForMember(model => model.AvailableFiscalYears, options => options.Ignore());
+            CreateMap<FiscalScheduleModel, FiscalSchedule>();
+
         }
         /// <summary>
         /// Create directory maps 
@@ -253,6 +258,15 @@ namespace Research.Web.Framework.Infrastructure.Mapper
         /// </summary>
         protected virtual void CreateUsersMaps()
         {
+            CreateMap<User, UserModel>()
+                .ForMember(entity => entity.AvailableTitles, options => options.Ignore())
+                .ForMember(entity => entity.AvailableAgencyies, options => options.Ignore())
+                .ForMember(entity => entity.AvailableUserRoles, options => options.Ignore())
+                .ForMember(entity => entity.AgencyName, options => options.Ignore());
+            CreateMap<UserModel, User>()
+                .ForMember(entity => entity.Agency, options => options.Ignore())
+                .ForMember(entity => entity.Researcher, options => options.Ignore())
+                .ForMember(entity => entity.UserRoles, options => options.Ignore());
 
             CreateMap<UserRole, UserRoleModel>();
             CreateMap<UserRoleModel, UserRole>();

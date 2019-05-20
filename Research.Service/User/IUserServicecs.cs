@@ -41,7 +41,7 @@ namespace Research.Services
             DateTime? createdToUtc = null, int researcherId = 0,
             int[] userRoleIds = null, string email = null, string username = null,
             string firstName = null, string lastName = null,
-            int dayOfBirth = 0, int monthOfBirth = 0,
+            int dayOfBirth = 0, int monthOfBirth = 0,int agencyId = 0,
             string company = null, string phone = null, string zipPostalCode = null,
             string ipAddress = null, 
             int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
@@ -139,6 +139,7 @@ namespace Research.Services
         /// <param name="onlyWithoutShoppingCart">A value indicating whether to delete users only without shopping cart</param>
         /// <returns>Number of deleted users</returns>
         int DeleteGuestUsers(DateTime? createdFromUtc, DateTime? createdToUtc, bool onlyWithoutShoppingCart);
+        string GetNextNumber();
 
 
         /// <summary>

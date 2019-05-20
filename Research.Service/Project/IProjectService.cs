@@ -40,6 +40,6 @@ namespace Research.Services.Projects
         void RemoveProjectProgress(Project project, ProjectProgress projectProgress);
         void InsertProjectProgress(ProjectProgress projectProgress);
         IPagedList<ProjectProgress> GetAllProjectProgresses(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
-
+        string GetNextNumber();
     }
 }

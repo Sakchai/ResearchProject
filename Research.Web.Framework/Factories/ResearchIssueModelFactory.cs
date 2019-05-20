@@ -121,7 +121,7 @@ namespace Research.Web.Factories
                 model.FiscalYear = DateTime.Today.Year + 543;
             }
 
-            _baseAdminModelFactory.PrepareFiscalYears(model.AvailableFiscalYears, true, "--โปรดระบุปี--");
+            _baseAdminModelFactory.PrepareFiscalYears(model.AvailableFiscalYears, true, "--ระบุปี--");
 
             return model;
         }

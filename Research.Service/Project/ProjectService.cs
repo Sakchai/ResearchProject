@@ -183,5 +183,14 @@ namespace Research.Services.Projects
             return query.Where(c => c.Id == projectResearcherId).FirstOrDefault();
 
         }
+
+        public string GetNextNumber()
+        {
+            var query = _projectRepository.Table;
+            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
+            //int? maxNumber = query.Max(e => (int?)e.Id);
+            maxNumber += 1;
+            return $"pp-{maxNumber.ToString("D6")}";
+        }
     }
 }
