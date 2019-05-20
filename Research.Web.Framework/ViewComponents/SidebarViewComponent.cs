@@ -49,22 +49,22 @@ namespace Research.Web.ViewComponents
             };
             sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.About, Tuple.Create(0, 1, 0)));
             sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Contact, Tuple.Create(1, 0, 0)));
-            sidebars.Add(ModuleHelper.AddTree("Account"));
-            sidebars.Last().TreeChild = new List<SidebarMenu>()
-            {
-                ModuleHelper.AddModule(ModuleHelper.Module.Login),
-                ModuleHelper.AddModule(ModuleHelper.Module.Register, Tuple.Create(1, 1, 1)),
-            };
+            //sidebars.Add(ModuleHelper.AddTree("Account"));
+            //sidebars.Last().TreeChild = new List<SidebarMenu>()
+            //{
+            //    ModuleHelper.AddModule(ModuleHelper.Module.Login),
+            //    ModuleHelper.AddModule(ModuleHelper.Module.Register, Tuple.Create(1, 1, 1)),
+            //};
 
-            if (User.IsInRole("SuperAdmins"))
-            {
-                sidebars.Add(ModuleHelper.AddTree("Administration"));
-                sidebars.Last().TreeChild = new List<SidebarMenu>()
-            {
-                ModuleHelper.AddModule(ModuleHelper.Module.SuperAdmin),
-                ModuleHelper.AddModule(ModuleHelper.Module.Role),
-            };
-            }
+            //if (User.IsInRole("SuperAdmins"))
+            //{
+            //    sidebars.Add(ModuleHelper.AddTree("Administration"));
+            //    sidebars.Last().TreeChild = new List<SidebarMenu>()
+            //{
+            //    ModuleHelper.AddModule(ModuleHelper.Module.SuperAdmin),
+            //    ModuleHelper.AddModule(ModuleHelper.Module.Role),
+            //};
+            //}
 
             return View(sidebars);
         }

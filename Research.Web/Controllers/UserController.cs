@@ -211,28 +211,29 @@ namespace Research.Web.Controllers
                             //_userActivityService.InsertActivity(user, "PublicStore.Login","ActivityLog.PublicStore.Login", user);
 
                             if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                                return RedirectToRoute("HomePage");
+                                //return RedirectToRoute("Project");
+                                return RedirectToAction("List","Project");
 
                             return Redirect(returnUrl);
                         }
                     case UserLoginResults.UserNotExist:
-                        ModelState.AddModelError("", "UserNotExist");
+                        ModelState.AddModelError("", "ไม่มีผู้ใช้นี้ในระบบ");
                         break;
                     case UserLoginResults.Deleted:
-                        ModelState.AddModelError("", "Account.Login.WrongCredentials.Deleted");
+                        ModelState.AddModelError("", "ผู้ใช้ถูกลบออกระบบไปแล้ว กรุณาลงทะเบียนใหม่");
                         break;
                     case UserLoginResults.NotActive:
-                        ModelState.AddModelError("", "Account.Login.WrongCredentials.NotActive");
+                        ModelState.AddModelError("", "ผู้ใช้ไม่ Active");
                         break;
                     case UserLoginResults.NotRegistered:
-                        ModelState.AddModelError("", "Account.Login.WrongCredentials.NotRegistered");
+                        ModelState.AddModelError("", "ผู้ใช้ยังไม่ได้ลงทะเบียน");
                         break;
                     case UserLoginResults.LockedOut:
-                        ModelState.AddModelError("", "Account.Login.WrongCredentials.LockedOut");
+                        ModelState.AddModelError("", "ผู้ใช้ Locked Out");
                         break;
                     case UserLoginResults.WrongPassword:
                     default:
-                        ModelState.AddModelError("", "Account.Login.WrongCredentials");
+                        ModelState.AddModelError("", "รหัสผ่านไม่ถูกต้องการ");
                         break;
                 }
             }

@@ -26,9 +26,10 @@ namespace Research.Data
 
             if (string.IsNullOrEmpty(userRoleSystemName))
                 throw new ArgumentNullException(nameof(userRoleSystemName));
-
-            var result = user.UserRoles
-                .FirstOrDefault(cr => (!onlyActiveUserRoles || cr.Role.IsActive) && cr.Role.RoleName == userRoleSystemName) != null;
+            //chai
+            bool result = user.IsActive;
+            //var result = user.UserRoles
+            //    .FirstOrDefault(cr => (!onlyActiveUserRoles || cr.Role.IsActive) && cr.Role.RoleName == userRoleSystemName) != null;
             return result;
         }
 

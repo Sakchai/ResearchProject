@@ -292,7 +292,7 @@ namespace Research.Web.Framework
                 EngineContext.Current.Resolve<IRoutePublisher>().RegisterRoutes(routeBuilder);
                 routeBuilder.MapRoute(
                     name: "default",
-                    template: "{controller=Project}/{action=List}/{id?}");
+                    template: "{controller=User}/{action=Login}/{id?}");
             });
         }
     }

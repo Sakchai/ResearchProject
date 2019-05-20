@@ -20,7 +20,7 @@ namespace Research.Data.Mapping
             entity.HasKey(e => e.Id);
 
             entity.Property(e => e.Password);
-
+            entity.Ignore(e => e.PasswordFormat);
             base.Configure(entity);
         }
 

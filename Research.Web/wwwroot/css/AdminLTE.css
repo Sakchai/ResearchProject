@@ -3275,9 +3275,11 @@ table.text-center th {
 }
 .login-box-msg,
 .register-box-msg {
-  margin: 0;
-  text-align: center;
-  padding: 0 20px 0px 20px;
+    margin: 0;
+    text-align: center;
+    padding: 0 20px 0px 20px;
+    background-color: #337ab7;
+    color: white;
 }
 .social-auth-links {
   margin: 10px 0;
