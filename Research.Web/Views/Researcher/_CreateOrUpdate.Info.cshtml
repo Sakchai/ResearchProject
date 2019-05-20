@@ -14,6 +14,15 @@
             </div>
             <div class="form-group">
                 <div class="col-md-3">
+                    <nop-label asp-for="TitleId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" asp-required="true" />
+                    <span asp-validation-for="TitleId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
                     <nop-label asp-for="Gender" />
                 </div>
 
@@ -29,21 +38,13 @@
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="TitleId" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" />
-                    <span asp-validation-for="TitleId"></span>
-                </div>
-            </div>
+
             <div class="form-group">
                 <div class="col-md-3">
                     <nop-label asp-for="FirstName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="FirstName" />
+                    <nop-editor asp-for="FirstName" asp-required="true" />
                     <span asp-validation-for="FirstName"></span>
                 </div>
             </div>
@@ -52,7 +53,7 @@
                     <nop-label asp-for="LastName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="LastName" />
+                    <nop-editor asp-for="LastName" asp-required="true" />
                     <span asp-validation-for="LastName"></span>
                 </div>
             </div>
@@ -99,7 +100,7 @@
                     <nop-label asp-for="IDCard" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="IDCard" />
+                    <nop-editor asp-for="IDCard" asp-required="true" />
                 </div>
             </div>
             <div class="form-group">
@@ -107,7 +108,7 @@
                     <nop-label asp-for="Telephone" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="Telephone" />
+                    <nop-editor asp-for="Telephone" asp-required="true" />
                 </div>
             </div>
             <div class="form-group">
@@ -115,7 +116,7 @@
                     <nop-label asp-for="Email" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="Email" />
+                    <nop-editor asp-for="Email" asp-required="true" />
                     <span asp-validation-for="Email"></span>
                 </div>
             </div>
@@ -124,7 +125,7 @@
                     <nop-label asp-for="AgencyId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
+                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" asp-required="true" />
                     <span asp-validation-for="AgencyId"></span>
                 </div>
             </div>
@@ -133,7 +134,7 @@
                     <nop-label asp-for="PersonalTypeId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="PersonalTypeId" asp-items="Model.AvailablePersonalTypes" />
+                    <nop-select asp-for="PersonalTypeId" asp-items="Model.AvailablePersonalTypes" asp-required="true" />
                 </div>
             </div>
             <div class="form-group">
@@ -141,7 +142,7 @@
                     <nop-label asp-for="AcademicRankId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AcademicRankId" asp-items="Model.AvailableAcademicRanks" />
+                    <nop-select asp-for="AcademicRankId" asp-items="Model.AvailableAcademicRanks" asp-required="true" />
                 </div>
             </div>
             <div class="form-group">

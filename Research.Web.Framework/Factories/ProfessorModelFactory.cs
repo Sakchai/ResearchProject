@@ -140,7 +140,7 @@ namespace Research.Web.Factories
             }
             else
             {
-                model.ProfessorCode = _professorService.GetNextProfessorNumber();
+                model.ProfessorCode = _professorService.GetNextNumber();
                 model.ProfessorType = ProfessorType.InternalExpert.ToString();
                 model.IsActive = true;
             }

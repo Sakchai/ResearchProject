@@ -150,7 +150,7 @@ namespace Research.Web.Factories
             }
             else
             {
-                model.ResearcherCode = _researcherService.GetNextResearcherNumber();
+                model.ResearcherCode = _researcherService.GetNextNumber();
             }
             PrepareAddressModel(model.AddressModel, researcher);
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--โปรดระบุคำนำหน้าชื่อ--");

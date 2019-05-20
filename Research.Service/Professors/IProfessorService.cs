@@ -33,7 +33,7 @@ namespace Research.Services.Professors
         /// <returns>Professor</returns>
         Professor GetProfessorById(int professorId);
 
-        string GetNextProfessorNumber();
+        string GetNextNumber();
 
         /// <summary>
         /// Inserts professor

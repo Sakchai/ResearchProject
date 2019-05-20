@@ -96,6 +96,6 @@ namespace Research.Services.Researchers
         /// <param name="researcherEducation">ResearcherEducation</param>
         void DeleteResearcherEducation(ResearcherEducation researcherEducation);
 
-        string GetNextResearcherNumber();
+        string GetNextNumber();
     }
 }

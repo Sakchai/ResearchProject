@@ -12,6 +12,7 @@ using Research.Web.Models.Messages;
 using Research.Web.Models.Professors;
 using Research.Web.Models.Projects;
 using Research.Web.Models.Researchers;
+using Research.Web.Models.ResearchIssues;
 using Research.Web.Models.Tasks;
 using Research.Web.Models.Users;
 
@@ -72,7 +73,10 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(model => model.ProvinceName, options => options.MapFrom(entity => entity.Province != null ? entity.Province.Name : null));
             CreateMap<AddressModel, Address>()
                 .ForMember(entity => entity.Province, options => options.Ignore());
-
+            CreateMap<ResearchIssue, ResearchIssueModel>()
+                .ForMember(model => model.AvailableFiscalYears, options => options.Ignore());
+            CreateMap<ResearchIssueModel, ResearchIssue>()
+                .ForMember(model => model.Projects, options => options.Ignore());
         }
         /// <summary>
         /// Create directory maps 

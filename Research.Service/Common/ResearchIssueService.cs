@@ -75,9 +75,10 @@ namespace Research.Services.Common
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
             var query = _researchIssueRepository.Table;
+            query = query.Where(a => a.Deleted != true);
             if (!string.IsNullOrEmpty(researchIssueName))
                 query = query.Where(a => a.Name == researchIssueName);
-
+            query = query.OrderByDescending(x => x.FiscalYear).ThenBy(x => x.Name);
             //paging
             return new PagedList<ResearchIssue>(query, pageIndex, pageSize);
         }
@@ -113,7 +114,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchResearchIssueDefaults.ResearchIssuesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchResearchIssueDefaults.ResearchIssuesPatternCacheKey);
+           // _staticCacheManager.RemoveByPattern(ResearchResearchIssueDefaults.ResearchIssuesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(researchIssue);
@@ -136,7 +137,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchResearchIssueDefaults.ResearchIssuesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchResearchIssueDefaults.ResearchIssuesPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchResearchIssueDefaults.ResearchIssuesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(researchIssue);
@@ -190,7 +191,17 @@ namespace Research.Services.Common
         public List<ResearchIssue> GetAllResearchIssues()
         {
             var query = _researchIssueRepository.Table;
+            query = query.Where(a => a.Deleted != true);
             return query.ToList();
+        }
+
+        public string GetNextNumber()
+        {
+            var query = _researchIssueRepository.Table;
+            query = query.Where(a => a.Deleted != true);
+            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
+            maxNumber += 1;
+            return $"Iss-{maxNumber.ToString("D4")}";
         }
 
 

@@ -60,5 +60,7 @@ namespace Research.Services.Common
         /// <returns>ResearchIssues</returns>
         List<ResearchIssue> GetResearchIssuesByIds(int[] researchIssueIds);
         List<ResearchIssue> GetAllResearchIssues();
+
+        string GetNextNumber();
     }
 }

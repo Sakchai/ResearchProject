@@ -199,9 +199,17 @@ namespace Research.Web.Controllers
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
 
-                SaveAddress(model.AddressModel, researcher);
-
                 _researcherService.InsertResearcher(researcher);
+
+                var address = model.AddressModel.ToEntity<Address>();
+                SaveAddress(model.AddressModel, address);
+                if (address.Id != 0)
+                {
+                    researcher.AddressId = address.Id;
+                    _researcherService.UpdateResearcher(researcher);
+                }
+
+
                 SuccessNotification("Admin.ContentManagement.Researchers.Added");
 
                 //activity log
@@ -223,28 +231,21 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
-        private void SaveAddress(AddressModel model, Researcher researcher)
+        private void SaveAddress(AddressModel model, Address address)
         {
-            if (researcher.AddressId == null)
+            if ((model != null) && (address.Id == 0))
             {
-                var address = new Address
-                {
-                    Address1 = model.Address1,
-                    Address2 = model.Address2,
-                    ProvinceId = model.ProvinceId,
-                    ZipCode = model.ZipCode
-                };
-                //_addressService.InsertAddress(address);
-                researcher.Address = address;
+                if (!string.IsNullOrEmpty(address.Address1))
+                    _addressService.InsertAddress(address);
             }
             else
             {
-                var address = _addressService.GetAddressById(researcher.AddressId.Value);
-                address.Address1 = model.Address1;
-                address.Address2 = model.Address2;
-                address.ProvinceId = model.ProvinceId;
-                address.ZipCode = model.ZipCode;
-                _addressService.UpdateAddress(address);
+                var addr = _addressService.GetAddressById(address.Id);
+                addr.Address1 = model.Address1;
+                addr.Address2 = model.Address2;
+                addr.ProvinceId = model.ProvinceId;
+                addr.ZipCode = model.ZipCode;
+                _addressService.UpdateAddress(addr);
             }
         }
 
@@ -280,9 +281,16 @@ namespace Research.Web.Controllers
                 researcher = model.ToEntity(researcher);
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
-                SaveAddress(model.AddressModel, researcher);
 
                 _researcherService.UpdateResearcher(researcher);
+
+                var address = model.AddressModel.ToEntity<Address>();
+                SaveAddress(model.AddressModel, address);
+                if (address.Id != 0)
+                {
+                    researcher.AddressId = address.Id;
+                    _researcherService.UpdateResearcher(researcher);
+                }
 
                 SuccessNotification("Researcher Updated");
 

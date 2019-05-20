@@ -26,7 +26,7 @@
                     <nop-label asp-for="FiscalYear" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="FiscalYear" enable="false"/>
+                    <nop-editor asp-for="FiscalYear"/>
                     <span asp-validation-for="FiscalYear"></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <nop-label asp-for="ProjectNameTh" />
                 </div>
                 <div class="col-md-9">
-                    <nop-textarea asp-for="ProjectNameTh" />
+                    <nop-textarea asp-for="ProjectNameTh" asp-required="true"/>
                     <span asp-validation-for="ProjectNameTh"></span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <nop-label asp-for="ProjectNameEn" />
                 </div>
                 <div class="col-md-9">
-                    <nop-textarea asp-for="ProjectNameEn" />
+                    <nop-textarea asp-for="ProjectNameEn" asp-required="true"/>
                     <span asp-validation-for="ProjectNameEn"></span>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     <nop-label asp-for="FundAmount" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="FundAmount" />
+                    <nop-editor asp-for="FundAmount" asp-required="true"/>
                     <span asp-validation-for="FundAmount"></span>
                 </div>
             </div>

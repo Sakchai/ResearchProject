@@ -164,7 +164,8 @@ namespace Research.Services.Researchers
         {
             var query = _researcherEducationRepository.Table;
 
-            query = query.Where(c => c.ResearcherId == researcherId).OrderByDescending(x => x.DegreeId);
+            query = query.Where(c => c.ResearcherId == researcherId).OrderByDescending(x => x.DegreeId).ThenByDescending(x=> x.GraduationYear);
+
             var researcherEducations = new PagedList<ResearcherEducation>(query, pageIndex, pageSize, getOnlyTotalCount);
             return researcherEducations;
         }
@@ -187,7 +188,7 @@ namespace Research.Services.Researchers
             //_eventPublisher.EntityInserted(researcherEducation);
         }
 
-        public string GetNextResearcherNumber()
+        public string GetNextNumber()
         {
             var query = _researcherRepository.Table;
             int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;

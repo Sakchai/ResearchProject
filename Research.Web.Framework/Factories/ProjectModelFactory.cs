@@ -171,8 +171,8 @@ namespace Research.Web.Factories
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
             }
-            model.AddProjectProgressStartDate = model.StartContractDate;
-            model.AddProjectProgressEndDate = model.StartContractDate.AddDays(30);
+            model.AddProjectProgressStartDate = DateTime.Today;
+            model.AddProjectProgressEndDate = model.StartContractDate.AddMonths(5);
 
             _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
             _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");

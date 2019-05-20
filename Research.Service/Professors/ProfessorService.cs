@@ -201,7 +201,7 @@ namespace Research.Services.Professors
             return query.ToList();
         }
 
-        public string GetNextProfessorNumber()
+        public string GetNextNumber()
         {
             var query = _professorRepository.Table;
             int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
