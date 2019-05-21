@@ -46,11 +46,10 @@ namespace Research.Web.Models.Users
         public string IDCard { get; set; }
 
 
-        [Required]
-        [Display(Name = "เพศ")]
+     
         public IList<SelectListItem> AvailableGenders { get; set; }
 
-        [Display(Name = "คำนำหน้า")]
+        [Display(Name = "เพศ")]
         public string Gender { get; set; }
 
         [Required]

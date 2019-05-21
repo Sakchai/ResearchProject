@@ -168,6 +168,9 @@ namespace Research.Web.Factories
             {
                 model.ProjectCode = _projectService.GetNextNumber();
                 model.ProjectType = "N";
+                model.StartContractDate = DateTime.Today;
+                model.EndContractDate = DateTime.Today.AddYears(1);
+                model.ProjectStatusId = (int) ProjectStatus.WaitingApproval;
             }
 
             model.AddProjectProgressStartDate = DateTime.Today;
