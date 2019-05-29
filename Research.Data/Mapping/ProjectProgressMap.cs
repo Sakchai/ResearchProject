@@ -27,7 +27,7 @@ namespace Research.Data.Mapping
             entity.Property(e => e.ProgressStartDate).HasColumnType("date");
 
             entity.HasOne(d => d.Project)
-                .WithMany()
+                .WithMany(project => project.ProjectProgresses)
                 .HasForeignKey(d => d.ProjectId);
 
             entity.Ignore(e => e.ProgressStatus);

@@ -8,7 +8,7 @@ namespace Research.Data
         ICollection<RoleProgram> _rolePrograms;
         public int UserId { get; set; }
         public int RoleId { get; set; }
-
+        public bool IsActive { get; set; }
         public virtual Role Role { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<RoleProgram> RolePrograms {

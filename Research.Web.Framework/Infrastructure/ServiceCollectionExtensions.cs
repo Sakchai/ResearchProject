@@ -22,6 +22,7 @@ using Research.Services.Authentication;
 using Research.Services.Logging;
 using Research.Services.Security;
 using Research.Services.Tasks;
+using Research.Web.Framework.FluentValidation;
 using StackExchange.Profiling.Storage;
 
 namespace Research.Infrastructure.Extensions
@@ -277,13 +278,12 @@ namespace Research.Infrastructure.Extensions
             //mvcBuilder.AddMvcOptions(options => options.ModelBinderProviders.Insert(0, new ResearchModelBinderProvider()));
 
             //add fluent validation
-            //chai
-            //mvcBuilder.AddFluentValidation(configuration =>
-            //{
-            //    configuration.ValidatorFactoryType = typeof(ResearchValidatorFactory);
-            //    //implicit/automatic validation of child properties
-            //    configuration.ImplicitlyValidateChildProperties = true;
-            //});
+            mvcBuilder.AddFluentValidation(configuration =>
+            {
+                configuration.ValidatorFactoryType = typeof(ResearchValidatorFactory);
+                //implicit/automatic validation of child properties
+                configuration.ImplicitlyValidateChildProperties = true;
+            });
 
             return mvcBuilder;
         }

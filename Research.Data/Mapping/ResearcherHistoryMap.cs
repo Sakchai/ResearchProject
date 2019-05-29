@@ -28,7 +28,7 @@ namespace Research.Data.Mapping
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Researcher)
-                .WithMany()
+                .WithMany(researcher => researcher.ResearcherHistories)
                 .HasForeignKey(d => d.ResearcherId);
 
             entity.HasOne(d => d.Title)

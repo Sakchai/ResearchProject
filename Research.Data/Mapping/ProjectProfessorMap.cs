@@ -20,7 +20,7 @@ namespace Research.Data.Mapping
             entity.HasKey(e => e.Id);
 
             entity.HasOne(d => d.Project)
-                .WithMany()
+                .WithMany(project => project.ProjectProfessors)
                 .HasForeignKey(d => d.ProjectId);
 
             entity.Ignore(d => d.ProfessorType);

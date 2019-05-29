@@ -1,4 +1,5 @@
 using Research.Core.Domain;
+using Research.Enum;
 using System;
 using System.Linq;
 
@@ -15,21 +16,25 @@ namespace Research.Data
         /// Gets a value indicating whether user is in a certain user role
         /// </summary>
         /// <param name="user">User</param>
-        /// <param name="userRoleSystemName">User role system name</param>
+        /// <param name="userRoleSystem">User role system name</param>
         /// <param name="onlyActiveUserRoles">A value indicating whether we should look only in active user roles</param>
         /// <returns>Result</returns>
         public static bool IsInUserRole(this User user,
-            string userRoleSystemName, bool onlyActiveUserRoles = true)
+            int userRoleSystem, bool onlyActiveUserRoles = true)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            if (string.IsNullOrEmpty(userRoleSystemName))
-                throw new ArgumentNullException(nameof(userRoleSystemName));
+            if (userRoleSystem == 0)
+                throw new ArgumentNullException(nameof(userRoleSystem));
             //chai
-            bool result = user.IsActive;
+
             //var result = user.UserRoles
             //    .FirstOrDefault(cr => (!onlyActiveUserRoles || cr.Role.IsActive) && cr.Role.RoleName == userRoleSystemName) != null;
+            //var result = user.UserRoles.FirstOrDefault() != null;
+            var result = user.UserRoles
+                .FirstOrDefault(cr => (!onlyActiveUserRoles ||  cr.IsActive) && cr.RoleId == userRoleSystem) != null;
+
             return result;
         }
 
@@ -75,7 +80,7 @@ namespace Research.Data
         /// <returns>Result</returns>
         public static bool IsAdmin(this User user, bool onlyActiveUserRoles = true)
         {
-            return IsInUserRole(user, ResearchUserDefaults.AdministratorsRoleName, onlyActiveUserRoles);
+            return IsInUserRole(user, ResearchUserDefaults.AdministratorsRoleId, onlyActiveUserRoles);
         }
 
         /// <summary>
@@ -84,9 +89,9 @@ namespace Research.Data
         /// <param name="user">User</param>
         /// <param name="onlyActiveUserRoles">A value indicating whether we should look only in active user roles</param>
         /// <returns>Result</returns>
-        public static bool IsForumModerator(this User user, bool onlyActiveUserRoles = true)
+        public static bool IsResearchCoordinator(this User user, bool onlyActiveUserRoles = true)
         {
-            return IsInUserRole(user, ResearchUserDefaults.ForumModeratorsRoleName, onlyActiveUserRoles);
+            return IsInUserRole(user, ResearchUserDefaults.ResearchCoordinatorRoleId, onlyActiveUserRoles);
         }
 
         /// <summary>
@@ -97,7 +102,7 @@ namespace Research.Data
         /// <returns>Result</returns>
         public static bool IsRegistered(this User user, bool onlyActiveUserRoles = true)
         {
-            return IsInUserRole(user, ResearchUserDefaults.RegisteredRoleName, onlyActiveUserRoles);
+            return IsInUserRole(user, ResearchUserDefaults.ResearcherRoleId, onlyActiveUserRoles);
         }
 
         /// <summary>
@@ -108,7 +113,7 @@ namespace Research.Data
         /// <returns>Result</returns>
         public static bool IsGuest(this User user, bool onlyActiveUserRoles = true)
         {
-            return IsInUserRole(user, ResearchUserDefaults.GuestsRoleName, onlyActiveUserRoles);
+            return IsInUserRole(user, ResearchUserDefaults.GuestsRoleId, onlyActiveUserRoles);
         }
 
         /// <summary>
@@ -119,7 +124,7 @@ namespace Research.Data
         /// <returns>Result</returns>
         public static bool IsResearcher(this User user, bool onlyActiveUserRoles = true)
         {
-            return IsInUserRole(user, ResearchUserDefaults.ResearchersRoleName, onlyActiveUserRoles);
+            return IsInUserRole(user, ResearchUserDefaults.ResearcherRoleId, onlyActiveUserRoles);
         }
 
         #endregion

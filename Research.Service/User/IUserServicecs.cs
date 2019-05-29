@@ -101,9 +101,9 @@ namespace Research.Services
         /// <summary>
         /// Get user by system role
         /// </summary>
-        /// <param name="roleName">System name</param>
+        /// <param name="roleId">Role Id</param>
         /// <returns>User</returns>
-        User GetUserByRoleName(string roleName);
+        User GetUserByRoleId(int roleId);
 
         /// <summary>
         /// Get user by username
@@ -186,9 +186,9 @@ namespace Research.Services
         /// <summary>
         /// Gets a user role
         /// </summary>
-        /// <param name="roleName">User role system name</param>
+        /// <param name="roleId">User role system name</param>
         /// <returns>User role</returns>
-        UserRole GetUserRoleByRoleName(string roleName);
+        UserRole GetUserRoleByRoleId(int roleId);
 
         /// <summary>
         /// Gets all user roles

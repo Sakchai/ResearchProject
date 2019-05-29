@@ -113,6 +113,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\lib\Ionicons\css\ionicons.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\lib\jvectormap\jquery-jvectormap-1.2.2.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

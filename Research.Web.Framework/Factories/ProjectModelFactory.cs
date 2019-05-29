@@ -164,6 +164,7 @@ namespace Research.Web.Factories
                 model.EndContractDate = project.ProjectEndDate;
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
+                model.ResearchIssueId = project.ResearchIssueId.Value;
             } else
             {
                 model.ProjectCode = _projectService.GetNextNumber();
@@ -207,14 +208,17 @@ namespace Research.Web.Factories
             {
                 Data = projectProfessors.PaginationByRequestModel(searchModel).Select(x =>
                 {
-                    //fill in model values from the entity       
+                    //fill in model values from the entity  
+                    var title = (x.Professor.Title != null) ? x.Professor.Title.TitleNameTH : string.Empty;
+                    var fullName = (x.Professor != null) ? $"{title}{x.Professor.FirstName} {x.Professor.LastName}" : string.Empty;
                     var projectProfessorModel = new ProjectProfessorModel
                     {
                         Id = x.Id,
                         ProjectId = x.ProjectId,
                         ProfessorId = x.ProfessorId,
                         ProfessorTypeId = x.ProfessorTypeId,
-                        ProfessorTyperName = x.ProfessorType.GetAttributeOfType<EnumMemberAttribute>().Value,
+                        ProfessorTypeName = x.ProfessorType.GetAttributeOfType<EnumMemberAttribute>().Value,
+                        ProfessorName = fullName,
                     };
 
 

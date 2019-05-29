@@ -236,18 +236,23 @@ namespace Research.Services.Users
             }
 
             _userService.InsertUserPassword(userPassword);
-
+            //var userRole = new UserRole
+            //{
+            //    User = request.User,
+            //    RoleId = (int)UserType.Researcher
+            //};
+            //_userService.InsertUserRole(userRole);
             request.User.IsActive = request.IsApproved;
 
-            //add to 'Registered' role
-            var registeredRole = _userService.GetUserByRoleName(ResearchUserDefaults.RegisteredRoleName);
+            //add to 'Researcher' role
+            var registeredRole = _userService.GetUserByRoleId(ResearchUserDefaults.ResearcherRoleId);
             if (registeredRole == null)
-                throw new ResearchException("'Registered' role could not be loaded");
+                throw new ResearchException("'Researcher' role could not be loaded");
             var role = _roleService.GetRoleById((int) UserType.Researcher); // researcher
             //request.User.UserRoles.Add(registeredRole);
             request.User.UserRoles.Add(new UserRole { User = registeredRole,Role = role });
             //remove from 'Guests' role
-            var guestRole = request.User.UserRoles.FirstOrDefault(cr => cr.Role.RoleName == ResearchUserDefaults.GuestsRoleName);
+            var guestRole = request.User.UserRoles.FirstOrDefault(cr => cr.RoleId == ResearchUserDefaults.GuestsRoleId);
             if (guestRole != null)
             {
                 //request.User.UserRoles.Remove(guestRole);

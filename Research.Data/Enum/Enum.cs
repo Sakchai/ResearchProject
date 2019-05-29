@@ -353,9 +353,6 @@ namespace Research.Enum
 
     public enum Gender
     {
-        [EnumMember(Value = "ไม่ระบุ")]
-        NA = 0,
-
         [EnumMember(Value = "เพศชาย")]
         Male = 1,
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Research.Controllers;
+using Research.Core;
 using Research.Data;
+using Research.Enum;
 using Research.Services;
 using Research.Services.Logging;
 using Research.Services.Projects;
@@ -21,14 +23,17 @@ namespace Research.Web.Controllers
         private readonly IUserActivityService _userActivityService;
         private readonly IProjectModelFactory _projectModelFactory;
         private readonly IProjectService _projectService;
+        private readonly IWorkContext _workContext;
 
         public ProjectController(IProjectService projectService, 
             IProjectModelFactory projectModelFactory,
-            IUserActivityService userActivityService)
+            IUserActivityService userActivityService,
+            IWorkContext workContext)
         {
             _projectService = projectService;
             _projectModelFactory = projectModelFactory;
             _userActivityService = userActivityService;
+            _workContext = workContext;
         }
         // GET: /<controller>/
         //[AllowAnonymous]
@@ -105,10 +110,32 @@ namespace Research.Web.Controllers
 
             if (ModelState.IsValid)
             {
-
+                var user = _workContext.CurrentUser;
                 var project = model.ToEntity<Project>();
-
+                project.ProjectType = string.IsNullOrEmpty(model.ProjectType) ? "N" : model.ProjectType;
+                project.ProjectStartDate = DateTime.Today;
+                project.ProjectEndDate = DateTime.Today.AddYears(1);
+                project.Created = DateTime.UtcNow;
+                project.Modified = DateTime.UtcNow;
+                project.LastUpdateBy = user.UserName;
+                project.ProjectStatusId = (int) ProjectStatus.WaitingApproval;
                 _projectService.InsertProject(project);
+
+                var researcher = user.Researcher;
+
+                if (researcher.Id != 0)
+                {
+                    var projectResearcher = new ProjectResearcher
+                    {
+                        ProjectId = project.Id,
+                        FirstName = researcher.FirstName,
+                        LastName = researcher.LastName,
+                        Portion = 100,
+                        ProjectRoleId = (int)ProjectRole.ProjectManager,
+                        ResearcherId = researcher.Id
+                    };
+                    _projectService.InsertProjectResearcher(projectResearcher);
+                }
 
                 SuccessNotification("Admin.ContentManagement.Projects.Added");
 

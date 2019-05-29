@@ -24,7 +24,7 @@ namespace Research.Data.Mapping
                 .HasMaxLength(50);
 
             entity.HasOne(d => d.Program)
-                .WithMany()
+                .WithMany(role => role.RolePrograms)
                 .HasForeignKey(d => d.ProgramId);
 
             entity.HasOne(d => d.Role)

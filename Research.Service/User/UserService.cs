@@ -9,6 +9,7 @@ using Research.Data;
 using Research.Enum;
 using Research.Core.Caching;
 using Research.Core.Data;
+using Research.Core.Domain;
 
 namespace Research.Services.Users
 {
@@ -250,14 +251,14 @@ namespace Research.Services.Users
         /// </summary>
         /// <param name="roleName">System name</param>
         /// <returns>User</returns>
-        public virtual User GetUserByRoleName(string roleName)
+        public virtual User GetUserByRoleId(int roleId)
         {
-            if (string.IsNullOrWhiteSpace(roleName))
+            if (roleId == 0)
                 return null;
 
             var query = from c in _userRepository.Table
                         orderby c.Id
-                        where c.UserRoles.Any(x=> x.Role.RoleName == roleName)
+                        where c.UserRoles.Any(x=> x.RoleId == roleId)
                         select c;
             var user = query.FirstOrDefault();
             return user;
@@ -296,10 +297,10 @@ namespace Research.Services.Users
             };
 
             //add to 'Guests' role
-           // var guestRole = GetUserRoleByRoleName(ResearchUserDefaults.GuestsRoleName);
-           // if (guestRole == null)
-            //    throw new ResearchException("'Guests' role could not be loaded");
-            //user.UserRoles.Add(guestRole);
+            var guestRole = GetUserRoleByRoleId(ResearchUserDefaults.GuestsRoleId);
+            if (guestRole == null)
+                throw new ResearchException("'Guests' role could not be loaded");
+            user.UserRoles.Add(guestRole);
             //user.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = guestRole });
 
             _userRepository.Insert(user);
@@ -437,9 +438,9 @@ namespace Research.Services.Users
         /// </summary>
         /// <param name="roleName">User role system name</param>
         /// <returns>User role</returns>
-        public virtual UserRole GetUserRoleByRoleName(string roleName)
+        public virtual UserRole GetUserRoleByRoleId(int roleId)
         {
-            if (string.IsNullOrWhiteSpace(roleName))
+            if (roleId == 0)
                 return null;
 
             //var key = string.Format(ResearchUserServiceDefaults.UserRolesByRoleNameCacheKey, roleName);
@@ -447,7 +448,7 @@ namespace Research.Services.Users
             //{
                 var query = from cr in _userRoleRepository.Table
                             orderby cr.Id
-                            where cr.Role.RoleName == roleName
+                            where cr.RoleId == roleId
                             select cr;
                 var userRole = query.FirstOrDefault();
                 return userRole;

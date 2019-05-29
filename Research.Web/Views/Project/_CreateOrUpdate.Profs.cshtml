@@ -25,7 +25,7 @@
                                     }
                                 },
                                 destroy: {
-                                    url: "@Html.Raw(Url.Action("ProjectProfessorDelete", "Professor", new { professorId = Model.Id }))",
+                                    url: "@Html.Raw(Url.Action("ProjectProfessorDelete", "Project", new { professorId = Model.Id }))",
                                     type: "POST",
                                     dataType: "json",
                                     //data: addAntiForgeryToken

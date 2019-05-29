@@ -15,10 +15,13 @@
             </div>*@
         <nop-tabs id="project-edit">
             <nop-tab asp-name="tab-info" asp-default="true" asp-title="รายละเอียดข้อเสนอโครงการ">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-tab>
-            <nop-tab asp-name="tab-researchers" asp-title="ข้อมูลบัญชีรายชื่อนักวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Researchers", Model)</nop-tab>
-            <nop-tab asp-name="tab-professors" asp-title="ข้อมูลผู้ทรงคุณวุฒิ">@await Html.PartialAsync("_CreateOrUpdate.Profs", Model)</nop-tab>
-            <nop-tab asp-name="tab-status" asp-title="ผลการพิจารณาโครงการวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Status", Model)</nop-tab>
-            <nop-tab asp-name="tab-progress" asp-title="สถานะโครงการวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Progresses", Model)</nop-tab>
+            @if (Model.Id != 0)
+            {
+                <nop-tab asp-name="tab-researchers" asp-title="ข้อมูลบัญชีรายชื่อนักวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Researchers", Model)</nop-tab>
+                <nop-tab asp-name="tab-professors" asp-title="ข้อมูลผู้ทรงคุณวุฒิ">@await Html.PartialAsync("_CreateOrUpdate.Profs", Model)</nop-tab>
+                <nop-tab asp-name="tab-status" asp-title="ผลการพิจารณาโครงการวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Status", Model)</nop-tab>
+                <nop-tab asp-name="tab-progress" asp-title="สถานะโครงการวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Progresses", Model)</nop-tab>
+            }
         </nop-tabs>
     </div>
 </div>

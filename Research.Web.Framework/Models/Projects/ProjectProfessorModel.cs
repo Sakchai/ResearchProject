@@ -16,7 +16,8 @@ namespace Research.Web.Models.Projects
         public int ProjectId { get; set; }
         public int ProfessorId { get; set; }
         public int ProfessorTypeId { get; set; }
-        public string ProfessorTyperName { get; set; }
+        public string ProfessorTypeName { get; set; }
+        public string ProfessorName { get; set; }
 
         public IList<SelectListItem> AvailableProfessorTypes { get; set; }
     }
