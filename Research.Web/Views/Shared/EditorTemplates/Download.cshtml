@@ -5,28 +5,27 @@
 @using Research.Services.Media
 @using Research.Web.Framework.UI;
 <environment names="Development">
-    <script src="~/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true">
     <script src="~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
 </environment>
-
 <environment names="Staging,Production">
-    <script src="~/wwwroot/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true"></script>
-    <script src="~/wwwroot/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true">
+    <script src="~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
 </environment>
-    @{
-        //register CSS and JS
-        //Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");
-        //Html.AddScriptParts("~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js");
+@{
+    //register CSS and JS
+    //Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");
+    //Html.AddScriptParts("~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js");
 
-        //other variables
-        var randomNumber = CommonHelper.GenerateRandomInteger();
-        var clientId = "download" + randomNumber;
-        var download = downloadService.GetDownloadById(Model);
+    //other variables
+    var randomNumber = CommonHelper.GenerateRandomInteger();
+    var clientId = "download" + randomNumber;
+    var download = downloadService.GetDownloadById(Model);
 
-        var disableUrl = Convert.ToBoolean(ViewData["nop.DownloadEditor.DisableUrl"] ?? false);
-    }
+    var disableUrl = Convert.ToBoolean(ViewData["nop.DownloadEditor.DisableUrl"] ?? false);
+}
 
-    <script>
+<script>
     $(document).ready(function () {
         $('#cbUseDownloadURL@(randomNumber)').click(toggleDownloadRecordType@(randomNumber));
 
@@ -64,102 +63,102 @@
         }
     }
 
-    </script>
+</script>
 
-    <div id="@(clientId + "value")">
-        <input type="hidden" asp-for="@Model" />
-    </div>
+<div id="@(clientId + "value")">
+    <input type="hidden" asp-for="@Model" />
+</div>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            @if (!disableUrl)
-            {
-                <div class="form-group">
-                    <div class="col-xs-4">
-                        <div class="label-wrapper">
-                            <label class="control-label">
-                                ใช้ดาวน์โหลด URL
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-xs-8">
-                        <input type="checkbox" name="cbUseDownloadURL@(randomNumber)" id="cbUseDownloadURL@(randomNumber)"
-                               @if (download != null && download.UseDownloadUrl) { <text> checked="checked" </text> } />
-                    </div>
-                </div>
-            }
-            <div id="pnlDownloadURL@(randomNumber)">
-                <div class="form-group">
-                    <div class="col-xs-4">
-                        <div class="label-wrapper">
-                            <label class="control-label">
-                                ดาวน์โหลด URL
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-xs-8">
-                        <input type="text" class="form-control" name="downloadurl@(randomNumber)" id="downloadurl@(randomNumber)"
-                               @if (download != null && !string.IsNullOrEmpty(download.DownloadUrl)) { <text> value="@(download.DownloadUrl)" </text> } />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-xs-8 col-xs-offset-4">
-                        <button type="button" id="saveDownloadUrl@(randomNumber)" class="btn btn-primary">บันทึก URL</button>
-                        <div id="pnlDownloadURLResult@(randomNumber)" style="display: none;">บันทึก URL</div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group" id="pnlDownloadFile@(randomNumber)">
+<div class="panel panel-default">
+    <div class="panel-body">
+        @if (!disableUrl)
+        {
+            <div class="form-group">
                 <div class="col-xs-4">
                     <div class="label-wrapper">
                         <label class="control-label">
-                            อัพโหลดไฟล์
+                            ใช้ดาวน์โหลด URL
                         </label>
                     </div>
                 </div>
                 <div class="col-xs-8">
-                    @*fine uploader container*@
-                    <div id="@clientId">
-                        <noscript>
-                            <p>
-                                Please enable JavaScript to use file uploader.
-                            </p>
-                            <!-- or put a simple form for upload here -->
-                        </noscript>
+                    <input type="checkbox" name="cbUseDownloadURL@(randomNumber)" id="cbUseDownloadURL@(randomNumber)"
+                           @if (download != null && download.UseDownloadUrl) { <text> checked="checked" </text> } />
+                </div>
+            </div>
+        }
+        <div id="pnlDownloadURL@(randomNumber)">
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <div class="label-wrapper">
+                        <label class="control-label">
+                            ดาวน์โหลด URL
+                        </label>
                     </div>
-                    @*fine uploader template (keep it synchronized to \Content\fineuploader\templates\default.html)*@
-                    <script type="text/template" id="@(clientId)-qq-template">
-                        <div class="qq-uploader-selector qq-uploader">
-                            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-                                <span>ลบไฟล์</span>
-                            </div>
-                            <div class="qq-upload-button-selector qq-upload-button">
-                                <div>อัพโหลด</div>
-                            </div>
-                            <span class="qq-drop-processing-selector qq-drop-processing">
-                                <span>กำลังดำเนินการ</span>
-                                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-                            </span>
-                            <ul class="qq-upload-list-selector qq-upload-list">
-                                <li>
-                                    <div class="qq-progress-bar-container-selector">
-                                        <div class="qq-progress-bar-selector qq-progress-bar"></div>
-                                    </div>
-                                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
-                                    <span class="qq-upload-file-selector qq-upload-file"></span>
-                                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-                                    <span class="qq-upload-size-selector qq-upload-size"></span>
-                                    <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">ยกเลิก</a>
-                                    <a class="qq-upload-retry-selector qq-upload-retry" href="#">ลองใหม่อีกครั้ง</a>
-                                    <a class="qq-upload-delete-selector qq-upload-delete" href="#">ลบ</a>
-                                    <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
-                                </li>
-                            </ul>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" name="downloadurl@(randomNumber)" id="downloadurl@(randomNumber)"
+                           @if (download != null && !string.IsNullOrEmpty(download.DownloadUrl)) { <text> value="@(download.DownloadUrl)" </text> } />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-8 col-xs-offset-4">
+                    <button type="button" id="saveDownloadUrl@(randomNumber)" class="btn btn-primary">บันทึก URL</button>
+                    <div id="pnlDownloadURLResult@(randomNumber)" style="display: none;">บันทึก URL</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlDownloadFile@(randomNumber)">
+            <div class="col-xs-4">
+                <div class="label-wrapper">
+                    <label class="control-label">
+                        อัพโหลดไฟล์
+                    </label>
+                </div>
+            </div>
+            <div class="col-xs-8">
+                @*fine uploader container*@
+                <div id="@clientId">
+                    <noscript>
+                        <p>
+                            Please enable JavaScript to use file uploader.
+                        </p>
+                        <!-- or put a simple form for upload here -->
+                    </noscript>
+                </div>
+                @*fine uploader template (keep it synchronized to \Content\fineuploader\templates\default.html)*@
+                <script type="text/template" id="@(clientId)-qq-template">
+                    <div class="qq-uploader-selector qq-uploader">
+                        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                            <span>ลบไฟล์</span>
                         </div>
-                    </script>
+                        <div class="qq-upload-button-selector qq-upload-button">
+                            <div>อัพโหลด</div>
+                        </div>
+                        <span class="qq-drop-processing-selector qq-drop-processing">
+                            <span>กำลังดำเนินการ</span>
+                            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                        </span>
+                        <ul class="qq-upload-list-selector qq-upload-list">
+                            <li>
+                                <div class="qq-progress-bar-container-selector">
+                                    <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                                </div>
+                                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                                <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                                <span class="qq-upload-file-selector qq-upload-file"></span>
+                                <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                                <span class="qq-upload-size-selector qq-upload-size"></span>
+                                <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">ยกเลิก</a>
+                                <a class="qq-upload-retry-selector qq-upload-retry" href="#">ลองใหม่อีกครั้ง</a>
+                                <a class="qq-upload-delete-selector qq-upload-delete" href="#">ลบ</a>
+                                <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </script>
 
-                    <script>
+                <script>
 
                     $(document).ready(function () {
                         $("#@clientId").fineUploader({
@@ -182,28 +181,28 @@
                         });
                     });
 
-                    </script>
-                    <div style="clear: both;">
-                        <div id="@(clientId + "downloadurl")" class="pull-left margin-r-5">
-                            @if (download != null)
-                            {
-                                <a class='btn btn-default margin-t-5' href="@(Url.Action("DownloadFile", "Download", new { downloadGuid = download.DownloadGuid, area = "Admin" }))"><i class='fa fa-download'></i>ดาวน์โหลดไฟล์</a>
-                            }
-                        </div>
-                        <div class="pull-left">
-                            @if (download != null)
-                            {
-                                <span id="@(clientId + "remove")" class="btn btn-default margin-t-5"><i class="fa fa-trash"></i>ลบไฟล์</span>
-                            }
-                            else
-                            {
-                                <span id="@(clientId + "remove")" class="btn btn-default margin-t-5" style="display:none;"><i class="fa fa-trash"></i>ลบไฟล์</span>
-                            }
-                        </div>
+                </script>
+                <div style="clear: both;">
+                    <div id="@(clientId + "downloadurl")" class="pull-left margin-r-5">
+                        @if (download != null)
+                        {
+                            <a class='btn btn-default margin-t-5' href="@(Url.Action("DownloadFile", "Download", new { downloadGuid = download.DownloadGuid, area = "Admin" }))"><i class='fa fa-download'></i>ดาวน์โหลดไฟล์</a>
+                        }
+                    </div>
+                    <div class="pull-left">
+                        @if (download != null)
+                        {
+                            <span id="@(clientId + "remove")" class="btn btn-default margin-t-5"><i class="fa fa-trash"></i>ลบไฟล์</span>
+                        }
+                        else
+                        {
+                            <span id="@(clientId + "remove")" class="btn btn-default margin-t-5" style="display:none;"><i class="fa fa-trash"></i>ลบไฟล์</span>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 

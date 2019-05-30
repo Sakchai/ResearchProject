@@ -88,6 +88,10 @@ namespace Research.Web.Models.Projects
         public int AddProjectProfessorId { get; set; }
         [Display(Name = "บทบาทในโครงการ")]
         public int AddProjectProfessorTypeId { get; set; }
+
+        [Display(Name = "ข้อเสนอโครงการวิจัย (pdf)")]
+        [UIHint("Download")]
+        public int AddProjectUploadId { get; set; }
         public IList<SelectListItem> AvailableProfessorTypes { get; set; }
         public IList<SelectListItem> AvailableProfessors { get; set; }
         #endregion

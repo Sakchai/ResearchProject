@@ -5,14 +5,14 @@
 @using Research.Enum;
 @using Research.Services.Media
 @using Research.Web.Framework.UI;
-<environment names="Development">
-    <link rel="stylesheet" href="~/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true"></script>
-    <script src="~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
-</environment>
-<environment names="Staging,Production">
-    <link rel="stylesheet" href="~/wwwroot/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true"></script>
-    <script src="~/wwwroot/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
-</environment>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true">
+        <script src="~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/fineuploader/fineuploader-4.2.2.min.css" asp-append-version="true">
+        <script src="~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js" asp-append-version="true"></script>
+    </environment>
     @{
         //register CSS and JS
         //Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");

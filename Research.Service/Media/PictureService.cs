@@ -41,6 +41,7 @@ namespace Research.Services.Media
         private readonly IDataProvider _dataProvider;
         private readonly IResearchFileProvider _fileProvider;
         private readonly IRepository<PictureBinary> _pictureBinaryRepository;
+        private readonly IRepository<ProjectProgress> _projectProgressRepository;
 
         #endregion
 
@@ -68,7 +69,8 @@ namespace Research.Services.Media
             MediaSettings mediaSettings,
             IDataProvider dataProvider,
             IResearchFileProvider fileProvider,
-            IRepository<PictureBinary> pictureBinaryRepository)
+            IRepository<PictureBinary> pictureBinaryRepository,
+            IRepository<ProjectProgress> projectProgressRepository)
         {
             this._pictureRepository = pictureRepository;
             this._researcherRepository = productPictureRepository;
@@ -80,6 +82,7 @@ namespace Research.Services.Media
             this._dataProvider = dataProvider;
             this._fileProvider = fileProvider;
             this._pictureBinaryRepository = pictureBinaryRepository;
+            this._projectProgressRepository = projectProgressRepository;
         }
 
         #endregion
@@ -164,6 +167,9 @@ namespace Research.Services.Media
                 case "x-icon":
                     lastPart = "ico";
                     break;
+                case "x-pdf":
+                    lastPart = "pdf";
+                    break;
             }
             return lastPart;
         }
@@ -178,10 +184,11 @@ namespace Research.Services.Media
         {
             var lastPart = GetFileExtensionFromMimeType(mimeType);
             var fileName = $"{pictureId:0000000}_0.{lastPart}";
-            var filePath = GetPictureLocalPath(fileName);
+            var filePath = lastPart.Equals("pdf") ? GetPdfLocalPath(fileName) : GetPictureLocalPath(fileName);
 
             return _fileProvider.ReadAllBytes(filePath);
         }
+
 
         /// <summary>
         /// Save picture on file system
@@ -194,6 +201,28 @@ namespace Research.Services.Media
             var lastPart = GetFileExtensionFromMimeType(mimeType);
             var fileName = $"{pictureId:0000000}_0.{lastPart}";
             _fileProvider.WriteAllBytes(GetPictureLocalPath(fileName), pictureBinary);
+        }
+
+
+        /// <summary>
+        /// Get picture local path. Used when images stored on file system (not in the database)
+        /// </summary>
+        /// <param name="fileName">Filename</param>
+        /// <returns>Local pdf path</returns>
+        protected virtual string GetPdfLocalPath(string fileName)
+        {
+            return _fileProvider.GetAbsolutePath("files", fileName);
+        }
+
+        /// </summary>
+        /// <param name="pictureId">Picture identifier</param>
+        /// <param name="pictureBinary">Picture binary</param>
+        /// <param name="mimeType">MIME type</param>
+        protected virtual void SavePdfInFile(int pictureId, byte[] pictureBinary, string mimeType)
+        {
+            var lastPart = GetFileExtensionFromMimeType(mimeType);
+            var fileName = $"{pictureId:0000000}_0.{lastPart}";
+            _fileProvider.WriteAllBytes(GetPdfLocalPath(fileName), pictureBinary);
         }
 
         /// <summary>
@@ -251,6 +280,25 @@ namespace Research.Services.Media
             return thumbFilePath;
         }
 
+        protected virtual string GetThumbLocalPdfPath(string thumbFileName)
+        {
+            var thumbsDirectoryPath = _fileProvider.GetAbsolutePath(ResearchMediaDefaults.PdfThumbsPath);
+
+            if (_mediaSettings.MultipleThumbDirectories)
+            {
+                //get the first two letters of the file name
+                var fileNameWithoutExtension = _fileProvider.GetFileNameWithoutExtension(thumbFileName);
+                if (fileNameWithoutExtension != null && fileNameWithoutExtension.Length > ResearchMediaDefaults.MultipleThumbDirectoriesLength)
+                {
+                    var subDirectoryName = fileNameWithoutExtension.Substring(0, ResearchMediaDefaults.MultipleThumbDirectoriesLength);
+                    thumbsDirectoryPath = _fileProvider.GetAbsolutePath(ResearchMediaDefaults.PdfThumbsPath, subDirectoryName);
+                    _fileProvider.CreateDirectory(thumbsDirectoryPath);
+                }
+            }
+
+            var thumbFilePath = _fileProvider.Combine(thumbsDirectoryPath, thumbFileName);
+            return thumbFilePath;
+        }
         /// <summary>
         /// Get picture (thumb) URL 
         /// </summary>
@@ -279,6 +327,25 @@ namespace Research.Services.Media
             return url;
         }
 
+        protected virtual string GetThumbPdfUrl(string thumbFileName)
+        {
+
+            var url = "/files/thumbs/";
+
+            if (_mediaSettings.MultipleThumbDirectories)
+            {
+                //get the first two letters of the file name
+                var fileNameWithoutExtension = _fileProvider.GetFileNameWithoutExtension(thumbFileName);
+                if (fileNameWithoutExtension != null && fileNameWithoutExtension.Length > ResearchMediaDefaults.MultipleThumbDirectoriesLength)
+                {
+                    var subDirectoryName = fileNameWithoutExtension.Substring(0, ResearchMediaDefaults.MultipleThumbDirectoriesLength);
+                    url = url + subDirectoryName + "/";
+                }
+            }
+
+            url = url + thumbFileName;
+            return url;
+        }
         /// <summary>
         /// Get picture local path. Used when images stored on file system (not in the database)
         /// </summary>
@@ -329,6 +396,16 @@ namespace Research.Services.Media
         {
             //ensure \thumb directory exists
             var thumbsDirectoryPath = _fileProvider.GetAbsolutePath(ResearchMediaDefaults.ImageThumbsPath);
+            _fileProvider.CreateDirectory(thumbsDirectoryPath);
+
+            //save
+            _fileProvider.WriteAllBytes(thumbFilePath, binary);
+        }
+
+        protected virtual void SavePdfThumb(string thumbFilePath, string thumbFileName, string mimeType, byte[] binary)
+        {
+            //ensure \thumb directory exists
+            var thumbsDirectoryPath = _fileProvider.GetAbsolutePath(ResearchMediaDefaults.PdfThumbsPath);
             _fileProvider.CreateDirectory(thumbsDirectoryPath);
 
             //save
@@ -443,6 +520,9 @@ namespace Research.Services.Media
                 case PictureType.Avatar:
                     defaultImageFileName = _settingService.GetSettingByKey("Media.User.DefaultAvatarImageName", ResearchMediaDefaults.DefaultAvatarFileName);
                     break;
+                case PictureType.Pdf:
+                    defaultImageFileName = ResearchMediaDefaults.DefaultPdfFileName;
+                    break;
                 case PictureType.Entity:
                 default:
                     defaultImageFileName = _settingService.GetSettingByKey("Media.DefaultImageName", ResearchMediaDefaults.DefaultImageFileName);
@@ -488,6 +568,17 @@ namespace Research.Services.Media
             }
         }
 
+        /// <summary>
+        /// Gets the default picture URL
+        /// </summary>
+        /// <param name="targetSize">The target picture size (longest side)</param>
+        /// <param name="defaultPictureType">Default picture type</param>
+        /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
+        /// <returns>Picture URL</returns>
+        public virtual string GetDefaultPdfUrl()
+        {
+            return "files/" + ResearchMediaDefaults.DefaultPdfFileName;
+        }
         /// <summary>
         /// Get a picture URL
         /// </summary>
@@ -608,6 +699,85 @@ namespace Research.Services.Media
 
             }
             url = GetThumbUrl(thumbFileName, storeLocation);
+            return url;
+        }
+
+        /// <summary>
+        /// Get a picture URL
+        /// </summary>
+        /// <param name="picture">Picture instance</param>
+        /// <param name="targetSize">The target picture size (longest side)</param>
+        /// <param name="showDefaultPicture">A value indicating whether the default picture is shown</param>
+        /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
+        /// <param name="defaultPictureType">Default picture type</param>
+        /// <returns>Picture URL</returns>
+        public virtual string GetPdfUrl(Picture picture,
+            int targetSize = 0,
+            PictureType defaultPictureType = PictureType.Entity)
+        {
+            var url = string.Empty;
+            byte[] pictureBinary = null;
+            if (picture != null)
+                pictureBinary = LoadPictureBinary(picture);
+            if (picture == null || pictureBinary == null || pictureBinary.Length == 0)
+            {
+                return url;
+            }
+
+            if (picture.IsNew)
+            {
+                DeletePictureThumbs(picture);
+
+                //we do not validate picture binary here to ensure that no exception ("Parameter is not valid") will be thrown
+                picture = UpdatePicture(picture.Id,
+                    pictureBinary,
+                    picture.MimeType,
+                    picture.SeoFilename,
+                    picture.AltAttribute,
+                    picture.TitleAttribute,
+                    false,
+                    false);
+            }
+
+            var seoFileName = picture.SeoFilename; // = GetPictureSeName(picture.SeoFilename); //just for sure
+
+            var lastPart = GetFileExtensionFromMimeType(picture.MimeType);
+            string thumbFileName;
+            if (targetSize == 0)
+            {
+                thumbFileName = !string.IsNullOrEmpty(seoFileName)
+                    ? $"{picture.Id:0000000}_{seoFileName}.{lastPart}"
+                    : $"{picture.Id:0000000}.{lastPart}";
+            }
+            else
+            {
+                thumbFileName = !string.IsNullOrEmpty(seoFileName)
+                    ? $"{picture.Id:0000000}_{seoFileName}_{targetSize}.{lastPart}"
+                    : $"{picture.Id:0000000}_{targetSize}.{lastPart}";
+            }
+            var thumbFilePath = GetThumbLocalPdfPath(thumbFileName);
+
+            //the named mutex helps to avoid creating the same files in different threads,
+            //and does not decrease performance significantly, because the code is blocked only for the specific file.
+            using (var mutex = new Mutex(false, thumbFileName))
+            {
+                if (!GeneratedThumbExists(thumbFilePath, thumbFileName))
+                {
+                    mutex.WaitOne();
+
+                    //check, if the file was created, while we were waiting for the release of the mutex.
+                    if (!GeneratedThumbExists(thumbFilePath, thumbFileName))
+                    {
+                        byte[] pictureBinaryResized = pictureBinary.ToArray();
+
+                        SavePdfThumb(thumbFilePath, thumbFileName, picture.MimeType, pictureBinaryResized);
+                    }
+
+                    mutex.ReleaseMutex();
+                }
+
+            }
+            url = GetThumbPdfUrl(thumbFileName);
             return url;
         }
 
@@ -844,7 +1014,7 @@ namespace Research.Services.Media
                 .ToDictionary(p => p.PictureId, p => BitConverter.ToString(p.Hash).Replace("-", ""));
         }
 
-    
+
         public Picture GetPicturesByResearcherId(int researcherId, int recordsToReturn = 0)
         {
             if (researcherId == 0)
@@ -854,6 +1024,24 @@ namespace Research.Services.Media
             var query = from p in _pictureRepository.Table
                         join pp in _researcherRepository.Table on p.Id equals pp.PictureId
                         where pp.Id == researcherId
+                        select p;
+
+            if (recordsToReturn > 0)
+                query = query.Take(recordsToReturn);
+
+            var pic = query.FirstOrDefault();
+            return pic;
+        }
+
+        public Picture GetPicturesByProjectProgressId(int projectProgressId, int recordsToReturn = 0)
+        {
+            if (projectProgressId == 0)
+                return new Picture();
+
+
+            var query = from p in _pictureRepository.Table
+                        join pp in _projectProgressRepository.Table on p.Id equals pp.ProjectUploadId
+                        where pp.Id == projectProgressId
                         select p;
 
             if (recordsToReturn > 0)

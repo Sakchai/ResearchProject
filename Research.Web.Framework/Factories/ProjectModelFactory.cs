@@ -8,6 +8,7 @@ using Research.Services.Projects;
 using Research.Enum;
 using System.Runtime.Serialization;
 using Research.Core;
+using Research.Services.Media;
 
 namespace Research.Web.Factories
 {
@@ -15,12 +16,15 @@ namespace Research.Web.Factories
     {
         private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         private readonly IProjectService _projectService;
+        private readonly IDownloadService _downloadService;
 
         public ProjectModelFactory(IBaseAdminModelFactory baseAdminModelFactory, 
-            IProjectService projectService)
+            IProjectService projectService,
+            IDownloadService downloadService)
         {
             this._baseAdminModelFactory = baseAdminModelFactory;
             this._projectService = projectService;
+            this._downloadService = downloadService;
         }
 
         public virtual ProjectResearcherSearchModel PrepareProjectResearcherSearchModel(ProjectResearcherSearchModel searchModel, Project project)
@@ -264,6 +268,7 @@ namespace Research.Web.Factories
                 Data = projectProgresses.PaginationByRequestModel(searchModel).Select(x =>
                 {
                     //fill in model values from the entity       
+                    string guid = x.ProjectUploadId != 0 ? _downloadService.GetDownloadById(x.ProjectUploadId.Value).DownloadGuid.ToString() : string.Empty;
                     var projectProfessorModel = new ProjectProgressModel
                     {
                         Id = x.Id,
@@ -274,6 +279,7 @@ namespace Research.Web.Factories
                         ProgressStartDateName = CommonHelper.ConvertToThaiDate(x.ProgressStartDate),
                         ProgressEndDateName = CommonHelper.ConvertToThaiDate(x.ProgressEndDate),
                         ProgressStatusName = x.ProgressStatus.GetAttributeOfType<EnumMemberAttribute>().Value,
+                        DownloadGuid = guid,
                     };
 
                     return projectProfessorModel;

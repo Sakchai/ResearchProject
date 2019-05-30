@@ -60,6 +60,10 @@ namespace Research.Services.Media
             string storeLocation = null, 
             PictureType defaultPictureType = PictureType.Entity);
 
+        string GetPdfUrl(Picture picture,
+            int targetSize = 0,
+            PictureType defaultPictureType = PictureType.Entity);
+
         /// <summary>
         /// Get a picture local path
         /// </summary>
@@ -97,6 +101,14 @@ namespace Research.Services.Media
         /// <param name="recordsToReturn">Number of records to return. 0 if you want to get all items</param>
         /// <returns>Pictures</returns>
         Picture GetPicturesByResearcherId(int researchtId, int recordsToReturn = 0);
+
+        /// <summary>
+        /// Gets picture by ProjectProgress identifier
+        /// </summary>
+        /// <param name="researchtId">ProjectProgress identifier</param>
+        /// <param name="recordsToReturn">Number of records to return. 0 if you want to get all items</param>
+        /// <returns>Pictures</returns>
+        Picture GetPicturesByProjectProgressId(int projectProgressId, int recordsToReturn = 0);
 
         /// <summary>
         /// Inserts a picture
@@ -149,5 +161,6 @@ namespace Research.Services.Media
         /// <param name="picturesIds">Pictures Ids</param>
         /// <returns></returns>
         IDictionary<int, string> GetPicturesHash(int [] picturesIds);
+
     }
 }

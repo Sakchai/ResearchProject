@@ -25,6 +25,7 @@ namespace Research.Web.Models.Projects
         public DateTime Modified { get; set; }
         public string ModifiedName { get; set; }
         public string LastUpdateBy { get; set; }
+        public string DownloadGuid { get; set; }
         public IList<SelectListItem> AvailableProgressStatuses { get; set; }
     }
 }

@@ -192,5 +192,15 @@ namespace Research.Services.Projects
             maxNumber += 1;
             return $"pp-{maxNumber.ToString("D6")}";
         }
+
+        public string ExportResourcesToPdf(ProjectProgress projectProgress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ImportResourcesFromPdf(ProjectProgress projectProgress, string pdf, bool updateExistingResources = true)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

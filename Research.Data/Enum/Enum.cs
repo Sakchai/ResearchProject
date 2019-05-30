@@ -209,6 +209,10 @@ namespace Research.Enum
         /// Entities (products, categories, manufacturers)
         /// </summary>
         Entity = 1,
+        /// <summary>
+        /// Pdf
+        /// </summary>
+        Pdf = 2,
 
         /// <summary>
         /// Avatar

@@ -29,6 +29,10 @@
         public static string ImageThumbsPath => @"images\thumbs";
 
         /// <summary>
+        /// Gets a path to the pdf thumbs files
+        /// </summary>
+        public static string PdfThumbsPath => @"files\thumbs";
+        /// <summary>
         /// Gets a default avatar file name
         /// </summary>
         public static string DefaultAvatarFileName => "default-avatar.jpg";
@@ -37,5 +41,7 @@
         /// Gets a default image file name
         /// </summary>
         public static string DefaultImageFileName => "default-image.png";
+
+        public static string DefaultPdfFileName => "project-progress.pdf";
     }
 }

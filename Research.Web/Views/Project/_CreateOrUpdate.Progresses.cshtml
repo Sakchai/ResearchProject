@@ -25,7 +25,7 @@
                                     }
                                 },
                                 destroy: {
-                                    url: "@Html.Raw(Url.Action("ProjectProgressDelete", "Progress", new { progressId = Model.Id }))",
+                                    url: "@Html.Raw(Url.Action("ProjectProgressDelete", "Project", new { progressId = Model.Id }))",
                                     type: "POST",
                                     dataType: "json",
                                     //data: addAntiForgeryToken
@@ -91,11 +91,12 @@
                                 headerAttributes: { style: "text-align:center" },
                                 attributes: { style: "text-align:center" },
                             }, {
-                                field: "LastUpdateBy",
-                                title: "แก้ไขข้อมูลโดย",
+                                field: "DownloadGuid",
+                                title: "ดาวน์โหลด",
                                 width: 100,
                                 headerAttributes: { style: "text-align:center" },
                                 attributes: { style: "text-align:center" },
+                                template: '<a class="btn btn-default" href="/Download/DownloadFile?downloadGuid=#=DownloadGuid#"><i class="fa fa-download"></i></a>'
                             }, {
                                 command: { name: "destroy", text: "ลบรายการ" },
                                 title: "การกระทำ",
@@ -152,6 +153,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddProjectUploadId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddProjectUploadId" />
+                    <span asp-validation-for="AddProjectUploadId"></span>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-md-9 col-md-offset-3">
                     <button type="button" id="addProjectProgress" class="btn btn-primary">บันทึกข้อมูล</button>
                 </div>
@@ -167,7 +177,7 @@
             var progressStartDate = $("#@Html.IdFor(model => model.AddProjectProgressStartDate)").val();
             var progressEndDate = $("#@Html.IdFor(model => model.AddProjectProgressEndDate)").val();
             var progressComment = $("#@Html.IdFor(model => model.AddProjectProgressComment)").val();
-
+            var ProjectUploadId = $("#@Html.IdFor(model => model.AddProjectUploadId)").val();
 
             $('#addProjectProgress').attr('disabled', true);
 
@@ -177,6 +187,7 @@
                 startDate: progressStartDate,
                 endDate: progressEndDate,
                 comment: progressComment,
+                uploadId: ProjectUploadId,
             };
             addAntiForgeryToken(postData);
 

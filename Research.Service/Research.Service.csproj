@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ExportImport\**" />
+    <EmbeddedResource Remove="ExportImport\**" />
+    <None Remove="ExportImport\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Research.Data\Research.Data.csproj" />
   </ItemGroup>
 

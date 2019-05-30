@@ -130,6 +130,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\files\thumbs\" />
+  </ItemGroup>
+
 
 
 </Project>
