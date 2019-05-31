@@ -48,6 +48,7 @@ namespace Research.Web.Factories
  
         public RegisterModel PrepareRegisterModel(RegisterModel model)
         {
+            model.Gender = "M";
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true, "--ระบุคำนำ--");
             _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies, true, "--หน่วยงาน--");
             return model;

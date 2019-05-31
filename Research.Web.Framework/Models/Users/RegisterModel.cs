@@ -8,7 +8,7 @@ namespace Research.Web.Models.Users
     /// <summary>
     /// Represents a register model
     /// </summary>
-    //[Validator(typeof(RegisterValidator))]
+    [Validator(typeof(RegisterValidator))]
     public class RegisterModel : BaseResearchModel
     {
         public RegisterModel()
@@ -22,14 +22,14 @@ namespace Research.Web.Models.Users
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(20, ErrorMessage = "{0}ต้องมีความยาวอย่างน้อย {2} ตัวอักษร!", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "รหัสผ่าน")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "ยื่นยันรหัสผ่าน")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "ระบุรหัสผ่านไม่เหมือนกัน กรุณาระบุอีกครั้ง!")]
         public string ConfirmPassword { get; set; }
 
         [Required]

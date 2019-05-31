@@ -18,6 +18,8 @@ namespace Research.Data.Mapping
         {
             entity.ToTable(nameof(UserRole));
             entity.HasKey(d => new { d.RoleId, d.UserId });
+            entity.Property(d => d.IsActive)
+                  .HasDefaultValueSql("((1))");
             entity.HasOne(d => d.Role)
                 .WithMany()
                 .HasForeignKey(d => d.RoleId);

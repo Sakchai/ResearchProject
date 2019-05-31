@@ -29,6 +29,7 @@ namespace Research.Services.Users
         private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly string _entityName;
+        private readonly IRepository<Role> _roleRepository;
 
         #endregion
 
@@ -41,7 +42,8 @@ namespace Research.Services.Users
             IRepository<User> userRepository,
             IRepository<UserPassword> userPasswordRepository,
             IRepository<UserRole> userRoleRepository,
-            IStaticCacheManager staticCacheManager)
+            IStaticCacheManager staticCacheManager,
+            IRepository<Role> roleRepository)
         {
             this._cacheManager = cacheManager;
             this._dataProvider = dataProvider;
@@ -52,6 +54,7 @@ namespace Research.Services.Users
             this._userRoleRepository = userRoleRepository;
             this._staticCacheManager = staticCacheManager;
             this._entityName = typeof(User).Name;
+            this._roleRepository = roleRepository;
         }
 
         #endregion
@@ -297,12 +300,13 @@ namespace Research.Services.Users
             };
 
             //add to 'Guests' role
-            var guestRole = GetUserRoleByRoleId(ResearchUserDefaults.GuestsRoleId);
-            if (guestRole == null)
-                throw new ResearchException("'Guests' role could not be loaded");
+            var guestRole = new UserRole
+            {
+                RoleId = ResearchUserDefaults.GuestsRoleId,
+                UserId = user.Id,
+                IsActive = true,
+            };
             user.UserRoles.Add(guestRole);
-            //user.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = guestRole });
-
             _userRepository.Insert(user);
 
             return user;

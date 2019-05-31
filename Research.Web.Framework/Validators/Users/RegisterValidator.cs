@@ -13,34 +13,43 @@ namespace Research.Web.Validators.Users
     public partial class RegisterValidator : BaseResearchValidator<RegisterModel>
     {
         public RegisterValidator(IUserService userService,
-            UserSettings userSettings,
             IDbContext dbContext)
         {
+            RuleFor(x => x.TitleId)
+                .NotEqual(0)
+                .WithMessage("ระบุคำนำหน้าชื่อ!");
+
+            RuleFor(x => x.AgencyId)
+                .NotEqual(0)
+                .WithMessage("ระบุรหัสหน่วยงาน!");
+
             //ensure that valid email address is entered if Registered role is checked to avoid registered users with empty email address
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress()
                 //.WithMessage("Valid Email is required for user to be in 'Registered' role")
-                .WithMessage("ระบุอีเมล");
+                .WithMessage("ระบุอีเมล!");
             //only for registered users
             //.When(x => IsRegisteredUserRoleChecked(x, userService));
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("อีเมลซ้ำในระบบ ระบุอีกครั้ง")
+                .WithMessage("อีเมลซ้ำในระบบ ระบุอีกครั้ง!")
                 .When(x => IsDuplicateEmailChecked(x, userService));
 
             //form fields
             RuleFor(x => x.IDCard)
                 .NotEmpty()
-                .WithMessage("ระบุเลขประจำตัวประชาชน");
+                .WithMessage("ระบุเลขประจำตัวประชาชน!");
+
+            RuleFor(x => x.IDCard)
+                .Length(13)
+                .WithMessage("ระบุเลขประจำตัวประชาชนจำนวน 13 หลัก!");
 
             RuleFor(x => x.IDCard)
                 .NotEmpty()
-                .WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ ระบุอีกครั้ง")
-                .When(x => IsDuplicateIDCardChecked(x, userService));
+                .WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ กรุณาระบุอีกครั้ง!")
+                .When(x => IsDuplicateIDCardChecked(x, userService) == true);
 
-            //only for registered users
-            //.When(x => IsRegisteredUserRoleChecked(x, userService));
 
 
             SetDatabaseValidationRules<User>(dbContext);
@@ -50,7 +59,7 @@ namespace Research.Web.Validators.Users
         private bool IsDuplicateEmailChecked(RegisterModel model, IUserService userService)
         {
             var user = userService.GetUserByEmail(model.Email);
-            return user != null ? false : true;
+            return user != null ? true: false;
         }
 
         private bool IsDuplicateIDCardChecked(RegisterModel model, IUserService userService)

@@ -5,6 +5,7 @@ using Research.Enum;
 using Research.Web.Framework.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Research.Web.Models.Projects
 {

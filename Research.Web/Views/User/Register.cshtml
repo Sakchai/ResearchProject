@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-sm-8">
                         <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles"  />
-                        <span asp-validation-for="TitleId"></span>
+                        <span asp-validation-for="TitleId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-sm-8">
                         <nop-editor asp-for="FirstName" maxlength="100" />
-                        <span asp-validation-for="FirstName"></span>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-sm-8">
                         <nop-editor asp-for="LastName" maxlength="100" />
-                        <span asp-validation-for="LastName"></span>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -95,7 +95,7 @@
                     </div>
                     <div class="col-sm-8">
                         <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies"  />
-                        <span asp-validation-for="AgencyId"></span>
+                        <span asp-validation-for="AgencyId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col-sm-8">
                         <nop-editor asp-for="IDCard" maxlength="13" type="number" />
-                        <span asp-validation-for="IDCard"></span>
+                        <span asp-validation-for="IDCard" class="text-danger"></span>
                     </div>
                 </div>
                 <hr />

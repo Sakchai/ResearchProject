@@ -100,8 +100,10 @@ namespace Research.Web.Models.Projects
         public ProjectProgressSearchModel ProjectProgressSearchModel { get; set; }
         [Display(Name = "สถานะโครงการวิจัย")]
         public int AddProjectProgressStatusId { get; set; }
+        [UIHint("DateNullable")]
         [Display(Name = "วันที่เริ่มต้น")]
         public DateTime AddProjectProgressStartDate { get; set; }
+        [UIHint("DateNullable")]
         [Display(Name = "วันที่สิ้นสุด")]
         public DateTime AddProjectProgressEndDate { get; set; }
         [Display(Name = "หมายเหตุ")]
