@@ -18,20 +18,19 @@ namespace Research.Services.Users
         /// <param name="username">Username</param>
         /// <param name="password">Password</param>
         /// <param name="passwordFormat">Password format</param>
-        /// <param name="storeId">Store identifier</param>
         /// <param name="isApproved">Is approved</param>
-        public UserRegistrationRequest(User user, string email, string username,
+        public UserRegistrationRequest(User user, string email, string idcard,
             string password,
+            string username,
             PasswordFormat passwordFormat,
-            int storeId,
             bool isApproved = true)
         {
             this.User = user;
             this.Email = email;
-            this.Username = username;
+            this.IDCard = idcard;
             this.Password = password;
+            this.Username = username;
             this.PasswordFormat = passwordFormat;
-            this.StoreId = storeId;
             this.IsApproved = isApproved;
         }
 
@@ -61,13 +60,10 @@ namespace Research.Services.Users
         public PasswordFormat PasswordFormat { get; set; }
 
         /// <summary>
-        /// Store identifier
-        /// </summary>
-        public int StoreId { get; set; }
-
-        /// <summary>
         /// Is approved
         /// </summary>
         public bool IsApproved { get; set; }
+        public string IDCard { get; set; }
+
     }
 }

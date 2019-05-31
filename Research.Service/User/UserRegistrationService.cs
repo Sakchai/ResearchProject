@@ -5,6 +5,7 @@ using Research.Data;
 using Research.Enum;
 using Research.Services.Events;
 using Research.Services.Messages;
+using Research.Services.Researchers;
 using Research.Services.Roles;
 using Research.Services.Security;
 using System;
@@ -27,6 +28,7 @@ namespace Research.Services.Users
         private readonly IEventPublisher _eventPublisher;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
+        private readonly IResearcherService _researcherService;
 
 
         #endregion
@@ -39,7 +41,8 @@ namespace Research.Services.Users
             IEncryptionService encryptionService,
             IEventPublisher eventPublisher,
             IWorkContext workContext,
-            IWorkflowMessageService workflowMessageService)
+            IWorkflowMessageService workflowMessageService,
+            IResearcherService researcherService)
         {
             this._userSettings = userSettings;
             this._userService = userService;
@@ -48,6 +51,7 @@ namespace Research.Services.Users
             this._eventPublisher = eventPublisher;
             this._workContext = workContext;
             this._workflowMessageService = workflowMessageService;
+            this._researcherService = researcherService;
         }
 
         #endregion
@@ -204,19 +208,13 @@ namespace Research.Services.Users
                 return result;
             }
 
-            if (_userSettings.UsernamesEnabled && _userService.GetUserByUsername(request.Username) != null)
-            {
-                result.AddError("Username Already Exists");
-                return result;
-            }
-
             //at this point request is valid
             request.User.UserName = request.Username;
             request.User.Email = request.Email;
 
             var userPassword = new UserPassword
             {
-                User = request.User,
+                UserId = request.User.Id,
                 PasswordFormat = request.PasswordFormat,
                 CreatedOnUtc = DateTime.UtcNow
             };
@@ -236,22 +234,13 @@ namespace Research.Services.Users
             }
 
             _userService.InsertUserPassword(userPassword);
-            //var userRole = new UserRole
-            //{
-            //    User = request.User,
-            //    RoleId = (int)UserType.Researcher
-            //};
-            //_userService.InsertUserRole(userRole);
-            request.User.IsActive = request.IsApproved;
+            var userRole = new UserRole
+            {
+                UserId = request.User.Id,
+                RoleId = (int)UserType.Researcher
+            };
+            _userService.InsertUserRole(userRole);
 
-            //add to 'Researcher' role
-            var registeredRole = _userService.GetUserByRoleId(ResearchUserDefaults.ResearcherRoleId);
-            if (registeredRole == null)
-                throw new ResearchException("'Researcher' role could not be loaded");
-            var role = _roleService.GetRoleById((int) UserType.Researcher); // researcher
-            //request.User.UserRoles.Add(registeredRole);
-            request.User.UserRoles.Add(new UserRole { User = registeredRole,Role = role });
-            //remove from 'Guests' role
             var guestRole = request.User.UserRoles.FirstOrDefault(cr => cr.RoleId == ResearchUserDefaults.GuestsRoleId);
             if (guestRole != null)
             {
@@ -259,11 +248,22 @@ namespace Research.Services.Users
                 request.User.UserRoles
                     .Remove(request.User.UserRoles.FirstOrDefault(mapping => mapping.RoleId == guestRole.Id));
             }
-
-
-
+            
+            var researcher = new Researcher
+            {
+                ResearcherCode = _researcherService.GetNextNumber(),
+                Email = request.User.Email,
+                AgencyId = request.User.AgencyId,
+                FirstName = request.User.FirstName,
+                LastName = request.User.LastName,
+                IDCard = request.IDCard,
+                TitleId = request.User.TitleId,
+                IsActive = true,
+                PersonalTypeId = (int)PersonalType.Academic,
+            };
+            _researcherService.InsertResearcher(researcher);
+            request.User.ResearcherId = researcher.Id;
             _userService.UpdateUser(request.User);
-
             return result;
         }
 

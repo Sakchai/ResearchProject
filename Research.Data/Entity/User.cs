@@ -11,7 +11,7 @@ namespace Research.Data
         ICollection<UserRole> _userRoles;
         public User()
         {
-            this.UserGuid = Guid.NewGuid();
+            
         }
         public int TitleId { get; set; }
         public string FirstName { get; set; }

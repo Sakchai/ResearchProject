@@ -84,6 +84,7 @@ namespace Research.Web.Controllers
             var model = _userModelFactory.PrepareRegisterResultModel(resultId);
             return View(model);
         }
+
         [HttpPost]
         public virtual IActionResult Register(RegisterModel model, string returnUrl)
         {
@@ -107,15 +108,19 @@ namespace Research.Web.Controllers
 
             if (ModelState.IsValid)
             {
-
-
-                var isApproved = _userSettings.UserRegistrationType == UserRegistrationType.Standard;
+                user.UserGuid = Guid.NewGuid();
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.TitleId = model.TitleId;
+                user.AgencyId = model.AgencyId;
+                user.UserTypeId = (int) UserType.Researcher;
+                var isApproved = _userSettings.UserRegistrationType == UserRegistrationType.EmailValidation;
                 var registrationRequest = new UserRegistrationRequest(user,
                     model.Email,
-                    model.Email,
+                    model.IDCard,
                     model.Password,
+                    _userService.GetNextNumber(),
                     _userSettings.DefaultPasswordFormat,
-                    0,
                     isApproved);
                 var registrationResult = _userRegistrationService.RegisterUser(registrationRequest);
                 if (registrationResult.Success)

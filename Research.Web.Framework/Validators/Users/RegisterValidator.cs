@@ -6,6 +6,7 @@ using Research.Services;
 using Research.Core.Domain;
 using Research.Web.Models.Users;
 using FluentValidation;
+using System;
 
 namespace Research.Web.Validators.Users
 {
@@ -27,14 +28,13 @@ namespace Research.Web.Validators.Users
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress()
-                //.WithMessage("Valid Email is required for user to be in 'Registered' role")
                 .WithMessage("ระบุอีเมล!");
-            //only for registered users
-            //.When(x => IsRegisteredUserRoleChecked(x, userService));
-            RuleFor(x => x.Email)
-                .NotEmpty()
-                .WithMessage("อีเมลซ้ำในระบบ ระบุอีกครั้ง!")
-                .When(x => IsDuplicateEmailChecked(x, userService));
+
+            RuleFor(x => x.Email).Must((x, context) =>
+            {
+                return IsDuplicateEmailChecked(x, userService);
+            }).WithMessage("อีเมลซ้ำในระบบ ระบุอีเมลใหม่อีกครั้ง!");
+
 
             //form fields
             RuleFor(x => x.IDCard)
@@ -45,11 +45,15 @@ namespace Research.Web.Validators.Users
                 .Length(13)
                 .WithMessage("ระบุเลขประจำตัวประชาชนจำนวน 13 หลัก!");
 
-            RuleFor(x => x.IDCard)
-                .NotEmpty()
-                .WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ กรุณาระบุอีกครั้ง!")
-                .When(x => IsDuplicateIDCardChecked(x, userService) == true);
+            RuleFor(x => x.IDCard).Must((x, context) =>
+            {
+                return IsDuplicateIDCardChecked(x, userService);
+            }).WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ กรุณาระบุเลขประจำตัวประชาชนใหม่อีกครั้ง!");
 
+            //RuleFor(x => x.IDCard).Must((x, context) =>
+            //{
+            //    return IsValidIDCard(x);
+            //}).WithMessage("เลขประจำตัวประชาชน ไม่ถูกต้อง!");
 
 
             SetDatabaseValidationRules<User>(dbContext);
@@ -59,13 +63,34 @@ namespace Research.Web.Validators.Users
         private bool IsDuplicateEmailChecked(RegisterModel model, IUserService userService)
         {
             var user = userService.GetUserByEmail(model.Email);
-            return user != null ? true: false;
+            return user != null ? false : true;
         }
 
         private bool IsDuplicateIDCardChecked(RegisterModel model, IUserService userService)
         {
             var user = userService.GetUserByIDCard(model.IDCard);
             return user != null ? false : true;
+        }
+
+        private bool IsValidIDCard(RegisterModel model)
+        {
+            long id = long.Parse(model.IDCard);
+            long @base = 100000000000l; //สร้างตัวแปร เพื่อสำหรับให้หารเพื่อเอาหลักที่ต้องการ
+            int basenow; //สร้างตัวแปรเพื่อเก็บค่าประจำหลัก
+            int sum = 0; //สร้างตัวแปรเริ่มตัวผลบวกให้เท่ากับ 0
+            for (int i = 13; i > 1; i--)
+            { //วนรอบตั้งแต่ 13 ลงมาจนถึง 2
+                basenow = (int)Math.Floor((decimal)id / @base); //หาค่าประจำตำแหน่งนั้น ๆ
+                id = id - basenow * @base; //ลดค่า id ลงทีละหลัก
+                Console.WriteLine(basenow + "x" + i + " = " + (basenow * i)); //แสดงค่าเมื่อคูณแล้วของแต่ละหลัก
+                sum += basenow * i; //บวกค่า sum ไปเรื่อย ๆ ทีละหลัก
+                @base = @base / 10; //ตัดค่าที่ใช้สำหรับการหาเลขแต่ละหลัก
+            }
+            Console.WriteLine("Sum is " + sum); //แสดงค่า sum
+            int checkbit = (11 - (sum % 11)) % 10; //คำนวณค่า checkbit
+            Console.WriteLine("Check bit is " + checkbit); //แสดงค่า checkbit 
+
+            return checkbit == id;
         }
     }
 }

@@ -241,11 +241,8 @@ namespace Research.Services.Users
             if (string.IsNullOrWhiteSpace(email))
                 return null;
 
-            var query = from c in _userRepository.Table
-                        orderby c.Id
-                        where c.Email == email
-                        select c;
-            var user = query.FirstOrDefault();
+            var query = _userRepository.Table;
+            var user = query.FirstOrDefault(x => x.Email.ToLower() == email.ToLower());
             return user;
         }
 
