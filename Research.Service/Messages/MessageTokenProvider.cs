@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,55 @@ namespace Research.Services.Messages
             this._urlHelperFactory = urlHelperFactory;
             this._workContext = workContext;
             this._siteInformationSettings = siteInformationSettings;
+        }
+
+        #endregion
+
+        #region Allowed tokens
+
+        /// <summary>
+        /// Get all available tokens by token groups
+        /// </summary>
+        protected Dictionary<string, IEnumerable<string>> AllowedTokens
+        {
+            get
+            {
+                if (_allowedTokens != null)
+                    return _allowedTokens;
+
+                _allowedTokens = new Dictionary<string, IEnumerable<string>>();
+
+ 
+                //user tokens
+                _allowedTokens.Add(TokenGroupNames.UserTokens, new[]
+                {
+                    "%User.Email%",
+                    "%User.Username%",
+                    "%User.FullName%",
+                    "%User.FirstName%",
+                    "%User.LastName%",
+                    "%User.VatNumber%",
+                    "%User.VatNumberStatus%",
+                    "%User.CustomAttributes%",
+                    "%User.PasswordRecoveryURL%",
+                    "%User.AccountActivationURL%",
+                    "%User.EmailRevalidationURL%",
+                    "%Wishlist.URLForUser%"
+                });
+
+  
+ 
+                //vendor tokens
+                _allowedTokens.Add(TokenGroupNames.ResearcherTokens, new[]
+                {
+                    "%Researcher.FirstName%",
+                    "%Researcher.LastName%",
+                    "%Researcher.Email%",
+                });
+
+  
+                return _allowedTokens;
+            }
         }
 
         #endregion
@@ -146,6 +196,19 @@ namespace Research.Services.Messages
 
             //event notification
             _eventPublisher.EntityTokensAdded(emailAccount, tokens);
+        }
+
+        public IEnumerable<string> GetListOfAllowedTokens(IEnumerable<string> tokenGroups = null)
+        {
+            var additionTokens = new AdditionTokensAddedEvent();
+            _eventPublisher.Publish(additionTokens);
+
+            var allowedTokens = AllowedTokens.Where(x => tokenGroups == null || tokenGroups.Contains(x.Key))
+                .SelectMany(x => x.Value).ToList();
+
+            allowedTokens.AddRange(additionTokens.AdditionTokens);
+
+            return allowedTokens.Distinct();
         }
 
 

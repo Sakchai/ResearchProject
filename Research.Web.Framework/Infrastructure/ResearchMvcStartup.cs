@@ -39,6 +39,7 @@ namespace Research.Web.Framework.Infrastructure
 
             //MVC routing
             application.UseResearchMvc();
+
         }
 
         /// <summary>

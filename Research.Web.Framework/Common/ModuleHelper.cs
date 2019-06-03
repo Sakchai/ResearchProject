@@ -33,6 +33,7 @@ namespace Research.Common
             AddUser,
             ResearchIssues,
             FiscalSchedules,
+            MessageTemplate,
         }
 
         public static SidebarMenu AddHeader(string name)
@@ -208,7 +209,15 @@ namespace Research.Common
                         URLPath = "/Home/Contact",
                         LinkCounter = counter,
                     };
- 
+                case Module.MessageTemplate:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "ตัวแบบเอกสาร",
+                        IconClassName = "fa fa-phone",
+                        URLPath = "/MessageTemplate/List",
+                        LinkCounter = counter,
+                    };
 
                 default:
                     break;

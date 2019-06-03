@@ -8774,7 +8774,7 @@ font-weight: bold;
   border-radius: 0;
   border: none;
   margin-bottom: 10px;
-  color: #ccc;
+  color: #333333;
   height: 43px;
 }
 /* line 161, ../sass/authenty.scss */
@@ -8883,7 +8883,7 @@ font-weight: bold;
   border-radius: 0;
   border: 1px solid #7A8086;
   margin-bottom: 20px;
-  color: #ccc;
+  color: #333333;
   background-color: #282A38;
   height: 42px;
 }
@@ -9038,7 +9038,7 @@ font-weight: bold;
   padding: 10px 0 10px 10px;
   border-radius: 0;
   margin-bottom: 20px;
-  color: #ccc;
+  color: #333333;
 }
 /* line 397, ../sass/authenty.scss */
 .authenty.signup-window .checkbox label {

@@ -241,8 +241,16 @@ namespace Research.Services.Users
             if (string.IsNullOrWhiteSpace(email))
                 return null;
 
-            var query = _userRepository.Table;
-            var user = query.FirstOrDefault(x => x.Email.ToLower() == email.ToLower());
+            //var query = _userRepository.Table;
+            //query = query.Where(x => x.Email.Contains(email));
+            //var user = query.FirstOrDefault();
+            
+            var query = from c in _userRepository.Table
+                        orderby c.Id
+                        where c.Email == email
+                        select c;
+            var user = query.FirstOrDefault();
+
             return user;
         }
 
@@ -290,7 +298,7 @@ namespace Research.Services.Users
         {
             var user = new User
             {
-               // UserGuid = Guid.NewGuid(),
+                UserGuid = Guid.NewGuid(),
                 IsActive = true,
                 Created = DateTime.UtcNow,
                 Modified = DateTime.UtcNow

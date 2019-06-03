@@ -119,6 +119,7 @@ namespace Research.Web.Controllers
                     model.Email,
                     model.IDCard,
                     model.Password,
+                    model.Gender,
                     _userService.GetNextNumber(),
                     _userSettings.DefaultPasswordFormat,
                     isApproved);
@@ -152,12 +153,16 @@ namespace Research.Web.Controllers
                         case UserRegistrationType.Standard:
                             {
                                 //send user welcome message
+                                //chai
                                 _workflowMessageService.SendUserWelcomeMessage(user, 0);
 
                                 var redirectUrl = Url.RouteUrl("RegisterResult", new { resultId = (int)UserRegistrationType.Standard }, _webHelper.CurrentRequestProtocol);
                                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                                     redirectUrl = _webHelper.ModifyQueryString(redirectUrl, "returnurl", returnUrl);
-                                return Redirect(redirectUrl);
+                                //return Redirect(redirectUrl);
+
+    
+                                    return RedirectToAction("Login", "User");
                             }
                         default:
                             {
@@ -313,6 +318,7 @@ namespace Research.Web.Controllers
             {
 
                 var user = model.ToEntity<User>();
+                user.UserGuid = Guid.NewGuid();
                 user.UserName = model.UserName;
                 user.TitleId = model.TitleId;
                 user.FirstName = model.FirstName;

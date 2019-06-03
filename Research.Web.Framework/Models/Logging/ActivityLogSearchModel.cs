@@ -32,15 +32,15 @@ namespace Research.Web.Models.Logging
         public DateTime? CreatedOnTo { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.ActivityLogType")]
-        
+        [Display(Name = "ประเภท Log")]
         public int ActivityLogTypeId { get; set; }
 
         //[NopResourceDisplayName("Admin.Configuration.ActivityLog.ActivityLog.Fields.ActivityLogType")]
-        [Display(Name = "ประเภท Log")]
+       
         public IList<SelectListItem> ActivityLogType { get; set; }
 
         //[NopResourceDisplayName("Admin.Customers.Customers.ActivityLog.IpAddress")]
-        [Display(Name = "IP Address")]
+        [Display(Name = "ไอพีเอดเดรส")]
         public string IpAddress { get; set; }
 
         #endregion

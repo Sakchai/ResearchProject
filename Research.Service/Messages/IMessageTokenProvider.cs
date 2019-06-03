@@ -30,5 +30,13 @@ namespace Research.Services.Messages
         /// <param name="store">Store</param>
         /// <param name="emailAccount">Email account</param>
         void AddSiteTokens(IList<Token> tokens, EmailAccount emailAccount);
+
+        /// <summary>
+        /// Get collection of allowed (supported) message tokens
+        /// </summary>
+        /// <param name="tokenGroups">Collection of token groups; pass null to get all available tokens</param>
+        /// <returns>Collection of allowed message tokens</returns>
+        IEnumerable<string> GetListOfAllowedTokens(IEnumerable<string> tokenGroups = null);
+
     }
 }

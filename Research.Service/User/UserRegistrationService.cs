@@ -258,6 +258,7 @@ namespace Research.Services.Users
                 LastName = request.User.LastName,
                 IDCard = request.IDCard,
                 TitleId = request.User.TitleId,
+                Gender = request.Gender,
                 IsActive = true,
                 PersonalTypeId = (int)PersonalType.Academic,
             };

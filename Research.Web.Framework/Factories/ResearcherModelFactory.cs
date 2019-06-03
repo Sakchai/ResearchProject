@@ -98,9 +98,8 @@ namespace Research.Web.Factories
                     researcherModel.ResearcherCode   = researcher.ResearcherCode;
                     researcherModel.FirstName = researcher.FirstName;
                     researcherModel.LastName = researcher.LastName;
-                    researcherModel.PersonalTypeName = researcher.PersonalType.GetAttributeOfType<EnumMemberAttribute>().Value;
+                    researcherModel.PersonalTypeName = (int)researcher.PersonalType !=0 ? researcher.PersonalType.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty;
                     researcherModel.AgencyName = researcher.Agency != null ? researcher.Agency.Name : string.Empty;
-
                     return researcherModel;
                 }),
                 Total = researchers.Count
@@ -138,6 +137,7 @@ namespace Research.Web.Factories
                 model.PersonalTypeId = researcher.PersonalTypeId;
                 model.AgencyId = researcher.AgencyId;
                 model.AcademicRankId = researcher.AcademicRankId;
+                model.IsActive = researcher.IsActive;
                 if (researcher.Birthdate.HasValue)
                 {
                     model.DateOfBirthDay = researcher.Birthdate.Value.Day;

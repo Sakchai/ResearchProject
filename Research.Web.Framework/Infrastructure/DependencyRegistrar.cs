@@ -117,10 +117,9 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ResearchIssueService>().As<IResearchIssueService>().InstancePerLifetimeScope();
             builder.RegisterType<ProjectService>().As<IProjectService>().InstancePerLifetimeScope();
             builder.RegisterType<ResearcherService>().As<IResearcherService>().InstancePerLifetimeScope();
-
+            builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<RoleService>().As<IRoleService>().InstancePerLifetimeScope();
-            builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionService>().As<IPermissionService>().InstancePerLifetimeScope();
             builder.RegisterType<CountryService>().As<ICountryService>().InstancePerLifetimeScope();
             builder.RegisterType<ProvinceService>().As<IProvinceService>().InstancePerLifetimeScope();
@@ -147,7 +146,6 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
             builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
-
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
@@ -191,6 +189,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ProfessorModelFactory>().As<IProfessorModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ResearchIssueModelFactory>().As<IResearchIssueModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<FiscalScheduleModelFactory>().As<IFiscalScheduleModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageTemplateModelFactory>().As<IMessageTemplateModelFactory>().InstancePerLifetimeScope();
+
             
         }
 

@@ -85,7 +85,7 @@ namespace Research.Web.Models.Researchers
         public AddressModel AddressModel { get; set; }
         public string FullName { get => $"{TitleName}{FirstName} {LastName}"; }
     
-        public bool IsCompleted { get => IsActive && IsAcceptedConditions; }
+        public bool IsCompleted { get => IsActive; }
 
         #region Researcher educations
 

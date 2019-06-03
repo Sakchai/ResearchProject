@@ -76,6 +76,7 @@ namespace Research.Web.Factories
                 Data = projects.Select(project =>
                 {
                     // fill in model values from the entity
+
                     var projectModel = new ProjectModel
                     {
                         Id = project.Id,
@@ -84,7 +85,7 @@ namespace Research.Web.Factories
                         ProjectNameTh = project.ProjectNameTh,
                         StartContractDateName = CommonHelper.ConvertToThaiDate(project.ProjectStartDate),
                         ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
-                        ProjectStatusName = project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value,
+                        ProjectStatusName = (int) project.ProjectStatus != 0 ? project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                     };
 
                     return projectModel;
@@ -130,10 +131,10 @@ namespace Research.Web.Factories
                         Id = x.Id,
                         Portion = x.Portion,
                         ProjectId = x.ProjectId,
-                        RoleName = x.ProjectRole.GetAttributeOfType<EnumMemberAttribute>().Value,
+                        RoleName = (int)x.ProjectRole != 0 ? x.ProjectRole.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                         ResearcherId = x.ResearcherId,
                         ProjectRoleId = x.ProjectRoleId,
-                        ResearcherName = $"{x.Researcher.FirstName} {x.Researcher.LastName}"
+                        ResearcherName = x.Researcher != null ? $"{x.Researcher.FirstName} {x.Researcher.LastName}" : string.Empty,
                     };
 
 

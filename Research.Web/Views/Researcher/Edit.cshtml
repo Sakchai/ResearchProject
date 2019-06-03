@@ -6,6 +6,7 @@
 }
 
 <form asp-controller="Researcher" asp-action="Edit" method="post">
+    
     <div class="content-header clearfix">
         <h1 class="pull-left">
             ข้อมูลนักวิจัย
@@ -15,10 +16,11 @@
             </small>
         </h1>
         <div class="pull-right">
-            <span id="researcher-delete" class="btn bg-red">
+            @*<a asp-action="Delete" class="btn bg-red">
+                <input asp-for="Id" type="hidden" />
                 <i class="fa fa-trash-o"></i>
                 ลบรายการ
-            </span>
+            </a>*@
         </div>
         <div class="pull-right">
             <button type="submit" name="save" class="btn bg-blue">

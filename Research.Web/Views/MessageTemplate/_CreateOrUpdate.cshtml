@@ -1,0 +1,269 @@
+﻿@model MessageTemplateModel
+@inject AdminAreaSettings adminAreaSettings
+@using Research.Core.Domain.Messages;
+@using Research.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        @await Component.InvokeAsync("SettingMode", new { modeName = "messagetemplate-advanced-mode" })
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="margin-bottom">
+                        <em>ตัวแบบเอกสาร</em>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AllowedTokens" />
+                        </div>
+                        <div class="col-md-9">
+                            <a id="allowedTokensShowHide" href="javascript:toggleLoadedAllowedTokens();">แสดง</a>
+                            <div id="pnlAllowedTokens" style="display: none; white-space: pre-line">
+                                <div class="form-text-row">@Model.AllowedTokens</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="Name" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.Name</div>
+                            <input asp-for="Name" type="hidden" />
+                        </div>
+                    </div>
+                    <script>
+                        function toggleLoadedAllowedTokens() {
+                            $('#pnlAllowedTokens').toggle();
+                            if ($('#pnlAllowedTokens').css('display') == 'none') {
+                                $('#allowedTokensShowHide').html('แสดง');
+                            } else {
+                                $('#allowedTokensShowHide').html('ซ่อน');
+                            }
+                        }
+                    </script>
+
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="@Model.Subject" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="@Model.Subject" />
+                            <span asp-validation-for="@Model.Subject"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="@Model.Body" />
+                        </div>
+                        <div class="col-md-9">
+                            @if (adminAreaSettings.UseRichEditorInMessageTemplates)
+                            {
+                                <nop-editor asp-for="@Model.Body" asp-template="RichEditor" />
+                            }
+                            else
+                            {
+                                <nop-textarea asp-for="@Model.Body" />
+                                <text>
+                                    <script>
+                                          $(document).ready(function() {
+                                              $('#@Html.IdFor(model => model.Body)')
+                                                  .height($('#@Html.IdFor(model => model.Body)')[0].scrollHeight);
+                                          });
+                                    </script>
+                                </text>
+                            }
+                            <span asp-validation-for="@Model.Body"></span>
+                        </div>
+                    </div>
+                    <div class="form-group advanced-setting">
+                        <div class="col-md-3">
+                            <nop-label asp-for="@Model.BccEmailAddresses" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="@Model.BccEmailAddresses" />
+                            <span asp-validation-for="@Model.BccEmailAddresses"></span>
+                        </div>
+                    </div>
+                    <div class="form-group advanced-setting">
+                        <div class="col-md-3">
+                            <nop-label asp-for="@Model.EmailAccountId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="@Model.EmailAccountId" asp-items="Model.AvailableEmailAccounts" />
+                            <span asp-validation-for="@Model.EmailAccountId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="label-wrapper">
+                                <label class="control-label">
+                                    ทดสอบ
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <button type="button" class="btn btn-primary" onclick="setLocation('@(Url.Action("TestTemplate", new { id = Model.Id }))')">ทดสอบ</button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Subject" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Subject" asp-required="true" />
+                        <span asp-validation-for="Subject"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Body" />
+                    </div>
+                    <div class="col-md-9">
+                        @if (adminAreaSettings.UseRichEditorInMessageTemplates)
+                        {
+                            <div class="input-group input-group-required">
+                                <nop-editor asp-for="Body" asp-template="RichEditor" />
+                                <div class="input-group-btn">
+                                    <nop-required />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <nop-textarea asp-for="Body" asp-required="true" />
+                            <text>
+                                <script>
+                              $(document).ready(function() {
+                                  $('#@Html.IdFor(model => model.Body)')
+                                      .height($('#@Html.IdFor(model => model.Body)')[0].scrollHeight);
+                              });
+                                </script>
+                            </text>
+                        }
+                        <span asp-validation-for="Body"></span>
+                    </div>
+                </div>
+                <div class="form-group advanced-setting">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BccEmailAddresses" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BccEmailAddresses" />
+                        <span asp-validation-for="BccEmailAddresses"></span>
+                    </div>
+                </div>
+                <div class="form-group advanced-setting">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EmailAccountId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="EmailAccountId" asp-items="Model.AvailableEmailAccounts" />
+                        <span asp-validation-for="EmailAccountId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="control-label">ทดสอบ</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="button" class="btn btn-primary" onclick="setLocation('@(Url.Action("TestTemplate", new {id = Model.Id}))')">ทดสอบ</button>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="IsActive" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="IsActive" />
+                        <span asp-validation-for="IsActive"></span>
+                    </div>
+                </div>
+                <div class="form-group advanced-setting">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SendImmediately" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SendImmediately" />
+                        <span asp-validation-for="SendImmediately"></span>
+                    </div>
+                </div>
+                <div class="form-group advanced-setting" id="pnl-send-after">
+                    <div class="col-md-3">
+                        <nop-label asp-for="DelayBeforeSend" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <nop-editor asp-for="DelayBeforeSend" />
+                                <span asp-validation-for="DelayBeforeSend"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <nop-select asp-for="DelayPeriodId"  style="max-width: 200px;" />
+                                <span asp-validation-for="DelayPeriodId"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group advanced-setting">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AttachedDownloadId" />
+                    </div>
+                    <div class="col-md-9">
+                        @{
+                            //Static file attachments do not support URLs yet
+                            //A store owner have to upload a file
+                            //we store a value into "ViewData" and then use it in the Download.cshtml file
+                            ViewData["nop.DownloadEditor.DisableUrl"] = true;
+                        }
+                        <div class="checkbox">
+                            <label>
+                                <nop-editor asp-for="HasAttachedDownload" />
+                                มีไฟล์แนบ
+                            </label>
+                        </div>
+                        <div id="pnlAttachedDownload">
+                            <nop-editor asp-for="AttachedDownloadId" />
+                            <span asp-validation-for="AttachedDownloadId"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $("#@Html.IdFor(model => model.HasAttachedDownload)").change(toggleHasAttachedDownload);
+        $("#@Html.IdFor(model => model.SendImmediately)").click(sendImmediately);
+        toggleHasAttachedDownload();
+        sendImmediately();
+    });
+
+    function toggleHasAttachedDownload() {
+        if ($('#@Html.IdFor(model => model.HasAttachedDownload)').is(':checked')) {
+            $('#pnlAttachedDownload').show();
+        } else {
+            $('#pnlAttachedDownload').hide();
+        }
+    }
+
+    function sendImmediately() {
+        if ($('#@Html.IdFor(model => model.SendImmediately)').is(':checked'))
+            $('#pnl-send-after').hide();
+        else
+            $('#pnl-send-after').show();
+    }
+    </script>
+</div>

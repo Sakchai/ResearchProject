@@ -50,9 +50,11 @@ namespace Research.Web.Models.Projects
         public string ProjectStatusName { get; set; }
         public string ProgressStatusName { get; set; }
         public int ProjectUploadId { get; set; }
+        [UIHint("Date")]
         [Display(Name = "วันที่ทำสัญญา")]
         public DateTime StartContractDate { get; set; }
         public string StartContractDateName { get; set; }
+        [UIHint("Date")]
         [Display(Name = "วันที่สิ้นสุดสัญญา")]
         public DateTime EndContractDate { get; set; }
         public string LastUpdateBy { get; set; }
@@ -100,10 +102,10 @@ namespace Research.Web.Models.Projects
         public ProjectProgressSearchModel ProjectProgressSearchModel { get; set; }
         [Display(Name = "สถานะโครงการวิจัย")]
         public int AddProjectProgressStatusId { get; set; }
-        [UIHint("DateNullable")]
+        [UIHint("Date")]
         [Display(Name = "วันที่เริ่มต้น")]
         public DateTime AddProjectProgressStartDate { get; set; }
-        [UIHint("DateNullable")]
+        [UIHint("Date")]
         [Display(Name = "วันที่สิ้นสุด")]
         public DateTime AddProjectProgressEndDate { get; set; }
         [Display(Name = "หมายเหตุ")]

@@ -17,6 +17,8 @@
     </div>
 </div>
 
+
+
 <div class="content">
     <div class="form-horizontal">
         <div class="panel-group">
@@ -25,27 +27,35 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="CreatedOnFrom" class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="CreatedOnFrom" />
+                                </div>
                                 <div class="col-md-8">
-                                    <input asp-for="CreatedOnFrom" type="date" asp-format="{0:dd/MM/yyyy}"  />
+                                    <nop-editor asp-for="CreatedOnFrom" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label asp-for="CreatedOnTo" class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="CreatedOnTo" />
+                                </div>
                                 <div class="col-md-8">
-                                    <input asp-for="CreatedOnTo" type="date" asp-format="{0:dd/MM/yyyy}" />
+                                    <nop-editor asp-for="CreatedOnTo" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label asp-for="IpAddress" class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="IpAddress" />
+                                </div>
                                 <div class="col-md-8">
-                                    <input asp-for="IpAddress" class="form-control text-box single-line" />
+                                    <nop-editor asp-for="IpAddress" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label asp-for="ActivityLogTypeId" class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ActivityLogTypeId" />
+                                </div>
                                 <div class="col-md-8">
-                                    <select asp-for="ActivityLogTypeId" asp-items="Model.ActivityLogType"></select>
+                                    <nop-select asp-for="ActivityLogTypeId" asp-items="Model.ActivityLogType" />
                                 </div>
                             </div>
                             <div class="form-group">

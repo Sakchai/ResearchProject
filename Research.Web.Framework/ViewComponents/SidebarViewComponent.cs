@@ -45,7 +45,8 @@ namespace Research.Web.ViewComponents
                 ModuleHelper.AddModule(ModuleHelper.Module.FiscalSchedules),
                 ModuleHelper.AddModule(ModuleHelper.Module.Users),
                 ModuleHelper.AddModule(ModuleHelper.Module.AddUser),
-                ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs)
+                ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs),
+                ModuleHelper.AddModule(ModuleHelper.Module.MessageTemplate)
             };
             sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.About, Tuple.Create(0, 1, 0)));
             sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Contact, Tuple.Create(1, 0, 0)));

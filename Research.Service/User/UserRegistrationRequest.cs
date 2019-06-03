@@ -22,6 +22,7 @@ namespace Research.Services.Users
         public UserRegistrationRequest(User user, string email, string idcard,
             string password,
             string username,
+            string gender,
             PasswordFormat passwordFormat,
             bool isApproved = true)
         {
@@ -30,6 +31,7 @@ namespace Research.Services.Users
             this.IDCard = idcard;
             this.Password = password;
             this.Username = username;
+            this.Gender = gender;
             this.PasswordFormat = passwordFormat;
             this.IsApproved = isApproved;
         }
@@ -39,6 +41,7 @@ namespace Research.Services.Users
         /// </summary>
         public User User { get; set; }
 
+        public string Gender { get; set; }
         /// <summary>
         /// Email
         /// </summary>

@@ -198,6 +198,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(model => model.AvailableAddEducationEducationLevels, options => options.Ignore())
                 .ForMember(model => model.AvailableAddEducationInstitutes, options => options.Ignore())
                 .ForMember(model => model.AddressModel, options => options.Ignore());
+             //   .ForMember(model => model.IsActive, options => options.Ignore());
 
             CreateMap<ResearcherModel, Researcher>()
                 .ForMember(entity => entity.Deleted, options => options.Ignore())
@@ -205,6 +206,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(entity => entity.Address, options => options.Ignore())
                 .ForMember(entity => entity.Agency, options => options.Ignore())
                 .ForMember(entity => entity.Users, options => options.Ignore())
+         //       .ForMember(entity => entity.IsActive, options => options.Ignore())
                 .ForMember(entity => entity.PersonalType, options => options.Ignore());
 
         }

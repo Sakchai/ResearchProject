@@ -125,7 +125,7 @@ namespace Research.Web.Controllers
 
                 var researcher = user.Researcher;
 
-                if (researcher.Id != 0)
+                if (researcher != null)
                 {
                     var projectResearcher = new ProjectResearcher
                     {

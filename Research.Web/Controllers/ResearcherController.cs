@@ -17,7 +17,7 @@ using Research.Web.Models.Common;
 using Research.Services.Researchers;
 
 namespace Research.Web.Controllers
-{ 
+{
     public partial class ResearcherController : BaseAdminController
     {
         #region Fields
@@ -54,7 +54,7 @@ namespace Research.Web.Controllers
         #endregion
 
         #region Utilities
-        
+
         //protected virtual void UpdateLocales(Researcher researcher, ResearcherModel model)
         //{
         //    foreach (var localized in model.Locales)
@@ -198,7 +198,7 @@ namespace Research.Web.Controllers
 
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
-
+                researcher.IsActive = true;
                 _researcherService.InsertResearcher(researcher);
 
                 var address = model.AddressModel.ToEntity<Address>();
@@ -235,8 +235,11 @@ namespace Research.Web.Controllers
         {
             if ((model != null) && (address.Id == 0))
             {
-                if (!string.IsNullOrEmpty(address.Address1))
-                    _addressService.InsertAddress(address);
+                if (!string.IsNullOrEmpty(model.Address1) ||
+                    !string.IsNullOrEmpty(model.Address2) ||
+                    !string.IsNullOrEmpty(model.ZipCode) ||
+                    model.ProvinceId != 0)
+                _addressService.InsertAddress(address);
             }
             else
             {
@@ -273,12 +276,14 @@ namespace Research.Web.Controllers
 
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(model.Id);
+            bool active = researcher.IsActive;
             if (researcher == null)
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
                 researcher = model.ToEntity(researcher);
+                researcher.IsActive = active;
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
 
@@ -295,7 +300,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Researcher Updated");
 
                 //activity log
-                _userActivityService.InsertActivity("EditResearcher","ActivityLog EditResearcher", researcher);
+                _userActivityService.InsertActivity("EditResearcher", "ActivityLog EditResearcher", researcher);
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -329,14 +334,18 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public virtual IActionResult Delete(int id)
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Delete(int Id)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
             //    return AccessDeniedView();
 
             //try to get a researcher with the specified id
-            var researcher = _researcherService.GetResearcherById(id);
+            if (Id == 0)
+                return RedirectToAction("List");
+
+            var researcher = _researcherService.GetResearcherById(Id);
+
             if (researcher == null)
                 return RedirectToAction("List");
             researcher.Deleted = true;
@@ -345,7 +354,7 @@ namespace Research.Web.Controllers
             SuccessNotification("Researchers Deleted");
 
             //activity log
-            _userActivityService.InsertActivity("DeleteResearcher","ActivityLog.DeleteResearcher", researcher);
+            _userActivityService.InsertActivity("DeleteResearcher", "ActivityLog.DeleteResearcher", researcher);
 
             return RedirectToAction("List");
         }
@@ -396,9 +405,9 @@ namespace Research.Web.Controllers
                 GraduationYear = graduationYear
             };
             _researcherService.InsertResearcherEducation(researcherEducation);
-          //  researcher.ResearcherEducations.Add(researcherEducation);
-          //  _researcherService.UpdateResearcher(researcher);
-            
+            //  researcher.ResearcherEducations.Add(researcherEducation);
+            //  _researcherService.UpdateResearcher(researcher);
+
             return Json(new { Result = true });
         }
 
@@ -409,13 +418,13 @@ namespace Research.Web.Controllers
             //    return AccessDeniedView();
 
             //try to get a researcher with the specified id
-           // var researcher = _researcherService.GetResearcherById(researcherId)
+            // var researcher = _researcherService.GetResearcherById(researcherId)
             //    ?? throw new ArgumentException("No researcher found with the specified id", nameof(researcherId));
 
             //try to get a researcher education with the specified id
             //var researcherEducation = researcher.ResearcherEducations.FirstOrDefault(vn => vn.Id == id)
-             var researcherEducation = _researcherService.GetResearcherEducationById(id)
-                ?? throw new ArgumentException("No researcher education found with the specified id", nameof(id));
+            var researcherEducation = _researcherService.GetResearcherEducationById(id)
+               ?? throw new ArgumentException("No researcher education found with the specified id", nameof(id));
             _researcherService.DeleteResearcherEducation(researcherEducation);
             //_researcherService.RemoveResearcherEducation(researcher,researcherEducation);
 
