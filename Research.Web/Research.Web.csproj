@@ -13,22 +13,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\EmailAccount\**" />
     <Compile Remove="Views\Manage\**" />
     <Compile Remove="Views\Professor - Copy\**" />
     <Compile Remove="Views\Role\**" />
     <Compile Remove="Views\SuperAdmin\**" />
-    <Content Remove="Views\EmailAccount\**" />
     <Content Remove="Views\Manage\**" />
     <Content Remove="Views\Professor - Copy\**" />
     <Content Remove="Views\Role\**" />
     <Content Remove="Views\SuperAdmin\**" />
-    <EmbeddedResource Remove="Views\EmailAccount\**" />
     <EmbeddedResource Remove="Views\Manage\**" />
     <EmbeddedResource Remove="Views\Professor - Copy\**" />
     <EmbeddedResource Remove="Views\Role\**" />
     <EmbeddedResource Remove="Views\SuperAdmin\**" />
-    <None Remove="Views\EmailAccount\**" />
     <None Remove="Views\Manage\**" />
     <None Remove="Views\Professor - Copy\**" />
     <None Remove="Views\Role\**" />
@@ -103,6 +99,10 @@
   <ItemGroup>
     <None Include="Views\ActivityLog\ListLogs.cshtml" />
     <None Include="Views\ActivityLog\ListTypes.cshtml" />
+    <None Include="Views\EmailAccount\Create.cshtml" />
+    <None Include="Views\EmailAccount\Edit.cshtml" />
+    <None Include="Views\EmailAccount\List.cshtml" />
+    <None Include="Views\EmailAccount\_CreateOrUpdate.cshtml" />
     <None Include="Views\MessageTemplate\Edit.cshtml" />
     <None Include="Views\MessageTemplate\List.cshtml" />
     <None Include="Views\MessageTemplate\TestTemplate.cshtml" />

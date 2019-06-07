@@ -1,8 +1,8 @@
-@model EmailAccountModel
+﻿@model EmailAccountModel
 
 @{
     //page title
-    ViewBag.Title = T("Admin.Configuration.EmailAccounts.AddNew").Text;
+    ViewBag.Title = "เพิ่มอีเมลส่งจดหมายอิเล็กทรอนิกส์";
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Email accounts");
 }
@@ -10,22 +10,21 @@
 <form asp-controller="EmailAccount" asp-action="Create" method="post">
     <div class="content-header clearfix">
         <h1 class="pull-left">
-            @T("Admin.Configuration.EmailAccounts.AddNew")
+            เพิ่มอีเมลส่งจดหมายอิเล็กทรอนิกส์
             <small>
                 <i class="fa fa-arrow-circle-left"></i>
-                <a asp-action="List">@T("Admin.Configuration.EmailAccounts.BackToList")</a>
+                <a asp-action="List">กลับไปยังรายการอีเมลในการส่งจดหมายอีเล็กทรอนิกส์</a>
             </small>
         </h1>
         <div class="pull-right">
             <button type="submit" name="save" class="btn bg-blue">
                 <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.Save")
+                บันทึก
             </button>
             <button type="submit" name="save-continue" class="btn bg-blue">
                 <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.SaveContinue")
+                บันทึกและดำเนินรายการต่อ
             </button>
-            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.EmailAccountDetailsButtons })
         </div>
     </div>
     @await Html.PartialAsync("_CreateOrUpdate", Model)

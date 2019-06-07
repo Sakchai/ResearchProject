@@ -34,6 +34,7 @@ namespace Research.Common
             ResearchIssues,
             FiscalSchedules,
             MessageTemplate,
+            EmailAccount,
         }
 
         public static SidebarMenu AddHeader(string name)
@@ -214,11 +215,19 @@ namespace Research.Common
                     {
                         Type = SidebarMenuType.Link,
                         Name = "ตัวแบบเอกสาร",
-                        IconClassName = "fa fa-phone",
+                        IconClassName = "fa fa-envelope",
                         URLPath = "/MessageTemplate/List",
                         LinkCounter = counter,
                     };
-
+                case Module.EmailAccount:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "อีเมลส่งจดหมายอิเล็กทรอนิกส์",
+                        IconClassName = "fa fa-envelope",
+                        URLPath = "/EmailAccount/List",
+                        LinkCounter = counter,
+                    };
                 default:
                     break;
             }

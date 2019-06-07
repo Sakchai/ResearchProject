@@ -1,4 +1,4 @@
-@model EmailAccountModel
+﻿@model EmailAccountModel
 
 <div asp-validation-summary="ModelOnly"></div>
 <input asp-for="Id" type="hidden" />
@@ -6,7 +6,6 @@
 <div class="content">
     <div class="form-horizontal">
         <div class="panel-group">
-            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.EmailAccountDetailsTop, additionalData = Model })
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">
@@ -65,7 +64,7 @@
                                     @if (Model.Id > 0)
                                     {
                                         <button type="submit" name="changepassword" class="btn btn-info">
-                                            @T("Admin.Configuration.EmailAccounts.Fields.Password.Change")
+                                            แก้ไขรหัสผ่าน
                                         </button>
                                     }
                                 </div>
@@ -97,7 +96,7 @@
             {
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @T("Admin.Configuration.EmailAccounts.SendTestEmail")
+                        ทดสอบการส่งอิเมล
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -109,7 +108,7 @@
                                     <nop-editor asp-for="SendTestEmailTo"/>
                                     <div class="input-group-btn">
                                         <button type="submit" name="sendtestemail" class="btn btn-info">
-                                            @T("Admin.Configuration.EmailAccounts.SendTestEmail.Button")
+                                            ทดสอบการส่งอีเมล
                                         </button>
                                     </div>
                                 </div>
@@ -119,7 +118,6 @@
                     </div>
                 </div>
             }
-            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.EmailAccountDetailsBottom, additionalData = Model })
         </div>
     </div>
 </div>

@@ -1,8 +1,8 @@
-@model EmailAccountModel
+﻿@model EmailAccountModel
 
 @{
     //page title
-    ViewBag.Title = T("Admin.Configuration.EmailAccounts.EditEmailAccountDetails").Text;
+    ViewBag.Title = "แก้ไขอีเมลส่งจดหมายอิเล็กทรอนิกส์";
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Email accounts");
 }
@@ -10,26 +10,25 @@
 <form asp-controller="EmailAccount" asp-action="Edit" method="post">
     <div class="content-header clearfix">
         <h1 class="pull-left">
-            @T("Admin.Configuration.EmailAccounts.EditEmailAccountDetails")
+            แก้ไขอีเมลส่งจดหมายอิเล็กทรอนิกส์
             <small>
                 <i class="fa fa-arrow-circle-left"></i>
-                <a asp-action="List">@T("Admin.Configuration.EmailAccounts.BackToList")</a>
+                <a asp-action="List">กลับไปยังรายการอีเมลส่งจดหมายอิเล็กทรอนิกส์</a>
             </small>
         </h1>
         <div class="pull-right">
             <button type="submit" name="save" class="btn bg-blue">
                 <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.Save")
+                บันทึก
             </button>
             <button type="submit" name="save-continue" class="btn bg-blue">
                 <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.SaveContinue")
+                บันทึกและทำรายการต่อ
             </button>
             <span id="emailAccount-delete" class="btn bg-red">
                 <i class="fa fa-trash-o"></i>
-                @T("Admin.Common.Delete")
+                ลบ
             </span>
-            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.EmailAccountDetailsButtons, additionalData = Model })
         </div>
     </div>
     @await Html.PartialAsync("_CreateOrUpdate", Model)

@@ -74,23 +74,10 @@ namespace Research.Web.Infrastructure
             //repositories
             builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
-            //plugins
-            //builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
-
             //cache manager
             builder.RegisterType<PerRequestCacheManager>().As<ICacheManager>().InstancePerLifetimeScope();
 
             //static cache manager
-            //if (config.RedisCachingEnabled)
-            //{
-            //    builder.RegisterType<RedisConnectionWrapper>()
-            //        .As<ILocker>()
-            //        .As<IRedisConnectionWrapper>()
-            //        .SingleInstance();
-            //    builder.RegisterType<RedisCacheManager>().As<IStaticCacheManager>().InstancePerLifetimeScope();
-            //}
-            //else
-            //{
             builder.RegisterType<MemoryCacheManager>()
                 .As<ILocker>()
                 .As<IStaticCacheManager>()
@@ -99,9 +86,6 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             //work context
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
-
-            //store context
-            //builder.RegisterType<WebStoreContext>().As<IStoreContext>().InstancePerLifetimeScope();
 
             //services
             builder.RegisterType<TitleService>().As<ITitleService>().InstancePerLifetimeScope();
@@ -150,22 +134,10 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
             //register all settings
-             builder.RegisterSource(new SettingsSource());
+            builder.RegisterSource(new SettingsSource());
 
             //picture service
-            //if (!string.IsNullOrEmpty(config.AzureBlobStorageConnectionString))
-            //    builder.RegisterType<AzurePictureService>().As<IPictureService>().InstancePerLifetimeScope();
-            //else
-                builder.RegisterType<PictureService>().As<IPictureService>().InstancePerLifetimeScope();
-
-            //installation service
-            //if (!DataSettingsManager.DatabaseIsInstalled)
-            //{
-            //    if (config.UseFastInstallationService)
-            //        builder.RegisterType<SqlFileInstallationService>().As<IInstallationService>().InstancePerLifetimeScope();
-            //    else
-            //        builder.RegisterType<CodeFirstInstallationService>().As<IInstallationService>().InstancePerLifetimeScope();
-            //}
+            builder.RegisterType<PictureService>().As<IPictureService>().InstancePerLifetimeScope();
 
             //event consumers
             var consumers = typeFinder.FindClassesOfType(typeof(IConsumer<>)).ToList();
@@ -190,8 +162,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ResearchIssueModelFactory>().As<IResearchIssueModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<FiscalScheduleModelFactory>().As<IFiscalScheduleModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<MessageTemplateModelFactory>().As<IMessageTemplateModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<EmailAccountModelFactory>().As<IEmailAccountModelFactory>().InstancePerLifetimeScope();
 
-            
         }
 
         /// <summary>
@@ -236,7 +208,7 @@ namespace Research.Web.Infrastructure
             return RegistrationBuilder
                 .ForDelegate((c, p) =>
                 {
-                   // var currentStoreId = c.Resolve<IStoreContext>().CurrentStore.Id;
+                    // var currentStoreId = c.Resolve<IStoreContext>().CurrentStore.Id;
                     //uncomment the code below if you want load settings per store only when you have two stores installed.
                     //var currentStoreId = c.Resolve<IStoreService>().GetAllStores().Count > 1
                     //    c.Resolve<IStoreContext>().CurrentStore.Id : 0;
