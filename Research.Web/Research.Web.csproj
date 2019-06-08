@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\AccountController.cs" />
+    <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Controllers\ManageController.cs" />
     <Compile Remove="Controllers\RoleController.cs" />
     <Compile Remove="Controllers\SuperAdminController.cs" />
@@ -111,6 +112,7 @@
     <None Include="Views\Researcher\List.cshtml" />
     <None Include="Views\Researcher\_CreateOrUpdate.cshtml" />
     <None Include="Views\Researcher\_CreateOrUpdate.Info.cshtml" />
+    <None Include="Views\ScheduleTask\List.cshtml" />
     <None Include="wwwroot\js\bbeditor\ed.js" />
   </ItemGroup>
 

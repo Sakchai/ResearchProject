@@ -16,7 +16,7 @@ using Research.Web.Framework.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Research.Web.Framework.Kendoui;
 
-namespace Research.Controllers
+namespace Research.Web.Framework.Controllers
 {
     public class BaseController : Controller
     {

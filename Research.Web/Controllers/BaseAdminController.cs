@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Research.Controllers;
 using Research.Core.Domain.Common;
 using Research.Infrastructure;
+using Research.Web.Framework.Controllers;
 
 namespace Research.Web.Controllers
 {

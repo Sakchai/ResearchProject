@@ -9,6 +9,7 @@ using Research.Services.Messages;
 using Research.Services.Security;
 using Research.Web.Extensions;
 using Research.Web.Factories;
+using Research.Web.Framework.Controllers;
 using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Messages;
 
@@ -146,7 +147,7 @@ namespace Research.Web.Controllers
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        //[FormValueRequired("save", "save-continue")]
+        [FormValueRequired("save", "save-continue")]
         public virtual IActionResult Edit(EmailAccountModel model, bool continueEditing)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
@@ -199,7 +200,7 @@ namespace Research.Web.Controllers
         }
 
         [HttpPost, ActionName("Edit")]
-        //[FormValueRequired("sendtestemail")]
+        [FormValueRequired("sendtestemail")]
         public virtual IActionResult SendTestEmail(EmailAccountModel model)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))

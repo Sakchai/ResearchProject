@@ -163,7 +163,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<FiscalScheduleModelFactory>().As<IFiscalScheduleModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<MessageTemplateModelFactory>().As<IMessageTemplateModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<EmailAccountModelFactory>().As<IEmailAccountModelFactory>().InstancePerLifetimeScope();
-
+            builder.RegisterType<ScheduleTaskModelFactory>().As<IScheduleTaskModelFactory>().InstancePerLifetimeScope();
+            
         }
 
         /// <summary>

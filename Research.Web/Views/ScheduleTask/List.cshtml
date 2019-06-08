@@ -1,0 +1,164 @@
+﻿@model ScheduleTaskSearchModel
+
+@using System.Text.Encodings.Web
+
+@{
+    //page title
+    ViewBag.Title = "Schedule Tasks";
+    //active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("Schedule tasks");
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Schedule Tasks
+    </h1>
+    <div class="pull-right">
+        &nbsp;
+    </div>
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        $("#schedule-tasks-grid").on("click", ".run-now", function (e) {
+            showThrobber('@Html.Raw(JavaScriptEncoder.Default.Encode("กำลังดำเนินการ...")');
+        });
+    });
+</script>*@
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>
+                        24 days
+                    </p>
+                    <p>
+                        <strong>Restart Application</strong>
+                    </p>
+                    <div id="schedule-tasks-grid"></div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#schedule-tasks-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("List", "ScheduleTask"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        update: {
+                                            url: "@Html.Raw(Url.Action("TaskUpdate", "ScheduleTask"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Name: { editable: true, type: "string" },
+                                                Seconds: { editable: true, type: "number" },
+                                                Enabled: { editable: true, type: "boolean" },
+                                                StopOnError: { editable: true, type: "boolean" },
+                                                LastStartUtc: { editable: false, type: "date" },
+                                                LastEndUtc: { editable: false, type: "date" },
+                                                LastSuccessUtc: { editable: false, type: "date" },
+                                                Id: { editable: false, type: "number" }
+                                            }
+                                        }
+                                    },
+                                    error: function (e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(Model.PageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(Model.AvailablePageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "ยืนยันการลบรายการ?",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [{
+                                    field: "Name",
+                                    title: "ชื่อ",
+                                    width: 300
+                                }, {
+                                    field: "Seconds",
+                                    title: "นาที",
+                                    width: 150
+                                }, {
+                                    field: "Enabled",
+                                    title: "Enabled",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '# if(Enabled) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                }, {
+                                    field: "StopOnError",
+                                    title: "Stop OnError",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '# if(StopOnError) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                }, {
+                                    field: "LastStartUtc",
+                                    title: "Start ล่าสุด",
+                                    width: 200,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    field: "LastEndUtc",
+                                    title: "End ล่าสุด",
+                                    width: 200,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    field: "LastSuccessUtc",
+                                    title: "Success ล่าสุด",
+                                    width: 200,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    field: "Id",
+                                    title: "RunNow",
+                                    width: 100,
+                                    template: '<a href="@Url.Content("~/Admin/ScheduleTask/RunNow/")#=Id#" class="btn bg-green">Run Now</a>'
+                                }, {
+                                    command: {
+                                        name: "edit",
+                                        text: {
+                                            edit: "แก้ไข",
+                                            update: "แก้ไข",
+                                            cancel: "ยกเลิก"
+                                        }
+                                    },
+                                    title: "แก้ไข",
+                                    width: 100
+                                }]
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Research.Controllers;
+using Research.Web.Framework.Controllers;
 
 namespace Research.Web.Controllers
 {

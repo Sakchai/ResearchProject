@@ -1,11 +1,11 @@
 using Research.Core.Caching;
 
-namespace Nop.Core.Caching
+namespace Research.Core.Caching
 {
     /// <summary>
     /// Represents a null cache (caches nothing)
     /// </summary>
-    public partial class NopNullCache : IStaticCacheManager
+    public partial class ResearchNullCache : IStaticCacheManager
     {
         /// <summary>
         /// Gets or sets the value associated with the specified key.
