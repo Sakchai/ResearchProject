@@ -27,7 +27,6 @@ using Research.Services.Logging;
 using Research.Services.Media;
 using Research.Services.Messages;
 using Research.Services.Professors;
-using Research.Services.Roles;
 using Research.Services.Security;
 using Research.Services.Tasks;
 using Research.Services.Users;
@@ -103,7 +102,6 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ResearcherService>().As<IResearcherService>().InstancePerLifetimeScope();
             builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
-            builder.RegisterType<RoleService>().As<IRoleService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionService>().As<IPermissionService>().InstancePerLifetimeScope();
             builder.RegisterType<CountryService>().As<ICountryService>().InstancePerLifetimeScope();
             builder.RegisterType<ProvinceService>().As<IProvinceService>().InstancePerLifetimeScope();
@@ -164,6 +162,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<MessageTemplateModelFactory>().As<IMessageTemplateModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<EmailAccountModelFactory>().As<IEmailAccountModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ScheduleTaskModelFactory>().As<IScheduleTaskModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRoleModelFactory>().As<IUserRoleModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<SecurityModelFactory>().As<ISecurityModelFactory>().InstancePerLifetimeScope();
             
         }
 

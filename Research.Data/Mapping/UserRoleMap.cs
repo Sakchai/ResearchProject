@@ -17,19 +17,9 @@ namespace Research.Data.Mapping
         public override void Configure(EntityTypeBuilder<UserRole> entity)
         {
             entity.ToTable(nameof(UserRole));
-            entity.HasKey(d => new { d.RoleId, d.UserId });
-            entity.Property(d => d.IsActive)
-                  .HasDefaultValueSql("((1))");
-            entity.HasOne(d => d.Role)
-                .WithMany()
-                .HasForeignKey(d => d.RoleId);
-
-            entity.HasOne(d => d.User)
-                .WithMany(user => user.UserRoles)
-                .HasForeignKey(d => d.UserId);
-
-            entity.Ignore(e => e.Id);
-            entity.Ignore(d => d.RolePrograms);
+            entity.HasKey(role => role.Id);
+            entity.Property(role => role.Name).HasMaxLength(255).IsRequired();
+            entity.Property(role => role.SystemName).HasMaxLength(255);
             base.Configure(entity);
         }
 

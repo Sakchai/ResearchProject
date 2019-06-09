@@ -9,101 +9,83 @@ namespace Research.Services.Security
     public partial interface IPermissionService
     {
         /// <summary>
-        /// Delete a userRole
+        /// Delete a permission
         /// </summary>
-        /// <param name="userRole">Permission</param>
-        void DeleteUserRole(UserRole userRole);
+        /// <param name="permission">Permission</param>
+        void DeletePermissionRecord(PermissionRecord permission);
 
         /// <summary>
-        /// Gets a userRole
+        /// Gets a permission
         /// </summary>
-        /// <param name="roleId">Permission identifier</param>
+        /// <param name="permissionId">Permission identifier</param>
         /// <returns>Permission</returns>
-        UserRole GetUserRoleById(int roleId);
+        PermissionRecord GetPermissionRecordById(int permissionId);
 
         /// <summary>
-        /// Gets a userRole
+        /// Gets a permission
         /// </summary>
-        /// <param name="roleName">Permission system name</param>
+        /// <param name="systemName">Permission system name</param>
         /// <returns>Permission</returns>
-        UserRole GetUserRoleByRoleName(string roleName);
+        PermissionRecord GetPermissionRecordBySystemName(string systemName);
 
         /// <summary>
-        /// Gets all userRoles
+        /// Gets all permissions
         /// </summary>
         /// <returns>Permissions</returns>
-        IList<UserRole> GetAllUserRoles();
+        IList<PermissionRecord> GetAllPermissionRecords();
 
         /// <summary>
-        /// Inserts a userRole
+        /// Inserts a permission
         /// </summary>
-        /// <param name="userRole">Permission</param>
-        void InsertUserRole(UserRole userRole);
+        /// <param name="permission">Permission</param>
+        void InsertPermissionRecord(PermissionRecord permission);
 
         /// <summary>
-        /// Updates the userRole
+        /// Updates the permission
         /// </summary>
-        /// <param name="userRole">Permission</param>
-        void UpdateUserRole(UserRole userRole);
-
-        ///// <summary>
-        ///// Install userRoles
-        ///// </summary>
-        ///// <param name="userRoleProvider">Permission provider</param>
-        //void InstallPermissions(IPermissionProvider userRoleProvider);
+        /// <param name="permission">Permission</param>
+        void UpdatePermissionRecord(PermissionRecord permission);
 
         /// <summary>
-        /// Uninstall userRoles
+        /// Install permissions
         /// </summary>
-        /// <param name="userRoleProvider">Permission provider</param>
-        void UninstallPermissions(IPermissionProvider userRoleProvider);
+        /// <param name="permissionProvider">Permission provider</param>
+        void InstallPermissions(IPermissionProvider permissionProvider);
 
         /// <summary>
-        /// Authorize userRole
+        /// Uninstall permissions
         /// </summary>
-        /// <param name="userRole">Permission record</param>
+        /// <param name="permissionProvider">Permission provider</param>
+        void UninstallPermissions(IPermissionProvider permissionProvider);
+
+        /// <summary>
+        /// Authorize permission
+        /// </summary>
+        /// <param name="permission">Permission record</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        bool Authorize(UserRole userRole);
+        bool Authorize(PermissionRecord permission);
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRole">Permission record</param>
+        /// <param name="permission">Permission record</param>
         /// <param name="user">User</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        bool Authorize(UserRole userRole, User user);
-
-
-
+        bool Authorize(PermissionRecord permission, User user);
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRoleRecordRoleName">Permission record system name</param>
+        /// <param name="permissionRecordSystemName">Permission record system name</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        bool Authorize(string userRoleRecordRoleName);
+        bool Authorize(string permissionRecordSystemName);
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRoleRecordRoleName">Permission record system name</param>
+        /// <param name="permissionRecordSystemName">Permission record system name</param>
         /// <param name="user">User</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        bool Authorize(string userRoleRecordRoleName, User user);
-
-        /// <summary>
-        /// GetRoleProgram by user Role
-        /// </summary>
-        /// <param name="program">Program</param>
-        /// <param name="userRole">UserRole</param>
-        /// <returns>RoleProgram</returns>
-        RoleProgram GetRoleProgram(Program program, UserRole userRole);
-
-        /// <summary>
-        /// GetRolePrograms
-        /// </summary>
-        /// <param name="userRole">Permission record</param>
-        /// <returns>List<RoleProgram> </returns>
-        IList<RoleProgram> GetRolePrograms(UserRole userRole);
+        bool Authorize(string permissionRecordSystemName, User user);
     }
 }

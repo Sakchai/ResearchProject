@@ -1,0 +1,25 @@
+﻿@model RegisterResultModel
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts("การลงทะเบียน");
+    //page class
+    Html.AppendPageCssClassParts("html-registration-result-page");
+}
+<form asp-route="RegisterResult" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" method="post">
+    <div asp-validation-summary="ModelOnly" class="message-error"></div>
+    <div class="page registration-result-page">
+        <div class="page-title">
+            <h1>ผลการลงทะเบียนผู้วิจัย</h1>
+        </div>
+        <div class="page-body">
+            <div class="result">
+                @Model.Result
+            </div>
+            <div class="buttons">
+                <input type="submit" name="register-continue" class="button-1 register-continue-button" value="ดำเนินการต่อ" />
+            </div>
+        </div>
+    </div>
+</form>

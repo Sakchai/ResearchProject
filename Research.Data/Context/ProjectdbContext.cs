@@ -44,7 +44,6 @@ namespace Research.Data
         public virtual DbSet<Picture> Picture { get; set; }
         public virtual DbSet<PictureBinary> PictureBinary { get; set; }
         public virtual DbSet<Professor> Professor { get; set; }
-        public virtual DbSet<Program> Program { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectHistory> ProjectHistory { get; set; }
         public virtual DbSet<ProjectProgress> ProjectProgress { get; set; }
@@ -54,8 +53,8 @@ namespace Research.Data
         public virtual DbSet<Researcher> Researcher { get; set; }
         public virtual DbSet<ResearcherEducation> ResearcherEducation { get; set; }
         public virtual DbSet<ResearcherHistory> ResearcherHistory { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<RoleProgram> RoleProgram { get; set; }
+        public virtual DbSet<PermissionRecord> PermissionRecord { get; set; }
+        public virtual DbSet<PermissionRecordUserRoleMapping> PermissionRecordUserRoleMapping { get; set; }
         public virtual DbSet<StrategyGroup> StrategyGroup { get; set; }
         public virtual DbSet<ScheduleTask> ScheduleTask { get; set; }
         public virtual DbSet<Setting> Setting { get; set; }

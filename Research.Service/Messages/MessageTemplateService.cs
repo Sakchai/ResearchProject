@@ -133,16 +133,14 @@ namespace Research.Services.Messages
         /// </summary>
         /// <param name="storeId">Store identifier; pass 0 to load all records</param>
         /// <returns>Message template list</returns>
-        public virtual IList<MessageTemplate> GetAllMessageTemplates(int storeId)
+        public virtual IList<MessageTemplate> GetAllMessageTemplates(string subject)
         {
-            var key = string.Format(ResearchMessageDefaults.MessageTemplatesAllCacheKey, storeId);
+            var key = string.Format(ResearchMessageDefaults.MessageTemplatesAllCacheKey, subject);
             return _cacheManager.Get(key, () =>
             {
                 var query = _messageTemplateRepository.Table;
-                query = query.OrderBy(t => t.Name);
-                
-                //if (storeId <= 0 || _catalogSettings.IgnoreStoreLimitations) 
-                //    return query.ToList();
+                if (!string.IsNullOrEmpty(subject))
+                    query = query.Where(t => t.Subject.Contains(subject));
                 
                 ////store mapping
                 //query = from t in query
@@ -152,7 +150,7 @@ namespace Research.Services.Messages
                 //    where !t.LimitedToStores || storeId == sm.StoreId
                 //    select t;
 
-                //query = query.Distinct().OrderBy(t => t.Name);
+                query = query.OrderBy(t => t.Name);
 
                 return query.ToList();
             });

@@ -13,18 +13,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\CustomerRole\**" />
     <Compile Remove="Views\Manage\**" />
     <Compile Remove="Views\Professor - Copy\**" />
     <Compile Remove="Views\Role\**" />
     <Compile Remove="Views\SuperAdmin\**" />
+    <Content Remove="Views\CustomerRole\**" />
     <Content Remove="Views\Manage\**" />
     <Content Remove="Views\Professor - Copy\**" />
     <Content Remove="Views\Role\**" />
     <Content Remove="Views\SuperAdmin\**" />
+    <EmbeddedResource Remove="Views\CustomerRole\**" />
     <EmbeddedResource Remove="Views\Manage\**" />
     <EmbeddedResource Remove="Views\Professor - Copy\**" />
     <EmbeddedResource Remove="Views\Role\**" />
     <EmbeddedResource Remove="Views\SuperAdmin\**" />
+    <None Remove="Views\CustomerRole\**" />
     <None Remove="Views\Manage\**" />
     <None Remove="Views\Professor - Copy\**" />
     <None Remove="Views\Role\**" />
@@ -113,6 +117,8 @@
     <None Include="Views\Researcher\_CreateOrUpdate.cshtml" />
     <None Include="Views\Researcher\_CreateOrUpdate.Info.cshtml" />
     <None Include="Views\ScheduleTask\List.cshtml" />
+    <None Include="Views\Security\AccessDenied.cshtml" />
+    <None Include="Views\Security\Permissions.cshtml" />
     <None Include="wwwroot\js\bbeditor\ed.js" />
   </ItemGroup>
 

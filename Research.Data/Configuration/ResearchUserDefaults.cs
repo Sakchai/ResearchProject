@@ -1,51 +1,58 @@
 
-namespace Research.Core.Domain
+namespace Research.Core.Domain.Users
 {
     /// <summary>
-    /// Represents default values related to customers data
+    /// Represents default values related to users data
     /// </summary>
     public static partial class ResearchUserDefaults
     {
-        #region System customer roles
+        #region System user roles
 
         /// <summary>
-        /// Gets a system name of 'administrators' customer role
+        /// Gets a system name of 'administrators' user role
         /// </summary>
-        public static int AdministratorsRoleId => 99;
+        public static string AdministratorsRoleName => "Administrators";
 
         /// <summary>
-        /// Gets a system name of 'forum moderators' customer role
+        /// Gets a system name of 'forum moderators' user role
         /// </summary>
-        public static int ResearchCoordinatorRoleId => 3;
+        public static string ResearchersRoleName => "Researchers";
+
+        /// <summary>
+        /// Gets a system name of 'ResearchDevelopmentInstituteStaffs' user role
+        /// </summary>
+        public static string ResearchDevelopmentInstituteStaffsRoleName => "ResearchDevelopmentInstituteStaffs";
+
+        /// <summary>
+        /// Gets a system name of 'guests' user role
+        /// </summary>
+        public static string GuestsRoleName => "Guests";
+
+        /// <summary>
+        /// Gets a system name of 'ResearchCoordinators' user role
+        /// </summary>
+        public static string ResearchCoordinatorsRoleName => "ResearchCoordinators";
+
+        /// <summary>
+        /// Gets a system name of 'ResearchCoordinators' user role
+        /// </summary>
+        public static string ManagementsRoleName => "Managements";
 
         /// <summary>
         /// Gets a system name of 'registered' customer role
         /// </summary>
-        public static int ResearchDevelopmentInstituteStaffRoleId => 2;
-
-        /// <summary>
-        /// Gets a system name of 'guests' customer role
-        /// </summary>
-        public static int GuestsRoleId => 5;
-
-        /// <summary>
-        /// Gets a system name of 'vendors' customer role
-        /// </summary>
-        public static int ResearcherRoleId => 1;
-
-        public static int ManagementRoleId => 4;
-
+        public static string RegisteredRoleName => "Registered";
         #endregion
 
-        #region System customers
+        #region System users
 
         /// <summary>
-        /// Gets a system name of 'search engine' customer object
+        /// Gets a system name of 'search engine' user object
         /// </summary>
         public static string SearchEngineUserName => "SearchEngine";
 
         /// <summary>
-        /// Gets a system name of 'background task' customer object
+        /// Gets a system name of 'background task' user object
         /// </summary>
         public static string BackgroundTaskUserName => "BackgroundTask";
 

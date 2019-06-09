@@ -224,6 +224,13 @@ namespace Research.Services
             PasswordFormat? passwordFormat = null, int? passwordsToReturn = null);
 
         /// <summary>
+        /// Gets a user role
+        /// </summary>
+        /// <param name="systemName">user role system name</param>
+        /// <returns>Customer role</returns>
+        UserRole GetUserRoleBySystemName(string systemName);
+
+        /// <summary>
         /// Get current user password
         /// </summary>
         /// <param name="userId">User identifier</param>

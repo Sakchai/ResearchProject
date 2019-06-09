@@ -8,6 +8,12 @@
     <Compile Remove="Context\DataSettingsManager.cs" />
     <Compile Remove="Context\IDataProviderManager.cs" />
     <Compile Remove="Context\TripThaiApiContext.cs" />
+    <Compile Remove="Entity\Program.cs" />
+    <Compile Remove="Entity\Role.cs" />
+    <Compile Remove="Entity\RoleProgram.cs" />
+    <Compile Remove="Mapping\ProgramMap.cs" />
+    <Compile Remove="Mapping\RoleMap.cs" />
+    <Compile Remove="Mapping\RoleProgramMap.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Research.Web.Models.Messages
 {
@@ -8,19 +9,11 @@ namespace Research.Web.Models.Messages
     /// </summary>
     public partial class MessageTemplateSearchModel : BaseSearchModel
     {
-        #region Ctor
-
-        public MessageTemplateSearchModel()
-        {
-            AvailableStores = new List<SelectListItem>();
-        }
-
-        #endregion
 
         #region Properties
 
-        public int SearchStoreId { get; set; }
-        public IList<SelectListItem> AvailableStores { get; set; }
+        [Display(Name = "หัวข้อเอกสาร")]
+        public string Subject { get; set; }
 
         #endregion
     }

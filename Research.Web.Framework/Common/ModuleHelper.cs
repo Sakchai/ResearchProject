@@ -36,6 +36,8 @@ namespace Research.Common
             MessageTemplate,
             EmailAccount,
             ScheduleTask,
+            UserRole,
+            Security,
         }
 
         public static SidebarMenu AddHeader(string name)
@@ -233,9 +235,27 @@ namespace Research.Common
                     return new SidebarMenu
                     {
                         Type = SidebarMenuType.Link,
-                        Name = "Schedule Task",
+                        Name = "ตารางงาน",
                         IconClassName = "fa fa-tasks",
                         URLPath = "/ScheduleTask/List",
+                        LinkCounter = counter,
+                    };
+                case Module.UserRole:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "สิทธิ์ผู้ใช้",
+                        IconClassName = "fa fa-users",
+                        URLPath = "/UserRole/List",
+                        LinkCounter = counter,
+                    };
+                case Module.Security:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "สิทธิ์ความปลอดภัย",
+                        IconClassName = "fa fa-key",
+                        URLPath = "/Security/Permissions",
                         LinkCounter = counter,
                     };
                 default:

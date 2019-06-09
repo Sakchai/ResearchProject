@@ -65,7 +65,7 @@ namespace Research.Web.Factories
                 throw new ArgumentNullException(nameof(searchModel));
 
             //get message templates
-            var messageTemplates = _messageTemplateService.GetAllMessageTemplates(storeId: 0);
+            var messageTemplates = _messageTemplateService.GetAllMessageTemplates(subject: searchModel.Subject);
             
             //prepare list model
             var model = new MessageTemplateListModel

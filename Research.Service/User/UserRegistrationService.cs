@@ -6,7 +6,6 @@ using Research.Enum;
 using Research.Services.Events;
 using Research.Services.Messages;
 using Research.Services.Researchers;
-using Research.Services.Roles;
 using Research.Services.Security;
 using System;
 using System.Linq;
@@ -23,7 +22,6 @@ namespace Research.Services.Users
 
         private readonly UserSettings _userSettings;
         private readonly IUserService _userService;
-        private readonly IRoleService _roleService;
         private readonly IEncryptionService _encryptionService;
         private readonly IEventPublisher _eventPublisher;
         private readonly IWorkContext _workContext;
@@ -37,7 +35,6 @@ namespace Research.Services.Users
 
         public UserRegistrationService(UserSettings userSettings,
             IUserService userService,
-            IRoleService roleService,
             IEncryptionService encryptionService,
             IEventPublisher eventPublisher,
             IWorkContext workContext,
@@ -46,7 +43,6 @@ namespace Research.Services.Users
         {
             this._userSettings = userSettings;
             this._userService = userService;
-            this._roleService = roleService;
             this._encryptionService = encryptionService;
             this._eventPublisher = eventPublisher;
             this._workContext = workContext;
@@ -234,21 +230,20 @@ namespace Research.Services.Users
             }
 
             _userService.InsertUserPassword(userPassword);
-            var userRole = new UserRole
-            {
-                UserId = request.User.Id,
-                RoleId = (int)UserType.Researcher
-            };
-            _userService.InsertUserRole(userRole);
-
-            var guestRole = request.User.UserRoles.FirstOrDefault(cr => cr.RoleId == ResearchUserDefaults.GuestsRoleId);
+            //add to 'researcherRole' role
+            var researcherRole = _userService.GetUserRoleBySystemName(ResearchUserDefaults.ResearchersRoleName);
+            if (researcherRole == null)
+                throw new ResearchException("'Researchers' role could not be loaded");
+            //request.User.UserRoles.Add(registeredRole);
+            request.User.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = researcherRole });
+            //remove from 'Guests' role
+            var guestRole = request.User.UserRoles.FirstOrDefault(cr => cr.SystemName == ResearchUserDefaults.GuestsRoleName);
             if (guestRole != null)
             {
                 //request.User.UserRoles.Remove(guestRole);
-                request.User.UserRoles
-                    .Remove(request.User.UserRoles.FirstOrDefault(mapping => mapping.RoleId == guestRole.Id));
+                request.User.UserUserRoleMappings
+                    .Remove(request.User.UserUserRoleMappings.FirstOrDefault(mapping => mapping.UserRoleId == guestRole.Id));
             }
-            
             var researcher = new Researcher
             {
                 ResearcherCode = _researcherService.GetNextNumber(),

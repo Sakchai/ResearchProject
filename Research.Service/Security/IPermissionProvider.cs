@@ -1,4 +1,5 @@
-﻿using Research.Data;
+﻿using Research.Core.Domain.Security;
+using Research.Data;
 using System.Collections.Generic;
 
 namespace Research.Services.Security
@@ -12,12 +13,12 @@ namespace Research.Services.Security
         /// Get permissions
         /// </summary>
         /// <returns>Permissions</returns>
-        IEnumerable<UserRole> GetPermissions();
+        IEnumerable<PermissionRecord> GetPermissions();
 
         /// <summary>
         /// Get default permissions
         /// </summary>
         /// <returns>Default permissions</returns>
-        IEnumerable<UserRole> GetDefaultPermissions();
+        IEnumerable<DefaultPermissionRecord> GetDefaultPermissions();
     }
 }

@@ -46,7 +46,7 @@ namespace Research.Services.Messages
         /// </summary>
         /// <param name="storeId">Store identifier; pass 0 to load all records</param>
         /// <returns>Message template list</returns>
-        IList<MessageTemplate> GetAllMessageTemplates(int storeId);
+        IList<MessageTemplate> GetAllMessageTemplates(string subject);
 
         /// <summary>
         /// Create a copy of message template with all depended data

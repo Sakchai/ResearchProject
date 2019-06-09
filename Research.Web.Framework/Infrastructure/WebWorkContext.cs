@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Research.Core;
 using Research.Core.Domain;
+using Research.Core.Domain.Users;
 using Research.Core.Http;
 using Research.Data;
 using Research.Services;

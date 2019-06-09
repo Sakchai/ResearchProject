@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="ExportImport\**" />
+    <Compile Remove="Roles\**" />
     <EmbeddedResource Remove="ExportImport\**" />
+    <EmbeddedResource Remove="Roles\**" />
     <None Remove="ExportImport\**" />
+    <None Remove="Roles\**" />
   </ItemGroup>
 
   <ItemGroup>

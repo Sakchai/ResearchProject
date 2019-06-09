@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Xml;
 using Research.Services.Events;
 using Research.Core;
 using Research.Data;
 using Research.Enum;
 using Research.Core.Caching;
 using Research.Core.Data;
-using Research.Core.Domain;
+using Research.Core.Data.Extensions;
+using Research.Core.Domain.Users;
 
 namespace Research.Services.Users
 {
@@ -29,7 +28,6 @@ namespace Research.Services.Users
         private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly string _entityName;
-        private readonly IRepository<Role> _roleRepository;
 
         #endregion
 
@@ -42,8 +40,7 @@ namespace Research.Services.Users
             IRepository<User> userRepository,
             IRepository<UserPassword> userPasswordRepository,
             IRepository<UserRole> userRoleRepository,
-            IStaticCacheManager staticCacheManager,
-            IRepository<Role> roleRepository)
+            IStaticCacheManager staticCacheManager)
         {
             this._cacheManager = cacheManager;
             this._dataProvider = dataProvider;
@@ -54,7 +51,6 @@ namespace Research.Services.Users
             this._userRoleRepository = userRoleRepository;
             this._staticCacheManager = staticCacheManager;
             this._entityName = typeof(User).Name;
-            this._roleRepository = roleRepository;
         }
 
         #endregion
@@ -142,12 +138,12 @@ namespace Research.Services.Users
             int[] userRoleIds, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _userRepository.Table;
-            query = query.Where(c => lastActivityFromUtc <= c.Modified);
+            query = query.Where(c => lastActivityFromUtc <= c.LastActivityDateUtc);
             query = query.Where(c => !c.Deleted);
             if (userRoleIds != null && userRoleIds.Length > 0)
-                query = query.Where(c => c.UserRoles.Select(mapping => mapping.RoleId).Intersect(userRoleIds).Any());
+                query = query.Where(c => c.UserUserRoleMappings.Select(mapping => mapping.UserRoleId).Intersect(userRoleIds).Any());
 
-            query = query.OrderByDescending(c => c.Modified);
+            query = query.OrderByDescending(c => c.LastActivityDateUtc);
             var users = new PagedList<User>(query, pageIndex, pageSize);
             return users;
         }
@@ -266,7 +262,7 @@ namespace Research.Services.Users
 
             var query = from c in _userRepository.Table
                         orderby c.Id
-                        where c.UserRoles.Any(x=> x.RoleId == roleId)
+                        where c.UserUserRoleMappings.Any(x=> x.UserRoleId == roleId)
                         select c;
             var user = query.FirstOrDefault();
             return user;
@@ -305,13 +301,12 @@ namespace Research.Services.Users
             };
 
             //add to 'Guests' role
-            var guestRole = new UserRole
-            {
-                RoleId = ResearchUserDefaults.GuestsRoleId,
-                UserId = user.Id,
-                IsActive = true,
-            };
-            user.UserRoles.Add(guestRole);
+            var guestRole = GetUserRoleBySystemName(ResearchUserDefaults.GuestsRoleName);
+            if (guestRole == null)
+                throw new ResearchException("'Guests' role could not be loaded");
+            //user.UserRoles.Add(guestRole);
+            user.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = guestRole });
+
             _userRepository.Insert(user);
 
             return user;
@@ -359,22 +354,22 @@ namespace Research.Services.Users
         public virtual int DeleteGuestUsers(DateTime? createdFromUtc, DateTime? createdToUtc, bool onlyWithoutShoppingCart)
         {
             //prepare parameters
-            //var pOnlyWithoutShoppingCart = _dataProvider.GetBooleanParameter("OnlyWithoutShoppingCart", onlyWithoutShoppingCart);
-            //var pCreatedFromUtc = _dataProvider.GetDateTimeParameter("CreatedFromUtc", createdFromUtc);
-            //var pCreatedToUtc = _dataProvider.GetDateTimeParameter("CreatedToUtc", createdToUtc);
-            //var pTotalRecordsDeleted = _dataProvider.GetOutputInt32Parameter("TotalRecordsDeleted");
+            var pOnlyWithoutShoppingCart = _dataProvider.GetBooleanParameter("OnlyWithoutShoppingCart", onlyWithoutShoppingCart);
+            var pCreatedFromUtc = _dataProvider.GetDateTimeParameter("CreatedFromUtc", createdFromUtc);
+            var pCreatedToUtc = _dataProvider.GetDateTimeParameter("CreatedToUtc", createdToUtc);
+            var pTotalRecordsDeleted = _dataProvider.GetOutputInt32Parameter("TotalRecordsDeleted");
 
-            ////invoke stored procedure
-            //_dbContext.ExecuteSqlCommand(
-            //    "EXEC [DeleteGuests] @OnlyWithoutShoppingCart, @CreatedFromUtc, @CreatedToUtc, @TotalRecordsDeleted OUTPUT",
-            //    false, null,
-            //    pOnlyWithoutShoppingCart,
-            //    pCreatedFromUtc,
-            //    pCreatedToUtc,
-            //    pTotalRecordsDeleted);
+            //invoke stored procedure
+            _dbContext.ExecuteSqlCommand(
+                "EXEC [DeleteGuests] @OnlyWithoutShoppingCart, @CreatedFromUtc, @CreatedToUtc, @TotalRecordsDeleted OUTPUT",
+                false, null,
+                pOnlyWithoutShoppingCart,
+                pCreatedFromUtc,
+                pCreatedToUtc,
+                pTotalRecordsDeleted);
 
-            //var totalRecordsDeleted = pTotalRecordsDeleted.Value != DBNull.Value ? Convert.ToInt32(pTotalRecordsDeleted.Value) : 0;
-            //return totalRecordsDeleted;
+            var totalRecordsDeleted = pTotalRecordsDeleted.Value != DBNull.Value ? Convert.ToInt32(pTotalRecordsDeleted.Value) : 0;
+            return totalRecordsDeleted;
             return 0;
         }
 
@@ -418,12 +413,12 @@ namespace Research.Services.Users
             if (userRole == null)
                 throw new ArgumentNullException(nameof(userRole));
 
-            if (userRole.User.IsSystemAccount)
-                throw new ResearchException("Administrator role could not be deleted");
+            if (userRole.IsSystemRole)
+                throw new ResearchException("System role could not be deleted");
 
             _userRoleRepository.Delete(userRole);
 
-            //_cacheManager.RemoveByPattern(ResearchUserServiceDefaults.UserRolesPatternCacheKey);
+            _cacheManager.RemoveByPattern(ResearchUserServiceDefaults.UserRolesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityDeleted(userRole);
@@ -457,7 +452,7 @@ namespace Research.Services.Users
             //{
                 var query = from cr in _userRoleRepository.Table
                             orderby cr.Id
-                            where cr.RoleId == roleId
+                            where cr.Id == roleId
                             select cr;
                 var userRole = query.FirstOrDefault();
                 return userRole;
@@ -471,16 +466,16 @@ namespace Research.Services.Users
         /// <returns>User roles</returns>
         public virtual IList<UserRole> GetAllUserRoles(bool showHidden = false)
         {
-            //var key = string.Format(ResearchUserServiceDefaults.UserRolesAllCacheKey, showHidden);
-            //return _cacheManager.Get(key, () =>
-            //{
+            var key = string.Format(ResearchUserServiceDefaults.UserRolesAllCacheKey, showHidden);
+            return _cacheManager.Get(key, () =>
+            {
                 var query = from cr in _userRoleRepository.Table
-                            orderby cr.Role.RoleName
-                            where showHidden || cr.User.IsActive
+                            orderby cr.Name
+                            where showHidden || cr.IsActive
                             select cr;
                 var userRoles = query.ToList();
                 return userRoles;
-            //});
+            });
         }
 
         /// <summary>
@@ -687,8 +682,8 @@ namespace Research.Services.Users
                         where c.UserGuid == userGuid
                         orderby c.Id
                         select c;
-            var customer = query.FirstOrDefault();
-            return customer;
+            var user = query.FirstOrDefault();
+            return user;
         }
 
         public User GetUserByIDCard(string idCard)
@@ -711,6 +706,23 @@ namespace Research.Services.Users
             //int? maxNumber = query.Max(e => (int?)e.Id);
             maxNumber += 1;
             return $"stf-{maxNumber.ToString("D4")}";
+        }
+
+        public UserRole GetUserRoleBySystemName(string systemName)
+        {
+            if (string.IsNullOrWhiteSpace(systemName))
+                return null;
+
+            var key = string.Format(ResearchUserServiceDefaults.UserRolesBySystemNameCacheKey, systemName);
+            return _cacheManager.Get(key, () =>
+            {
+                var query = from cr in _userRoleRepository.Table
+                            orderby cr.Id
+                            where cr.SystemName == systemName
+                            select cr;
+                var userRole = query.FirstOrDefault();
+                return userRole;
+            });
         }
 
         #endregion

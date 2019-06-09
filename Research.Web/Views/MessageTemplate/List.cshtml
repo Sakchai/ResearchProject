@@ -27,10 +27,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-md-4">
-                                    <nop-label asp-for="SearchStoreId" />
+                                    <nop-label asp-for="Subject" />
                                 </div>
                                 <div class="col-md-8">
-                                    <nop-editor asp-for="SearchStoreId" />
+                                    <nop-editor asp-for="Subject" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -62,7 +62,7 @@
                                             dataType: "json",
                                             data: function() {
                                                 var data = {
-                                                    SearchStoreId: $('#SearchStoreId').val()
+                                                    Subject : $('#Subject').val()
                                                 };
                                                 addAntiForgeryToken(data);
                                                 return data;
@@ -100,7 +100,7 @@
                                         title: "ชื่อเอกสาร"
                                     }, {
                                         field: "Subject",
-                                        title: "รายละเอียดเอกสาร"
+                                        title: "หัวข้อเอกสาร"
                                     }, {
                                         field: "IsActive",
                                         title: "ใช้งาน",

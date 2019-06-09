@@ -11,6 +11,7 @@ using Research.Web.Factories;
 using Research.Data;
 using Research.Web.Models.Messages;
 using Research.Web.Extensions;
+using Nop.Web.Framework.Controllers;
 
 namespace Research.Controllers
 {
@@ -144,7 +145,7 @@ namespace Research.Controllers
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-       // [FormValueRequired("save", "save-continue")]
+        [FormValueRequired("save", "save-continue")]
         public virtual IActionResult Edit(MessageTemplateModel model, bool continueEditing)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
@@ -214,7 +215,7 @@ namespace Research.Controllers
         }
 
         [HttpPost, ActionName("Edit")]
-      //  [FormValueRequired("message-template-copy")]
+        [FormValueRequired("message-template-copy")]
         public virtual IActionResult CopyTemplate(MessageTemplateModel model)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
@@ -258,7 +259,7 @@ namespace Research.Controllers
         }
 
         [HttpPost, ActionName("TestTemplate")]
-        //[FormValueRequired("send-test")]
+        [FormValueRequired("send-test")]
         public virtual IActionResult TestTemplate(TestMessageTemplateModel model)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))

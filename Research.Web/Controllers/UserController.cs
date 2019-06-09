@@ -119,8 +119,8 @@ namespace Research.Web.Controllers
                     model.Email,
                     model.IDCard,
                     model.Password,
-                    model.Gender,
                     _userService.GetNextNumber(),
+                    model.Gender,
                     _userSettings.DefaultPasswordFormat,
                     isApproved);
                 var registrationResult = _userRegistrationService.RegisterUser(registrationRequest);
@@ -156,7 +156,7 @@ namespace Research.Web.Controllers
                                 //chai
                                 _workflowMessageService.SendUserWelcomeMessage(user, 0);
 
-                                var redirectUrl = Url.RouteUrl("RegisterResult", new { resultId = (int)UserRegistrationType.Standard }, _webHelper.CurrentRequestProtocol);
+                                var redirectUrl = Url.RouteUrl("RegisterResult", new { resultId = (int)UserRegistrationType.EmailValidation }, _webHelper.CurrentRequestProtocol);
                                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                                     redirectUrl = _webHelper.ModifyQueryString(redirectUrl, "returnurl", returnUrl);
                                 //return Redirect(redirectUrl);

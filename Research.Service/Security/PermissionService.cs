@@ -1,10 +1,9 @@
-using Research.Core;
-using Research.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Research.Services;
+using Research.Core;
 using Research.Core.Caching;
+using Research.Data;
 
 namespace Research.Services.Security
 {
@@ -15,30 +14,41 @@ namespace Research.Services.Security
     {
         #region Fields
 
-        private readonly ICacheManager _cacheManager;
+        private readonly IRepository<PermissionRecord> _permissionRecordRepository;
+        private readonly IRepository<PermissionRecordUserRoleMapping> _permissionRecordUserRoleMappingRepository;
         private readonly IUserService _userService;
-        private readonly IRepository<UserRole> _userRoleRepository;
-        private readonly IRepository<RoleProgram> _roleProgramRepository;
-        private readonly IStaticCacheManager _staticCacheManager;
         private readonly IWorkContext _workContext;
+        private readonly ICacheManager _cacheManager;
+        private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
         #region Ctor
 
-        public PermissionService(ICacheManager cacheManager,
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="permissionRecordRepository">Permission repository</param>
+        /// <param name="permissionRecordUserRoleMappingRepository">Permission -user role mapping repository</param>
+        /// <param name="userService">User service</param>
+        /// <param name="workContext">Work context</param>
+        /// <param name="localizationService">Localization service</param>
+        /// <param name="languageService">Language service</param>
+        /// <param name="cacheManager">Cache manager</param>
+        /// <param name="staticCacheManager">Static cache manager</param>
+        public PermissionService(IRepository<PermissionRecord> permissionRecordRepository,
+            IRepository<PermissionRecordUserRoleMapping> permissionRecordUserRoleMappingRepository,
             IUserService userService,
-            IRepository<UserRole> userRoleRepository,
-            IRepository<RoleProgram> roleProgramRepository,
-            IStaticCacheManager staticCacheManager,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            ICacheManager cacheManager,
+            IStaticCacheManager staticCacheManager)
         {
-            this._cacheManager = cacheManager;
+            this._permissionRecordRepository = permissionRecordRepository;
+            this._permissionRecordUserRoleMappingRepository = permissionRecordUserRoleMappingRepository;
             this._userService = userService;
-            this._userRoleRepository = userRoleRepository;
-            this._roleProgramRepository = roleProgramRepository;
-            this._staticCacheManager = staticCacheManager;
             this._workContext = workContext;
+            this._cacheManager = cacheManager;
+            this._staticCacheManager = staticCacheManager;
         }
 
         #endregion
@@ -46,18 +56,18 @@ namespace Research.Services.Security
         #region Utilities
 
         /// <summary>
-        /// Get userRole records by user role identifier
+        /// Get permission records by user role identifier
         /// </summary>
         /// <param name="userRoleId">User role identifier</param>
         /// <returns>Permissions</returns>
-        protected virtual IList<UserRole> GetUserRolesByUserRoleId(int userRoleId)
+        protected virtual IList<PermissionRecord> GetPermissionRecordsByUserRoleId(int userRoleId)
         {
             var key = string.Format(ResearchSecurityDefaults.PermissionsAllByUserRoleIdCacheKey, userRoleId);
             return _cacheManager.Get(key, () =>
             {
-                var query = from pr in _userRoleRepository.Table
-                            join prcrm in _roleProgramRepository.Table on pr.Id equals prcrm.RoleId
-                            where prcrm.RoleId == userRoleId
+                var query = from pr in _permissionRecordRepository.Table
+                            join prcrm in _permissionRecordUserRoleMappingRepository.Table on pr.Id equals prcrm.PermissionRecordId
+                            where prcrm.UserRoleId == userRoleId
                             orderby pr.Id
                             select pr;
 
@@ -66,22 +76,22 @@ namespace Research.Services.Security
         }
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRoleRecordRoleName">Permission record system name</param>
+        /// <param name="permissionRecordSystemName">Permission record system name</param>
         /// <param name="userRoleId">User role identifier</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        protected virtual bool Authorize(string userRoleRecordRoleName, int userRoleId)
+        protected virtual bool Authorize(string permissionRecordSystemName, int userRoleId)
         {
-            if (string.IsNullOrEmpty(userRoleRecordRoleName))
+            if (string.IsNullOrEmpty(permissionRecordSystemName))
                 return false;
 
-            var key = string.Format(ResearchSecurityDefaults.PermissionsAllowedCacheKey, userRoleId, userRoleRecordRoleName);
+            var key = string.Format(ResearchSecurityDefaults.PermissionsAllowedCacheKey, userRoleId, permissionRecordSystemName);
             return _staticCacheManager.Get(key, () =>
             {
-                var userRoles = GetUserRolesByUserRoleId(userRoleId);
-                foreach (var userRole1 in userRoles)
-                    if (userRole1.Role.RoleName.Equals(userRoleRecordRoleName, StringComparison.InvariantCultureIgnoreCase))
+                var permissions = GetPermissionRecordsByUserRoleId(userRoleId);
+                foreach (var permission1 in permissions)
+                    if (permission1.SystemName.Equals(permissionRecordSystemName, StringComparison.InvariantCultureIgnoreCase))
                         return true;
 
                 return false;
@@ -93,248 +103,243 @@ namespace Research.Services.Security
         #region Methods
 
         /// <summary>
-        /// Delete a userRole
+        /// Delete a permission
         /// </summary>
-        /// <param name="userRole">Permission</param>
-        public virtual void DeleteUserRole(UserRole userRole)
+        /// <param name="permission">Permission</param>
+        public virtual void DeletePermissionRecord(PermissionRecord permission)
         {
-            if (userRole == null)
-                throw new ArgumentNullException(nameof(userRole));
+            if (permission == null)
+                throw new ArgumentNullException(nameof(permission));
 
-            _userRoleRepository.Delete(userRole);
+            _permissionRecordRepository.Delete(permission);
 
             _cacheManager.RemoveByPattern(ResearchSecurityDefaults.PermissionsPatternCacheKey);
             _staticCacheManager.RemoveByPattern(ResearchSecurityDefaults.PermissionsPatternCacheKey);
         }
 
         /// <summary>
-        /// Gets a userRole
+        /// Gets a permission
         /// </summary>
-        /// <param name="userRoleId">Permission identifier</param>
+        /// <param name="permissionId">Permission identifier</param>
         /// <returns>Permission</returns>
-        public virtual UserRole GetUserRoleById(int userRoleId)
+        public virtual PermissionRecord GetPermissionRecordById(int permissionId)
         {
-            if (userRoleId == 0)
+            if (permissionId == 0)
                 return null;
 
-            return _userRoleRepository.GetById(userRoleId);
+            return _permissionRecordRepository.GetById(permissionId);
         }
 
         /// <summary>
-        /// Gets a userRole
+        /// Gets a permission
         /// </summary>
         /// <param name="systemName">Permission system name</param>
         /// <returns>Permission</returns>
-        public virtual UserRole GetUserRoleByRoleName(string systemName)
+        public virtual PermissionRecord GetPermissionRecordBySystemName(string systemName)
         {
             if (string.IsNullOrWhiteSpace(systemName))
                 return null;
 
-            var query = from pr in _userRoleRepository.Table
-                      //  where pr.RoleName == systemName
+            var query = from pr in _permissionRecordRepository.Table
+                        where pr.SystemName == systemName
                         orderby pr.Id
                         select pr;
 
-            var userRoleRecord = query.FirstOrDefault();
-            return userRoleRecord;
+            var permissionRecord = query.FirstOrDefault();
+            return permissionRecord;
         }
 
         /// <summary>
-        /// Gets all userRoles
+        /// Gets all permissions
         /// </summary>
         /// <returns>Permissions</returns>
-        public virtual IList<UserRole> GetAllUserRoles()
+        public virtual IList<PermissionRecord> GetAllPermissionRecords()
         {
-            var query = from pr in _userRoleRepository.Table
-                       // orderby pr.Name
+            var query = from pr in _permissionRecordRepository.Table
+                        orderby pr.Name
                         select pr;
-            var userRoles = query.ToList();
-            return userRoles;
+            var permissions = query.ToList();
+            return permissions;
         }
 
         /// <summary>
-        /// Inserts a userRole
+        /// Inserts a permission
         /// </summary>
-        /// <param name="userRole">Permission</param>
-        public virtual void InsertUserRole(UserRole userRole)
+        /// <param name="permission">Permission</param>
+        public virtual void InsertPermissionRecord(PermissionRecord permission)
         {
-            if (userRole == null)
-                throw new ArgumentNullException(nameof(userRole));
+            if (permission == null)
+                throw new ArgumentNullException(nameof(permission));
 
-            _userRoleRepository.Insert(userRole);
+            _permissionRecordRepository.Insert(permission);
 
             _cacheManager.RemoveByPattern(ResearchSecurityDefaults.PermissionsPatternCacheKey);
             _staticCacheManager.RemoveByPattern(ResearchSecurityDefaults.PermissionsPatternCacheKey);
         }
 
         /// <summary>
-        /// Updates the userRole
+        /// Updates the permission
         /// </summary>
-        /// <param name="userRole">Permission</param>
-        public virtual void UpdateUserRole(UserRole userRole)
+        /// <param name="permission">Permission</param>
+        public virtual void UpdatePermissionRecord(PermissionRecord permission)
         {
-            if (userRole == null)
-                throw new ArgumentNullException(nameof(userRole));
+            if (permission == null)
+                throw new ArgumentNullException(nameof(permission));
 
-            _userRoleRepository.Update(userRole);
+            _permissionRecordRepository.Update(permission);
 
             _cacheManager.RemoveByPattern(ResearchSecurityDefaults.PermissionsPatternCacheKey);
             _staticCacheManager.RemoveByPattern(ResearchSecurityDefaults.PermissionsPatternCacheKey);
         }
 
-        ///// <summary>
-        ///// Install userRoles
-        ///// </summary>
-        ///// <param name="userRoleProvider">Permission provider</param>
-        //public virtual void InstallPermissions(IPermissionProvider userRoleProvider)
-        //{
-        //    //install new userRoles
-        //    var userRoles = userRoleProvider.GetPermissions();
-        //    //default user role mappings
-        //    var defaultPermissions = userRoleProvider.GetDefaultPermissions().ToList();
-
-        //    foreach (var userRole in userRoles)
-        //    {
-        //        var userRole1 = GetUserRoleByRoleName(userRole.Role.RoleName);
-        //        if (userRole1 != null)
-        //            continue;
-
-        //        //new userRole (install it)
-        //        userRole1 = new UserRole
-        //        {
-
-        //            RoleId = userRole.RoleId,
-        //            UserId = userRole.UserId
-        //           // RoleName = userRole.RoleName,
-        //           // Category = userRole.Category
-        //        };
-
-        //        foreach (var defaultPermission in defaultPermissions)
-        //        {
-        //            var userRole2 = _userService.GetUserRoleByRoleName(defaultPermission.UserRoleRoleName);
-        //            if (userRole == null)
-        //            {
-        //                //new role (save it)
-        //                userRole2 = new UserRole
-        //                {
-        //                    RoleId = defaultPermission.UserRoleRoleName,
-        //                   // Active = true,
-        //                   // RoleName = defaultPermission.UserRoleRoleName
-        //                };
-        //                _userService.InsertUserRole(userRole2);
-        //            }
-
-        //            var defaultMappingProvided = (from p in defaultPermission.UserRoles
-        //                                          where p.RoleName == userRole1.Role.RoleName
-        //                                          select p).Any();
-        //            var mappingExists = (from mapping in userRole.RolePrograms
-        //                                 where mapping.Role.RoleName == userRole1.Role.RoleName
-        //                                 select mapping.Role).Any();
-        //            if (defaultMappingProvided && !mappingExists)
-        //            {
-        //                //userRole1.UserRoles.Add(userRole);
-        //                userRole1.RolePrograms.Add(new RoleProgram { UserRole = userRole });
-        //            }
-        //        }
-
-        //        //save new userRole
-        //        InsertUserRole(userRole1);
-
-        //        //save localization
-        //       // _localizationService.SaveLocalizedPermissionName(userRole1);
-        //    }
-        //}
-
         /// <summary>
-        /// Uninstall userRoles
+        /// Install permissions
         /// </summary>
-        /// <param name="userRoleProvider">Permission provider</param>
-        public virtual void UninstallPermissions(IPermissionProvider userRoleProvider)
+        /// <param name="permissionProvider">Permission provider</param>
+        public virtual void InstallPermissions(IPermissionProvider permissionProvider)
         {
-            var userRoles = userRoleProvider.GetPermissions();
-            foreach (var userRole in userRoles)
+            //install new permissions
+            var permissions = permissionProvider.GetPermissions();
+            //default user role mappings
+            var defaultPermissions = permissionProvider.GetDefaultPermissions().ToList();
+
+            foreach (var permission in permissions)
             {
-                var userRole1 = GetUserRoleByRoleName(userRole.Role.RoleName);
-                if (userRole1 == null) 
+                var permission1 = GetPermissionRecordBySystemName(permission.SystemName);
+                if (permission1 != null)
                     continue;
 
-                DeleteUserRole(userRole1);
+                //new permission (install it)
+                permission1 = new PermissionRecord
+                {
+                    Name = permission.Name,
+                    SystemName = permission.SystemName,
+                    Category = permission.Category,
+                };
 
-                //delete userRole locales
-                //_localizationService.DeleteLocalizedPermissionName(userRole1);
+                foreach (var defaultPermission in defaultPermissions)
+                {
+                    var userRole = _userService.GetUserRoleBySystemName(defaultPermission.UserRoleSystemName);
+                    if (userRole == null)
+                    {
+                        //new role (save it)
+                        userRole = new UserRole
+                        {
+                            Name = defaultPermission.UserRoleSystemName,
+                            IsActive = true,
+                            SystemName = defaultPermission.UserRoleSystemName
+                        };
+                        _userService.InsertUserRole(userRole);
+                    }
+
+                    var defaultMappingProvided = (from p in defaultPermission.PermissionRecords
+                                                  where p.SystemName == permission1.SystemName
+                                                  select p).Any();
+                    var mappingExists = (from mapping in userRole.PermissionRecordUserRoleMappings
+                                         where mapping.PermissionRecord.SystemName == permission1.SystemName
+                                         select mapping.PermissionRecord).Any();
+                    if (defaultMappingProvided && !mappingExists)
+                    {
+                        //permission1.UserRoles.Add(userRole);
+                        permission1.PermissionRecordUserRoleMappings.Add(new PermissionRecordUserRoleMapping { UserRole = userRole });
+                    }
+                }
+
+                //save new permission
+                InsertPermissionRecord(permission1);
+
+                //save localization
+                //permission1.SaveLocalizedPermissionName(_localizationService, _languageService);
             }
         }
 
         /// <summary>
-        /// Authorize userRole
+        /// Uninstall permissions
         /// </summary>
-        /// <param name="userRole">Permission record</param>
-        /// <returns>true - authorized; otherwise, false</returns>
-        public virtual bool Authorize(UserRole userRole)
+        /// <param name="permissionProvider">Permission provider</param>
+        public virtual void UninstallPermissions(IPermissionProvider permissionProvider)
         {
-            return Authorize(userRole, _workContext.CurrentUser);
+            var permissions = permissionProvider.GetPermissions();
+            foreach (var permission in permissions)
+            {
+                var permission1 = GetPermissionRecordBySystemName(permission.SystemName);
+                if (permission1 != null)
+                {
+                    DeletePermissionRecord(permission1);
+
+                    //delete permission locales
+                   // permission1.DeleteLocalizedPermissionName(_localizationService, _languageService);
+                }
+            }
         }
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRole">Permission record</param>
+        /// <param name="permission">Permission record</param>
+        /// <returns>true - authorized; otherwise, false</returns>
+        public virtual bool Authorize(PermissionRecord permission)
+        {
+            return Authorize(permission, _workContext.CurrentUser);
+        }
+
+        /// <summary>
+        /// Authorize permission
+        /// </summary>
+        /// <param name="permission">Permission record</param>
         /// <param name="user">User</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        public virtual bool Authorize(UserRole userRole, User user)
+        public virtual bool Authorize(PermissionRecord permission, User user)
         {
-            if (userRole == null)
+            if (permission == null)
                 return false;
 
             if (user == null)
                 return false;
 
+            //old implementation of Authorize method
+            //var userRoles = user.UserRoles.Where(cr => cr.Active);
+            //foreach (var role in userRoles)
+            //    foreach (var permission1 in role.PermissionRecords)
+            //        if (permission1.SystemName.Equals(permission.SystemName, StringComparison.InvariantCultureIgnoreCase))
+            //            return true;
 
-            return Authorize(userRole.Role.RoleName, user);
+            //return false;
+
+            return Authorize(permission.SystemName, user);
         }
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRoleRecordRoleName">Permission record system name</param>
+        /// <param name="permissionRecordSystemName">Permission record system name</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        public virtual bool Authorize(string userRoleRecordRoleName)
+        public virtual bool Authorize(string permissionRecordSystemName)
         {
-            return Authorize(userRoleRecordRoleName, _workContext.CurrentUser);
+            return Authorize(permissionRecordSystemName, _workContext.CurrentUser);
         }
 
         /// <summary>
-        /// Authorize userRole
+        /// Authorize permission
         /// </summary>
-        /// <param name="userRoleRecordRoleName">Permission record system name</param>
+        /// <param name="permissionRecordSystemName">Permission record system name</param>
         /// <param name="user">User</param>
         /// <returns>true - authorized; otherwise, false</returns>
-        public virtual bool Authorize(string userRoleRecordRoleName, User user)
+        public virtual bool Authorize(string permissionRecordSystemName, User user)
         {
-            if (string.IsNullOrEmpty(userRoleRecordRoleName))
+            if (string.IsNullOrEmpty(permissionRecordSystemName))
                 return false;
 
-            var userRoles = user.UserRoles.Where(cr => cr.Role.IsActive);
+            var userRoles = user.UserRoles.Where(cr => cr.IsActive);
             foreach (var role in userRoles)
-                if (Authorize(userRoleRecordRoleName, role.Id))
-                    //yes, we have such userRole
+                if (Authorize(permissionRecordSystemName, role.Id))
+                    //yes, we have such permission
                     return true;
 
-            //no userRole found
+            //no permission found
             return false;
         }
+
         #endregion
-        public RoleProgram GetRoleProgram(Program program, UserRole userRole)
-        {
-            return userRole.RolePrograms.Where(x => x.ProgramId == program.Id).FirstOrDefault();
-        }
-
-        public IList<RoleProgram> GetRolePrograms(UserRole userRole)
-        {
-            return userRole.RolePrograms.Where(x => x.RoleId == userRole.RoleId).ToList();
-        }
-
-
-       
     }
 }

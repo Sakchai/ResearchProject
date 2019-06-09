@@ -4,7 +4,7 @@
 
 @{
     //page title
-    ViewBag.Title = "Schedule Tasks";
+    ViewBag.Title = "ตารางงาน";
     //active menu item (system name)
     //Html.SetActiveMenuItemSystemName("Schedule tasks");
 }
@@ -12,7 +12,7 @@
 <nop-antiforgery-token />
 <div class="content-header clearfix">
     <h1 class="pull-left">
-        Schedule Tasks
+        ตารางงาน
     </h1>
     <div class="pull-right">
         &nbsp;
@@ -33,7 +33,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p>
-                        24 days
+                        24 วัน
                     </p>
                     <p>
                         <strong>Restart Application</strong>
@@ -103,7 +103,7 @@
                                     width: 300
                                 }, {
                                     field: "Seconds",
-                                    title: "นาที",
+                                    title: "วินาที",
                                     width: 150
                                 }, {
                                     field: "Enabled",
@@ -141,7 +141,7 @@
                                     field: "Id",
                                     title: "RunNow",
                                     width: 100,
-                                    template: '<a href="@Url.Content("~/Admin/ScheduleTask/RunNow/")#=Id#" class="btn bg-green">Run Now</a>'
+                                    template: '<a href="@Url.Content("~/ScheduleTask/RunNow/")#=Id#" class="btn bg-green">Run Now</a>'
                                 }, {
                                     command: {
                                         name: "edit",

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
-using System.Text;
+using System.Linq;
 using Research.Enum;
 
 namespace Research.Data
 {
     public partial class User : BaseEntity
     {
-        ICollection<UserRole> _userRoles;
+        private IList<UserRole> _userRoles;
+        private ICollection<UserUserRoleMapping> _userUserRoleMappings;
         public User()
         {
             
@@ -57,12 +57,12 @@ namespace Research.Data
         public int FailedLoginAttempts { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time until which a customer cannot login (locked out)
+        /// Gets or sets the date and time until which a user cannot login (locked out)
         /// </summary>
         public DateTime? CannotLoginUntilDateUtc { get; set; }
 
         /// <summary>
-        /// Gets or sets the email that should be re-validated. Used in scenarios when a customer is already registered and wants to change an email address.
+        /// Gets or sets the email that should be re-validated. Used in scenarios when a user is already registered and wants to change an email address.
         /// </summary>
         public string EmailToRevalidate { get; set; }
 
@@ -70,9 +70,22 @@ namespace Research.Data
         public virtual Title Title { get; set; }
         public virtual Agency Agency { get; set; }
         public virtual Researcher Researcher { get; set; }
-        public virtual ICollection<UserRole> UserRoles {
-            get => _userRoles ?? (_userRoles = new List<UserRole>());
-            set => _userRoles = value;
+
+        /// <summary>
+        /// Gets or sets user roles
+        /// </summary>
+        public virtual IList<UserRole> UserRoles
+        {
+            get => _userRoles ?? (_userRoles = UserUserRoleMappings.Select(mapping => mapping.UserRole).ToList());
+        }
+
+        /// <summary>
+        /// Gets or sets user-user role mappings
+        /// </summary>
+        public virtual ICollection<UserUserRoleMapping> UserUserRoleMappings
+        {
+            get => _userUserRoleMappings ?? (_userUserRoleMappings = new List<UserUserRoleMapping>());
+            protected set => _userUserRoleMappings = value;
         }
 
         //[Computed]

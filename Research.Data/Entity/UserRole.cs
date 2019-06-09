@@ -5,15 +5,34 @@ namespace Research.Data
 {
     public partial class UserRole : BaseEntity
     {
-        ICollection<RoleProgram> _rolePrograms;
-        public int UserId { get; set; }
-        public int RoleId { get; set; }
+        private ICollection<PermissionRecordUserRoleMapping> _permissionRecordUserRoleMappings;
+
+        /// <summary>
+        /// Gets or sets the customer role name
+        /// </summary>
+        public string Name { get; set; }
+
         public bool IsActive { get; set; }
-        public virtual Role Role { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<RoleProgram> RolePrograms {
-            get => _rolePrograms ?? (_rolePrograms = new List<RoleProgram>());
-            set => _rolePrograms = value;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the customer role is system
+        /// </summary>
+        public bool IsSystemRole { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer role system name
+        /// </summary>
+        public string SystemName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the customers must change passwords after a specified time
+        /// </summary>
+        public bool EnablePasswordLifetime { get; set; }
+
+        public virtual ICollection<PermissionRecordUserRoleMapping> PermissionRecordUserRoleMappings
+        {
+            get => _permissionRecordUserRoleMappings ?? (_permissionRecordUserRoleMappings = new List<PermissionRecordUserRoleMapping>());
+            protected set => _permissionRecordUserRoleMappings = value;
         }
     }
 }
