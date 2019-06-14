@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>Research.Services</AssemblyName>
+    <RootNamespace>Research.Services</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -25,8 +25,8 @@ namespace Research.Services.Security
         public static readonly PermissionRecord ManageUsers = new PermissionRecord { Name = "Manage Users", SystemName = "ManageUsers", Category = "Configuration" };
 
         //public store permissions
-        public static readonly PermissionRecord PublicStoreAllowNavigation = new PermissionRecord { Name = "Public store. Allow navigation", SystemName = "PublicStoreAllowNavigation", Category = "PublicStore" };
-        public static readonly PermissionRecord AccessClosedStore = new PermissionRecord { Name = "Public store. Access a closed store", SystemName = "AccessClosedStore", Category = "PublicStore" };
+        public static readonly PermissionRecord PublicStoreAllowNavigation = new PermissionRecord { Name = "Public web application. Allow navigation", SystemName = "PublicStoreAllowNavigation", Category = "PublicStore" };
+        public static readonly PermissionRecord AccessClosedStore = new PermissionRecord { Name = "Public web application. Access a closed application", SystemName = "AccessClosedStore", Category = "PublicStore" };
         public static readonly PermissionRecord ManageAcl;
 
         /// <summary>

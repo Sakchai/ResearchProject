@@ -145,7 +145,7 @@ namespace Research.Web.Factories
                     userModel.MobileNumber = user.MobileNumber;
                     userModel.Email = user.Email;
                     userModel.AgencyName = user.Agency != null ? user.Agency.Name : string.Empty;
-                    userModel.UserRoleName = user.UserType.GetAttributeOfType<EnumMemberAttribute>().Value;
+                    userModel.UserRoleName = _userService.GetUserRoleById(user.UserTypeId).Name;
                     return userModel;
                 }),
                 Total = users.Count

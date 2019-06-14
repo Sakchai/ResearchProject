@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Research.Data", "Research.Data\Research.Data.csproj", "{F7C3505D-F7BC-4551-8ABB-EB18943265D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Research.Service", "Research.Service\Research.Service.csproj", "{5F6D3BB1-EEED-4783-823D-9D81EF1DE7FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Research.Services", "Research.Service\Research.Services.csproj", "{5F6D3BB1-EEED-4783-823D-9D81EF1DE7FF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Research.Web", "Research.Web\Research.Web.csproj", "{936A6872-CC8A-4AB3-924D-F7D9D6D3B94D}"
 EndProject

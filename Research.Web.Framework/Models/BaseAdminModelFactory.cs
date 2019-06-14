@@ -272,11 +272,11 @@ namespace Research.Web.Models.Factories
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
-            //prepare available order statuses
-            var availableStatusItems = UserType.Researcher.ToSelectList(false);
-            foreach (var statusItem in availableStatusItems)
+
+            var availableRoles = _userService.GetAllUserRoles();
+            foreach (var role in availableRoles)
             {
-                items.Add(statusItem);
+                items.Add(new SelectListItem { Value = role.Id.ToString(), Text = role.Name });
             }
 
             //insert special item for the default value

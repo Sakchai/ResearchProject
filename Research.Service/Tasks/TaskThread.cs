@@ -63,6 +63,7 @@ namespace Research.Services.Tasks
                 {
                     using (var client = new WebClient())
                     {
+                        if (!string.IsNullOrEmpty(_scheduleTaskUrl))
                         client.UploadValues(_scheduleTaskUrl, postData);
                     }
                 }

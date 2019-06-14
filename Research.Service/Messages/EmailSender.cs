@@ -141,6 +141,10 @@ namespace Research.Services.Messages
             }
 
             //send email
+            /*1st: https://www.google.com/settings/security/lesssecureapps : Should be Turned on.
+
+            //2nd: https://accounts.google.com/b/0/displayunlockcaptcha
+            */
             using (var smtpClient = new SmtpClient())
             {
                 smtpClient.UseDefaultCredentials = emailAccount.UseDefaultCredentials;

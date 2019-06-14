@@ -4,7 +4,7 @@
 
 @{
     //page title
-    ViewBag.Title = "ตารางงาน";
+    ViewBag.Title = "รายการตารางทำงาน";
     //active menu item (system name)
     //Html.SetActiveMenuItemSystemName("Schedule tasks");
 }
@@ -12,7 +12,7 @@
 <nop-antiforgery-token />
 <div class="content-header clearfix">
     <h1 class="pull-left">
-        ตารางงาน
+        รายการตารางทำงาน
     </h1>
     <div class="pull-right">
         &nbsp;
@@ -121,19 +121,19 @@
                                     template: '# if(StopOnError) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                 }, {
                                     field: "LastStartUtc",
-                                    title: "Start ล่าสุด",
+                                    title: "เริ่มทำงานล่าสุด",
                                     width: 200,
                                     type: "date",
                                     format: "{0:G}"
                                 }, {
                                     field: "LastEndUtc",
-                                    title: "End ล่าสุด",
+                                    title: "ทำงานเสร็จล่าสุด",
                                     width: 200,
                                     type: "date",
                                     format: "{0:G}"
                                 }, {
                                     field: "LastSuccessUtc",
-                                    title: "Success ล่าสุด",
+                                    title: "ทำงานสำเร็จล่าสุด",
                                     width: 200,
                                     type: "date",
                                     format: "{0:G}"
@@ -141,7 +141,7 @@
                                     field: "Id",
                                     title: "RunNow",
                                     width: 100,
-                                    template: '<a href="@Url.Content("~/ScheduleTask/RunNow/")#=Id#" class="btn bg-green">Run Now</a>'
+                                    template: '<a href="@Url.Content("~/ScheduleTask/RunNow/")#=Id#" class="btn bg-green">ทำงานทันที</a>'
                                 }, {
                                     command: {
                                         name: "edit",
