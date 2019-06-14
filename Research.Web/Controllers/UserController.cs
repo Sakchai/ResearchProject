@@ -5,6 +5,7 @@ using Research.Data;
 using Research.Enum;
 using Research.Services;
 using Research.Services.Authentication;
+using Research.Services.Common;
 using Research.Services.Events;
 using Research.Services.Messages;
 using Research.Services.Users;
@@ -14,6 +15,7 @@ using Research.Web.Framework.Mvc;
 using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Users;
 using System;
+using System.Linq;
 
 namespace Research.Web.Controllers
 {
@@ -30,6 +32,7 @@ namespace Research.Web.Controllers
         private readonly IWebHelper _webHelper;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
+        private readonly IGenericAttributeService _genericAttributeService;
         #endregion
 
         #region Ctor
@@ -42,7 +45,8 @@ namespace Research.Web.Controllers
             IEventPublisher eventPublisher,
             IWebHelper webHelper,
             IWorkContext workContext,
-            IWorkflowMessageService workflowMessageService)
+            IWorkflowMessageService workflowMessageService,
+            IGenericAttributeService genericAttributeService)
         {
             this._userSettings = userSettings;
             this._authenticationService = authenticationService;
@@ -53,6 +57,7 @@ namespace Research.Web.Controllers
             this._webHelper = webHelper;
             this._workContext = workContext;
             this._workflowMessageService = workflowMessageService;
+            this._genericAttributeService = genericAttributeService;
         }
 
         #endregion
@@ -79,10 +84,93 @@ namespace Research.Web.Controllers
             return View(registerModel);
         }
 
+        [HttpGet]
         public virtual IActionResult RegisterResult(int resultId)
         {
             var model = _userModelFactory.PrepareRegisterResultModel(resultId);
             return View(model);
+        }
+
+        public virtual IActionResult AccountActivation(string token, string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user == null)
+                //return RedirectToRoute("HomePage");
+                return RedirectToAction("Login", "User");
+
+            var userAttribute = _genericAttributeService.GetAttributesForEntity(user.Id, ResearchUserDefaults.AccountActivationTokenAttribute).FirstOrDefault();
+            string cToken = userAttribute != null ? userAttribute.Value : string.Empty;
+            if (user.IsActive)
+                return
+                    View(new AccountActivationModel
+                    {
+                        Result = "Account.AccountActivation.AlreadyActivated"
+                    });
+
+            if (!cToken.Equals(token, StringComparison.InvariantCultureIgnoreCase))
+                return RedirectToAction("Login", "User");
+            //return RedirectToRoute("HomePage");
+
+            //activate user account
+            user.IsActive = true;
+            user.Modified = DateTime.UtcNow;
+            _userService.UpdateUser(user);
+            _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.AccountActivationTokenAttribute, "");
+            
+            //send welcome message
+            _workflowMessageService.SendUserWelcomeMessage(user, 0);
+
+            var model = new AccountActivationModel
+            {
+                Result = "Account.AccountActivation.Activated"
+            };
+            return View(model);
+        }
+
+        //public virtual IActionResult PasswordRecoveryConfirm(string token, string email)
+        //{
+        //    var user = _userService.GetUserByEmail(email);
+        //    if (user == null)
+        //        return RedirectToRoute("HomePage");
+
+        //    if (string.IsNullOrEmpty(user.PasswordRecoveryToken))
+        //    {
+        //        return View(new PasswordRecoveryConfirmModel
+        //        {
+        //            DisablePasswordChanging = true,
+        //            Result = "Account.PasswordRecovery.PasswordAlreadyHasBeenChanged"
+        //        });
+        //    }
+
+        //    var model = _userModelFactory.PreparePasswordRecoveryConfirmModel();
+
+        //    //validate token
+        //    if (!user.IsPasswordRecoveryTokenValid(token))
+        //    {
+        //        model.DisablePasswordChanging = true;
+        //        model.Result = "Account.PasswordRecovery.WrongToken";
+        //    }
+
+        //    //validate token expiration date
+        //    if (user.IsPasswordRecoveryLinkExpired(_userSettings))
+        //    {
+        //        model.DisablePasswordChanging = true;
+        //        model.Result = "Account.PasswordRecovery.LinkExpired";
+        //    }
+
+        //    return View(model);
+        //}
+
+
+        [HttpPost]
+        public virtual IActionResult RegisterResult(string returnUrl)
+        {
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+                return RedirectToRoute("User");
+                
+
+            //return Redirect(returnUrl);
+            return RedirectToAction("Login", "User");
         }
 
         [HttpPost]
@@ -139,6 +227,8 @@ namespace Research.Web.Controllers
                         case UserRegistrationType.EmailValidation:
                             {
                                 //email validation message
+                                _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.AccountActivationTokenAttribute, Guid.NewGuid().ToString());
+
                                 _workflowMessageService.SendUserEmailValidationMessage(user, 0);
 
                                 //result
@@ -159,10 +249,10 @@ namespace Research.Web.Controllers
                                 var redirectUrl = Url.RouteUrl("RegisterResult", new { resultId = (int)UserRegistrationType.EmailValidation }, _webHelper.CurrentRequestProtocol);
                                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                                     redirectUrl = _webHelper.ModifyQueryString(redirectUrl, "returnurl", returnUrl);
-                                //return Redirect(redirectUrl);
+                                return Redirect(redirectUrl);
 
     
-                                    return RedirectToAction("Login", "User");
+                                  //  return RedirectToAction("Login", "User");
                             }
                         default:
                             {

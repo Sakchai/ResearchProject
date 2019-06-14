@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Core;
 using Research.Core.Domain;
+using Research.Core.Domain.Users;
 using Research.Data;
+using Research.Services.Common;
 using Research.Services.Events;
 using Research.Services.Media;
 
@@ -29,6 +31,7 @@ namespace Research.Services.Messages
         private readonly IWorkContext _workContext;
         private readonly SiteInformationSettings _siteInformationSettings;
         private Dictionary<string, IEnumerable<string>> _allowedTokens;
+        private readonly IGenericAttributeService _genericAttributeService;
 
         #endregion
 
@@ -40,7 +43,8 @@ namespace Research.Services.Messages
             IEventPublisher eventPublisher,
             IUrlHelperFactory urlHelperFactory,
             IWorkContext workContext,
-            SiteInformationSettings siteInformationSettings)
+            SiteInformationSettings siteInformationSettings,
+            IGenericAttributeService genericAttributeService)
         {
             this._actionContextAccessor = actionContextAccessor;
             this._userService = userService;
@@ -49,6 +53,7 @@ namespace Research.Services.Messages
             this._urlHelperFactory = urlHelperFactory;
             this._workContext = workContext;
             this._siteInformationSettings = siteInformationSettings;
+            this._genericAttributeService = genericAttributeService;
         }
 
         #endregion
@@ -143,18 +148,19 @@ namespace Research.Services.Messages
         /// <param name="user">User</param>
         public virtual void AddUserTokens(IList<Token> tokens, User user)
         {
+            var userAttribute = _genericAttributeService.GetAttributesForEntity(user.Id, "AccountActivationToken").FirstOrDefault();
             tokens.Add(new Token("User.Email", user.Email));
             tokens.Add(new Token("User.Username", user.UserName));
             tokens.Add(new Token("User.FullName", _userService.GetUserFullName(user)));
             tokens.Add(new Token("User.FirstName", user.FirstName));
             tokens.Add(new Token("User.LastName", user.LastName));
             //note: we do not use SEO friendly URLS for these links because we can get errors caused by having .(dot) in the URL (from the email address)
-            //var passwordRecoveryUrl = RouteUrl(routeName: "PasswordRecoveryConfirm", routeValues: new { token = _genericAttributeService.GetAttribute<string>(user, ResearchUserDefaults.PasswordRecoveryTokenAttribute), email = user.Email });
-            //var accountActivationUrl = RouteUrl(routeName: "AccountActivation", routeValues: new { token = _genericAttributeService.GetAttribute<string>(user, ResearchUserDefaults.AccountActivationTokenAttribute), email = user.Email });
-            //var emailRevalidationUrl = RouteUrl(routeName: "EmailRevalidation", routeValues: new { token = _genericAttributeService.GetAttribute<string>(user, ResearchUserDefaults.EmailRevalidationTokenAttribute), email = user.Email });
+           // var passwordRecoveryUrl = RouteUrl(routeName: "PasswordRecoveryConfirm", routeValues: new { token = user.PasswordRecoveryToken, email = user.Email });
+            var accountActivationUrl = RouteUrl(routeName: "AccountActivation", routeValues: new { token = userAttribute.Value, email = user.Email });
+           // var emailRevalidationUrl = RouteUrl(routeName: "EmailRevalidation", routeValues: new { token = user.EmailRevalidationToken, email = user.Email });
             //var wishlistUrl = RouteUrl(routeName: "Wishlist", routeValues: new { userGuid = user.UserGuid });
             //tokens.Add(new Token("User.PasswordRecoveryURL", passwordRecoveryUrl, true));
-            //tokens.Add(new Token("User.AccountActivationURL", accountActivationUrl, true));
+            tokens.Add(new Token("User.AccountActivationURL", accountActivationUrl, true));
             //tokens.Add(new Token("User.EmailRevalidationURL", emailRevalidationUrl, true));
             //tokens.Add(new Token("Wishlist.URLForUser", wishlistUrl, true));
 

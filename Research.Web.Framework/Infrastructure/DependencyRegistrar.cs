@@ -87,6 +87,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
 
             //services
+            
+            builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
             builder.RegisterType<TitleService>().As<ITitleService>().InstancePerLifetimeScope();
             builder.RegisterType<InstituteService>().As<IInstituteService>().InstancePerLifetimeScope();
             builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
@@ -132,7 +134,6 @@ namespace Research.Web.Infrastructure
             //private readonly ILogger _logger;
             builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
 
-            builder.RegisterType<QueuedMessagesSendTask>().As<IScheduleTask>().InstancePerLifetimeScope();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
             //register all settings

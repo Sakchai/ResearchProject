@@ -37,6 +37,7 @@ namespace Research.Data
         public string LastUpdateBy { get; set; }
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }
+
         /// <summary>
         /// Gets or sets the last IP address
         /// </summary>
