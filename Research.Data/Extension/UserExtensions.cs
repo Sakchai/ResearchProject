@@ -123,6 +123,24 @@ namespace Research.Data
             return IsInUserRole(user, ResearchUserDefaults.ResearchersRoleName, onlyActiveUserRoles);
         }
 
+        /// <summary>
+        /// Get user role identifiers
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="showHidden">A value indicating whether to load hidden records</param>
+        /// <returns>User role identifiers</returns>
+        public static int[] GetUserRoleIds(this User user, bool showHidden = false)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            var userRolesIds = user.UserRoles
+               .Where(cr => showHidden || cr.IsActive)
+               .Select(cr => cr.Id)
+               .ToArray();
+
+            return userRolesIds;
+        }
         #endregion
     }
 }

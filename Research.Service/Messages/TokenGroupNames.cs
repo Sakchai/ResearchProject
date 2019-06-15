@@ -16,6 +16,6 @@
         /// </summary>
         public const string ResearcherTokens = "Researcher tokens";
 
-        public static string WebSiteTokens { get; internal set; }
+        public const string WebSiteTokens = "Website tokens";
     }
 }

@@ -25,13 +25,12 @@ namespace Research.Data.Mapping.Users
 
             builder.HasOne(mapping => mapping.User)
                 .WithMany(customer => customer.UserUserRoleMappings)
-                .HasForeignKey(mapping => mapping.UserId)
-                .IsRequired();
+                .HasForeignKey(mapping => mapping.UserId);
+
 
             builder.HasOne(mapping => mapping.UserRole)
                 .WithMany()
-                .HasForeignKey(mapping => mapping.UserRoleId)
-                .IsRequired();
+                .HasForeignKey(mapping => mapping.UserRoleId);
 
             builder.Ignore(mapping => mapping.Id);
 

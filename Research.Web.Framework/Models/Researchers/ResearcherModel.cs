@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using FluentValidation.Attributes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Research.Web.Models.Common;
+using Research.Web.Validators.Researchers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +11,7 @@ namespace Research.Web.Models.Researchers
     /// <summary>
     /// A ... attached to an Researcher
     /// </summary>
+    [Validator(typeof(ResearcherValidator))]
     public class ResearcherModel : BaseEntityModel
     {
         public ResearcherModel()
@@ -39,8 +42,10 @@ namespace Research.Web.Models.Researchers
         public int PersonalTypeId { get; set; }
         public string PersonalTypeName { get; set; }
         public IList<SelectListItem> AvailablePersonalTypes { get; set; }
+        [Required]
         [Display(Name = "ชื่อ(ไทย)")]
         public string FirstName { get; set; }
+        [Required]
         [Display(Name = "นามสกุล(ไทย)")]
         public string LastName { get; set; }
         [Display(Name = "ชื่อ(อังกฤษ)")]
@@ -66,16 +71,18 @@ namespace Research.Web.Models.Researchers
         }
         [Display(Name = "เพศ")]
         public string Gender { get; set; }
+        [Required]
         [Display(Name = "เลขประจำตัวประชาชน")]
         public string IDCard { get; set; }
         [Display(Name = "รหัสผู้วิจัย")]
         public string ResearcherCode { get; set; }
-
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "อีเมล")]
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public bool IsAcceptedConditions { get; set; }
+        [Required]
         [Display(Name = "โทรศัพท์")]
         public string Telephone { get; set; }
         public string LastUpdateBy { get; set; }
@@ -85,7 +92,7 @@ namespace Research.Web.Models.Researchers
         public AddressModel AddressModel { get; set; }
         public string FullName { get => $"{TitleName}{FirstName} {LastName}"; }
     
-        public bool IsCompleted { get => IsActive; }
+        public bool IsCompleted { get; set; }
 
         #region Researcher educations
 

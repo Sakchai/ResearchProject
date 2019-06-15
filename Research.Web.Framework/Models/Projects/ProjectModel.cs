@@ -7,12 +7,15 @@ using Research.Web.Models.Researchers;
 using Research.Web.Framework.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
+using Research.Web.Validators.Projects;
 
 namespace Research.Web.Models.Projects
 {
     /// <summary>
     /// A Researcher attached to a Project
     /// </summary>
+    [Validator(typeof(ProjectValidator))]
     public class ProjectModel : BaseEntityModel
     {
         public ProjectModel()
@@ -31,20 +34,24 @@ namespace Research.Web.Models.Projects
         }
         [Display(Name = "รหัสโครงการวิจัย")]
         public string ProjectCode { get; set; }
+        [Required]
         [Display(Name = "ชื่อโครงการวิจัย(ภาษาไทย)")]
         public string ProjectNameTh { get; set; }
         [Display(Name = "ลักษณะโครงการวิจัย(ภาษาอังกฤษ)")]
+        [Required]
         public string ProjectNameEn { get; set; }
         [Display(Name = "ชื่อแผนงานวิจัย(ภาษาไทย)ถ้ามี")]
         public string PlanNameTh { get; set; }
         [Display(Name = "ชื่อแผนงานวิจัย(ภาษาอังกฤษ)ถ้ามี")]
         public string PlanNameEn { get; set; }
+        [Required]
         [Display(Name = "ปีงบประมาณ")]
         public int FiscalYear { get; set; }
         [Display(Name = "ลักษณะโครงการวิจัย")]
         public string ProjectType { get; set; }
         [Display(Name = "ประเด็นการวิจัย")]
         public int ResearchIssueId { get; set; }
+        [Required]
         [Display(Name = "งบประมาณ")]
         public decimal FundAmount { get; set; }
         public string ProjectStatusName { get; set; }

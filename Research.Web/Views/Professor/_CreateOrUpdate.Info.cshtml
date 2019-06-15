@@ -8,8 +8,8 @@
                     <nop-label asp-for="ProfessorCode" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="ProfessorCode" />
-                    <span asp-validation-for="ProfessorCode"></span>
+                    <label>@Model.ProfessorCode</label>
+                    <input asp-for="ProfessorCode" type="hidden" />
                 </div>
             </div>
             <div class="form-group">
@@ -34,8 +34,8 @@
                     <nop-label asp-for="TitleId" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" />
-                    <span asp-validation-for="TitleId"></span>
+                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" asp-required="true" />
+                    <span asp-validation-for="TitleId" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -43,8 +43,8 @@
                     <nop-label asp-for="FirstName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="FirstName" asp-required="true"/>
-                    <span asp-validation-for="FirstName"></span>
+                    <nop-editor asp-for="FirstName" asp-required="true" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -52,8 +52,19 @@
                     <nop-label asp-for="LastName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-editor asp-for="LastName" asp-required="true"/>
-                    <span asp-validation-for="LastName"></span>
+                    <nop-editor asp-for="LastName" asp-required="true" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="Telephone" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="Telephone" asp-required="true" />
+                    <span asp-validation-for="Telephone" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -62,16 +73,6 @@
                 </div>
                 <div class="col-md-9">
                     <nop-editor asp-for="Email" />
-                    <span asp-validation-for="Email"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="Telephone" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="Telephone" asp-required="true"/>
                 </div>
             </div>
             <div class="form-group">

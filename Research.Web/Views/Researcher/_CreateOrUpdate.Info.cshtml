@@ -9,8 +9,8 @@
                         <nop-label asp-for="ResearcherCode" />
                     </div>
                     <div class="col-md-9">
-                        <nop-editor asp-for="ResearcherCode" />
-                        <span asp-validation-for="TitleId"></span>
+                        <label>@Model.ResearcherCode</label>
+                        <input asp-for="ResearcherCode" type="hidden" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-9">
                         <nop-editor asp-for="FirstName" asp-required="true" />
-                        <span asp-validation-for="FirstName"></span>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-md-9">
                         <nop-editor asp-for="LastName" asp-required="true" />
-                        <span asp-validation-for="LastName"></span>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -90,9 +90,9 @@
                                              asp-selected-day="@Model.DateOfBirthDay"
                                              asp-selected-month="@Model.DateOfBirthMonth"
                                              asp-selected-year="@Model.DateOfBirthYear" />
-                            <span asp-validation-for="DateOfBirthDay"></span>
-                            <span asp-validation-for="DateOfBirthMonth"></span>
-                            <span asp-validation-for="DateOfBirthYear"></span>
+                            <span asp-validation-for="DateOfBirthDay" class="text-danger"></span>
+                            <span asp-validation-for="DateOfBirthMonth" class="text-danger"></span>
+                            <span asp-validation-for="DateOfBirthYear" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -102,6 +102,8 @@
                     </div>
                     <div class="col-md-9">
                         <nop-select asp-for="PersonalTypeId" asp-items="Model.AvailablePersonalTypes" asp-required="true" />
+
+                        <span asp-validation-for="PersonalTypeId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -110,6 +112,8 @@
                     </div>
                     <div class="col-md-9">
                         <nop-select asp-for="AcademicRankId" asp-items="Model.AvailableAcademicRanks" asp-required="true" />
+
+                        <span asp-validation-for="AcademicRankId" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -130,7 +134,8 @@
                         <nop-label asp-for="IDCard" />
                     </div>
                     <div class="col-md-9">
-                        <nop-editor asp-for="IDCard" asp-required="true" />
+                        <label>@Model.IDCard</label>
+                        <input asp-for="IDCard" type="hidden" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -139,6 +144,8 @@
                     </div>
                     <div class="col-md-9">
                         <nop-editor asp-for="Telephone" asp-required="true" />
+
+                        <span asp-validation-for="Telephone" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -147,7 +154,7 @@
                     </div>
                     <div class="col-md-9">
                         <nop-editor asp-for="Email" asp-required="true" />
-                        <span asp-validation-for="Email"></span>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -156,7 +163,7 @@
                     </div>
                     <div class="col-md-9">
                         <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" asp-required="true" />
-                        <span asp-validation-for="AgencyId"></span>
+                        <span asp-validation-for="AgencyId" class="text-danger"></span>
                     </div>
                 </div>
             </div>

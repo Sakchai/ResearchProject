@@ -8,7 +8,6 @@
 
 <div class="content">
     <div class="form-horizontal">
-        @await Component.InvokeAsync("SettingMode", new { modeName = "messagetemplate-advanced-mode" })
         <div class="panel-group">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -44,6 +43,7 @@
                                 $('#allowedTokensShowHide').html('ซ่อน');
                             }
                         }
+
                     </script>
 
 
@@ -61,26 +61,12 @@
                             <nop-label asp-for="@Model.Body" />
                         </div>
                         <div class="col-md-9">
-                            @if (adminAreaSettings.UseRichEditorInMessageTemplates)
-                            {
-                                <nop-editor asp-for="@Model.Body" asp-template="RichEditor" />
-                            }
-                            else
-                            {
-                                <nop-textarea asp-for="@Model.Body" />
-                                <text>
-                                    <script>
-                                          $(document).ready(function() {
-                                              $('#@Html.IdFor(model => model.Body)')
-                                                  .height($('#@Html.IdFor(model => model.Body)')[0].scrollHeight);
-                                          });
-                                    </script>
-                                </text>
-                            }
+
+                            <nop-editor asp-for="@Model.Body" asp-template="RichEditor" />
                             <span asp-validation-for="@Model.Body"></span>
                         </div>
                     </div>
-                    <div class="form-group advanced-setting">
+                    <div class="form-group">
                         <div class="col-md-3">
                             <nop-label asp-for="@Model.BccEmailAddresses" />
                         </div>
@@ -89,7 +75,7 @@
                             <span asp-validation-for="@Model.BccEmailAddresses"></span>
                         </div>
                     </div>
-                    <div class="form-group advanced-setting">
+                    <div class="form-group">
                         <div class="col-md-3">
                             <nop-label asp-for="@Model.EmailAccountId" />
                         </div>
@@ -110,77 +96,8 @@
                             <button type="button" class="btn btn-primary" onclick="setLocation('@(Url.Action("TestTemplate", new { id = Model.Id }))')">ทดสอบ</button>
                         </div>
                     </div>
-                    
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="Subject" />
-                    </div>
-                    <div class="col-md-9">
-                        <nop-editor asp-for="Subject" asp-required="true" />
-                        <span asp-validation-for="Subject"></span>
-                    </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="Body" />
-                    </div>
-                    <div class="col-md-9">
-                        @if (adminAreaSettings.UseRichEditorInMessageTemplates)
-                        {
-                            <div class="input-group input-group-required">
-                                <nop-editor asp-for="Body" asp-template="RichEditor" />
-                                <div class="input-group-btn">
-                                    <nop-required />
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <nop-textarea asp-for="Body" asp-required="true" />
-                            <text>
-                                <script>
-                              $(document).ready(function() {
-                                  $('#@Html.IdFor(model => model.Body)')
-                                      .height($('#@Html.IdFor(model => model.Body)')[0].scrollHeight);
-                              });
-                                </script>
-                            </text>
-                        }
-                        <span asp-validation-for="Body"></span>
-                    </div>
-                </div>
-                <div class="form-group advanced-setting">
-                    <div class="col-md-3">
-                        <nop-label asp-for="BccEmailAddresses" />
-                    </div>
-                    <div class="col-md-9">
-                        <nop-editor asp-for="BccEmailAddresses" />
-                        <span asp-validation-for="BccEmailAddresses"></span>
-                    </div>
-                </div>
-                <div class="form-group advanced-setting">
-                    <div class="col-md-3">
-                        <nop-label asp-for="EmailAccountId" />
-                    </div>
-                    <div class="col-md-9">
-                        <nop-select asp-for="EmailAccountId" asp-items="Model.AvailableEmailAccounts" />
-                        <span asp-validation-for="EmailAccountId"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <div class="label-wrapper">
-                            <label class="control-label">ทดสอบ</label>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <button type="button" class="btn btn-primary" onclick="setLocation('@(Url.Action("TestTemplate", new {id = Model.Id}))')">ทดสอบ</button>
-                    </div>
-                </div>
-
-
 
                 <div class="form-group">
                     <div class="col-md-3">
@@ -211,7 +128,7 @@
                                 <span asp-validation-for="DelayBeforeSend"></span>
                             </div>
                             <div class="col-md-3">
-                                <nop-select asp-for="DelayPeriodId"  style="max-width: 200px;" />
+                                <nop-select asp-for="DelayPeriodId" style="max-width: 200px;" />
                                 <span asp-validation-for="DelayPeriodId"></span>
                             </div>
                         </div>

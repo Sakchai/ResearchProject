@@ -66,7 +66,7 @@ namespace Research.Web.Controllers
             foreach (var activityType in activityTypes)
             {
                 activityType.Enabled = selectedActivityTypesIds.Contains(activityType.Id);
-                _userActivityService.UpdateActivityType(activityType);
+                //_userActivityService.UpdateActivityType(activityType);
             }
 
             SuccessNotification("Admin.Configuration.ActivityLog.ActivityLogType.Updated");
@@ -109,8 +109,8 @@ namespace Research.Web.Controllers
             _userActivityService.DeleteActivity(logItem);
 
             //activity log
-            _userActivityService.InsertActivity("DeleteActivityLog",
-                "ActivityLog.DeleteActivityLog", logItem);
+            //_userActivityService.InsertActivity("DeleteActivityLog",
+            //    "ActivityLog.DeleteActivityLog", logItem);
 
             return new NullJsonResult();
         }
@@ -123,7 +123,7 @@ namespace Research.Web.Controllers
             _userActivityService.ClearAllActivities();
 
             //activity log
-            _userActivityService.InsertActivity("DeleteActivityLog", "ActivityLog.DeleteActivityLog");
+            //_userActivityService.InsertActivity("DeleteActivityLog", "ActivityLog.DeleteActivityLog");
 
             return RedirectToAction("ListLogs");
         }

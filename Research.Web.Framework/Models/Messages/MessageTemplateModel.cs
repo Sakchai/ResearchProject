@@ -22,25 +22,23 @@ namespace Research.Web.Models.Messages
 
         #region Properties
 
-        //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.AllowedTokens")]
+        [Display(Name = "แสดง Tokens")]
         public string AllowedTokens { get; set; }
 
-        //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.Name")]
         public string Name { get; set; }
 
-        //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.BccEmailAddresses")]
+        [Display(Name = "Bcc อีเมล์")]
         public string BccEmailAddresses { get; set; }
 
-        //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.Subject")]
         public string Subject { get; set; }
 
         //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.Body")]
         public string Body { get; set; }
 
-        //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.IsActive")]
+        [Display(Name = "สถานะ")]
         public bool IsActive { get; set; }
 
-        //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.SendImmediately")]
+        [Display(Name = "ส่งทันที")]
         public bool SendImmediately { get; set; }
 
         //[NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.DelayBeforeSend")]
@@ -50,11 +48,11 @@ namespace Research.Web.Models.Messages
         public int DelayPeriodId { get; set; }
 
         public bool HasAttachedDownload { get; set; }
-       // [NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.AttachedDownload")]
+        [Display(Name = "ไฟล์แนบ")]
         [UIHint("Download")]
         public int AttachedDownloadId { get; set; }
 
-        //NopResourceDisplayName("Admin.ContentManagement.MessageTemplates.Fields.EmailAccount")]
+        [Display(Name = "อีเมล์ที่่ใช้ส่ง")]
         public int EmailAccountId { get; set; }
 
         public IList<SelectListItem> AvailableEmailAccounts { get; set; }

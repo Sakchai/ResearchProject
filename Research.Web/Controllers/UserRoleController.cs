@@ -97,8 +97,8 @@ namespace Research.Web.Areas.Admin.Controllers
                 _userService.InsertUserRole(userRole);
 
                 //activity log
-                _userActivityService.InsertActivity("AddNewUserRole",
-                    string.Format("ActivityLog.AddNewUserRole {0}", userRole.Name), userRole);
+                //_userActivityService.InsertActivity("AddNewUserRole",
+                //    string.Format("ActivityLog.AddNewUserRole {0}", userRole.Name), userRole);
 
                 SuccessNotification("Admin.Users.UserRoles.Added");
 
@@ -154,8 +154,8 @@ namespace Research.Web.Areas.Admin.Controllers
                     _userService.UpdateUserRole(userRole);
 
                     //activity log
-                    _userActivityService.InsertActivity("EditUserRole",
-                        string.Format("ActivityLog.EditUserRole", userRole.Name), userRole);
+                    //_userActivityService.InsertActivity("EditUserRole",
+                    //    string.Format("ActivityLog.EditUserRole", userRole.Name), userRole);
 
                     SuccessNotification("Admin.Users.UserRoles.Updated");
 
@@ -191,8 +191,8 @@ namespace Research.Web.Areas.Admin.Controllers
                 _userService.DeleteUserRole(userRole);
 
                 //activity log
-                _userActivityService.InsertActivity("DeleteUserRole",
-                    string.Format("ActivityLog.DeleteUserRole {0}", userRole.Name), userRole);
+                //_userActivityService.InsertActivity("DeleteUserRole",
+                //    string.Format("ActivityLog.DeleteUserRole {0}", userRole.Name), userRole);
 
                 SuccessNotification("Admin.Users.UserRoles.Deleted");
 

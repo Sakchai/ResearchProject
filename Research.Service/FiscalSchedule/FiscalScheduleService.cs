@@ -71,11 +71,20 @@ namespace Research.Services.FiscalSchedules
         /// <param name="pageSize">Page size</param>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>FiscalSchedules</returns>
-        public virtual IPagedList<FiscalSchedule> GetAllFiscalSchedules(string fiscalScheduleName,
+        public virtual IPagedList<FiscalSchedule> GetAllFiscalSchedules(string fiscalScheduleName, DateTime? openingDate = null, DateTime? closingDate = null, int fiscalYear = 0,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
             var query = _fiscalScheduleRepository.Table;
             query = query.Where(a => a.Deleted != true);
+
+            //filter by creation date
+            if (openingDate.HasValue)
+                query = query.Where(x => openingDate.Value <= x.OpeningDate);
+            if (closingDate.HasValue)
+                query = query.Where(x => closingDate.Value >= x.ClosingDate);
+
+            if (fiscalYear != 0)
+                query = query.Where(a => a.FiscalYear == fiscalYear);
             if (!string.IsNullOrEmpty(fiscalScheduleName))
                 query = query.Where(a => a.ScholarName == fiscalScheduleName);
 

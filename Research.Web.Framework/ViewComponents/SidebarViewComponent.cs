@@ -23,7 +23,7 @@ namespace Research.Web.ViewComponents
             //}
 
             // sidebars.Add(ModuleHelper.AddHeader("MAIN NAVIGATION"));
-            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Dashboards));
+            //sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Dashboards));
             sidebars.Add(ModuleHelper.AddTree("โครงการวิจัย", "fa fa-calendar"));
             sidebars.Last().TreeChild = new List<SidebarMenu>()
             {
@@ -45,15 +45,15 @@ namespace Research.Web.ViewComponents
                 ModuleHelper.AddModule(ModuleHelper.Module.FiscalSchedules),
                 ModuleHelper.AddModule(ModuleHelper.Module.Users),
                 ModuleHelper.AddModule(ModuleHelper.Module.AddUser),
-                ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs),
+                //ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs),
                 ModuleHelper.AddModule(ModuleHelper.Module.MessageTemplate),
                 ModuleHelper.AddModule(ModuleHelper.Module.EmailAccount),
                 ModuleHelper.AddModule(ModuleHelper.Module.ScheduleTask),
                 ModuleHelper.AddModule(ModuleHelper.Module.UserRole),
                 ModuleHelper.AddModule(ModuleHelper.Module.Security),
             };
-            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.About, Tuple.Create(0, 1, 0)));
-            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Contact, Tuple.Create(1, 0, 0)));
+            //sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.About, Tuple.Create(0, 1, 0)));
+            //sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Contact, Tuple.Create(1, 0, 0)));
             //sidebars.Add(ModuleHelper.AddTree("Account"));
             //sidebars.Last().TreeChild = new List<SidebarMenu>()
             //{

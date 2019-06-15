@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Research.Core;
 using Research.Data;
 using Research.Enum;
+using Research.Services;
 using Research.Services.Researchers;
 using Research.Web.Extensions;
 using Research.Web.Models.Common;
@@ -26,6 +27,7 @@ namespace Research.Web.Factories
         private readonly IResearcherService _researcherService;
         private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IWebHelper _webHelper;
+        private readonly IUserService _userService;
 
         #endregion
 
@@ -35,13 +37,15 @@ namespace Research.Web.Factories
             IBaseAdminModelFactory baseAdminModelFactory,
             IResearcherService researcherService,
             IUrlHelperFactory urlHelperFactory,
-            IWebHelper webHelper)
+            IWebHelper webHelper,
+            IUserService userService)
         {
             this._actionContextAccessor = actionContextAccessor;
             this._baseAdminModelFactory = baseAdminModelFactory;
             this._researcherService = researcherService;
             this._urlHelperFactory = urlHelperFactory;
             this._webHelper = webHelper;
+            this._userService = userService;
         }
 
         #endregion
@@ -93,13 +97,14 @@ namespace Research.Web.Factories
                 {
                     //fill in model values from the entity
                     var researcherModel = researcher.ToModel<ResearcherModel>();
-
+                    var user = _userService.GetUserByEmail(researcher.Email);
                     //little performance optimization: ensure that "Body" is not returned
                     researcherModel.ResearcherCode   = researcher.ResearcherCode;
                     researcherModel.FirstName = researcher.FirstName;
                     researcherModel.LastName = researcher.LastName;
                     researcherModel.PersonalTypeName = (int)researcher.PersonalType !=0 ? researcher.PersonalType.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty;
                     researcherModel.AgencyName = researcher.Agency != null ? researcher.Agency.Name : string.Empty;
+                    researcherModel.IsCompleted = user != null ? user.IsActive : false ;
                     return researcherModel;
                 }),
                 Total = researchers.Count

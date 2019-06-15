@@ -87,8 +87,8 @@ namespace Research.Web.Controllers
             _scheduleTaskService.UpdateTask(scheduleTask);
 
             //activity log
-            _userActivityService.InsertActivity("EditTask",
-                string.Format("ActivityLog.EditTask {0}", scheduleTask.Id), scheduleTask);
+            //_userActivityService.InsertActivity("EditTask",
+             //   string.Format("ActivityLog.EditTask {0}", scheduleTask.Id), scheduleTask);
 
             return new NullJsonResult();
         }

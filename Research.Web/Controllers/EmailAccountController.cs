@@ -116,7 +116,7 @@ namespace Research.Web.Controllers
                 _emailAccountService.InsertEmailAccount(emailAccount);
 
                 //activity log
-                _userActivityService.InsertActivity("AddNewEmailAccount",string.Format("ActivityLog.AddNewEmailAccount {0}", emailAccount.Id), emailAccount);
+               //_userActivityService.InsertActivity("AddNewEmailAccount",string.Format("ActivityLog.AddNewEmailAccount {0}", emailAccount.Id), emailAccount);
 
                 SuccessNotification("Admin.Configuration.EmailAccounts.Added");
 
@@ -164,7 +164,7 @@ namespace Research.Web.Controllers
                 _emailAccountService.UpdateEmailAccount(emailAccount);
 
                 //activity log
-                _userActivityService.InsertActivity("EditEmailAccount",string.Format("ActivityLog.EditEmailAccount {0}", emailAccount.Id), emailAccount);
+                //_userActivityService.InsertActivity("EditEmailAccount",string.Format("ActivityLog.EditEmailAccount {0}", emailAccount.Id), emailAccount);
 
                 SuccessNotification("Admin.Configuration.EmailAccounts.Updated");
 
@@ -256,7 +256,7 @@ namespace Research.Web.Controllers
                 _emailAccountService.DeleteEmailAccount(emailAccount);
 
                 //activity log
-                _userActivityService.InsertActivity("DeleteEmailAccount","ActivityLog.DeleteEmailAccount", emailAccount);
+                //_userActivityService.InsertActivity("DeleteEmailAccount","ActivityLog.DeleteEmailAccount", emailAccount);
 
                 SuccessNotification("Admin.Configuration.EmailAccounts.Deleted");
 

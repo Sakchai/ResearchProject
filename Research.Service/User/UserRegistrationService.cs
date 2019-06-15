@@ -234,13 +234,12 @@ namespace Research.Services.Users
             var researcherRole = _userService.GetUserRoleBySystemName(ResearchUserDefaults.ResearchersRoleName);
             if (researcherRole == null)
                 throw new ResearchException("'Researchers' role could not be loaded");
-            //request.User.UserRoles.Add(registeredRole);
+
             request.User.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = researcherRole });
             //remove from 'Guests' role
             var guestRole = request.User.UserRoles.FirstOrDefault(cr => cr.SystemName == ResearchUserDefaults.GuestsRoleName);
             if (guestRole != null)
             {
-                //request.User.UserRoles.Remove(guestRole);
                 request.User.UserUserRoleMappings
                     .Remove(request.User.UserUserRoleMappings.FirstOrDefault(mapping => mapping.UserRoleId == guestRole.Id));
             }

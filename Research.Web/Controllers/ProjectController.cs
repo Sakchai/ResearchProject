@@ -5,6 +5,7 @@ using Research.Core;
 using Research.Data;
 using Research.Enum;
 using Research.Services;
+using Research.Services.FiscalSchedules;
 using Research.Services.Logging;
 using Research.Services.Projects;
 using Research.Web.Extensions;
@@ -26,16 +27,19 @@ namespace Research.Web.Controllers
         private readonly IProjectModelFactory _projectModelFactory;
         private readonly IProjectService _projectService;
         private readonly IWorkContext _workContext;
+        private readonly IFiscalScheduleService _fiscalScheduleService;
 
         public ProjectController(IProjectService projectService, 
             IProjectModelFactory projectModelFactory,
             IUserActivityService userActivityService,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            IFiscalScheduleService fiscalScheduleService)
         {
-            _projectService = projectService;
-            _projectModelFactory = projectModelFactory;
-            _userActivityService = userActivityService;
-            _workContext = workContext;
+            this._projectService = projectService;
+            this._projectModelFactory = projectModelFactory;
+            this._userActivityService = userActivityService;
+            this._workContext = workContext;
+            this._fiscalScheduleService = fiscalScheduleService;
         }
         // GET: /<controller>/
         //[AllowAnonymous]
@@ -79,7 +83,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Project Updated");
 
                 //activity log
-                _userActivityService.InsertActivity("EditProject", "ActivityLog EditProject", project);
+                //_userActivityService.InsertActivity("EditProject", "ActivityLog EditProject", project);
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -142,7 +146,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Admin.ContentManagement.Projects.Added");
 
                 //activity log
-                _userActivityService.InsertActivity("AddNewProject", "ActivityLog.AddNewProject", project);
+                //_userActivityService.InsertActivity("AddNewProject", "ActivityLog.AddNewProject", project);
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -200,7 +204,7 @@ namespace Research.Web.Controllers
             SuccessNotification("Projects Deleted");
 
             //activity log
-            _userActivityService.InsertActivity("DeleteProject", "ActivityLog.DeleteProject", project);
+            //_userActivityService.InsertActivity("DeleteProject", "ActivityLog.DeleteProject", project);
 
             return RedirectToAction("List");
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Research.Core;
 using Research.Data;
@@ -23,7 +24,8 @@ namespace Research.Services.FiscalSchedules
         /// <param name="pageSize">Page size</param>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>FiscalSchedules</returns>
-        IPagedList<FiscalSchedule> GetAllFiscalSchedules(string fiscalScheduleName, 
+
+        IPagedList<FiscalSchedule> GetAllFiscalSchedules(string fiscalScheduleName,DateTime? openingDate = null, DateTime? closingDate = null, int fiscalYear = 0,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false);
 
         /// <summary>

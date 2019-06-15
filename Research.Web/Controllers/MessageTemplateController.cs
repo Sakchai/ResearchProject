@@ -168,8 +168,8 @@ namespace Research.Controllers
                 _messageTemplateService.UpdateMessageTemplate(messageTemplate);
 
                 //activity log
-                _userActivityService.InsertActivity("EditMessageTemplate",
-                    string.Format("ActivityLog.EditMessageTemplate", messageTemplate.Id), messageTemplate);
+                //_userActivityService.InsertActivity("EditMessageTemplate",
+                    //string.Format("ActivityLog.EditMessageTemplate", messageTemplate.Id), messageTemplate);
 
                 //stores
                 //SaveStoreMappings(messageTemplate, model);
@@ -206,8 +206,8 @@ namespace Research.Controllers
             _messageTemplateService.DeleteMessageTemplate(messageTemplate);
 
             //activity log
-            _userActivityService.InsertActivity("DeleteMessageTemplate",
-                string.Format("ActivityLog.DeleteMessageTemplate", messageTemplate.Id), messageTemplate);
+            //_userActivityService.InsertActivity("DeleteMessageTemplate",
+            //    string.Format("ActivityLog.DeleteMessageTemplate", messageTemplate.Id), messageTemplate);
 
             SuccessNotification("Admin.ContentManagement.MessageTemplates.Deleted");
 

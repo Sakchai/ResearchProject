@@ -213,7 +213,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Admin.ContentManagement.Researchers.Added");
 
                 //activity log
-                _userActivityService.InsertActivity("AddNewResearcher", "ActivityLog.AddNewResearcher", researcher);
+                //_userActivityService.InsertActivity("AddNewResearcher", "ActivityLog.AddNewResearcher", researcher);
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -300,7 +300,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Researcher Updated");
 
                 //activity log
-                _userActivityService.InsertActivity("EditResearcher", "ActivityLog EditResearcher", researcher);
+                //_userActivityService.InsertActivity("EditResearcher", "ActivityLog EditResearcher", researcher);
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -354,7 +354,7 @@ namespace Research.Web.Controllers
             SuccessNotification("Researchers Deleted");
 
             //activity log
-            _userActivityService.InsertActivity("DeleteResearcher", "ActivityLog.DeleteResearcher", researcher);
+            //_userActivityService.InsertActivity("DeleteResearcher", "ActivityLog.DeleteResearcher", researcher);
 
             return RedirectToAction("List");
         }

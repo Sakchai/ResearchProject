@@ -98,7 +98,7 @@ namespace Research.Web.Controllers
                 //return RedirectToRoute("HomePage");
                 return RedirectToAction("Login", "User");
 
-            var userAccountActivationAttribute = _genericAttributeService.GetAttributesForEntity(user.Id, ResearchUserDefaults.AccountActivationTokenAttribute)
+            var userAccountActivationAttribute = _genericAttributeService.GetAttributesForEntityByToken(user.Id, nameof(user), ResearchUserDefaults.AccountActivationTokenAttribute)
                                                 .Where(x => x.Value.Contains(token)).FirstOrDefault();
             string cToken = userAccountActivationAttribute != null ? userAccountActivationAttribute.Value : string.Empty;
             if (user.IsActive)
@@ -200,6 +200,7 @@ namespace Research.Web.Controllers
             {
                 user.UserGuid = Guid.NewGuid();
                 user.FirstName = model.FirstName;
+                user.IsActive = false;
                 user.LastName = model.LastName;
                 user.TitleId = model.TitleId;
                 user.AgencyId = model.AgencyId;
@@ -234,8 +235,9 @@ namespace Research.Web.Controllers
                                 _workflowMessageService.SendUserEmailValidationMessage(user, 0);
 
                                 //result
-                                return RedirectToRoute("RegisterResult",
-                                    new { resultId = (int)UserRegistrationType.EmailValidation });
+                                return RedirectToAction("RegisterResult", "User", new { resultId = (int)UserRegistrationType.EmailValidation });
+                                //return RedirectToRoute("RegisterResult",
+                                //    new { resultId = (int)UserRegistrationType.EmailValidation });
                             }
                         case UserRegistrationType.AdminApproval:
                             {
@@ -251,14 +253,15 @@ namespace Research.Web.Controllers
                                 var redirectUrl = Url.RouteUrl("RegisterResult", new { resultId = (int)UserRegistrationType.EmailValidation }, _webHelper.CurrentRequestProtocol);
                                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                                     redirectUrl = _webHelper.ModifyQueryString(redirectUrl, "returnurl", returnUrl);
-                                return Redirect(redirectUrl);
+                                //return Redirect(redirectUrl);
 
     
-                                  //  return RedirectToAction("Login", "User");
+                                    return RedirectToAction("Login", "User");
                             }
                         default:
                             {
-                                return RedirectToRoute("HomePage");
+                                return RedirectToAction("Login", "User");
+                                //return RedirectToRoute("HomePage");
                             }
                     }
                 }

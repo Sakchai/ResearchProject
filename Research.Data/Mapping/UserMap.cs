@@ -45,6 +45,7 @@ namespace Research.Data.Mapping
                 .HasForeignKey(d => d.TitleId);
             entity.Ignore(d => d.UserRoles);
             entity.Ignore(d => d.UserType);
+            entity.Ignore(d => d.UserUserRoleMappings);
 
             base.Configure(entity);
         }

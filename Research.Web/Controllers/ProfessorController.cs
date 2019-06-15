@@ -113,7 +113,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Admin.ContentManagement.Professors.Added");
 
                 //activity log
-                _userActivityService.InsertActivity("AddNewProfessor", "ActivityLog.AddNewProfessor", professor);
+                //_userActivityService.InsertActivity("AddNewProfessor", "ActivityLog.AddNewProfessor", professor);
 
                 var address = model.AddressModel.ToEntity<Address>();
                 SaveAddress(model.AddressModel, address);
@@ -193,7 +193,7 @@ namespace Research.Web.Controllers
                 SuccessNotification("Professor Updated");
 
                 //activity log
-                _userActivityService.InsertActivity("EditProfessor","ActivityLog EditProfessor", professor);
+                //_userActivityService.InsertActivity("EditProfessor","ActivityLog EditProfessor", professor);
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -243,7 +243,7 @@ namespace Research.Web.Controllers
             SuccessNotification("Professors Deleted");
 
             //activity log
-            _userActivityService.InsertActivity("DeleteProfessor","ActivityLog.DeleteProfessor", professor);
+            //_userActivityService.InsertActivity("DeleteProfessor","ActivityLog.DeleteProfessor", professor);
 
             return RedirectToAction("List");
         }

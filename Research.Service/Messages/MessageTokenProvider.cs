@@ -139,19 +139,22 @@ namespace Research.Services.Messages
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
             //var url = new PathString(urlHelper.RouteUrl(routeName, routeValues));
             var url = new PathString(urlHelper.Action(routeName,controlName, routeValues));
+
             //remove the application path from the generated URL if exists
             var pathBase = _actionContextAccessor.ActionContext?.HttpContext?.Request?.PathBase ?? PathString.Empty;
             url.StartsWithSegments(pathBase, out url);
 
+            //string urlValue = string.Format("{0}{1}", _siteInformationSettings.SiteURL, url.ToUriComponent());
             //compose the result
             //return Uri.EscapeUriString(WebUtility.UrlDecode($"{store.Url.TrimEnd('/')}{url}"));
+            //return Uri.EscapeUriString(WebUtility.UrlDecode($"{_siteInformationSettings.SiteURL.TrimEnd('/')}{url}"));
             return Uri.EscapeUriString(WebUtility.UrlDecode($"{url}"));
         }
 
 
         #region Methods
 
-    
+
         /// <summary>
         /// Add user tokens
         /// </summary>
@@ -159,6 +162,11 @@ namespace Research.Services.Messages
         /// <param name="user">User</param>
         public virtual void AddUserTokens(IList<Token> tokens, User user)
         {
+
+            tokens.Add(new Token("WebSite.URL", _siteInformationSettings.SiteURL));
+            tokens.Add(new Token("WebSite.Name", _siteInformationSettings.SiteName));
+            tokens.Add(new Token("WebSite.Address", _siteInformationSettings.SiteAddress));
+            tokens.Add(new Token("WebSite.PhoneNumber", _siteInformationSettings.SitePhoneNumber));
 
             tokens.Add(new Token("User.Email", user.Email));
             tokens.Add(new Token("User.Username", user.UserName));
@@ -181,11 +189,13 @@ namespace Research.Services.Messages
         private string GetURL(User user,string tokenName,string controlName, string routeNameValue)
         {
             string url = string.Empty;
+            string websiteURL = _siteInformationSettings.SiteURL;
             try
             {
                 var userAttribute = _genericAttributeService.GetAttributesForEntityByToken(user.Id, nameof(user), tokenName).OrderByDescending(x => x.Id).FirstOrDefault();
                 string attributeValue = userAttribute != null ? userAttribute.Value : string.Empty;
                 url = RouteUrl(routeName: routeNameValue, controlName: controlName, routeValues: new { token = attributeValue, email = user.Email });
+                
             }
             catch (Exception exc)
             {
@@ -201,7 +211,8 @@ namespace Research.Services.Messages
                     //do nothing
                 }
             }
-            return url;
+            return $"{websiteURL.TrimEnd('/')}{url}";
+            //return url;
         }
 
         /// <summary>
@@ -230,7 +241,6 @@ namespace Research.Services.Messages
 
 
 
-            tokens.Add(new Token("WebSite.Email", emailAccount.Email));
             tokens.Add(new Token("WebSite.URL", _siteInformationSettings.SiteURL));
             tokens.Add(new Token("WebSite.Name", _siteInformationSettings.SiteName));
             tokens.Add(new Token("WebSite.Address", _siteInformationSettings.SiteAddress));
