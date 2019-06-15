@@ -10,8 +10,10 @@ using Research.Core;
 using Research.Core.Domain;
 using Research.Core.Domain.Users;
 using Research.Data;
+using Research.Infrastructure;
 using Research.Services.Common;
 using Research.Services.Events;
+using Research.Services.Logging;
 using Research.Services.Media;
 
 namespace Research.Services.Messages
@@ -72,7 +74,20 @@ namespace Research.Services.Messages
 
                 _allowedTokens = new Dictionary<string, IEnumerable<string>>();
 
- 
+                //web site tokens
+                _allowedTokens.Add(TokenGroupNames.WebSiteTokens, new[]
+                {
+                    "%WebSite.Email%",
+                    "%WebSite.URL%",
+                    "%WebSite.Name%",
+                    "%WebSite.Address%",
+                    "%WebSite.PhoneNumber%",
+                    "%Facebook.URL%",
+                    "%Twitter.URL%",
+                    "%YouTube.URL%",
+                    "%GooglePlus.URL%"
+                });
+
                 //user tokens
                 _allowedTokens.Add(TokenGroupNames.UserTokens, new[]
                 {
@@ -81,18 +96,14 @@ namespace Research.Services.Messages
                     "%User.FullName%",
                     "%User.FirstName%",
                     "%User.LastName%",
-                    "%User.VatNumber%",
-                    "%User.VatNumberStatus%",
-                    "%User.CustomAttributes%",
                     "%User.PasswordRecoveryURL%",
                     "%User.AccountActivationURL%",
                     "%User.EmailRevalidationURL%",
-                    "%Wishlist.URLForUser%"
                 });
 
   
  
-                //vendor tokens
+                //researcher tokens
                 _allowedTokens.Add(TokenGroupNames.ResearcherTokens, new[]
                 {
                     "%Researcher.FirstName%",
@@ -114,7 +125,7 @@ namespace Research.Services.Messages
         /// <param name="routeName">The name of the route that is used to generate URL</param>
         /// <param name="routeValues">An object that contains route values</param>
         /// <returns>Generated URL</returns>
-        protected virtual string RouteUrl(int storeId = 0, string routeName = null, object routeValues = null)
+        protected virtual string RouteUrl(string routeName = null, string controlName = "",object routeValues = null )
         {
             //try to get a store by the passed identifier
             //var store = _storeService.GetStoreById(storeId) ?? _storeContext.CurrentStore
@@ -126,8 +137,8 @@ namespace Research.Services.Messages
 
             //generate a URL with an absolute path
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
-            var url = new PathString(urlHelper.RouteUrl(routeName, routeValues));
-
+            //var url = new PathString(urlHelper.RouteUrl(routeName, routeValues));
+            var url = new PathString(urlHelper.Action(routeName,controlName, routeValues));
             //remove the application path from the generated URL if exists
             var pathBase = _actionContextAccessor.ActionContext?.HttpContext?.Request?.PathBase ?? PathString.Empty;
             url.StartsWithSegments(pathBase, out url);
@@ -148,24 +159,49 @@ namespace Research.Services.Messages
         /// <param name="user">User</param>
         public virtual void AddUserTokens(IList<Token> tokens, User user)
         {
-            var userAttribute = _genericAttributeService.GetAttributesForEntity(user.Id, "AccountActivationToken").FirstOrDefault();
+
             tokens.Add(new Token("User.Email", user.Email));
             tokens.Add(new Token("User.Username", user.UserName));
             tokens.Add(new Token("User.FullName", _userService.GetUserFullName(user)));
             tokens.Add(new Token("User.FirstName", user.FirstName));
             tokens.Add(new Token("User.LastName", user.LastName));
-            //note: we do not use SEO friendly URLS for these links because we can get errors caused by having .(dot) in the URL (from the email address)
-           // var passwordRecoveryUrl = RouteUrl(routeName: "PasswordRecoveryConfirm", routeValues: new { token = user.PasswordRecoveryToken, email = user.Email });
-            var accountActivationUrl = RouteUrl(routeName: "AccountActivation", routeValues: new { token = userAttribute.Value, email = user.Email });
-           // var emailRevalidationUrl = RouteUrl(routeName: "EmailRevalidation", routeValues: new { token = user.EmailRevalidationToken, email = user.Email });
-            //var wishlistUrl = RouteUrl(routeName: "Wishlist", routeValues: new { userGuid = user.UserGuid });
-            //tokens.Add(new Token("User.PasswordRecoveryURL", passwordRecoveryUrl, true));
+
+            //string emailRevalidationUrl = GetURL(user, "EmailRevalidationToken", "EmailRevalidation");
+            string accountActivationUrl = GetURL(user, "AccountActivationToken", "User", "AccountActivation");
+            //string passwordRecoveryUrl = GetURL(user, "PasswordRecoveryToken", "PasswordRecoveryConfirm");
+
+           // tokens.Add(new Token("User.PasswordRecoveryURL", passwordRecoveryUrl, true));
             tokens.Add(new Token("User.AccountActivationURL", accountActivationUrl, true));
-            //tokens.Add(new Token("User.EmailRevalidationURL", emailRevalidationUrl, true));
-            //tokens.Add(new Token("Wishlist.URLForUser", wishlistUrl, true));
+           // tokens.Add(new Token("User.EmailRevalidationURL", emailRevalidationUrl, true));
 
             //event notification
             _eventPublisher.EntityTokensAdded(user, tokens);
+        }
+
+        private string GetURL(User user,string tokenName,string controlName, string routeNameValue)
+        {
+            string url = string.Empty;
+            try
+            {
+                var userAttribute = _genericAttributeService.GetAttributesForEntityByToken(user.Id, nameof(user), tokenName).OrderByDescending(x => x.Id).FirstOrDefault();
+                string attributeValue = userAttribute != null ? userAttribute.Value : string.Empty;
+                url = RouteUrl(routeName: routeNameValue, controlName: controlName, routeValues: new { token = attributeValue, email = user.Email });
+            }
+            catch (Exception exc)
+            {
+                //log error
+                var logger = EngineContext.Current.Resolve<ILogger>();
+                //we put in to nested try-catch to prevent possible cyclic (if some error occurs)
+                try
+                {
+                    logger.Error(exc.Message, exc);
+                }
+                catch (Exception)
+                {
+                    //do nothing
+                }
+            }
+            return url;
         }
 
         /// <summary>
@@ -189,11 +225,30 @@ namespace Research.Services.Messages
         {
             if (emailAccount == null)
                 throw new ArgumentNullException(nameof(emailAccount));
+
+            var user =_userService.GetUserByEmail(emailAccount.Email);
+
+
+
             tokens.Add(new Token("WebSite.Email", emailAccount.Email));
             tokens.Add(new Token("WebSite.URL", _siteInformationSettings.SiteURL));
             tokens.Add(new Token("WebSite.Name", _siteInformationSettings.SiteName));
             tokens.Add(new Token("WebSite.Address", _siteInformationSettings.SiteAddress));
             tokens.Add(new Token("WebSite.PhoneNumber", _siteInformationSettings.SitePhoneNumber));
+
+            tokens.Add(new Token("User.Email", user.Email));
+            tokens.Add(new Token("User.Username", user.UserName));
+            tokens.Add(new Token("User.FullName", _userService.GetUserFullName(user)));
+            tokens.Add(new Token("User.FirstName", user.FirstName));
+            tokens.Add(new Token("User.LastName", user.LastName));
+
+            //string emailRevalidationUrl = GetURL(user, "EmailRevalidationToken", "EmailRevalidation");
+            string accountActivationUrl = GetURL(user, "AccountActivationToken", "User", "AccountActivation");
+            //string passwordRecoveryUrl = GetURL(user, "PasswordRecoveryToken", "PasswordRecoveryConfirm");
+
+            //tokens.Add(new Token("User.PasswordRecoveryURL", passwordRecoveryUrl, true));
+            tokens.Add(new Token("User.AccountActivationURL", accountActivationUrl, true));
+            //tokens.Add(new Token("User.EmailRevalidationURL", emailRevalidationUrl, true));
 
             tokens.Add(new Token("Facebook.URL", _siteInformationSettings.FacebookLink));
             tokens.Add(new Token("Twitter.URL", _siteInformationSettings.TwitterLink));

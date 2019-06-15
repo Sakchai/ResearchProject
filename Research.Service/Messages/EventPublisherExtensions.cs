@@ -10,7 +10,6 @@ namespace Research.Services.Messages
     public static class EventPublisherExtensions
     {
 
-
         /// <summary>
         /// Entity tokens added
         /// </summary>

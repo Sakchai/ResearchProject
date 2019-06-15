@@ -46,7 +46,9 @@ namespace Research.Services.Common
         /// <param name="keyGroup">Key group</param>
         /// <returns>Get attributes</returns>
         IList<GenericAttribute> GetAttributesForEntity(int entityId, string keyGroup);
-        
+
+        IList<GenericAttribute> GetAttributesForEntityByToken(int entityId, string keyGroup, string token);
+
         /// <summary>
         /// Save attribute value
         /// </summary>

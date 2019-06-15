@@ -232,15 +232,16 @@ namespace Research.Services.Messages
                 return new List<int>();
 
             //tokens
-            var commonTokens = new List<Token>();
-            _messageTokenProvider.AddUserTokens(commonTokens, user);
+            //var commonTokens = new List<Token>();
+            //_messageTokenProvider.AddUserTokens(commonTokens, user);
 
             return messageTemplates.Select(messageTemplate =>
             {
                 //email account
                 var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-                var tokens = new List<Token>(commonTokens);
+                //var tokens = new List<Token>(commonTokens);
+                var tokens = new List<Token>();
                 //_messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
                 _messageTokenProvider.AddUserTokens(tokens, user);
 

@@ -259,6 +259,7 @@ namespace Research.Services.Users
             };
             _researcherService.InsertResearcher(researcher);
             request.User.ResearcherId = researcher.Id;
+            request.User.Roles = researcherRole.SystemName;
             _userService.UpdateUser(request.User);
             return result;
         }

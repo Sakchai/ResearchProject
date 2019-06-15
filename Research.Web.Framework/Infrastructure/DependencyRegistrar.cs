@@ -81,7 +81,7 @@ namespace Research.Web.Infrastructure
                 .As<ILocker>()
                 .As<IStaticCacheManager>()
                 .SingleInstance();
-            //}
+
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             //work context
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
@@ -129,9 +129,6 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
             builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
-            //private readonly IQueuedEmailService _queuedEmailService;
-            //private readonly IEmailSender _emailSender;
-            //private readonly ILogger _logger;
             builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();

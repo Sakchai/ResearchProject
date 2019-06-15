@@ -151,6 +151,21 @@ namespace Research.Services.Common
             });
         }
 
+        public virtual IList<GenericAttribute> GetAttributesForEntityByToken(int entityId, string keyGroup, string token)
+        {
+            var key = string.Format(ResearchCommonDefaults.GenericAttributeCacheKey, entityId, keyGroup);
+            return _cacheManager.Get(key, () =>
+            {
+                var query = from ga in _genericAttributeRepository.Table
+                            where ga.EntityId == entityId &&
+                            ga.KeyGroup == keyGroup &&
+                            ga.Key == token
+                            select ga;
+                var attributes = query.ToList();
+                return attributes;
+            });
+        }
+
         /// <summary>
         /// Save attribute value
         /// </summary>

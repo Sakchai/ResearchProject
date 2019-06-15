@@ -98,8 +98,9 @@ namespace Research.Web.Controllers
                 //return RedirectToRoute("HomePage");
                 return RedirectToAction("Login", "User");
 
-            var userAttribute = _genericAttributeService.GetAttributesForEntity(user.Id, ResearchUserDefaults.AccountActivationTokenAttribute).FirstOrDefault();
-            string cToken = userAttribute != null ? userAttribute.Value : string.Empty;
+            var userAccountActivationAttribute = _genericAttributeService.GetAttributesForEntity(user.Id, ResearchUserDefaults.AccountActivationTokenAttribute)
+                                                .Where(x => x.Value.Contains(token)).FirstOrDefault();
+            string cToken = userAccountActivationAttribute != null ? userAccountActivationAttribute.Value : string.Empty;
             if (user.IsActive)
                 return
                     View(new AccountActivationModel
@@ -107,7 +108,8 @@ namespace Research.Web.Controllers
                         Result = "Account.AccountActivation.AlreadyActivated"
                     });
 
-            if (!cToken.Equals(token, StringComparison.InvariantCultureIgnoreCase))
+            //if (!cToken.Equals(token, StringComparison.InvariantCultureIgnoreCase))
+            if (string.IsNullOrEmpty(cToken))
                 return RedirectToAction("Login", "User");
             //return RedirectToRoute("HomePage");
 
@@ -166,11 +168,11 @@ namespace Research.Web.Controllers
         public virtual IActionResult RegisterResult(string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                return RedirectToRoute("User");
-                
+                //return RedirectToRoute("User");
+                return RedirectToAction("Login", "User");
 
-            //return Redirect(returnUrl);
-            return RedirectToAction("Login", "User");
+            return Redirect(returnUrl);
+            //return RedirectToAction("Login", "User");
         }
 
         [HttpPost]
@@ -292,7 +294,8 @@ namespace Research.Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var loginResult = _userRegistrationService.ValidateUser(_userSettings.UsernamesEnabled ? model.UserName : model.Email, model.Password);
+                var loginResult = _userRegistrationService.ValidateUser(_userSettings.UsernamesEnabled ? 
+                                    model.UserName : model.Email, model.Password);
                 switch (loginResult)
                 {
                     case UserLoginResults.Successful:
