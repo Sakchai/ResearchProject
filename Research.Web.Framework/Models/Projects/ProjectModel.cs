@@ -59,11 +59,11 @@ namespace Research.Web.Models.Projects
         public int ProjectUploadId { get; set; }
         [UIHint("Date")]
         [Display(Name = "วันที่ทำสัญญา")]
-        public DateTime StartContractDate { get; set; }
-        public string StartContractDateName { get; set; }
+        public DateTime ProjectStartDate { get; set; }
+        public string ProjectStartDateName { get; set; }
         [UIHint("Date")]
         [Display(Name = "วันที่สิ้นสุดสัญญา")]
-        public DateTime EndContractDate { get; set; }
+        public DateTime ProjectEndDate { get; set; }
         public string LastUpdateBy { get; set; }
         [Display(Name = "หมายเหตุ")]
         public string Comment { get; set; }

@@ -52,6 +52,7 @@ namespace Research.Web.ViewComponents
                 ModuleHelper.AddModule(ModuleHelper.Module.UserRole),
                 ModuleHelper.AddModule(ModuleHelper.Module.Security),
             };
+            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.SignOut, Tuple.Create(0, 1, 0)));
             //sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.About, Tuple.Create(0, 1, 0)));
             //sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Contact, Tuple.Create(1, 0, 0)));
             //sidebars.Add(ModuleHelper.AddTree("Account"));

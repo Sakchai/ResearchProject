@@ -8,7 +8,7 @@ namespace Research.Web.Models.Users
         public bool CheckoutAsGuest;
 
         [Required]
-        [Display(Name = "อีเมลล์")]
+        [Display(Name = "อีเมล")]
         [EmailAddress]
         public string Email { get; set; }
 

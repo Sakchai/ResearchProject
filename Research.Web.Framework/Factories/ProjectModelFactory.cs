@@ -83,7 +83,7 @@ namespace Research.Web.Factories
                         FiscalYear = project.FiscalYear,
                         ProjectCode = project.ProjectCode,
                         ProjectNameTh = project.ProjectNameTh,
-                        StartContractDateName = CommonHelper.ConvertToThaiDate(project.ProjectStartDate),
+                        ProjectStartDateName  = CommonHelper.ConvertToThaiDate(project.ProjectStartDate),
                         ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
                         ProjectStatusName = (int) project.ProjectStatus != 0 ? project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                     };
@@ -165,8 +165,8 @@ namespace Research.Web.Factories
                 model.FundAmount = project.FundAmount;
                 model.StrategyGroupId = project.StrategyGroupId;
                 model.ProjectStatusId = project.ProjectStatusId.Value;
-                model.StartContractDate = project.ProjectStartDate;
-                model.EndContractDate = project.ProjectEndDate;
+                model.ProjectStartDate = project.ProjectStartDate;
+                model.ProjectEndDate= project.ProjectEndDate;
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
                 model.ResearchIssueId = project.ResearchIssueId.Value;
@@ -174,15 +174,17 @@ namespace Research.Web.Factories
             {
                 model.ProjectCode = _projectService.GetNextNumber();
                 model.ProjectType = "N";
-                model.StartContractDate = DateTime.Today;
-                model.EndContractDate = DateTime.Today.AddYears(1);
+                model.ProjectStartDate = DateTime.Today;
+                model.ProjectEndDate = DateTime.Today.AddYears(1);
                 model.ProjectStatusId = (int) ProjectStatus.WaitingApproval;
             }
 
             model.AddProjectProgressStartDate = DateTime.Today;
-            model.AddProjectProgressEndDate = model.StartContractDate.AddMonths(5);
+            model.AddProjectProgressEndDate = model.ProjectEndDate.AddMonths(5);
 
-            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, true, "--ระบุประเด็นการวิจัย--");
+            int fiscalYear = DateTime.Today.Year + 543;
+
+            _baseAdminModelFactory.PrepareResearchIssues(model.AvailableResearchIssues, fiscalYear, true, "--ระบุประเด็นการวิจัย--");
             _baseAdminModelFactory.PrepareProjectStatuses(model.AvailableProjectStatuses, true, "--ระบุผลการพิจารณา--");
 
             _baseAdminModelFactory.PrepareResearchers(model.AvailableResearchers, true, "--ระบุผู้วิจัย--");

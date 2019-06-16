@@ -35,6 +35,7 @@ namespace Research.Web.Controllers
         private readonly IWorkflowMessageService _workflowMessageService;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IResearcherService _researcherService;
+        private readonly IAuthenticationService _cookieAuthenticationService; 
         #endregion
 
         #region Ctor
@@ -49,7 +50,8 @@ namespace Research.Web.Controllers
             IWorkContext workContext,
             IWorkflowMessageService workflowMessageService,
             IGenericAttributeService genericAttributeService,
-            IResearcherService researcherService)
+            IResearcherService researcherService,
+            IAuthenticationService cookieAuthenticationService)
         {
             this._userSettings = userSettings;
             this._authenticationService = authenticationService;
@@ -62,6 +64,7 @@ namespace Research.Web.Controllers
             this._workflowMessageService = workflowMessageService;
             this._genericAttributeService = genericAttributeService;
             this._researcherService = researcherService;
+            this._cookieAuthenticationService = cookieAuthenticationService;
         }
 
         #endregion
@@ -79,6 +82,12 @@ namespace Research.Web.Controllers
         {
             var model = _userModelFactory.PrepareLoginModel(checkoutAsGuest);
             return View(model);
+        }
+
+        public virtual IActionResult SignOut()
+        {
+            _cookieAuthenticationService.SignOut();
+            return RedirectToAction("Login", "User");
         }
 
         public virtual IActionResult Register()

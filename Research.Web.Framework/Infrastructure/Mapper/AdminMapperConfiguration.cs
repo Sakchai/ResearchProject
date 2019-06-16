@@ -232,7 +232,7 @@ namespace Research.Web.Framework.Infrastructure.Mapper
                 .ForMember(model => model.AvailableResearchIssues, options => options.Ignore())
                 .ForMember(model => model.AvailableStrategyGroups, options => options.Ignore())
                 .ForMember(model => model.ProgressStatusName, options => options.Ignore())
-                .ForMember(model => model.StartContractDateName, options => options.Ignore())
+                .ForMember(model => model.ProjectStartDateName, options => options.Ignore())
                 .ForMember(model => model.ProjectProfessorSearchModel, options => options.Ignore())
                 .ForMember(model => model.ProjectProgressSearchModel, options => options.Ignore())
                 .ForMember(model => model.ProjectResearcherSearchModel, options => options.Ignore())

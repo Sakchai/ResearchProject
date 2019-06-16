@@ -30,20 +30,20 @@ namespace Research.Web.Validators.Projects
                            .NotEqual(0)
                            .WithMessage("ระบุประเด็นการวิจัย!");
 
-            RuleFor(x => x.FiscalYear).Must((x, context) =>
-            {
-                return IsFiscalYearChecked(x, fiscalScheduleService);
-            }).WithMessage("ปี ไม่ได้อยู่วันรับข้อเสนอโครงการวิจัย!");
+            //RuleFor(x => x.FiscalYear).Must((x, context) =>
+            //{
+            //    return IsFiscalYearChecked(x, fiscalScheduleService);
+            //}).WithMessage("ปี ไม่ได้อยู่วันรับข้อเสนอโครงการวิจัย!");
 
-            RuleFor(x => x.StartContractDate).Must((x, context) =>
-            {
-                return IsFiscalYearChecked(x, fiscalScheduleService);
-            }).WithMessage("วันเริ่มต้น ไม่อยู่ระหว่างวันรับข้อเสนอโครงการวิจัย!");
+            //RuleFor(x => x.ProjectStartDate).Must((x, context) =>
+            //{
+            //    return IsFiscalYearChecked(x, fiscalScheduleService);
+            //}).WithMessage("วันที่ยื่นข้อเสนอ ไม่อยู่ระหว่างวันรับข้อเสนอโครงการวิจัย!");
 
-            RuleFor(x => x.EndContractDate).Must((x, context) =>
-            {
-                return IsFiscalYearChecked(x, fiscalScheduleService);
-            }).WithMessage("วันสิ้นสุด ไม่อยู่ระหว่างวันรับข้อเสนอโครงการวิจัย!");
+            //RuleFor(x => x.ProjectEndDate).Must((x, context) =>
+            //{
+            //    return IsFiscalYearChecked(x, fiscalScheduleService);
+            //}).WithMessage("วันสิ้นสุด ไม่อยู่ระหว่างวันรับข้อเสนอโครงการวิจัย!");
 
   
             SetDatabaseValidationRules<Project>(dbContext);
@@ -58,7 +58,7 @@ namespace Research.Web.Validators.Projects
 
         private bool IsFiscalYearChecked(ProjectModel model, IFiscalScheduleService fiscalScheduleService)
         {
-            var user = fiscalScheduleService.GetAllFiscalSchedules(fiscalScheduleName:string.Empty,fiscalYear: model.FiscalYear,openingDate:model.StartContractDate,closingDate:model.EndContractDate).FirstOrDefault();
+            var user = fiscalScheduleService.GetAllFiscalSchedules(fiscalScheduleName:string.Empty,fiscalYear: model.FiscalYear,openingDate:model.ProjectStartDate,closingDate:model.ProjectEndDate).FirstOrDefault();
             return user != null ? false : true;
         }
 

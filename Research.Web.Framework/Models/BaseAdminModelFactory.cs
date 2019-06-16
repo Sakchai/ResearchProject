@@ -13,6 +13,7 @@ using Research.Services.Messages;
 using Research.Services.Professors;
 using Research.Services.FiscalSchedules;
 using Research.Services.Researchers;
+using Research.Data;
 
 namespace Research.Web.Models.Factories
 {
@@ -171,13 +172,18 @@ namespace Research.Web.Models.Factories
         /// <param name="items">Research issues items</param>
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-        public virtual void PrepareResearchIssues(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        public virtual void PrepareResearchIssues(IList<SelectListItem> items, int fiscalYear = 0, bool withSpecialDefaultItem = true, string defaultItemText = null)
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
             //prepare available research issues
-            var researchIssuesStatusItems = _researchIssueService.GetAllResearchIssues();
+            var researchIssuesStatusItems = new List<ResearchIssue>();
+            if (fiscalYear != 0)
+                researchIssuesStatusItems = _researchIssueService.GetAllResearchIssues().Where(x => x.FiscalYear == fiscalYear).ToList();
+            else
+                researchIssuesStatusItems = _researchIssueService.GetAllResearchIssues();
+
             foreach (var researchIssue in researchIssuesStatusItems)
             {
                 items.Add(new SelectListItem { Value = researchIssue.Id.ToString(), Text = researchIssue.Name });

@@ -38,6 +38,7 @@ namespace Research.Common
             ScheduleTask,
             UserRole,
             Security,
+            SignOut,
         }
 
         public static SidebarMenu AddHeader(string name)
@@ -256,6 +257,15 @@ namespace Research.Common
                         Name = "สิทธิ์ความปลอดภัย",
                         IconClassName = "fa fa-key",
                         URLPath = "/Security/Permissions",
+                        LinkCounter = counter,
+                    };
+                case Module.SignOut:
+                    return new SidebarMenu
+                    {
+                        Type = SidebarMenuType.Link,
+                        Name = "ออกจากระบบ",
+                        IconClassName = "fa fa-sign-out",
+                        URLPath = "/User/SignOut",
                         LinkCounter = counter,
                     };
                 default:

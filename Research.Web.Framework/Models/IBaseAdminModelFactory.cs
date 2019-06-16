@@ -42,8 +42,8 @@ namespace Research.Web.Models.Factories
         /// <param name="items">Payment status items</param>
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-        void PrepareResearchIssues(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
-
+        //void PrepareResearchIssues(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareResearchIssues(IList<SelectListItem> items, int fiscalYear = 0, bool withSpecialDefaultItem = true, string defaultItemText = null);
         /// <summary>
         /// Prepare available agencies
         /// </summary>

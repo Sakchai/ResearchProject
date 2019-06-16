@@ -19,10 +19,10 @@ namespace Research.Web.Models.Users
         }
         [Display(Name = "รหัสผู้ดูแลระบบ")]
         public string UserName { get; set; }
-
+        [Required]
         [Display(Name = "ชื่อ")]
         public string FirstName { get; set; }
-
+        [Required]
         [Display(Name = "นามสกุล")]
         public string LastName { get; set; }
         [Display(Name = "คำนำหน้าชื่อ")]

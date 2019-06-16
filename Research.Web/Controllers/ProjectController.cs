@@ -74,9 +74,28 @@ namespace Research.Web.Controllers
             if (project == null)
                 return RedirectToAction("List");
 
+            int fiscalYear = DateTime.Now.Year + 543;
+            var fiscalSchedule = _fiscalScheduleService.GetAllFiscalSchedules(fiscalScheduleName: string.Empty,
+                                  fiscalYear: fiscalYear)
+                                  .Where(x => x.ClosingDate >= DateTime.Today &&
+                                       x.OpeningDate <= DateTime.Today)
+                                  .OrderByDescending(x => x.OpeningDate).FirstOrDefault();
+
+            if (fiscalSchedule == null)
+                ModelState.AddModelError("", "ไม่พบช่วงเวลา วันเปิดรับข้อเสนอโครงการวิจัย โปรดติดต่อผู้ดูแลระบบ");
+
+            project = model.ToEntity(project);
+
+            if (project.ProjectStartDate <= fiscalSchedule.OpeningDate)
+                ModelState.AddModelError("", "วันที่ยื่นข้อเสนอโครงการ น้อยกว่าวันเปิดรับข้อเสนอโครงการวิจัย.");
+            
+            if (project.ProjectEndDate >= fiscalSchedule.ClosingDate)
+                ModelState.AddModelError("", "วันสุดท้ายยื่นข้อเสนอโครงการ มากกว่าวันปิดรับข้อเสนอโครงการวิจัย.");
+
+
             if (ModelState.IsValid)
             {
-                project = model.ToEntity(project);
+                
 
                 _projectService.UpdateProject(project);
 
@@ -96,7 +115,7 @@ namespace Research.Web.Controllers
 
             //prepare model
             model = _projectModelFactory.PrepareProjectModel(model, project);
-
+            
             //if we got this far, something failed, redisplay form
             return View(model);
         }
@@ -114,13 +133,23 @@ namespace Research.Web.Controllers
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
             //    return AccessDeniedView();
 
+            int fiscalYear = DateTime.Now.Year + 543;
+            var fiscalSchedule = _fiscalScheduleService.GetAllFiscalSchedules(fiscalScheduleName: string.Empty,
+                                  fiscalYear: fiscalYear)
+                                  .Where(x => x.ClosingDate <= DateTime.Today &&
+                                       x.OpeningDate >= DateTime.Today)
+                                  .OrderByDescending(x => x.OpeningDate).FirstOrDefault();
+
+            if (fiscalSchedule == null)
+                ModelState.AddModelError("", "ไม่พบช่วงเวลา วันเปิดรับข้อเสนอโครงการวิจัย โปรดติดต่อผู้ดูแลระบบ");
+
             if (ModelState.IsValid)
             {
                 var user = _workContext.CurrentUser;
                 var project = model.ToEntity<Project>();
                 project.ProjectType = string.IsNullOrEmpty(model.ProjectType) ? "N" : model.ProjectType;
-                project.ProjectStartDate = DateTime.Today;
-                project.ProjectEndDate = DateTime.Today.AddYears(1);
+                project.ProjectStartDate = fiscalSchedule.OpeningDate;
+                project.ProjectEndDate = fiscalSchedule.ClosingDate;
                 project.Created = DateTime.UtcNow;
                 project.Modified = DateTime.UtcNow;
                 project.LastUpdateBy = user.UserName;

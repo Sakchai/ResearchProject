@@ -20,13 +20,13 @@ namespace Research.Web.ViewComponents
         private List<Message> GetData()
         {
             var messages = new List<Message>();
-            messages.Add(new Message
-            {
-                Id = 1,
-                ShortDesc = "Design some buttons",
-                URLPath = "#",
-                Percentage = 20,
-            });
+            //messages.Add(new Message
+            //{
+            //    Id = 1,
+            //    ShortDesc = "Design some buttons",
+            //    URLPath = "#",
+            //    Percentage = 20,
+            //});
 
             return messages;
         }
