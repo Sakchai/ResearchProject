@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Web.Framework.Controllers;
+using Research.Web.Framework.Controllers;
 using Research.Data;
 using Research.Services.Helpers;
 using Research.Services.Messages;

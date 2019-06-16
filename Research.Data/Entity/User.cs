@@ -11,7 +11,7 @@ namespace Research.Data
         private ICollection<UserUserRoleMapping> _userUserRoleMappings;
         public User()
         {
-            
+            this.UserGuid = Guid.NewGuid();
         }
         public int TitleId { get; set; }
         public string FirstName { get; set; }
@@ -27,6 +27,7 @@ namespace Research.Data
         public string MobileNumber { get; set; }
         public bool RequireReLogin { get; set; }
         public bool IsActive { get; set; }
+
         public bool Deleted { get; set; }
         public bool IsSystemAccount { get; set; }
         public string Roles { get; set; }

@@ -1,9 +1,9 @@
-﻿@model RegisterResultModel
+﻿@model AccountActivationModel
 
 
 @inject IWebHelper webHelper
 @{
-    ViewData["Title"] = "ผลลงทะเบียนสมัครนักวิจัย";
+    ViewData["Title"] = "ผลการยืนยันอีเมลนักวิจัย";
     Layout = "";
     //register URL with return URL (if specified)
     var registerUrl = Url.RouteUrl("Register", null, webHelper.CurrentRequestProtocol);
@@ -43,7 +43,7 @@
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <p class="login-box-msg">ผลการลงทะเบียนสมัครนักวิจัย</p>
+            <p class="login-box-msg">ผลการยืนยันอีเมลนักวิจัย</p>
         </div>
 
         <div class="register-box-body">

@@ -97,14 +97,14 @@ namespace Research.Web.Factories
                 {
                     //fill in model values from the entity
                     var researcherModel = researcher.ToModel<ResearcherModel>();
-                    var user = _userService.GetUserByEmail(researcher.Email);
+                    //var user = _userService.GetUserByEmail(researcher.Email);
                     //little performance optimization: ensure that "Body" is not returned
                     researcherModel.ResearcherCode   = researcher.ResearcherCode;
                     researcherModel.FirstName = researcher.FirstName;
                     researcherModel.LastName = researcher.LastName;
                     researcherModel.PersonalTypeName = (int)researcher.PersonalType !=0 ? researcher.PersonalType.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty;
                     researcherModel.AgencyName = researcher.Agency != null ? researcher.Agency.Name : string.Empty;
-                    researcherModel.IsCompleted = user != null ? user.IsActive : false ;
+                    researcherModel.IsCompleted = researcher.IsCompleted;
                     return researcherModel;
                 }),
                 Total = researchers.Count

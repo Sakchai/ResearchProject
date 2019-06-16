@@ -30,6 +30,7 @@ namespace Research.Data
         public DateTime? Birthdate { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+        public bool IsCompleted { get; set; }
         public bool Deleted { get; set; }
         public bool? IsAcceptedConditions { get; set; }
         public string Telephone { get; set; }
@@ -39,6 +40,7 @@ namespace Research.Data
         public int? AcademicRankId { get; set; }
         public string LastUpdateBy { get; set; }
         public string Gender { get; set; }
+        public DateTime? Modified { get; set; }
         public virtual PictureBinary Picture { get; set; }
         public virtual Title Title { get; set; }
         public virtual AcademicRank AcademicRank { get; set; }

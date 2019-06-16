@@ -713,16 +713,16 @@ namespace Research.Services.Users
             if (string.IsNullOrWhiteSpace(systemName))
                 return null;
 
-            var key = string.Format(ResearchUserServiceDefaults.UserRolesBySystemNameCacheKey, systemName);
-            return _cacheManager.Get(key, () =>
-            {
+            //var key = string.Format(ResearchUserServiceDefaults.UserRolesBySystemNameCacheKey, systemName);
+            //return _cacheManager.Get(key, () =>
+            //{
                 var query = from cr in _userRoleRepository.Table
                             orderby cr.Id
                             where cr.SystemName == systemName
                             select cr;
                 var userRole = query.FirstOrDefault();
                 return userRole;
-            });
+            //});
         }
 
         #endregion

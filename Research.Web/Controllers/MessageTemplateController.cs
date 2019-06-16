@@ -11,7 +11,7 @@ using Research.Web.Factories;
 using Research.Data;
 using Research.Web.Models.Messages;
 using Research.Web.Extensions;
-using Nop.Web.Framework.Controllers;
+using Research.Web.Framework.Controllers;
 
 namespace Research.Controllers
 {

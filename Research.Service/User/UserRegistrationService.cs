@@ -243,6 +243,7 @@ namespace Research.Services.Users
                 request.User.UserUserRoleMappings
                     .Remove(request.User.UserUserRoleMappings.FirstOrDefault(mapping => mapping.UserRoleId == guestRole.Id));
             }
+            //_userService.UpdateUser(request.User);
             var researcher = new Researcher
             {
                 ResearcherCode = _researcherService.GetNextNumber(),
@@ -260,6 +261,8 @@ namespace Research.Services.Users
             request.User.ResearcherId = researcher.Id;
             request.User.Roles = researcherRole.SystemName;
             _userService.UpdateUser(request.User);
+            //_workContext.CurrentUser = request.User;
+
             return result;
         }
 

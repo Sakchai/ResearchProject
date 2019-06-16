@@ -8,6 +8,7 @@ using Research.Services.Authentication;
 using Research.Services.Common;
 using Research.Services.Events;
 using Research.Services.Messages;
+using Research.Services.Researchers;
 using Research.Services.Users;
 using Research.Web.Extensions;
 using Research.Web.Factories;
@@ -33,6 +34,7 @@ namespace Research.Web.Controllers
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
         private readonly IGenericAttributeService _genericAttributeService;
+        private readonly IResearcherService _researcherService;
         #endregion
 
         #region Ctor
@@ -46,7 +48,8 @@ namespace Research.Web.Controllers
             IWebHelper webHelper,
             IWorkContext workContext,
             IWorkflowMessageService workflowMessageService,
-            IGenericAttributeService genericAttributeService)
+            IGenericAttributeService genericAttributeService,
+            IResearcherService researcherService)
         {
             this._userSettings = userSettings;
             this._authenticationService = authenticationService;
@@ -58,6 +61,7 @@ namespace Research.Web.Controllers
             this._workContext = workContext;
             this._workflowMessageService = workflowMessageService;
             this._genericAttributeService = genericAttributeService;
+            this._researcherService = researcherService;
         }
 
         #endregion
@@ -84,7 +88,7 @@ namespace Research.Web.Controllers
             return View(registerModel);
         }
 
-        [HttpGet]
+        [HttpGet, ActionName("RegisterResult")]
         public virtual IActionResult RegisterResult(int resultId)
         {
             var model = _userModelFactory.PrepareRegisterResultModel(resultId);
@@ -95,26 +99,27 @@ namespace Research.Web.Controllers
         {
             var user = _userService.GetUserByEmail(email);
             if (user == null)
-                //return RedirectToRoute("HomePage");
                 return RedirectToAction("Login", "User");
 
             var userAccountActivationAttribute = _genericAttributeService.GetAttributesForEntityByToken(user.Id, nameof(user), ResearchUserDefaults.AccountActivationTokenAttribute)
                                                 .Where(x => x.Value.Contains(token)).FirstOrDefault();
             string cToken = userAccountActivationAttribute != null ? userAccountActivationAttribute.Value : string.Empty;
-            if (user.IsActive)
+            var researcher = _researcherService.GetResearcherByEmail(email);
+            if (researcher.IsCompleted)
                 return
                     View(new AccountActivationModel
                     {
-                        Result = "Account.AccountActivation.AlreadyActivated"
+                        Result = "ระบบยืนยันอีเมลของเท่านเรียบร้อยแล้ว โปรดล็อคอินเข้าสู่ระบบ !"
                     });
 
             //if (!cToken.Equals(token, StringComparison.InvariantCultureIgnoreCase))
             if (string.IsNullOrEmpty(cToken))
                 return RedirectToAction("Login", "User");
-            //return RedirectToRoute("HomePage");
 
-            //activate user account
-            user.IsActive = true;
+            //activate researcher account
+            researcher.IsCompleted = true;
+            researcher.Modified = DateTime.UtcNow;
+            _researcherService.UpdateResearcher(researcher);
             user.Modified = DateTime.UtcNow;
             _userService.UpdateUser(user);
             _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.AccountActivationTokenAttribute, "");
@@ -124,7 +129,7 @@ namespace Research.Web.Controllers
 
             var model = new AccountActivationModel
             {
-                Result = "Account.AccountActivation.Activated"
+                Result = "ยินดีต้อนรับเข้าสู่ระบบสารสนเทศเพื่อการบริหารงานวิจัย ระบบได้ยืนยันอีเมลของเท่าน โปรดล็อคอินเข้าสู่ระบบ !"
             };
             return View(model);
         }
@@ -198,9 +203,8 @@ namespace Research.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                user.UserGuid = Guid.NewGuid();
+               // user.UserGuid = Guid.NewGuid();
                 user.FirstName = model.FirstName;
-                user.IsActive = false;
                 user.LastName = model.LastName;
                 user.TitleId = model.TitleId;
                 user.AgencyId = model.AgencyId;

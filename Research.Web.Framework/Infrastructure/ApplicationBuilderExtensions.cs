@@ -61,9 +61,9 @@ namespace Research.Web.Framework
                 handler.Run(context =>
                 {
                     var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-                    if (exception == null)
+                    if (exception == null) 
                         return Task.CompletedTask;
-
+                    //var currentUser = EngineContext.Current.Resolve<IWorkContext>().CurrentUser;
                     try
                     {
                         //check whether database is installed
@@ -78,8 +78,10 @@ namespace Research.Web.Framework
                     }
                     finally
                     {
+                        //chai
                         //rethrow the exception to show the error page
-                        throw exception;
+                        //if (!currentUser.Roles.Equals("Researchers"))
+                            throw exception;
                     }
                 });
             });
