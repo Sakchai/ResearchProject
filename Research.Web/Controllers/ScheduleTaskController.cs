@@ -46,8 +46,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
+                return AccessDeniedView();
 
             //prepare model
             var model = _scheduleTaskModelFactory.PrepareScheduleTaskSearchModel(new ScheduleTaskSearchModel());
@@ -58,8 +58,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult List(ScheduleTaskSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _scheduleTaskModelFactory.PrepareScheduleTaskListModel(searchModel);
@@ -70,8 +70,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult TaskUpdate(ScheduleTaskModel model)
         {
-        //    if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
-        //        return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
+                return AccessDeniedView();
 
             if (!ModelState.IsValid)
                 return Json(new DataSourceResult { Errors = ModelState.SerializeErrors() });
@@ -95,8 +95,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult RunNow(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageScheduleTasks))
+                return AccessDeniedView();
 
             try
             {

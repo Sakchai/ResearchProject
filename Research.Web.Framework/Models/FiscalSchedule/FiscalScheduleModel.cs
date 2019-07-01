@@ -25,10 +25,11 @@ namespace Research.Web.Models.FiscalSchedules
         public IList<SelectListItem> AvailableFiscalYears { get; set; }
         [Display(Name = "ชื่อทุนวิจัย")]
         public string ScholarName { get; set; }
-
+        [UIHint("Date")]
         [Display(Name = "วันเปิดรับข้อเสนอโครงการวิจัย")]
         public DateTime OpeningDate { get; set; }
         public string OpeningDateName { get; set; }
+        [UIHint("Date")]
         [Display(Name = "วันปิดรับข้อเสนอโครงการวิจัย")]
         public DateTime ClosingDate { get; set; }
         public string ClosingDateName { get; set; }

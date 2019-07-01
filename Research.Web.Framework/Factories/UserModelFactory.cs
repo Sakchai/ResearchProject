@@ -74,7 +74,7 @@ namespace Research.Web.Factories
                     resultText = "Account AdminApproval";
                     break;
                 case UserRegistrationType.EmailValidation:
-                    resultText = "ระบบได้ลงทะเบียนผู้วิจัยเรียบร้อยแล้ว โปรดยืนยันอีเมล์ของท่าน ก่อนเข้าใช้ระบบงาน!";
+                    resultText = "ระบบได้ลงทะเบียนผู้วิจัยเรียบร้อยแล้ว โปรดยืนยันอีเมลของท่าน ก่อนเข้าใช้ระบบงาน!";
                     break;
                 default:
                     break;

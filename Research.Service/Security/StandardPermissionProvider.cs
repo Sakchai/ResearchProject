@@ -23,11 +23,14 @@ namespace Research.Services.Security
         public static readonly PermissionRecord HtmlEditorManagePictures = new PermissionRecord { Name = "HTML Editor. Manage pictures", SystemName = "HtmlEditor.ManagePictures", Category = "Configuration" };
         public static readonly PermissionRecord ManageScheduleTasks = new PermissionRecord { Name = "Manage Schedule Tasks", SystemName = "ManageScheduleTasks", Category = "Configuration" };
         public static readonly PermissionRecord ManageUsers = new PermissionRecord { Name = "Manage Users", SystemName = "ManageUsers", Category = "Configuration" };
+        public static readonly PermissionRecord ManageResearchers = new PermissionRecord { Name = "Manage Researchers", SystemName = "ManageResearchers", Category = "Configuration" };
 
         //public store permissions
         public static readonly PermissionRecord PublicStoreAllowNavigation = new PermissionRecord { Name = "Public web application. Allow navigation", SystemName = "PublicStoreAllowNavigation", Category = "PublicStore" };
         public static readonly PermissionRecord AccessClosedStore = new PermissionRecord { Name = "Public web application. Access a closed application", SystemName = "AccessClosedStore", Category = "PublicStore" };
         public static readonly PermissionRecord ManageAcl;
+
+
 
         /// <summary>
         /// Get permissions
@@ -49,7 +52,8 @@ namespace Research.Services.Security
                 HtmlEditorManagePictures,
                 ManageScheduleTasks,
                 PublicStoreAllowNavigation,
-                AccessClosedStore
+                AccessClosedStore,
+                ManageResearchers
             };
         }
 
@@ -78,7 +82,8 @@ namespace Research.Services.Security
                         HtmlEditorManagePictures,
                         ManageScheduleTasks,
                         PublicStoreAllowNavigation,
-                        AccessClosedStore
+                        AccessClosedStore,
+                        ManageResearchers
                     }
                 },
                 new DefaultPermissionRecord
@@ -111,6 +116,7 @@ namespace Research.Services.Security
                     PermissionRecords = new[]
                     {
                         AccessAdminPanel,
+                        ManageResearchers
                     }
                 }
             };

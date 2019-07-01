@@ -11,6 +11,9 @@
     <Compile Remove="Entity\Program.cs" />
     <Compile Remove="Entity\Role.cs" />
     <Compile Remove="Entity\RoleProgram.cs" />
+    <Compile Remove="Enum\EnumConverter.cs" />
+    <Compile Remove="Enum\SortAttribute.cs" />
+    <Compile Remove="Enum\StringEnum.cs" />
     <Compile Remove="Mapping\ProgramMap.cs" />
     <Compile Remove="Mapping\RoleMap.cs" />
     <Compile Remove="Mapping\RoleProgramMap.cs" />

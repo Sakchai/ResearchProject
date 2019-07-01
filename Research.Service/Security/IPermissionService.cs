@@ -87,5 +87,6 @@ namespace Research.Services.Security
         /// <param name="user">User</param>
         /// <returns>true - authorized; otherwise, false</returns>
         bool Authorize(string permissionRecordSystemName, User user);
+
     }
 }

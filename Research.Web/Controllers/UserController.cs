@@ -9,6 +9,7 @@ using Research.Services.Common;
 using Research.Services.Events;
 using Research.Services.Messages;
 using Research.Services.Researchers;
+using Research.Services.Security;
 using Research.Services.Users;
 using Research.Web.Extensions;
 using Research.Web.Factories;
@@ -35,7 +36,8 @@ namespace Research.Web.Controllers
         private readonly IWorkflowMessageService _workflowMessageService;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IResearcherService _researcherService;
-        private readonly IAuthenticationService _cookieAuthenticationService; 
+        private readonly IAuthenticationService _cookieAuthenticationService;
+        private readonly IPermissionService _permissionService;
         #endregion
 
         #region Ctor
@@ -51,7 +53,8 @@ namespace Research.Web.Controllers
             IWorkflowMessageService workflowMessageService,
             IGenericAttributeService genericAttributeService,
             IResearcherService researcherService,
-            IAuthenticationService cookieAuthenticationService)
+            IAuthenticationService cookieAuthenticationService,
+            IPermissionService permissionService)
         {
             this._userSettings = userSettings;
             this._authenticationService = authenticationService;
@@ -65,6 +68,7 @@ namespace Research.Web.Controllers
             this._genericAttributeService = genericAttributeService;
             this._researcherService = researcherService;
             this._cookieAuthenticationService = cookieAuthenticationService;
+            this._permissionService = permissionService;
         }
 
         #endregion
@@ -382,8 +386,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             //prepare model
             var model = _userModelFactory.PrepareUserSearchModel(new UserSearchModel());
@@ -394,8 +398,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult List(UserSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _userModelFactory.PrepareUserListModel(searchModel);
@@ -409,8 +413,8 @@ namespace Research.Web.Controllers
         [HttpGet, ActionName("Create")]
         public virtual IActionResult Create()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             //prepare model
             var model = _userModelFactory.PrepareUserModel(new UserModel(), null);
@@ -420,8 +424,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Create(UserModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             if (ModelState.IsValid)
             {
@@ -453,8 +457,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             //try to get a user with the specified id
             var user = _userService.GetUserById(id);
@@ -470,8 +474,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Edit(UserModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             //try to get a user with the specified id
             var user = _userService.GetUserById(model.Id);
@@ -506,8 +510,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Info(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             //try to get a user with the specified id
             var user = _userService.GetUserById(id);
@@ -523,8 +527,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
+                return AccessDeniedView();
 
             //try to get a user with the specified id
             var user = _userService.GetUserById(id)

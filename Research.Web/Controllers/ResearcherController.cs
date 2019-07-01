@@ -149,8 +149,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //prepare model
             var model = _researcherModelFactory.PrepareResearcherSearchModel(new ResearcherSearchModel());
@@ -161,8 +161,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult List(ResearcherSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _researcherModelFactory.PrepareResearcherListModel(searchModel);
@@ -176,8 +176,8 @@ namespace Research.Web.Controllers
         [HttpGet, ActionName("Create")]
         public virtual IActionResult Create()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //prepare model
             var model = _researcherModelFactory.PrepareResearcherModel(new ResearcherModel(), null);
@@ -188,8 +188,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Create(ResearcherModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             if (ModelState.IsValid)
             {
@@ -254,8 +254,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(id);
@@ -271,8 +271,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Edit(ResearcherModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(model.Id);
@@ -320,8 +320,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Info(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(id);
@@ -337,8 +337,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Delete(int Id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //try to get a researcher with the specified id
             if (Id == 0)
@@ -366,8 +366,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ResearcherEducationsSelect(ResearcherEducationSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedKendoGridJson();
 
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(searchModel.ResearcherId);
@@ -387,8 +387,8 @@ namespace Research.Web.Controllers
         public virtual IActionResult ResearcherEducationAdd(int researcherId, int degreeId,
             int educationLevelId, int institudeId, int countryId, int graduationYear)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(researcherId);
@@ -414,8 +414,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ResearcherEducationDelete(int id, int researcherId)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
 
             //try to get a researcher with the specified id
             // var researcher = _researcherService.GetResearcherById(researcherId)

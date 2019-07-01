@@ -84,7 +84,7 @@ namespace Research.Web.Factories
                         ProjectCode = project.ProjectCode,
                         ProjectNameTh = project.ProjectNameTh,
                         ProjectStartDateName  = CommonHelper.ConvertToThaiDate(project.ProjectStartDate),
-                        ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.ToString() : string.Empty,
+                        ProgressStatusName = project.ProjectProgresses.LastOrDefault() != null ? project.ProjectProgresses.LastOrDefault().ProgressStatus.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                         ProjectStatusName = (int) project.ProjectStatus != 0 ? project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                     };
 

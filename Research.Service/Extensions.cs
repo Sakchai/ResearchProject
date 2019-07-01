@@ -31,26 +31,37 @@ namespace Research.Services
         {
             if (!typeof(TEnum).IsEnum) throw new ArgumentException("An Enumeration type is required.", "enumObj");
 
-            //var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
-            //var workContext = EngineContext.Current.Resolve<IWorkContext>();
-
+ 
             var values = from TEnum enumValue in System.Enum.GetValues(typeof(TEnum))
                          where valuesToExclude == null || !valuesToExclude.Contains(Convert.ToInt32(enumValue))
-                         select new { ID = Convert.ToInt32(enumValue), Name =  CommonHelper.ConvertEnum(enumValue.ToString()) };
-                         //select new { ID = Convert.ToInt32(enumValue), Name = enumValue.ToString() };
+                         select new { ID = Convert.ToInt32(enumValue),
+                                      Name = StringValue((System.Enum)System.Enum.Parse(typeof(TEnum), enumValue.ToString())) };
+
+
             object selectedValue = null;
-            //foreach (var item in values)
-            //{
-            //    int i = item.ID;
-            //    var e = EnumHelper.ToEnum<T>(item.Name);
-            //    string value = e.GetAttributeOfType<EnumMemberAttribute>().Value;
-            //}
             if (markCurrentAsSelected)
                 selectedValue = Convert.ToInt32(enumObj);
             return new SelectList(values, "ID", "Name", selectedValue);
         }
 
-       
+
+        private static string StringValue(System.Enum value)
+        {
+            if (value == null)
+                return "";
+
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+            EnumMemberAttribute[] attributes = (EnumMemberAttribute[])fi.GetCustomAttributes(typeof(EnumMemberAttribute), false);
+            if (attributes.Length > 0)
+            {
+                return attributes[0].Value;
+            }
+            else
+            {
+                return value.ToString();
+            }
+        }
+
         /// <summary>
         /// Convert to select list
         /// </summary>

@@ -14,6 +14,7 @@ using Research.Services.Professors;
 using Research.Services.FiscalSchedules;
 using Research.Services.Researchers;
 using Research.Data;
+using System.Runtime.Serialization;
 
 namespace Research.Web.Models.Factories
 {
@@ -491,6 +492,7 @@ namespace Research.Web.Models.Factories
             foreach (var statusItem in availableStatusItems)
             {
                 items.Add(statusItem);
+
             }
 
             //insert special item for the default value

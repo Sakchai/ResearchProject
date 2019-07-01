@@ -1,10 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Research.Core;
-using Research.Core.Domain.Users;
 using Research.Services.Logging;
 using Research.Services.Security;
-using Research.Web.Framework.Controllers;
 using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Controllers;
 using Research.Services;

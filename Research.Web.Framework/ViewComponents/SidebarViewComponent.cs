@@ -34,7 +34,7 @@ namespace Research.Web.ViewComponents
             sidebars.Last().TreeChild = new List<SidebarMenu>()
             {
                 ModuleHelper.AddModule(ModuleHelper.Module.Researchs),
-                ModuleHelper.AddModule(ModuleHelper.Module.AddResearcher),
+                //ModuleHelper.AddModule(ModuleHelper.Module.AddResearcher),
                 ModuleHelper.AddModule(ModuleHelper.Module.Professors),
                 ModuleHelper.AddModule(ModuleHelper.Module.AddProfessor),
             };
@@ -44,7 +44,7 @@ namespace Research.Web.ViewComponents
                 ModuleHelper.AddModule(ModuleHelper.Module.ResearchIssues),
                 ModuleHelper.AddModule(ModuleHelper.Module.FiscalSchedules),
                 ModuleHelper.AddModule(ModuleHelper.Module.Users),
-                ModuleHelper.AddModule(ModuleHelper.Module.AddUser),
+                //ModuleHelper.AddModule(ModuleHelper.Module.AddUser),
                 //ModuleHelper.AddModule(ModuleHelper.Module.ActivityLogs),
                 ModuleHelper.AddModule(ModuleHelper.Module.MessageTemplate),
                 ModuleHelper.AddModule(ModuleHelper.Module.EmailAccount),
