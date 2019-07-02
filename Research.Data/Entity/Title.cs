@@ -10,7 +10,6 @@ namespace Research.Data
         public string TitleNameTH { get; set; }
         public string TitleNameEN { get; set; }
         public string Gender { get; set; }
-
         public DateTime Created { get; set; }
 
     }

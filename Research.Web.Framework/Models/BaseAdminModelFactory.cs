@@ -318,13 +318,13 @@ namespace Research.Web.Models.Factories
         /// <param name="items">eAcademic Rank items</param>
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-        public virtual void PrepareAcademicRanks(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        public virtual void PrepareAcademicRanks(IList<SelectListItem> items,int personType = 1, bool withSpecialDefaultItem = true, string defaultItemText = null)
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
             
             //prepare available academic ranks
-            var availableAcademicRanks = _academicRankService.GetAllAcademicRanks();
+            var availableAcademicRanks = _academicRankService.GetAllAcademicRanks().Where(x=> x.PersonTypeId== personType);
             foreach (var academicRank in availableAcademicRanks)
             {
                 items.Add(new SelectListItem { Value = academicRank.Id.ToString(), Text = academicRank.NameTh });

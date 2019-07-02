@@ -82,7 +82,7 @@ namespace Research.Services.Researchers
 
         }
 
-        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, int isActive = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, int isCompleted = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = _researcherRepository.Table;
             query = query.Where(c => c.Deleted != true);
@@ -99,10 +99,10 @@ namespace Research.Services.Researchers
             if (!string.IsNullOrWhiteSpace(lastName))
                 query = query.Where(c => c.LastName.Contains(lastName));
 
-            if (isActive != 0)
+            if (isCompleted != 0)
             {
-                bool active = isActive == 1 ? true : false;
-                query = query.Where(c => c.IsActive == active);
+                bool active = isCompleted == 1 ? true : false;
+                query = query.Where(c => c.IsCompleted == active);
             }
 
             //query = query.Where(c => c.IsActive == isActive);

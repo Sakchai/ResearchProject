@@ -193,6 +193,15 @@ namespace Research.Services.Common
             return query.ToList();
         }
 
+        public IList<AcademicRank> GetAcademicRanksByPersonalTypeId(int personalTypeId)
+        {
+            var query = from sp in _academicRankRepository.Table
+                        orderby sp.NameTh
+                        where sp.PersonTypeId == personalTypeId 
+                        select sp;
+            return query.ToList();
+        }
+
 
         #endregion
     }

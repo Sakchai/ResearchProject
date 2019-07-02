@@ -60,5 +60,7 @@ namespace Research.Services.Common
         /// <returns>AcademicRanks</returns>
         List<AcademicRank> GetAcademicRanksByIds(int[] academicRankIds);
         List<AcademicRank> GetAllAcademicRanks();
+        IList<AcademicRank> GetAcademicRanksByPersonalTypeId(int personalTypeId);
+
     }
 }

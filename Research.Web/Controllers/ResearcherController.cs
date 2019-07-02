@@ -15,6 +15,7 @@ using Research.Services.Common;
 using Research.Web.Framework.Mvc;
 using Research.Web.Models.Common;
 using Research.Services.Researchers;
+using System.Collections.Generic;
 
 namespace Research.Web.Controllers
 {
@@ -29,6 +30,7 @@ namespace Research.Web.Controllers
         private readonly IResearcherService _researcherService;
         private readonly IPictureService _pictureService;
         private readonly IAddressService _addressService;
+        private readonly IAcademicRankService _academicRankService;
 
         #endregion Fields
 
@@ -40,7 +42,8 @@ namespace Research.Web.Controllers
             IResearcherModelFactory researcherModelFactory,
             IResearcherService researcherService,
             IPictureService pictureService,
-            IAddressService addressService)
+            IAddressService addressService,
+            IAcademicRankService academicRankService)
         {
             this._userActivityService = userActivityService;
             this._userService = userService;
@@ -49,94 +52,27 @@ namespace Research.Web.Controllers
             this._researcherService = researcherService;
             this._pictureService = pictureService;
             this._addressService = addressService;
+            this._academicRankService = academicRankService;
         }
 
         #endregion
 
         #region Utilities
+        [HttpGet, ActionName("GetAcademicRanksByPersonalTypeId")]
+        public virtual IActionResult GetAcademicRanksByPersonalTypeId(string personalTypeId, bool? addSelectPersonalTypeItem)
+        {
+            //permission validation is not required here
 
-        //protected virtual void UpdateLocales(Researcher researcher, ResearcherModel model)
-        //{
-        //    foreach (var localized in model.Locales)
-        //    {
-        //        _localizedEntityService.SaveLocalizedValue(researcher,
-        //            x => x.Title,
-        //            localized.Title,
-        //            localized.LanguageId);
+            // This action method gets called via an ajax request
+            if (string.IsNullOrEmpty(personalTypeId))
+                throw new ArgumentNullException(nameof(personalTypeId));
+            int id = Int32.Parse(personalTypeId);
+            var result = _academicRankService.GetAcademicRanksByPersonalTypeId(id)
+                                .Select(x => new { id = x.Id, name = x.NameTh }).ToList();
 
-        //        _localizedEntityService.SaveLocalizedValue(researcher,
-        //            x => x.Body,
-        //            localized.Body,
-        //            localized.LanguageId);
+            return Json(result);
+        }
 
-        //        _localizedEntityService.SaveLocalizedValue(researcher,
-        //            x => x.MetaKeywords,
-        //            localized.MetaKeywords,
-        //            localized.LanguageId);
-
-        //        _localizedEntityService.SaveLocalizedValue(researcher,
-        //            x => x.MetaDescription,
-        //            localized.MetaDescription,
-        //            localized.LanguageId);
-
-        //        _localizedEntityService.SaveLocalizedValue(researcher,
-        //            x => x.MetaTitle,
-        //            localized.MetaTitle,
-        //            localized.LanguageId);
-
-        //        //search engine name
-        //        var seName = researcher.ValidateSeName(localized.SeName, localized.Title, false);
-        //        _urlRecordService.SaveSlug(researcher, seName, localized.LanguageId);
-        //    }
-        //}
-
-        //protected virtual void SaveResearcherAcl(Researcher researcher, ResearcherModel model)
-        //{
-        //    researcher.SubjectToAcl = model.SelectedUserRoleIds.Any();
-
-        //    var existingAclRecords = _aclService.GetAclRecords(researcher);
-        //    var allUserRoles = _userService.GetAllUserRoles(true);
-        //    foreach (var userRole in allUserRoles)
-        //    {
-        //        if (model.SelectedUserRoleIds.Contains(userRole.Id))
-        //        {
-        //            //new role
-        //            if (existingAclRecords.Count(acl => acl.UserRoleId == userRole.Id) == 0)
-        //                _aclService.InsertAclRecord(researcher, userRole.Id);
-        //        }
-        //        else
-        //        {
-        //            //remove role
-        //            var aclRecordToDelete = existingAclRecords.FirstOrDefault(acl => acl.UserRoleId == userRole.Id);
-        //            if (aclRecordToDelete != null)
-        //                _aclService.DeleteAclRecord(aclRecordToDelete);
-        //        }
-        //    }
-        //}
-
-        //protected virtual void SaveStoreMappings(Researcher researcher, ResearcherModel model)
-        //{
-        //    researcher.LimitedToStores = model.SelectedStoreIds.Any();
-
-        //    var existingStoreMappings = _storeMappingService.GetStoreMappings(researcher);
-        //    var allStores = _storeService.GetAllStores();
-        //    foreach (var store in allStores)
-        //    {
-        //        if (model.SelectedStoreIds.Contains(store.Id))
-        //        {
-        //            //new store
-        //            if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
-        //                _storeMappingService.InsertStoreMapping(researcher, store.Id);
-        //        }
-        //        else
-        //        {
-        //            //remove store
-        //            var storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
-        //            if (storeMappingToDelete != null)
-        //                _storeMappingService.DeleteStoreMapping(storeMappingToDelete);
-        //        }
-        //    }
-        //}
 
         #endregion
 

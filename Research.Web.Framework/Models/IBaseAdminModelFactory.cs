@@ -92,7 +92,7 @@ namespace Research.Web.Models.Factories
         /// <param name="items">Academic rank items</param>
         /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
-        void PrepareAcademicRanks(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+        void PrepareAcademicRanks(IList<SelectListItem> items, int personType = 1, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
         /// <summary>
         /// Prepare available Facuties

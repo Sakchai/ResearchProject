@@ -87,7 +87,7 @@ namespace Research.Web.Factories
                                                              personalType:searchModel.PersonTypeId,
                                                              firstName:searchModel.FirstName,
                                                              lastName:searchModel.LastName,
-                                                             isActive:searchModel.IsCompleted);
+                                                             isCompleted: searchModel.IsCompleted);
 
 
             //prepare grid model
@@ -160,8 +160,11 @@ namespace Research.Web.Factories
             PrepareAddressModel(model.AddressModel, researcher);
             _baseAdminModelFactory.PrepareTitles(model.AvailableTitles,true,"--ระบุคำนำหน้าชื่อ--");
             _baseAdminModelFactory.PrepareAgencies(model.AvailableAgencies,true, "--ระบุประเภทหน่วยงาน--");
-            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, true, "--ระบุตำแหน่งวิชาการ--");
             _baseAdminModelFactory.PreparePersonalTypes(model.AvailablePersonalTypes, true, "--ระบุประเภทบุคลากร--");
+            int personType = 1;
+            if (model.PersonalTypeId != 0)
+                personType = model.PersonalTypeId;
+            _baseAdminModelFactory.PrepareAcademicRanks(model.AvailableAcademicRanks, personType, true, "--ระบุตำแหน่งวิชาการ--");
 
             _baseAdminModelFactory.PrepareDegrees(model.AvailableAddEducationDegrees, true, "--ระบุระดับปริญญา--");
             _baseAdminModelFactory.PrepareEducationLevels(model.AvailableAddEducationEducationLevels, true, "--ระบุวุฒิการศึกษา--");
