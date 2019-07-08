@@ -1,6 +1,6 @@
 ﻿@model ProjectModel
 
-
+    <div asp-validation-summary="All"></div>
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -165,6 +165,9 @@
                     var grid = $("#projectresearchers-grid").data('kendoGrid');
                     grid.dataSource.read();
                     $('#addProjectResearcher').attr('disabled', false);
+                },
+                false: function() {
+                    alert( 'สัดส่วนผู้วิจัยไม่ถูกต้อง' );
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert('Failed to add project researcher.');

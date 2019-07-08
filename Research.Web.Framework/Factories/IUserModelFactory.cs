@@ -53,5 +53,16 @@ namespace Research.Web.Factories
         /// <returns>User model</returns>
         UserModel PrepareUserModel(UserModel model, User user, bool excludeProperties = false);
 
+        /// <summary>
+        /// Prepare the password recovery model
+        /// </summary>
+        /// <returns>Password recovery model</returns>
+        PasswordRecoveryModel PreparePasswordRecoveryModel();
+
+        /// <summary>
+        /// Prepare the password recovery confirm model
+        /// </summary>
+        /// <returns>Password recovery confirm model</returns>
+        PasswordRecoveryConfirmModel PreparePasswordRecoveryConfirmModel();
     }
 }

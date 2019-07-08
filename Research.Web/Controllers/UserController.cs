@@ -13,6 +13,7 @@ using Research.Services.Security;
 using Research.Services.Users;
 using Research.Web.Extensions;
 using Research.Web.Factories;
+using Research.Web.Framework.Controllers;
 using Research.Web.Framework.Mvc;
 using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Users;
@@ -73,9 +74,145 @@ namespace Research.Web.Controllers
 
         #endregion
 
-        
-
         #region Methods
+        #region Password recovery
+
+        // [HttpsRequirement(SslRequirement.Yes)]
+        //available even when navigation is not allowed
+        // [CheckAccessPublicStore(true)]
+        [HttpGet, ActionName("PasswordRecovery")]
+        public virtual IActionResult PasswordRecovery()
+        {
+            var model = _userModelFactory.PreparePasswordRecoveryModel();
+            return View(model);
+        }
+
+        [HttpPost, ActionName("PasswordRecovery")]
+    //    [PublicAntiForgery]
+        [FormValueRequired("send-email")]
+        //available even when navigation is not allowed
+      //  [CheckAccessPublicStore(true)]
+        public virtual IActionResult PasswordRecovery(PasswordRecoveryModel model)
+        {
+            //if (ModelState.IsValid)
+            //{
+                var user = _userService.GetUserByEmail(model.Email);
+                if (user != null && user.IsActive && !user.Deleted)
+                {
+                    //save token and current date
+                    var passwordRecoveryToken = Guid.NewGuid();
+                    _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.PasswordRecoveryTokenAttribute,
+                        passwordRecoveryToken.ToString());
+                    DateTime? generatedDateTime = DateTime.UtcNow;
+                    _genericAttributeService.SaveAttribute(user,
+                        ResearchUserDefaults.PasswordRecoveryTokenDateGeneratedAttribute, generatedDateTime);
+
+                    //send email
+                    _workflowMessageService.SendUserPasswordRecoveryMessage(user,0);
+
+                    model.Result = "ระบบได้ส่งอีเมลเพื่อดำเนินการรีเซตรหัสผ่านเรียบร้อยแล้ว";
+                }
+                else
+                {
+                    model.Result = "ไม่พบอีเมลของท่านในระบบ";
+                }
+
+                return View(model);
+            //}
+
+            //If we got this far, something failed, redisplay form
+          // return View(model);
+        }
+
+      //  [HttpsRequirement(SslRequirement.Yes)]
+        //available even when navigation is not allowed
+      //  [CheckAccessPublicStore(true)]
+        public virtual IActionResult PasswordResetConfirm(string token, string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user == null)
+                return RedirectToRoute("HomePage");
+
+            if (string.IsNullOrEmpty(user.GetAttribute<string>(ResearchUserDefaults.PasswordRecoveryTokenAttribute)))
+            {
+                return View(new PasswordRecoveryConfirmModel
+                {
+                    DisablePasswordChanging = true,
+                    Result = "Password already has been changed"
+                });
+            }
+
+            var model = _userModelFactory.PreparePasswordRecoveryConfirmModel();
+
+            //validate token
+            if (!user.IsPasswordRecoveryTokenValid(token))
+            {
+                model.DisablePasswordChanging = true;
+                model.Result = "Password reset wrong token";
+            }
+
+            //validate token expiration date
+            if (user.IsPasswordRecoveryLinkExpired(_userSettings))
+            {
+                model.DisablePasswordChanging = true;
+                model.Result = "Password reset Link Expired";
+            }
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("PasswordRecoveryConfirm")]
+       // [PublicAntiForgery]
+        [FormValueRequired("set-password")]
+        //available even when navigation is not allowed
+       // [CheckAccessPublicStore(true)]
+        public virtual IActionResult PasswordRecoveryConfirmPOST(string token, string email, PasswordRecoveryConfirmModel model)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user == null)
+                return RedirectToRoute("HomePage");
+
+            //validate token
+            if (!user.IsPasswordRecoveryTokenValid(token))
+            {
+                model.DisablePasswordChanging = true;
+                model.Result = "Password reset wrong token";
+                return View(model);
+            }
+
+            //validate token expiration date
+            if (user.IsPasswordRecoveryLinkExpired(_userSettings))
+            {
+                model.DisablePasswordChanging = true;
+                model.Result = "Password reset Link Expired";
+                return View(model);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var response = _userRegistrationService.ChangePassword(new ChangePasswordRequest(email,
+                    false, _userSettings.DefaultPasswordFormat, model.NewPassword));
+                if (response.Success)
+                {
+                    _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.PasswordRecoveryTokenAttribute, "");
+
+                    model.DisablePasswordChanging = true;
+                    model.Result = "Password has Been Changed";
+                }
+                else
+                {
+                    model.Result = response.Errors.FirstOrDefault();
+                }
+
+                return View(model);
+            }
+
+            //If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        #endregion    
+
 
         #region Login / logout
 
@@ -303,6 +440,7 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         //[ValidateCaptcha]
         //available even when navigation is not allowed
@@ -367,6 +505,47 @@ namespace Research.Web.Controllers
         }
 
 
+        //available even when a store is closed
+      //  [CheckAccessClosedStore(true)]
+        //available even when navigation is not allowed
+      //  [CheckAccessPublicStore(true)]
+        public virtual IActionResult Logout()
+        {
+            if (_workContext.OriginalUserIfImpersonated != null)
+            {
+                //activity log
+                //_userActivityService.InsertActivity(_workContext.OriginalUserIfImpersonated, "Impersonation.Finished",
+                //    string.Format(_localizationService.GetResource("ActivityLog.Impersonation.Finished.StoreOwner"),
+                //        _workContext.CurrentUser.Email, _workContext.CurrentUser.Id),
+                //    _workContext.CurrentUser);
+
+                //_userActivityService.InsertActivity("Impersonation.Finished",
+                //    string.Format("ActivityLog.Impersonation.Finished.User",
+                //        _workContext.OriginalUserIfImpersonated.Email, _workContext.OriginalUserIfImpersonated.Id),
+                //    _workContext.OriginalUserIfImpersonated);
+
+                //logout impersonated user
+                _genericAttributeService
+                    .SaveAttribute<int?>(_workContext.OriginalUserIfImpersonated, ResearchUserDefaults.ImpersonatedUserIdAttribute, null);
+
+                //redirect back to user details page (admin area)
+                //return this.RedirectToAction("Edit", "User", new { id = _workContext.CurrentUser.Id, area = string.Empty });
+                return this.RedirectToAction("Login", "User");
+            }
+
+            //activity log
+            //_userActivityService.InsertActivity(_workContext.CurrentUser, "PublicStore.Logout",
+            //    ("ActivityLog.PublicStore.Logout", _workContext.CurrentUser);
+
+            //standard logout 
+            _authenticationService.SignOut();
+
+            //raise logged out event       
+            _eventPublisher.Publish(new UserLoggedOutEvent(_workContext.CurrentUser));
+
+  
+            return RedirectToRoute("HomePage");
+        }
 
         #endregion
 

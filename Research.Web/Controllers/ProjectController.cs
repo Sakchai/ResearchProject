@@ -87,11 +87,15 @@ namespace Research.Web.Controllers
             project = model.ToEntity(project);
 
             if (project.ProjectStartDate <= fiscalSchedule.OpeningDate)
-                ModelState.AddModelError("", "วันที่ยื่นข้อเสนอโครงการ น้อยกว่าวันเปิดรับข้อเสนอโครงการวิจัย.");
+                ModelState.AddModelError("", "วันยื่นข้อเสนอโครงการ น้อยกว่าวันเปิดรับข้อเสนอโครงการวิจัย.");
             
-            if (project.ProjectEndDate >= fiscalSchedule.ClosingDate)
-                ModelState.AddModelError("", "วันสุดท้ายยื่นข้อเสนอโครงการ มากกว่าวันปิดรับข้อเสนอโครงการวิจัย.");
+            if (project.ProjectStartDate >= fiscalSchedule.ClosingDate)
+                ModelState.AddModelError("", "วันยื่นข้อเสนอโครงการ มากกว่าวันปิดรับข้อเสนอโครงการวิจัย.");
 
+            int portiona = _projectService.GetAllProjectResearchers(project.Id).Select(x=> x.Portion).Sum();
+
+            if (portiona > 100)
+                ModelState.AddModelError("", "สัดส่วนนักวิจัย มากกว่า 100 %.");
 
             if (ModelState.IsValid)
             {
@@ -278,16 +282,25 @@ namespace Research.Web.Controllers
             if (project == null)
                 return Json(new { Result = false });
 
-            var projectResearcher = new ProjectResearcher
+            int portions = _projectService.GetAllProjectResearchers(project.Id).Select(x => x.Portion).Sum();
+            portions += portion;
+            if (portions > 100)
             {
-                ProjectId = project.Id,
-                ResearcherId = researcherId,
-                ProjectRoleId = roleId,
-                Portion = portion
-            };
-            _projectService.InsertProjectResearcher(projectResearcher);
-            //  project.ProjectResearchers.Add(projectResearcher);
-            //  _projectService.UpdateResearcher(project);
+                ModelState.AddModelError("", "สัดส่วนนักวิจัย มากกว่า 100 %.");
+                return Json(new { Result = false });
+            }
+            else
+            {
+                var projectResearcher = new ProjectResearcher
+                {
+                    ProjectId = project.Id,
+                    ResearcherId = researcherId,
+                    ProjectRoleId = roleId,
+                    Portion = portion
+                };
+                _projectService.InsertProjectResearcher(projectResearcher);
+            }
+
 
             return Json(new { Result = true });
         }

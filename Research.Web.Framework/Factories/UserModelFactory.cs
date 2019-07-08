@@ -186,6 +186,18 @@ namespace Research.Web.Factories
             return model;
         }
 
+        public PasswordRecoveryModel PreparePasswordRecoveryModel()
+        {
+            var model = new PasswordRecoveryModel();
+            return model;
+        }
+
+        public PasswordRecoveryConfirmModel PreparePasswordRecoveryConfirmModel()
+        {
+            var model = new PasswordRecoveryConfirmModel();
+            return model;
+        }
+
 
         #endregion
     }

@@ -290,11 +290,12 @@ namespace Research.Web.Framework
         {
             application.UseMvc(routeBuilder =>
             {
-                //register all routes
-                EngineContext.Current.Resolve<IRoutePublisher>().RegisterRoutes(routeBuilder);
                 routeBuilder.MapRoute(
                     name: "default",
                     template: "{controller=User}/{action=Login}/{id?}");
+                //register all routes
+                EngineContext.Current.Resolve<IRoutePublisher>().RegisterRoutes(routeBuilder);
+
             });
         }
     }
