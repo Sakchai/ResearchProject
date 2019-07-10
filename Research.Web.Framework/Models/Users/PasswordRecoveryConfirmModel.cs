@@ -9,10 +9,12 @@ namespace Research.Web.Models.Users
         [DataType(DataType.Password)]
         //[NoTrim]
         //[ResearchResourceDisplayName("Account.PasswordRecovery.NewPassword")]
+        [Display(Name = "รหัสผ่าน")]
         public string NewPassword { get; set; }
         
         //[NoTrim]
         [DataType(DataType.Password)]
+        [Display(Name = "ยืนยันรหัสผ่าน")]
         //[ResearchResourceDisplayName("Account.PasswordRecovery.ConfirmNewPassword")]
         public string ConfirmNewPassword { get; set; }
 

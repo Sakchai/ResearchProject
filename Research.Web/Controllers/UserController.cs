@@ -94,8 +94,8 @@ namespace Research.Web.Controllers
       //  [CheckAccessPublicStore(true)]
         public virtual IActionResult PasswordRecovery(PasswordRecoveryModel model)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 var user = _userService.GetUserByEmail(model.Email);
                 if (user != null && user.IsActive && !user.Deleted)
                 {
@@ -118,16 +118,17 @@ namespace Research.Web.Controllers
                 }
 
                 return View(model);
-            //}
+            }
 
             //If we got this far, something failed, redisplay form
-          // return View(model);
+            return View(model);
         }
 
-      //  [HttpsRequirement(SslRequirement.Yes)]
+        //  [HttpsRequirement(SslRequirement.Yes)]
         //available even when navigation is not allowed
-      //  [CheckAccessPublicStore(true)]
-        public virtual IActionResult PasswordResetConfirm(string token, string email)
+        //  [CheckAccessPublicStore(true)]
+        [HttpGet, ActionName("PasswordRecoveryConfirm")]
+        public virtual IActionResult PasswordRecoveryConfirm(string token, string email)
         {
             var user = _userService.GetUserByEmail(email);
             if (user == null)

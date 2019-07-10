@@ -176,11 +176,11 @@ namespace Research.Services.Messages
 
             //string emailRevalidationUrl = GetURL(user, "EmailRevalidationToken", "EmailRevalidation");
             string accountActivationUrl = GetURL(user, "AccountActivationToken", "User", "AccountActivation");
-            //string passwordRecoveryUrl = GetURL(user, "PasswordRecoveryToken", "PasswordRecoveryConfirm");
-
-           // tokens.Add(new Token("User.PasswordRecoveryURL", passwordRecoveryUrl, true));
+            string passwordRecoveryUrl = GetURL(user, "PasswordRecoveryToken", "User", "PasswordRecoveryConfirm");
+           
             tokens.Add(new Token("User.AccountActivationURL", accountActivationUrl, true));
-           // tokens.Add(new Token("User.EmailRevalidationURL", emailRevalidationUrl, true));
+            tokens.Add(new Token("User.PasswordRecoveryURL", passwordRecoveryUrl, true));
+            // tokens.Add(new Token("User.EmailRevalidationURL", emailRevalidationUrl, true));
 
             //event notification
             _eventPublisher.EntityTokensAdded(user, tokens);

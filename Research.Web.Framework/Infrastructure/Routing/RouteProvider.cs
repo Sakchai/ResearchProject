@@ -60,7 +60,7 @@ namespace Research.Web.Infrastructure
                 new { controller = "User", action = "PasswordRecoverySend" });
 
             //password recovery confirmation
-            routeBuilder.MapRoute("PasswordRecoveryConfirm", "PasswordRecovery/confirm",
+            routeBuilder.MapRoute("PasswordRecoveryConfirm", "PasswordRecoveryConfirm",
 				new { controller = "User", action = "PasswordRecoveryConfirm" });
 
 
