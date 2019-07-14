@@ -10,6 +10,7 @@ using Research.Services.Events;
 using Research.Services.Messages;
 using Research.Services.Researchers;
 using Research.Services.Security;
+using Research.Services.Tasks;
 using Research.Services.Users;
 using Research.Web.Extensions;
 using Research.Web.Factories;
@@ -39,6 +40,7 @@ namespace Research.Web.Controllers
         private readonly IResearcherService _researcherService;
         private readonly IAuthenticationService _cookieAuthenticationService;
         private readonly IPermissionService _permissionService;
+        private readonly IScheduleTaskService _scheduleTaskService;
         #endregion
 
         #region Ctor
@@ -55,7 +57,8 @@ namespace Research.Web.Controllers
             IGenericAttributeService genericAttributeService,
             IResearcherService researcherService,
             IAuthenticationService cookieAuthenticationService,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            IScheduleTaskService scheduleTaskService)
         {
             this._userSettings = userSettings;
             this._authenticationService = authenticationService;
@@ -70,6 +73,7 @@ namespace Research.Web.Controllers
             this._researcherService = researcherService;
             this._cookieAuthenticationService = cookieAuthenticationService;
             this._permissionService = permissionService;
+            this._scheduleTaskService = scheduleTaskService;
         }
 
         #endregion
@@ -388,7 +392,9 @@ namespace Research.Web.Controllers
                                 _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.AccountActivationTokenAttribute, Guid.NewGuid().ToString());
 
                                 _workflowMessageService.SendUserEmailValidationMessage(user, 0);
-
+                                var scheduleTask = _scheduleTaskService.GetTaskById(1);
+                                var task = new Task(scheduleTask) { Enabled = true };
+                                task.Execute(true, false);
                                 //result
                                 return RedirectToAction("RegisterResult", "User", new { resultId = (int)UserRegistrationType.EmailValidation });
                                 //return RedirectToRoute("RegisterResult",

@@ -52,13 +52,34 @@ namespace Research.Services.Projects
             _projectRepository.Update(project);
         }
 
-        public IPagedList<Project> GetAllProjects(string email = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public IPagedList<Project> GetAllProjects(string projectNameTH = null,int fiscalYear = 0, int projectStatusId = 0,
+                            int agencyId = 0, int progressStatusId = 0,
+                            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
-            //var query2 = _academicRankrepository.Table;
-            //var academicRanks = new PagedList<AcademicRank>(query2, pageIndex, pageSize, getOnlyTotalCount);
             var query = _projectRepository.Table;
-            //query = query.OrderByDescending(p => p.FiscalYear);
-
+            if (!string.IsNullOrEmpty(projectNameTH))
+                query = query.Where(x => x.ProjectNameTh.Contains(projectNameTH));
+            if (fiscalYear != 0)
+                query = query.Where(x => x.FiscalYear == fiscalYear);
+            if (projectStatusId != 0)
+                query = query.Where(x => x.ProjectStatusId == projectStatusId);
+            if (agencyId != 0)
+            {
+                query = query.Join(_projectResearcherRepository.Table, x => x.Id, y => y.ProjectId,
+                        (x, y) => new { Project = x, Mappping = y })
+                        .Where(z => agencyId == z.Mappping.Researcher.AgencyId)
+                        .Select(z => z.Project)
+                        .Distinct();
+            }
+            if (progressStatusId != 0)
+            {
+                query = query.Join(_projectProgressRepository.Table, x => x.Id, y => y.ProjectId,
+                        (x, y) => new { Project = x, Mappping = y })
+                        .Where(z => progressStatusId == z.Mappping.ProgressStatusId)
+                        .Select(z => z.Project)
+                        .Distinct();
+            }
+            query = query.OrderByDescending(x => x.ProjectEndDate);
             var projects = new PagedList<Project>(query, pageIndex, pageSize, getOnlyTotalCount);
             return projects;
         }

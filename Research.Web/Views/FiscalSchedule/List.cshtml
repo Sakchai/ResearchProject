@@ -7,7 +7,7 @@
     //Html.SetActiveMenuItemSystemName("FiscalSchedule");
 }
 
-<form asp-controller="FiscalSchedule" asp-action="Create" method="post" id="fiscalschedules-form">
+@*<form asp-controller="FiscalSchedule" asp-action="List" method="post" id="fiscalschedules-form">*@
     <div class="content-header clearfix">
         <h1 class="pull-left">
             รายการวันเปิดรับข้อเสนอโครงการวิจัย
@@ -161,10 +161,9 @@
                             });
                         });
                     </script>
-                    <input type="submit" id="btnRefresh" style="display: none" />
                     <script>
                         $(document).ready(function () {
-                            $('#btnRefresh').click(function () {
+                            $('#search-fiscalschedules').click(function () {
                                 //refresh grid
                                 var grid = $("#fiscalschedules-grid").data('kendoGrid');
                                 grid.dataSource.read();
@@ -178,4 +177,4 @@
             </div>
         </div>
     </div>
-</form>
+@*</form>*@

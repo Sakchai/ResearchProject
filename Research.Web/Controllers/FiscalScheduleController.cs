@@ -64,7 +64,7 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("List")]
         public virtual IActionResult List(FiscalScheduleSearchModel searchModel)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
@@ -72,8 +72,10 @@ namespace Research.Web.Controllers
 
             //prepare model
             var model = _fiscalScheduleModelFactory.PrepareFiscalScheduleListModel(searchModel);
+           // var model = _fiscalScheduleModelFactory.PrepareFiscalScheduleListModel(searchModel);
 
             return Json(model);
+            //return View(model);
         }
 
         #endregion

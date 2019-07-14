@@ -472,10 +472,10 @@ namespace Research.Web.Models.Factories
                 throw new ArgumentNullException(nameof(items));
 
             //prepare available activity log types
-            var availableFiscalSchedules = _fiscalScheduleService.GetAllFiscalSchedules();
+            var availableFiscalSchedules = _fiscalScheduleService.GetAllFiscalSchedules(); 
             foreach (var fiscalSchedule in availableFiscalSchedules)
             {
-                items.Add(new SelectListItem { Value = fiscalSchedule.Id.ToString(), Text = fiscalSchedule.ScholarName });
+                items.Add(new SelectListItem { Value = fiscalSchedule.Id.ToString(), Text = fiscalSchedule.FiscalYear.ToString() });
             }
 
             //insert special item for the default value

@@ -13,8 +13,9 @@ namespace Research.Services.Projects
         /// <param name="pageSize">Page size</param>
         /// <param name="getOnlyTotalCount">A value in indicating whether you want to load only total number of records. Set to "true" if you don't want to load data from database</param>
         /// <returns>Projects</returns>
-        IPagedList<Project> GetAllProjects(string email = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
-
+        IPagedList<Project> GetAllProjects(string projectNameTH = null, int fiscalYear = 0, int projectStatusId = 0,
+                            int agencyId = 0, int progressStatusId = 0,
+                            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
         /// <summary>
         /// Delete a Project
         /// </summary>

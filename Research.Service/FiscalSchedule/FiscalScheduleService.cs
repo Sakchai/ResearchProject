@@ -86,7 +86,7 @@ namespace Research.Services.FiscalSchedules
             if (fiscalYear != 0)
                 query = query.Where(a => a.FiscalYear == fiscalYear);
             if (!string.IsNullOrEmpty(fiscalScheduleName))
-                query = query.Where(a => a.ScholarName == fiscalScheduleName);
+                query = query.Where(a => a.ScholarName.Contains(fiscalScheduleName));
 
             //paging
             return new PagedList<FiscalSchedule>(query, pageIndex, pageSize);

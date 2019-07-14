@@ -68,7 +68,12 @@ namespace Research.Web.Factories
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
 
-            var projects = _projectService.GetAllProjects(pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var projects = _projectService.GetAllProjects(projectNameTH:searchModel.SearchProjectName, 
+                                        fiscalYear:searchModel.FiscalScheduleId,
+                                        projectStatusId: searchModel.ProjectStatusId,
+                                        agencyId: searchModel.AgencyId,
+                                        progressStatusId: searchModel.ProgressStatusId,
+                                        pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
             var model = new ProjectListModel
@@ -98,9 +103,8 @@ namespace Research.Web.Factories
 
         public ProjectSearchModel PrepareProjectSearchModel(ProjectSearchModel searchModel)
         {
-
             _baseAdminModelFactory.PrepareAgencies(searchModel.AvailableAgencies,true, "--หน่วยงาน--");
-            _baseAdminModelFactory.PrepareFiscalSchedules(searchModel.AvailableFiscalYears,true, "--ปีงบประมาณ--");
+            _baseAdminModelFactory.PrepareFiscalYears(searchModel.AvailableFiscalYears,true, "--ปีงบประมาณ--");
             _baseAdminModelFactory.PrepareProjectStatuses(searchModel.AvailableProjectStatuses,true, "--สถานะผลการพิจารณา--");
             _baseAdminModelFactory.PrepareProgressStatuses(searchModel.AvailableProgressStatuses,true, "--สถานะโครงการวิจัย--");
             //prepare page parameters

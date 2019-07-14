@@ -131,6 +131,8 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
             builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
 
+            builder.RegisterType<QueuedMessagesSendTask>().As<IScheduleTask>().InstancePerLifetimeScope();
+            
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
             //register all settings
