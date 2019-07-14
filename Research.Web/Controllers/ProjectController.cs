@@ -14,7 +14,6 @@ using Research.Web.Framework.Mvc;
 using Research.Web.Framework.Mvc.Filters;
 using Research.Web.Models.Projects;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -161,17 +160,15 @@ namespace Research.Web.Controllers
                 _projectService.InsertProject(project);
 
                 var researcher = user.Researcher;
-
+                string title = (researcher.Title != null) ? researcher.Title.TitleNameTH : string.Empty;
                 if (researcher != null)
                 {
                     var projectResearcher = new ProjectResearcher
                     {
                         ProjectId = project.Id,
-                        FirstName = researcher.FirstName,
-                        LastName = researcher.LastName,
                         Portion = 100,
                         ProjectRoleId = (int)ProjectRole.ProjectManager,
-                        ResearcherId = researcher.Id
+                        ResearcherName = $"{title}{researcher.FirstName} {researcher.LastName}"
                     };
                     _projectService.InsertProjectResearcher(projectResearcher);
                 }
@@ -271,7 +268,7 @@ namespace Research.Web.Controllers
                 return Json(new ProjectResearcherListModel());
         }
 
-        public virtual IActionResult ProjectResearcherAdd(int projectId, int researcherId,
+        public virtual IActionResult ProjectResearcherAdd(int projectId, string researcherName,
             int roleId, int portion)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
@@ -294,7 +291,7 @@ namespace Research.Web.Controllers
                 var projectResearcher = new ProjectResearcher
                 {
                     ProjectId = project.Id,
-                    ResearcherId = researcherId,
+                    ResearcherName = researcherName,
                     ProjectRoleId = roleId,
                     Portion = portion
                 };
@@ -350,7 +347,7 @@ namespace Research.Web.Controllers
                 return Json(new ProjectProfessorListModel());
         }
 
-        public virtual IActionResult ProjectProfessorAdd(int projectId, int professorId,
+        public virtual IActionResult ProjectProfessorAdd(int projectId, string professorName,
             int professorTypeId)
         {
             //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
@@ -365,7 +362,7 @@ namespace Research.Web.Controllers
             {
                 ProjectId = project.Id,
                 ProfessorTypeId = professorTypeId,
-                ProfessorId = professorId
+                ProfessorName = professorName,
             };
             _projectService.InsertProjectProfessor(projectProfessor);
             //  project.ProjectProfessors.Add(projectProfessor);
@@ -466,74 +463,74 @@ namespace Research.Web.Controllers
 
         #region Export / Import
 
-        public virtual IActionResult ExportPdf(int id, int projectId)
-        {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageLanguages))
-            //    return AccessDeniedView();
+        //public virtual IActionResult ExportPdf(int id, int projectId)
+        //{
+        //    //if (!_permissionService.Authorize(StandardPermissionProvider.ManageLanguages))
+        //    //    return AccessDeniedView();
 
-            var project = _projectService.GetProjectById(projectId)
-                ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
+        //    var project = _projectService.GetProjectById(projectId)
+        //        ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
 
-            //try to get a project professor with the specified id
-            var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
-                ?? throw new ArgumentException("No project progress found with the specified id", nameof(id));
+        //    //try to get a project professor with the specified id
+        //    var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
+        //        ?? throw new ArgumentException("No project progress found with the specified id", nameof(id));
 
-            if (projectProgress == null)
-                return RedirectToAction("List");
+        //    if (projectProgress == null)
+        //        return RedirectToAction("List");
 
-            try
-            {
-                var pdf = _projectService.ExportResourcesToPdf(projectProgress);
-                return File(Encoding.UTF8.GetBytes(pdf), "application/pdf", "project_progress.pdf");
-            }
-            catch (Exception exc)
-            {
-                ErrorNotification(exc);
-                return RedirectToAction("List");
-            }
-        }
+        //    try
+        //    {
+        //        var pdf = _projectService.ExportResourcesToPdf(projectProgress);
+        //        return File(Encoding.UTF8.GetBytes(pdf), "application/pdf", "project_progress.pdf");
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        ErrorNotification(exc);
+        //        return RedirectToAction("List");
+        //    }
+        //}
 
-        [HttpPost]
-        public virtual IActionResult ImportPdf(int id, int projectId, IFormFile importpdffile)
-        {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageLanguages))
-            //    return AccessDeniedView();
+        //[HttpPost]
+        //public virtual IActionResult ImportPdf(int id, int projectId, IFormFile importpdffile)
+        //{
+        //    //if (!_permissionService.Authorize(StandardPermissionProvider.ManageLanguages))
+        //    //    return AccessDeniedView();
 
-            //try to get a language with the specified id
-            var project = _projectService.GetProjectById(projectId)
-                ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
+        //    //try to get a language with the specified id
+        //    var project = _projectService.GetProjectById(projectId)
+        //        ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
 
-            //try to get a project professor with the specified id
-            var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
-                ?? throw new ArgumentException("No project progress found with the specified id", nameof(id));
+        //    //try to get a project professor with the specified id
+        //    var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
+        //        ?? throw new ArgumentException("No project progress found with the specified id", nameof(id));
 
-            if (projectProgress == null)
-                return RedirectToAction("List");
+        //    if (projectProgress == null)
+        //        return RedirectToAction("List");
 
-            try
-            {
-                if (importpdffile != null && importpdffile.Length > 0)
-                {
-                    using (var sr = new StreamReader(importpdffile.OpenReadStream(), Encoding.UTF8))
-                    {
-                        _projectService.ImportResourcesFromPdf(projectProgress, sr.ReadToEnd());
-                    }
-                }
-                else
-                {
-                    ErrorNotification("Admin.Common.UploadFile");
-                    return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
-                }
+        //    try
+        //    {
+        //        if (importpdffile != null && importpdffile.Length > 0)
+        //        {
+        //            using (var sr = new StreamReader(importpdffile.OpenReadStream(), Encoding.UTF8))
+        //            {
+        //                _projectService.ImportResourcesFromPdf(projectProgress, sr.ReadToEnd());
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ErrorNotification("Admin.Common.UploadFile");
+        //            return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
+        //        }
 
-                SuccessNotification("Admin.Configuration.Languages.Imported");
-                return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
-            }
-            catch (Exception exc)
-            {
-                ErrorNotification(exc);
-                return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
-            }
-        }
+        //        SuccessNotification("Admin.Configuration.Languages.Imported");
+        //        return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        ErrorNotification(exc);
+        //        return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
+        //    }
+        //}
 
         #endregion
     }

@@ -251,9 +251,9 @@ namespace Research.Web.Factories
                         Id = education.Id,
                         ResearcherId = researcher.Id,
                         DegreeName = education.Degree.GetAttributeOfType<EnumMemberAttribute>().Value,
-                        EducationLevelName = education.EducationLevel.Name,
-                        InstituteName = education.Institute.Name,
-                        CountryName = education.Country.Name,
+                        EducationLevelName = education.EducationLevelName,
+                        InstituteName = education.InstituteName,
+                        CountryName = education.CountryName,
                         GraduationYear = education.GraduationYear
                     };
 

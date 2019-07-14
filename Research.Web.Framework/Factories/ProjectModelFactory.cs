@@ -134,11 +134,8 @@ namespace Research.Web.Factories
                         RoleName = (int)x.ProjectRole != 0 ? x.ProjectRole.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                         ResearcherId = x.ResearcherId,
                         ProjectRoleId = x.ProjectRoleId,
-                        ResearcherName = x.Researcher != null ? $"{x.Researcher.FirstName} {x.Researcher.LastName}" : string.Empty,
+                        ResearcherName = x.ResearcherName
                     };
-
-
-
                     return projectResearcherModel;
                 }),
                 Total = projectResearchers.Count
@@ -216,8 +213,8 @@ namespace Research.Web.Factories
                 Data = projectProfessors.PaginationByRequestModel(searchModel).Select(x =>
                 {
                     //fill in model values from the entity  
-                    var title = (x.Professor.Title != null) ? x.Professor.Title.TitleNameTH : string.Empty;
-                    var fullName = (x.Professor != null) ? $"{title}{x.Professor.FirstName} {x.Professor.LastName}" : string.Empty;
+                   // var title = (x.Professor.Title != null) ? x.Professor.Title.TitleNameTH : string.Empty;
+                   // var fullName = (x.Professor != null) ? $"{title}{x.Professor.FirstName} {x.Professor.LastName}" : string.Empty;
                     var projectProfessorModel = new ProjectProfessorModel
                     {
                         Id = x.Id,
@@ -225,7 +222,7 @@ namespace Research.Web.Factories
                         ProfessorId = x.ProfessorId,
                         ProfessorTypeId = x.ProfessorTypeId,
                         ProfessorTypeName = x.ProfessorType.GetAttributeOfType<EnumMemberAttribute>().Value,
-                        ProfessorName = fullName,
+                        ProfessorName = x.ProfessorName,
                     };
 
 

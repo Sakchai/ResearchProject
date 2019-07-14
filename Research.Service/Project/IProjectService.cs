@@ -41,7 +41,7 @@ namespace Research.Services.Projects
         void InsertProjectProgress(ProjectProgress projectProgress);
         IPagedList<ProjectProgress> GetAllProjectProgresses(int projectId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
         string GetNextNumber();
-        string ExportResourcesToPdf(ProjectProgress projectProgress);
-        void ImportResourcesFromPdf(ProjectProgress projectProgress, string pdf, bool updateExistingResources = true);
+        //string ExportResourcesToPdf(ProjectProgress projectProgress);
+        //void ImportResourcesFromPdf(ProjectProgress projectProgress, string pdf, bool updateExistingResources = true);
     }
 }

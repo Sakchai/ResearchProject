@@ -83,6 +83,9 @@ namespace Research.Web.Models.Projects
         public ProjectResearcherSearchModel ProjectResearcherSearchModel { get; set; }
         [Display(Name = "ชื่อนักวิจัย")]
         public int AddProjectResearcherId { get; set; }
+        [Display(Name = "ชื่อนักวิจัย")]
+        public string AddProjectResearcherName { get; set; }
+
         public IList<SelectListItem> AvailableResearchers { get; set; }
         [Display(Name = "บทบาทในโครงการ")]
         public int AddProjectRoleId { get; set; }
@@ -95,6 +98,9 @@ namespace Research.Web.Models.Projects
         public ProjectProfessorSearchModel ProjectProfessorSearchModel { get; set; }
         [Display(Name = "ชื่อผู้ทรงคุณวุฒิ")]
         public int AddProjectProfessorId { get; set; }
+        [Display(Name = "ชื่อผู้ทรงคุณวุฒิ")]
+        public string AddProjectProfessorName { get; set; }
+
         [Display(Name = "บทบาทในโครงการ")]
         public int AddProjectProfessorTypeId { get; set; }
 

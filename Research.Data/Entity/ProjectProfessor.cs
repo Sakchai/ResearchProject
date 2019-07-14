@@ -9,6 +9,7 @@ namespace Research.Data
         public int ProjectId { get; set; }
         public int ProfessorId { get; set; }
         public int ProfessorTypeId { get; set; }
+        public string ProfessorName { get; set; }
         //public DateTime ProgressStartDate { get; set; }
         //public DateTime ProgressEndDate { get; set; }
         //public string Comment { get; set; }

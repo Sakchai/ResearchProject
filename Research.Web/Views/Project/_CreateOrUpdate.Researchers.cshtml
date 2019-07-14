@@ -104,12 +104,30 @@
         <div class="panel-body">
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddProjectResearcherId" />
+                    <nop-label asp-for="AddProjectResearcherName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddProjectResearcherId" asp-items="Model.AvailableResearchers" />
-                    <span asp-validation-for="AddProjectResearcherId"></span>
+                    <nop-editor asp-for="AddProjectResearcherName"  />
+                    <span asp-validation-for="AddProjectResearcherName"></span>
                 </div>
+                <script>
+                    $(document).ready(function () {
+                        $("#AddProjectResearcherName").kendoAutoComplete({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "@Html.Raw(Url.Action("ResearchersSelect", "Researcher"))",
+                                        type: "POST",
+                                        dataType: "json",
+                                    }
+                                }
+                            },
+                        filter: "contains",
+                        placeholder: "เลือกผู้วิจัย...",
+                        });
+                    });
+                </script>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
@@ -142,7 +160,7 @@
 <script>
     $(document).ready(function() {
         $('#addProjectResearcher').click(function() {
-            var projectResearcherId = $("#@Html.IdFor(model => model.AddProjectResearcherId)").val();
+            var projectResearcherName = $("#@Html.IdFor(model => model.AddProjectResearcherName)").val();
             var projectRoleId = $("#@Html.IdFor(model => model.AddProjectRoleId)").val();
             var projectPortion = $("#@Html.IdFor(model => model.AddProjectPortion)").val();
 
@@ -150,7 +168,7 @@
 
             var postData = {
                 projectId: '@(Model.Id)',
-                researcherId: projectResearcherId,
+                researcherName: projectResearcherName,
                 roleId: projectRoleId,
                 portion: projectPortion,
             };

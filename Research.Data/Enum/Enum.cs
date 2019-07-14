@@ -324,16 +324,16 @@ namespace Research.Enum
         [EnumMember(Value = "ดำเนินการวิจัย")]
         Started = 1,
 
-        [EnumMember(Value = "รายงานความก้าวหน้า 1")]
+        [EnumMember(Value = "รายงานความก้าวหน้า1")]
         ReportedProgress1 = 2,
 
-        [EnumMember(Value = "รายงานความก้าวหน้า 2")]
+        [EnumMember(Value = "รายงานความก้าวหน้า2")]
         ReportedProgress2 = 3,
 
         [EnumMember(Value = "ปิดเล่มโครงการวิจัย")]
         Closed = 4,
 
-        [EnumMember(Value = "คืนทุนวิจัย (ไม่สามารถทำอะไรได้อีก)")]
+        [EnumMember(Value = "คืนทุนวิจัย")]
         Return = 5,
     }
 

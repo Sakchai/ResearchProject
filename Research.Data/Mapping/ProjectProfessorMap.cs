@@ -22,7 +22,7 @@ namespace Research.Data.Mapping
             entity.HasOne(d => d.Project)
                 .WithMany(project => project.ProjectProfessors)
                 .HasForeignKey(d => d.ProjectId);
-
+            entity.Property(d => d.ProfessorName).HasMaxLength(200);
             entity.Ignore(d => d.ProfessorType);
             base.Configure(entity);
         }

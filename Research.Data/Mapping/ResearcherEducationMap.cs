@@ -31,6 +31,9 @@ namespace Research.Data.Mapping
                 .WithMany()
                 .HasForeignKey(d => d.InstituteId);
 
+            entity.Property(d => d.InstituteName).HasMaxLength(400);
+            entity.Property(d => d.EducationLevelName).HasMaxLength(200);
+            entity.Property(d => d.CountryName).HasMaxLength(100);
             entity.HasOne(d => d.Researcher)
                 .WithMany(researcher => researcher.ResearcherEducations)
                 .HasForeignKey(d => d.ResearcherId);

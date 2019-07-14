@@ -96,6 +96,7 @@ namespace Research.Web.Models.Researchers
 
         #region Researcher educations
 
+
         [Display(Name = "ระดับปริญญา")]
         public int AddEducationDegreeId { get; set; }
         public IList<SelectListItem> AvailableAddEducationDegrees { get; set; }
@@ -104,14 +105,19 @@ namespace Research.Web.Models.Researchers
         public int AddEducationEducationLevelId { get; set; }
         public IList<SelectListItem> AvailableAddEducationEducationLevels { get; set; }
 
+        [Display(Name = "วุฒิการศึกษา")]
+        public string AddEducationEducationLevelName { get; set; }
+
         [Display(Name = "สถาบันการศึกษา")]
         public int AddEducationInstituteId { get; set; }
         public IList<SelectListItem> AvailableAddEducationInstitutes { get; set; }
-
+        [Display(Name = "สถาบันการศึกษา")]
+        public string AddEducationInstituteName { get; set; }
         [Display(Name = "ประเทศ")]
         public int AddEducationCountryId { get; set; }
         public IList<SelectListItem> AvailableAddEducationCountries { get; set; }
-
+        [Display(Name = "ประเทศ")]
+        public string AddEducationCountryName { get; set; }
         [Display(Name = "ปีการศึกษาที่จบ")]
         public int AddEducationGraduationYear { get; set; }
         public ResearcherEducationSearchModel ResearcherEducationSearchModel { get; set; }

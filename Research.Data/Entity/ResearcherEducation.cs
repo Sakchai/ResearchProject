@@ -8,8 +8,12 @@ namespace Research.Data
     {
         public int ResearcherId { get; set; }
         public int EducationLevelId { get; set; }
+        public string EducationLevelName { get; set; }
         public int InstituteId { get; set; }
+        public string InstituteName { get; set; }
+        public string CountryName { get; set; }
         public int DegreeId { get; set; }
+
         public virtual Degree Degree
         {
             get => (Degree)DegreeId;

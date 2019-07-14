@@ -74,12 +74,12 @@
                             }, {
                                 field: "EducationLevelName",
                                 title: "วุฒิการศึกษา",
-                                width: 200,
+                                width: 150,
                                 headerAttributes: { style: "text-align:center" },
                             }, {
                                 field: "InstituteName",
                                 title: "สถาบันการศึกษา",
-                                width: 200,
+                                width: 300,
                                 headerAttributes: { style: "text-align:center" },
                             }, {
                                 field: "CountryName",
@@ -123,29 +123,29 @@
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationEducationLevelId" />
+                    <nop-label asp-for="AddEducationEducationLevelName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationEducationLevelId" asp-items="Model.AvailableAddEducationEducationLevels" />
-                    <span asp-validation-for="AddEducationEducationLevelId"></span>
+                    <nop-editor asp-for="AddEducationEducationLevelName" />
+                    <span asp-validation-for="AddEducationEducationLevelName"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationInstituteId" />
+                    <nop-label asp-for="AddEducationInstituteName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationInstituteId" asp-items="Model.AvailableAddEducationInstitutes" />
-                    <span asp-validation-for="AddEducationInstituteId"></span>
+                    <nop-editor asp-for="AddEducationInstituteName" />
+                    <span asp-validation-for="AddEducationInstituteName"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-3">
-                    <nop-label asp-for="AddEducationCountryId" />
+                    <nop-label asp-for="AddEducationCountryName" />
                 </div>
                 <div class="col-md-9">
-                    <nop-select asp-for="AddEducationCountryId" asp-items="Model.AvailableAddEducationCountries" />
-                    <span asp-validation-for="AddEducationCountryId"></span>
+                    <nop-editor asp-for="AddEducationCountryName" />
+                    <span asp-validation-for="AddEducationCountryName"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -170,9 +170,9 @@
     $(document).ready(function() {
         $('#addResearcherEducation').click(function() {
             var educationDegreeId = $("#@Html.IdFor(model => model.AddEducationDegreeId)").val();
-            var educationLevelId = $("#@Html.IdFor(model => model.AddEducationEducationLevelId)").val();
-            var educationInstituteId = $("#@Html.IdFor(model => model.AddEducationInstituteId)").val();
-            var educationCountryId = $("#@Html.IdFor(model => model.AddEducationCountryId)").val();
+            var educationLevelName = $("#@Html.IdFor(model => model.AddEducationEducationLevelName)").val();
+            var educationInstituteName = $("#@Html.IdFor(model => model.AddEducationInstituteName)").val();
+            var educationCountryName = $("#@Html.IdFor(model => model.AddEducationCountryName)").val();
             var educationGraduationYear = $("#@Html.IdFor(model => model.AddEducationGraduationYear)").val();
 
             $('#addResearcherEducation').attr('disabled', true);
@@ -180,9 +180,9 @@
             var postData = {
                 researcherId: '@(Model.Id)',
                 degreeId: educationDegreeId,
-                educationLevelId: educationLevelId,
-                institudeId: educationInstituteId,
-                countryId: educationCountryId,
+                educationLevelName: educationLevelName,
+                institudeName: educationInstituteName,
+                countryName: educationCountryName,
                 graduationYear: educationGraduationYear
             };
             addAntiForgeryToken(postData);

@@ -58,6 +58,22 @@ namespace Research.Web.Controllers
         #endregion
 
         #region Utilities
+
+        [HttpPost]
+        public virtual IActionResult ResearchersSelect()
+        {
+            //var model = new List<SelectListItem>();
+            var model = new List<string>();
+            var researchers = _researcherService.GetAllResearchers().ToList();
+            foreach (var x in researchers)
+            {
+                string title = (x.Title != null) ? x.Title.TitleNameTH : string.Empty;
+                //model.Add(new SelectListItem(item.Id.ToString(), $"{item.FirstName} {item.LastName}"));
+                model.Add($"{title}{x.FirstName} {x.LastName}");
+            }
+            return Json(model);
+        }
+
         [HttpGet, ActionName("GetAcademicRanksByPersonalTypeId")]
         public virtual IActionResult GetAcademicRanksByPersonalTypeId(string personalTypeId, bool? addSelectPersonalTypeItem)
         {
@@ -321,7 +337,7 @@ namespace Research.Web.Controllers
         }
 
         public virtual IActionResult ResearcherEducationAdd(int researcherId, int degreeId,
-            int educationLevelId, int institudeId, int countryId, int graduationYear)
+            string educationLevelName, string institudeName, string countryName, int graduationYear)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
                 return AccessDeniedView();
@@ -335,9 +351,9 @@ namespace Research.Web.Controllers
             {
                 ResearcherId = researcher.Id,
                 DegreeId = degreeId,
-                EducationLevelId = educationLevelId,
-                InstituteId = institudeId,
-                CountryId = countryId,
+                EducationLevelName = educationLevelName,
+                InstituteName = institudeName,
+                CountryName = countryName,
                 GraduationYear = graduationYear
             };
             _researcherService.InsertResearcherEducation(researcherEducation);

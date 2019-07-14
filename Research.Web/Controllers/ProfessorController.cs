@@ -15,6 +15,8 @@ using Research.Services.Common;
 using Research.Web.Framework.Mvc;
 using Research.Web.Models.Common;
 using Research.Services.Professors;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Research.Web.Controllers
 { 
@@ -69,6 +71,21 @@ namespace Research.Web.Controllers
             var model = _professorModelFactory.PrepareProfessorSearchModel(new ProfessorSearchModel());
 
             return View(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult ProfessorsSelect()
+        {
+            //var model = new List<SelectListItem>();
+            var model = new List<string>();
+            var professors = _professorService.GetAllProfessors().ToList();
+            foreach (var x in professors)
+            {
+                string title = (x.Title != null) ? x.Title.TitleNameTH : string.Empty;
+                //model.Add(new SelectListItem(item.Id.ToString(), $"{item.FirstName} {item.LastName}"));
+                model.Add($"{title}{x.FirstName} {x.LastName}");
+            }
+            return Json(model);
         }
 
         [HttpPost]

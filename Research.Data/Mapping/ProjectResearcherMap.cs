@@ -19,6 +19,7 @@ namespace Research.Data.Mapping
             entity.ToTable(nameof(ProjectResearcher));
             entity.HasKey(e => e.Id);
 
+            entity.Property(d => d.ResearcherName).HasMaxLength(200);
             entity.HasOne(d => d.Project)
                 .WithMany()
                 .HasForeignKey(d => d.ProjectId);
@@ -27,9 +28,7 @@ namespace Research.Data.Mapping
                 .WithMany(project => project.ProjectResearchers)
                 .HasForeignKey(d => d.ResearcherId);
 
-            entity.HasOne(d => d.Title)
-                .WithMany()
-                .HasForeignKey(d => d.TitleId);
+
             entity.Ignore(e => e.ProjectRole);
             base.Configure(entity);
         }
