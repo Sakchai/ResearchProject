@@ -28,6 +28,7 @@ namespace Research.Data
         public int? FiscalScheduleId { get; set; }
         public int? StrategyGroupId { get; set; }
         public string LastUpdateBy { get; set; }
+        public string CreatedBy { get; set; }
         public string Comment { get; set; }
         public bool Deleted { get; set; }
         public DateTime Created { get; set; }

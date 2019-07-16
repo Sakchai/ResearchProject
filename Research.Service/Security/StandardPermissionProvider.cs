@@ -24,7 +24,11 @@ namespace Research.Services.Security
         public static readonly PermissionRecord ManageScheduleTasks = new PermissionRecord { Name = "Manage Schedule Tasks", SystemName = "ManageScheduleTasks", Category = "Configuration" };
         public static readonly PermissionRecord ManageUsers = new PermissionRecord { Name = "Manage Users", SystemName = "ManageUsers", Category = "Configuration" };
         public static readonly PermissionRecord ManageResearchers = new PermissionRecord { Name = "Manage Researchers", SystemName = "ManageResearchers", Category = "Configuration" };
-
+        public static readonly PermissionRecord ManageProjects = new PermissionRecord { Name = "Manage Projects", SystemName = "ManageProjects", Category = "Configuration" };
+        public static readonly PermissionRecord ManagePermissions = new PermissionRecord { Name = "Manage Permissions", SystemName = "ManagePermissions", Category = "Configuration" };
+        public static readonly PermissionRecord ManageProfessors = new PermissionRecord { Name = "Manage Professors", SystemName = "ManageProfessors", Category = "Configuration" };
+        public static readonly PermissionRecord ManageResearchIssues = new PermissionRecord { Name = "Manage Research Issues", SystemName = "ManageResearchIssues", Category = "Configuration" };
+        public static readonly PermissionRecord ManageFiscalSchedules = new PermissionRecord { Name = "Manage Fiscal Schedules", SystemName = "ManageFiscalSchedules", Category = "Configuration" };
         //public store permissions
         public static readonly PermissionRecord PublicStoreAllowNavigation = new PermissionRecord { Name = "Public web application. Allow navigation", SystemName = "PublicStoreAllowNavigation", Category = "PublicStore" };
         public static readonly PermissionRecord AccessClosedStore = new PermissionRecord { Name = "Public web application. Access a closed application", SystemName = "AccessClosedStore", Category = "PublicStore" };
@@ -53,7 +57,8 @@ namespace Research.Services.Security
                 ManageScheduleTasks,
                 PublicStoreAllowNavigation,
                 AccessClosedStore,
-                ManageResearchers
+                ManageResearchers,
+                ManageProjects
             };
         }
 
@@ -83,7 +88,8 @@ namespace Research.Services.Security
                         ManageScheduleTasks,
                         PublicStoreAllowNavigation,
                         AccessClosedStore,
-                        ManageResearchers
+                        ManageResearchers,
+                        ManageProjects
                     }
                 },
                 new DefaultPermissionRecord

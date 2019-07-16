@@ -17,14 +17,17 @@ namespace Research.Web.Factories
         private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         private readonly IProjectService _projectService;
         private readonly IDownloadService _downloadService;
+        private readonly IWorkContext _workContext;
 
         public ProjectModelFactory(IBaseAdminModelFactory baseAdminModelFactory, 
             IProjectService projectService,
-            IDownloadService downloadService)
+            IDownloadService downloadService,
+            IWorkContext workContext)
         {
             this._baseAdminModelFactory = baseAdminModelFactory;
             this._projectService = projectService;
             this._downloadService = downloadService;
+            this._workContext = workContext;
         }
 
         public virtual ProjectResearcherSearchModel PrepareProjectResearcherSearchModel(ProjectResearcherSearchModel searchModel, Project project)
@@ -67,12 +70,15 @@ namespace Research.Web.Factories
         {
             if (searchModel == null)
                 throw new ArgumentNullException(nameof(searchModel));
-
+            string userName = string.Empty;
+            if (_workContext.CurrentUser.UserTypeId == 2) //Researchers Role will see only owner projects
+                userName = _workContext.CurrentUser.UserName;
             var projects = _projectService.GetAllProjects(projectNameTH:searchModel.SearchProjectName, 
                                         fiscalYear:searchModel.FiscalScheduleId,
                                         projectStatusId: searchModel.ProjectStatusId,
                                         agencyId: searchModel.AgencyId,
                                         progressStatusId: searchModel.ProgressStatusId,
+                                        createdBy: userName,
                                         pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             //prepare list model
@@ -138,7 +144,8 @@ namespace Research.Web.Factories
                         RoleName = (int)x.ProjectRole != 0 ? x.ProjectRole.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty,
                         ResearcherId = x.ResearcherId,
                         ProjectRoleId = x.ProjectRoleId,
-                        ResearcherName = x.ResearcherName
+                        ResearcherName = x.ResearcherName,
+  
                     };
                     return projectResearcherModel;
                 }),
@@ -165,9 +172,12 @@ namespace Research.Web.Factories
                 model.ProjectType = project.ProjectType;
                 model.FundAmount = project.FundAmount;
                 model.StrategyGroupId = project.StrategyGroupId;
-                model.ProjectStatusId = project.ProjectStatusId.Value;
-                model.ProjectStartDate = project.ProjectStartDate;
-                model.ProjectEndDate= project.ProjectEndDate;
+                if (project.ProjectStatusId != null)
+                    model.ProjectStatusId = project.ProjectStatusId.Value;
+                if (project.ProjectStartDate != null)
+                    model.ProjectStartDate = project.ProjectStartDate;
+                if (project.ProjectEndDate != null)
+                    model.ProjectEndDate= project.ProjectEndDate;
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
                 model.ResearchIssueId = project.ResearchIssueId.Value;

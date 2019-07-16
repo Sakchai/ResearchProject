@@ -52,11 +52,13 @@ namespace Research.Services.Projects
             _projectRepository.Update(project);
         }
 
-        public IPagedList<Project> GetAllProjects(string projectNameTH = null,int fiscalYear = 0, int projectStatusId = 0,
-                            int agencyId = 0, int progressStatusId = 0,
+        public IPagedList<Project> GetAllProjects(string projectNameTH = null, int fiscalYear = 0, int projectStatusId = 0,
+                            int agencyId = 0, int progressStatusId = 0, string createdBy = null,
                             int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = _projectRepository.Table;
+            if (!string.IsNullOrEmpty(createdBy))
+                query = query.Where(x => x.CreatedBy == createdBy);
             if (!string.IsNullOrEmpty(projectNameTH))
                 query = query.Where(x => x.ProjectNameTh.Contains(projectNameTH));
             if (fiscalYear != 0)

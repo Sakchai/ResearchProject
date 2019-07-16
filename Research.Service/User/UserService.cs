@@ -725,6 +725,13 @@ namespace Research.Services.Users
             //});
         }
 
+        public UserRole GetRoleById(int roleId)
+        {
+           if (roleId == 0)
+                return null;
+            return _userRoleRepository.GetById(roleId);
+        }
+
         #endregion
 
         #endregion

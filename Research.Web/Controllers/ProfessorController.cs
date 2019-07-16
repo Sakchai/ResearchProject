@@ -64,8 +64,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             //prepare model
             var model = _professorModelFactory.PrepareProfessorSearchModel(new ProfessorSearchModel());
@@ -91,8 +91,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult List(ProfessorSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _professorModelFactory.PrepareProfessorListModel(searchModel);
@@ -106,8 +106,8 @@ namespace Research.Web.Controllers
         [HttpGet, ActionName("Create")]
         public virtual IActionResult Create()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             //prepare model
             var model = _professorModelFactory.PrepareProfessorModel(new ProfessorModel(), null);
@@ -118,8 +118,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Create(ProfessorModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             if (ModelState.IsValid)
             {
@@ -175,8 +175,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             //try to get a professor with the specified id
             var professor = _professorService.GetProfessorById(id);
@@ -192,8 +192,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Edit(ProfessorModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             //try to get a professor with the specified id
             var professor = _professorService.GetProfessorById(model.Id);
@@ -230,8 +230,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Info(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             //try to get a professor with the specified id
             var professor = _professorService.GetProfessorById(id);
@@ -247,8 +247,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
 
             //try to get a professor with the specified id
             var professor = _professorService.GetProfessorById(id);

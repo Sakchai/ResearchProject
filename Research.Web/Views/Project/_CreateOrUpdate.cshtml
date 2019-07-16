@@ -1,6 +1,9 @@
 ﻿@model ProjectModel
 @inject IEventPublisher eventPublisher
-
+@inject IWorkContext workContext
+@{
+    int role = workContext.CurrentUser.UserTypeId;
+}
 <div asp-validation-summary="All"></div>
 <input asp-for="Id" type="hidden" />
 
@@ -20,7 +23,10 @@
                 <nop-tab asp-name="tab-researchers" asp-title="ข้อมูลบัญชีรายชื่อนักวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Researchers", Model)</nop-tab>
                 <nop-tab asp-name="tab-professors" asp-title="ข้อมูลผู้ทรงคุณวุฒิ">@await Html.PartialAsync("_CreateOrUpdate.Profs", Model)</nop-tab>
                 <nop-tab asp-name="tab-status" asp-title="ผลการพิจารณาโครงการวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Status", Model)</nop-tab>
+                if ((role != 2) && (role != 6))
+                {
                 <nop-tab asp-name="tab-progress" asp-title="สถานะโครงการวิจัย">@await Html.PartialAsync("_CreateOrUpdate.Progresses", Model)</nop-tab>
+                }
             }
         </nop-tabs>
     </div>

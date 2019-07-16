@@ -113,7 +113,9 @@ namespace Research.Web.Controllers
 
                     //send email
                     _workflowMessageService.SendUserPasswordRecoveryMessage(user,0);
-
+                    var scheduleTask = _scheduleTaskService.GetTaskById(1);
+                    var task = new Task(scheduleTask) { Enabled = true };
+                    task.Execute(true, false);
                     model.Result = "ระบบได้ส่งอีเมลเพื่อดำเนินการรีเซตรหัสผ่านเรียบร้อยแล้ว";
                 }
                 else
@@ -363,7 +365,8 @@ namespace Research.Web.Controllers
                 user.LastName = model.LastName;
                 user.TitleId = model.TitleId;
                 user.AgencyId = model.AgencyId;
-                user.UserTypeId = (int) UserType.Researcher;
+                user.UserTypeId = (int) UserType.Researchers;
+                user.Roles = UserType.Researchers.ToString();
                 var isApproved = _userSettings.UserRegistrationType == UserRegistrationType.EmailValidation;
                 var registrationRequest = new UserRegistrationRequest(user,
                     model.Email,
@@ -615,7 +618,7 @@ namespace Research.Web.Controllers
 
             if (ModelState.IsValid)
             {
-
+                var role = _userService.GetRoleById(model.UserTypeId);
                 var user = model.ToEntity<User>();
                 user.UserGuid = Guid.NewGuid();
                 user.UserName = model.UserName;
@@ -628,6 +631,7 @@ namespace Research.Web.Controllers
                 user.UserTypeId = model.UserTypeId;
                 user.IsActive = model.IsActive;
                 user.Description = model.Description;
+                user.Roles = role.SystemName;
                 _userService.InsertUser(user);
 
                 return continueEditing ? RedirectToAction("Edit", new { user.Id }) : RedirectToAction("List");
@@ -665,11 +669,13 @@ namespace Research.Web.Controllers
 
             //try to get a user with the specified id
             var user = _userService.GetUserById(model.Id);
+            
             if (user == null)
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
+                var role = _userService.GetRoleById(model.UserTypeId);
                 user = model.ToEntity(user);
                 user.UserName = model.UserName;
                 user.TitleId = model.TitleId;
@@ -681,6 +687,7 @@ namespace Research.Web.Controllers
                 user.UserTypeId = model.UserTypeId;
                 user.IsActive = model.IsActive;
                 user.Description = model.Description;
+                user.Roles = role.SystemName;
                 _userService.UpdateUser(user);
 
                 return continueEditing ? RedirectToAction("Edit", new { user.Id }) : RedirectToAction("List");

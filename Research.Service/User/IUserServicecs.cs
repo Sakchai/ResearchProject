@@ -270,6 +270,8 @@ namespace Research.Services
         /// <param name="user">User</param>
         /// <returns>True if password is expired; otherwise false</returns>
         bool PasswordIsExpired(User user);
+
+        UserRole GetRoleById(int roleId);
         #endregion
     }
 }

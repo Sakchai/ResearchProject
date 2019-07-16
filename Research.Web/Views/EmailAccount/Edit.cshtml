@@ -2,7 +2,7 @@
 
 @{
     //page title
-    ViewBag.Title = "แก้ไขอีเมลส่งจดหมายอิเล็กทรอนิกส์";
+    ViewBag.Title = "แก้ไขบัญชีอีเมลส่งจดหมายอิเล็กทรอนิกส์";
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Email accounts");
 }
@@ -10,10 +10,10 @@
 <form asp-controller="EmailAccount" asp-action="Edit" method="post">
     <div class="content-header clearfix">
         <h1 class="pull-left">
-            แก้ไขอีเมลส่งจดหมายอิเล็กทรอนิกส์
+            แก้ไขบัญชีอีเมลส่งจดหมายอิเล็กทรอนิกส์
             <small>
                 <i class="fa fa-arrow-circle-left"></i>
-                <a asp-action="List">กลับไปยังรายการอีเมลส่งจดหมายอิเล็กทรอนิกส์</a>
+                <a asp-action="List">กลับไปยังบัญชีอีเมลส่งจดหมายอิเล็กทรอนิกส์</a>
             </small>
         </h1>
         <div class="pull-right">
@@ -21,10 +21,10 @@
                 <i class="fa fa-floppy-o"></i>
                 บันทึก
             </button>
-            <button type="submit" name="save-continue" class="btn bg-blue">
+            @*<button type="submit" name="save-continue" class="btn bg-blue">
                 <i class="fa fa-floppy-o"></i>
                 บันทึกและทำรายการต่อ
-            </button>
+            </button>*@
             <span id="emailAccount-delete" class="btn bg-red">
                 <i class="fa fa-trash-o"></i>
                 ลบ

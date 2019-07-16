@@ -21,7 +21,7 @@ namespace Research.Data.Mapping
             entity.Property(e => e.ProjectEndDate).HasColumnType("date");
 
             entity.Property(e => e.FundAmount).HasColumnType("numeric(18, 2)");
-
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
             entity.Property(e => e.LastUpdateBy).HasMaxLength(50);
 
             entity.Property(e => e.ProjectCode).HasMaxLength(50);

@@ -28,10 +28,10 @@ namespace Research.Data.Mapping
                 .HasMaxLength(50);
             entity.Property(e => e.MobileNumber).HasMaxLength(10);
 
-            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(255);
 
             entity.Property(e => e.SessionId).HasMaxLength(500);
-
+            entity.Property(e => e.Roles).HasMaxLength(100);
             entity.HasOne(d => d.Agency)
                 .WithMany()
                 .HasForeignKey(d => d.AgencyId);

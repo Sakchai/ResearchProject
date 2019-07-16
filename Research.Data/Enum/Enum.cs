@@ -66,14 +66,18 @@ namespace Research.Enum
     }
     public enum UserType
     {
+        [EnumMember(Value = "ผู้ดูแลระบบ")]
+        Researchers = 1,
         [EnumMember(Value = "นักวิจัย")]
-        Researcher = 1,
+        Administrators = 2,
         [EnumMember(Value = "เจ้าหน้าสถาบันพัฒนาวิจัย")]
-        ResearchDevelopmentInstituteStaff = 2,
+        ResearchDevelopmentInstituteStaffs = 3,
         [EnumMember(Value = "ผู้ประสานงานวิจัย")]
-        ResearchCoordinator = 3,
+        ResearchCoordinators = 4,
         [EnumMember(Value = "ผู้บริหาร")]
-        Management = 4
+        Managements = 5,
+        [EnumMember(Value = "Guests")]
+        Guests = 6
     }
 
     /// <summary>

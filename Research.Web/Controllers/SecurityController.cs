@@ -60,8 +60,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Permissions()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageAcl))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManagePermissions))
+                return AccessDeniedView();
 
             //prepare model
             var model = _securityModelFactory.PreparePermissionMappingModel(new PermissionMappingModel());
@@ -72,8 +72,8 @@ namespace Research.Web.Controllers
         [HttpPost, ActionName("Permissions")]
         public virtual IActionResult PermissionsSave(PermissionMappingModel model)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageAcl))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManagePermissions))
+                return AccessDeniedView();
 
             var permissionRecords = _permissionService.GetAllPermissionRecords();
             var userRoles = _userService.GetAllUserRoles(true);

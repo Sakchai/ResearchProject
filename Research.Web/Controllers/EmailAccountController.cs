@@ -54,8 +54,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //prepare model
             var model = _emailAccountModelFactory.PrepareEmailAccountSearchModel(new EmailAccountSearchModel());
@@ -66,8 +66,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult List(EmailAccountSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _emailAccountModelFactory.PrepareEmailAccountListModel(searchModel);
@@ -77,8 +77,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult MarkAsDefaultEmail(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             var defaultEmailAccount = _emailAccountService.GetEmailAccountById(id);
             if (defaultEmailAccount == null)
@@ -92,8 +92,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Create()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //prepare model
             var model = _emailAccountModelFactory.PrepareEmailAccountModel(new EmailAccountModel(), null);
@@ -104,8 +104,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Create(EmailAccountModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             if (ModelState.IsValid)
             {
@@ -132,8 +132,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //try to get an email account with the specified id
             var emailAccount = _emailAccountService.GetEmailAccountById(id);
@@ -150,8 +150,8 @@ namespace Research.Web.Controllers
         [FormValueRequired("save", "save-continue")]
         public virtual IActionResult Edit(EmailAccountModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //try to get an email account with the specified id
             var emailAccount = _emailAccountService.GetEmailAccountById(model.Id);
@@ -182,8 +182,8 @@ namespace Research.Web.Controllers
        // [FormValueRequired("changepassword")]
         public virtual IActionResult ChangePassword(EmailAccountModel model)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //try to get an email account with the specified id
             var emailAccount = _emailAccountService.GetEmailAccountById(model.Id);
@@ -203,8 +203,8 @@ namespace Research.Web.Controllers
         [FormValueRequired("sendtestemail")]
         public virtual IActionResult SendTestEmail(EmailAccountModel model)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //try to get an email account with the specified id
             var emailAccount = _emailAccountService.GetEmailAccountById(model.Id);
@@ -243,8 +243,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                return AccessDeniedView();
 
             //try to get an email account with the specified id
             var emailAccount = _emailAccountService.GetEmailAccountById(id);

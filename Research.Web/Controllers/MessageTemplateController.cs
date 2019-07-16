@@ -107,8 +107,8 @@ namespace Research.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //prepare model
             var model = _messageTemplateModelFactory.PrepareMessageTemplateSearchModel(new MessageTemplateSearchModel());
@@ -119,8 +119,8 @@ namespace Research.Controllers
         [HttpPost]
         public virtual IActionResult List(MessageTemplateSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _messageTemplateModelFactory.PrepareMessageTemplateListModel(searchModel);
@@ -130,8 +130,8 @@ namespace Research.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //try to get a message template with the specified id
             var messageTemplate = _messageTemplateService.GetMessageTemplateById(id);
@@ -148,8 +148,8 @@ namespace Research.Controllers
         [FormValueRequired("save", "save-continue")]
         public virtual IActionResult Edit(MessageTemplateModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //try to get a message template with the specified id
             var messageTemplate = _messageTemplateService.GetMessageTemplateById(model.Id);
@@ -195,8 +195,8 @@ namespace Research.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //try to get a message template with the specified id
             var messageTemplate = _messageTemplateService.GetMessageTemplateById(id);
@@ -218,8 +218,8 @@ namespace Research.Controllers
         [FormValueRequired("message-template-copy")]
         public virtual IActionResult CopyTemplate(MessageTemplateModel model)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //try to get a message template with the specified id
             var messageTemplate = _messageTemplateService.GetMessageTemplateById(model.Id);
@@ -243,8 +243,8 @@ namespace Research.Controllers
 
         public virtual IActionResult TestTemplate(int id, int languageId = 0)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //try to get a message template with the specified id
             var messageTemplate = _messageTemplateService.GetMessageTemplateById(id);
@@ -262,8 +262,8 @@ namespace Research.Controllers
         [FormValueRequired("send-test")]
         public virtual IActionResult TestTemplate(TestMessageTemplateModel model)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageTemplates))
+                return AccessDeniedView();
 
             //try to get a message template with the specified id
             var messageTemplate = _messageTemplateService.GetMessageTemplateById(model.Id);

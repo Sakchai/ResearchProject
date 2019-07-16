@@ -8,6 +8,7 @@ using Research.Services;
 using Research.Services.FiscalSchedules;
 using Research.Services.Logging;
 using Research.Services.Projects;
+using Research.Services.Security;
 using Research.Web.Extensions;
 using Research.Web.Factories;
 using Research.Web.Framework.Mvc;
@@ -27,18 +28,21 @@ namespace Research.Web.Controllers
         private readonly IProjectService _projectService;
         private readonly IWorkContext _workContext;
         private readonly IFiscalScheduleService _fiscalScheduleService;
+        private readonly IPermissionService _permissionService;
 
         public ProjectController(IProjectService projectService, 
             IProjectModelFactory projectModelFactory,
             IUserActivityService userActivityService,
             IWorkContext workContext,
-            IFiscalScheduleService fiscalScheduleService)
+            IFiscalScheduleService fiscalScheduleService,
+            IPermissionService permissionService)
         {
             this._projectService = projectService;
             this._projectModelFactory = projectModelFactory;
             this._userActivityService = userActivityService;
             this._workContext = workContext;
             this._fiscalScheduleService = fiscalScheduleService;
+            this._permissionService = permissionService;
         }
         // GET: /<controller>/
         //[AllowAnonymous]
@@ -65,8 +69,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Edit(ProjectModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(model.Id);
@@ -76,8 +80,7 @@ namespace Research.Web.Controllers
             int fiscalYear = DateTime.Now.Year + 543;
             var fiscalSchedule = _fiscalScheduleService.GetAllFiscalSchedules(fiscalScheduleName: string.Empty,
                                   fiscalYear: fiscalYear)
-                                  .Where(x => x.ClosingDate >= DateTime.Today &&
-                                       x.OpeningDate <= DateTime.Today)
+                                  .Where(x => x.ClosingDate >= DateTime.Today)
                                   .OrderByDescending(x => x.OpeningDate).FirstOrDefault();
 
             if (fiscalSchedule == null)
@@ -98,7 +101,8 @@ namespace Research.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                
+                project.LastUpdateBy = _workContext.CurrentUser.UserName;
+                project.Modified = DateTime.UtcNow;
 
                 _projectService.UpdateProject(project);
 
@@ -126,6 +130,9 @@ namespace Research.Web.Controllers
         [HttpGet, ActionName("Create")]
         public IActionResult Create()
         {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
+
             var model = _projectModelFactory.PrepareProjectModel(new ProjectModel(),null);
             return View(model);
         }
@@ -133,14 +140,13 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Create(ProjectModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             int fiscalYear = DateTime.Now.Year + 543;
             var fiscalSchedule = _fiscalScheduleService.GetAllFiscalSchedules(fiscalScheduleName: string.Empty,
                                   fiscalYear: fiscalYear)
-                                  .Where(x => x.ClosingDate <= DateTime.Today &&
-                                       x.OpeningDate >= DateTime.Today)
+                                  .Where(x => x.ClosingDate >= DateTime.Today)
                                   .OrderByDescending(x => x.OpeningDate).FirstOrDefault();
 
             if (fiscalSchedule == null)
@@ -157,6 +163,7 @@ namespace Research.Web.Controllers
                 project.Modified = DateTime.UtcNow;
                 project.LastUpdateBy = user.UserName;
                 project.ProjectStatusId = (int) ProjectStatus.WaitingApproval;
+                project.CreatedBy = _workContext.CurrentUser.UserName;
                 _projectService.InsertProject(project);
 
                 var researcher = user.Researcher;
@@ -195,6 +202,8 @@ namespace Research.Web.Controllers
         }
         public virtual IActionResult List()
         {
+            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+            //    return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _projectModelFactory.PrepareProjectSearchModel(new ProjectSearchModel());
@@ -204,8 +213,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Info(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(id);
@@ -221,13 +230,15 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(id);
             if (project == null)
                 return RedirectToAction("List");
+            project.LastUpdateBy = _workContext.CurrentUser.UserName;
+            project.Modified = DateTime.UtcNow;
             project.Deleted = true;
             _projectService.UpdateProject(project);
 
@@ -242,6 +253,7 @@ namespace Research.Web.Controllers
         [HttpPost]
         public ActionResult List(ProjectSearchModel searchModel)
         {
+
             var model = _projectModelFactory.PrepareProjectListModel(searchModel);
             return Json(model);
         }
@@ -250,8 +262,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ProjectResearchersSelect(ProjectResearcherSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedKendoGridJson();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(searchModel.ProjectId);
@@ -278,6 +290,9 @@ namespace Research.Web.Controllers
             var project = _projectService.GetProjectById(projectId);
             if (project == null)
                 return Json(new { Result = false });
+            project.LastUpdateBy = _workContext.CurrentUser.UserName;
+            project.Modified = DateTime.UtcNow;
+            _projectService.UpdateProject(project);
 
             int portions = _projectService.GetAllProjectResearchers(project.Id).Select(x => x.Portion).Sum();
             portions += portion;
@@ -305,12 +320,15 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ProjectResearcherDelete(int id, int projectId)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(projectId)
                 ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
+            project.LastUpdateBy = _workContext.CurrentUser.UserName;
+            project.Modified = DateTime.UtcNow;
+            _projectService.UpdateProject(project);
 
             ////try to get a project education with the specified id
             //var projectResearcher = project.ProjectResearchers.FirstOrDefault(vn => vn.Id == id)
@@ -329,8 +347,9 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ProjectProfessorsSelect(ProjectProfessorSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedKendoGridJson();
+
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(searchModel.ProjectId);
@@ -350,13 +369,16 @@ namespace Research.Web.Controllers
         public virtual IActionResult ProjectProfessorAdd(int projectId, string professorName,
             int professorTypeId)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedKendoGridJson();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(projectId);
             if (project == null)
                 return Json(new { Result = false });
+            project.LastUpdateBy = _workContext.CurrentUser.UserName;
+            project.Modified = DateTime.UtcNow;
+            _projectService.UpdateProject(project);
 
             var projectProfessor = new ProjectProfessor
             {
@@ -374,8 +396,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ProjectProfessorDelete(int id, int projectId)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedKendoGridJson();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(projectId)
@@ -395,8 +417,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ProjectProgressesSelect(ProjectProgressSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProgresss))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(searchModel.ProjectId);
@@ -416,13 +438,16 @@ namespace Research.Web.Controllers
         public virtual IActionResult ProjectProgressAdd(int projectId, int progressStatusId,
             string startDate, string endDate, string comment, int uploadId)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProgresss))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(projectId);
             if (project == null)
                 return Json(new { Result = false });
+            project.LastUpdateBy = _workContext.CurrentUser.UserName;
+            project.Modified = DateTime.UtcNow;
+            _projectService.UpdateProject(project);
 
             var projectProgress = new ProjectProgress
             {
@@ -444,12 +469,15 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult ProjectProgressDelete(int id, int projectId)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageProgresss))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
 
             //try to get a project with the specified id
             var project = _projectService.GetProjectById(projectId)
                 ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
+            project.LastUpdateBy = _workContext.CurrentUser.UserName;
+            project.Modified = DateTime.UtcNow;
+            _projectService.UpdateProject(project);
 
             //try to get a project professor with the specified id
             var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)

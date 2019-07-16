@@ -55,8 +55,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             //prepare model
             var model = _fiscalScheduleModelFactory.PrepareFiscalScheduleSearchModel(new FiscalScheduleSearchModel());
@@ -67,8 +67,8 @@ namespace Research.Web.Controllers
         [HttpPost, ActionName("List")]
         public virtual IActionResult List(FiscalScheduleSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _fiscalScheduleModelFactory.PrepareFiscalScheduleListModel(searchModel);
@@ -84,8 +84,8 @@ namespace Research.Web.Controllers
         [HttpGet, ActionName("Create")]
         public virtual IActionResult Create()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             //prepare model
             var model = _fiscalScheduleModelFactory.PrepareFiscalScheduleModel(new FiscalScheduleModel(), null);
@@ -95,8 +95,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Create(FiscalScheduleModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             if (ModelState.IsValid)
             {
@@ -123,8 +123,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             //try to get a fiscalSchedule with the specified id
             var fiscalSchedule = _fiscalScheduleService.GetFiscalScheduleById(id);
@@ -140,8 +140,8 @@ namespace Research.Web.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Edit(FiscalScheduleModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             //try to get a fiscalSchedule with the specified id
             var fiscalSchedule = _fiscalScheduleService.GetFiscalScheduleById(model.Id);
@@ -173,8 +173,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Info(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             //try to get a fiscalSchedule with the specified id
             var fiscalSchedule = _fiscalScheduleService.GetFiscalScheduleById(id);
@@ -190,8 +190,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
+                return AccessDeniedView();
 
             //try to get a fiscalSchedule with the specified id
             var fiscalSchedule = _fiscalScheduleService.GetFiscalScheduleById(id)

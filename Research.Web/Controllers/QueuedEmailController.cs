@@ -49,8 +49,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             //prepare model
             var model = _queuedEmailModelFactory.PrepareQueuedEmailSearchModel(new QueuedEmailSearchModel());
@@ -61,8 +61,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult QueuedEmailList(QueuedEmailSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedKendoGridJson();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedKendoGridJson();
 
             //prepare model
             var model = _queuedEmailModelFactory.PrepareQueuedEmailListModel(searchModel);
@@ -84,8 +84,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult Edit(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             //try to get a queued email with the specified id
             var email = _queuedEmailService.GetQueuedEmailById(id);
@@ -103,8 +103,8 @@ namespace Research.Web.Controllers
         [FormValueRequired("save", "save-continue")]
         public virtual IActionResult Edit(QueuedEmailModel model, bool continueEditing)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             //try to get a queued email with the specified id
             var email = _queuedEmailService.GetQueuedEmailById(model.Id);
@@ -133,8 +133,8 @@ namespace Research.Web.Controllers
         [HttpPost, ActionName("Edit"), FormValueRequired("requeue")]
         public virtual IActionResult Requeue(QueuedEmailModel queuedEmailModel)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             //try to get a queued email with the specified id
             var queuedEmail = _queuedEmailService.GetQueuedEmailById(queuedEmailModel.Id);
@@ -172,8 +172,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             //try to get a queued email with the specified id
             var email = _queuedEmailService.GetQueuedEmailById(id);
@@ -190,8 +190,8 @@ namespace Research.Web.Controllers
         [HttpPost]
         public virtual IActionResult DeleteSelected(ICollection<int> selectedIds)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             if (selectedIds != null)
                 _queuedEmailService.DeleteQueuedEmails(_queuedEmailService.GetQueuedEmailsByIds(selectedIds.ToArray()));
@@ -203,8 +203,8 @@ namespace Research.Web.Controllers
         [FormValueRequired("delete-all")]
         public virtual IActionResult DeleteAll()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                return AccessDeniedView();
 
             _queuedEmailService.DeleteAllEmails();
 

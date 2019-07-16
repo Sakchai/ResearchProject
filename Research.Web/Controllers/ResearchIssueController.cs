@@ -54,8 +54,8 @@ namespace Research.Web.Controllers
 
         public virtual IActionResult List()
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchIssues))
-            //    return AccessDeniedView();
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchIssues))
+                return AccessDeniedView();
 
             //prepare model
             var model = _researchIssueModelFactory.PrepareResearchIssueSearchModel(new ResearchIssueSearchModel());

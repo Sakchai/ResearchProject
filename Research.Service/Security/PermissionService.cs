@@ -298,7 +298,7 @@ namespace Research.Services.Security
                 return false;
 
             //old implementation of Authorize method
-            //var userRoles = user.UserRoles.Where(cr => cr.Active);
+            //var userRoles = user.UserRoles.Where(cr => cr.IsActive);
             //foreach (var role in userRoles)
             //    foreach (var permission1 in role.PermissionRecords)
             //        if (permission1.SystemName.Equals(permission.SystemName, StringComparison.InvariantCultureIgnoreCase))
