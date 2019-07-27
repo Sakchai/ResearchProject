@@ -286,6 +286,22 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
+        public virtual IActionResult View(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
+                return AccessDeniedView();
+
+            //try to get a researcher with the specified id
+            var researcher = _researcherService.GetResearcherById(id);
+            if (researcher == null)
+                return RedirectToAction("List");
+
+            //prepare model
+            var model = _researcherModelFactory.PrepareResearcherModel(null, researcher);
+
+            return View(model);
+        }
+
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Delete(int Id)
         {

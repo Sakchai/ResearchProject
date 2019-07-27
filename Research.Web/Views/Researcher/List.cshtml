@@ -166,17 +166,17 @@
                                 }, {
                                     field: "IsCompleted",
                                     title: "สถานะเข้าใช้งาน",
-                                    width: 150,
+                                    width: 110,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                     template: '# if(IsCompleted) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                 }, {
                                     field: "Id",
                                     title: "การกระทำ",
-                                    width: 100,
+                                    width: 150,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '<a class="btn btn-default" href="/Researcher/Edit/#=Id#"><i class="fa fa-pencil"></i></a>'                                }
+                                    template: '<a class="btn btn-default" href="/Researcher/Edit/#=Id#"><i class="fa fa-pencil"></i></a> <a class="btn btn-default" href="/Researcher/View/#=Id#" target="_blank"><i class="fa fa-eye"></i></a>'                                }
                                 ]
                             });
                         });
