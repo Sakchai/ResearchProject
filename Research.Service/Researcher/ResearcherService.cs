@@ -190,7 +190,6 @@ namespace Research.Services.Researchers
 
         public string GetNextNumber()
         {
-            string nextNumber = string.Empty;
             int maxNumber = 0;
             var query = _researcherRepository.Table;
             var researcher = query.OrderByDescending(x=>x.Id).LastOrDefault();

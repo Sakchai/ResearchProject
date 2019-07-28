@@ -209,10 +209,11 @@ namespace Research.Services.Projects
 
         public string GetNextNumber()
         {
+            int maxNumber = 0;
             var query = _projectRepository.Table;
-            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
-            //int? maxNumber = query.Max(e => (int?)e.Id);
-            maxNumber += 1;
+            var project = query.OrderByDescending(x => x.Id).LastOrDefault();
+            if (project != null)
+                maxNumber = int.Parse(project.ProjectCode.Substring(4)) + 1;
             return $"pp-{maxNumber.ToString("D6")}";
         }
 
