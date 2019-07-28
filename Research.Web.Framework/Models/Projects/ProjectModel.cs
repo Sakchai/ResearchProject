@@ -31,7 +31,10 @@ namespace Research.Web.Models.Projects
             ProjectProfessorSearchModel = new ProjectProfessorSearchModel();
             ProjectProgressSearchModel = new ProjectProgressSearchModel();
             AvailableProgressStatuses = new List<SelectListItem>();
+            ProjectResearcherListModel = new ProjectResearcherListModel();
+            ProjectProfessorListModel = new ProjectProfessorListModel();
         }
+        public string CreatedName { get; set; }
         [Display(Name = "รหัสโครงการวิจัย")]
         public string ProjectCode { get; set; }
         [Required]
@@ -49,8 +52,10 @@ namespace Research.Web.Models.Projects
         public int FiscalYear { get; set; }
         [Display(Name = "ลักษณะโครงการวิจัย")]
         public string ProjectType { get; set; }
+        public string ProjectTypeName { get; set; }
         [Display(Name = "ประเด็นการวิจัย")]
         public int ResearchIssueId { get; set; }
+        public string ResearchIssueName { get; set; }
         [Required]
         [Display(Name = "งบประมาณ")]
         public decimal FundAmount { get; set; }
@@ -64,11 +69,13 @@ namespace Research.Web.Models.Projects
         [UIHint("Date")]
         [Display(Name = "วันที่สิ้นสุดสัญญา")]
         public DateTime ProjectEndDate { get; set; }
+        public string ProjectEndDateName { get; set; }
         public string LastUpdateBy { get; set; }
         [Display(Name = "หมายเหตุ")]
         public string Comment { get; set; }
         [Display(Name = "กลุ่มเรื่องตามแนวยุทธศาสตร์มหาวิทยาลัย")]
         public int? StrategyGroupId { get; set; }
+        public string StrategyGroupName { get; set; }
         public IList<SelectListItem> AvailableStrategyGroups { get; set; }
 
         public virtual ICollection<ResearcherModel> Researchers { get; set; }
@@ -81,6 +88,8 @@ namespace Research.Web.Models.Projects
 
         #region project researchers
         public ProjectResearcherSearchModel ProjectResearcherSearchModel { get; set; }
+        public ProjectResearcherListModel ProjectResearcherListModel { get; set; }
+        public ProjectProfessorListModel ProjectProfessorListModel { get; set; }
         [Display(Name = "ชื่อนักวิจัย")]
         public int AddProjectResearcherId { get; set; }
         [Display(Name = "ชื่อนักวิจัย")]
@@ -115,6 +124,7 @@ namespace Research.Web.Models.Projects
         public ProjectProgressSearchModel ProjectProgressSearchModel { get; set; }
         [Display(Name = "สถานะโครงการวิจัย")]
         public int AddProjectProgressStatusId { get; set; }
+
         [UIHint("Date")]
         [Display(Name = "วันที่เริ่มต้น")]
         public DateTime AddProjectProgressStartDate { get; set; }

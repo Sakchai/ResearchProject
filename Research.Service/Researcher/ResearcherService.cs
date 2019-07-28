@@ -190,10 +190,13 @@ namespace Research.Services.Researchers
 
         public string GetNextNumber()
         {
+            string nextNumber = string.Empty;
+            int maxNumber = 0;
             var query = _researcherRepository.Table;
-            int maxNumber = query.LastOrDefault() != null ? query.LastOrDefault().Id : 0;
-            //int? maxNumber = query.Max(e => (int?)e.Id);
-            maxNumber += 1;
+            var researcher = query.OrderByDescending(x=>x.Id).LastOrDefault();
+            if (researcher != null)
+                maxNumber = int.Parse(researcher.ResearcherCode.Substring(5)) + 1;
+
             return $"Res-{maxNumber.ToString("D4")}";
         }
     }

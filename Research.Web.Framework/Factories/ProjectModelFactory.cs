@@ -155,6 +155,8 @@ namespace Research.Web.Factories
             return model;
         }
 
+  
+
         public ProjectModel PrepareProjectModel(ProjectModel model, Project project)
         {
             if (project != null)
@@ -172,15 +174,32 @@ namespace Research.Web.Factories
                 model.ProjectType = project.ProjectType;
                 model.FundAmount = project.FundAmount;
                 model.StrategyGroupId = project.StrategyGroupId;
+                model.StrategyGroupName = project.StrategyGroup.Name;
                 if (project.ProjectStatusId != null)
                     model.ProjectStatusId = project.ProjectStatusId.Value;
                 if (project.ProjectStartDate != null)
+                {
                     model.ProjectStartDate = project.ProjectStartDate;
+                    model.ProjectStartDateName = CommonHelper.ConvertToThaiDate(project.ProjectStartDate);
+                }
                 if (project.ProjectEndDate != null)
-                    model.ProjectEndDate= project.ProjectEndDate;
+                {
+                    model.ProjectEndDate = project.ProjectEndDate;
+                    model.ProjectEndDateName = CommonHelper.ConvertToThaiDate(project.ProjectEndDate);
+                }
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
                 model.ResearchIssueId = project.ResearchIssueId.Value;
+                model.ResearchIssueName = project.ResearchIssue != null ? project.ResearchIssue.Name : string.Empty;
+                var projectProgress = project.ProjectProgresses.OrderByDescending(x=> x.Id).LastOrDefault();
+                model.StrategyGroupName = project.StrategyGroup != null ? project.StrategyGroup.Name : string.Empty;
+                model.ProjectTypeName = project.ProjectType.Equals("N") ? "โครงการวิจัยใหม่" : "โครงการวิจัยต่อเนื่อง";
+                model.ProjectStatusName = project.ProjectStatus.GetAttributeOfType<EnumMemberAttribute>().Value;
+                model.ProgressStatusName = projectProgress != null ? projectProgress.ProgressStatus.GetAttributeOfType<EnumMemberAttribute>().Value : string.Empty;
+                model.CreatedName = CommonHelper.ConvertToThaiDate(project.Created);
+                model.ProjectResearcherListModel = PrepareProjectResearcherListModel(new ProjectResearcherSearchModel { ProjectId = project.Id }, project);
+                model.ProjectProfessorListModel = PrepareProjectProfessorListModel(new ProjectProfessorSearchModel { ProjectId = project.Id }, project);
+
             } else
             {
                 model.ProjectCode = _projectService.GetNextNumber();

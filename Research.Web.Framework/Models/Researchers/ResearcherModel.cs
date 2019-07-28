@@ -26,6 +26,7 @@ namespace Research.Web.Models.Researchers
             AvailableAddEducationCountries = new List<SelectListItem>();
             AddressModel = new AddressModel();
             ResearcherEducationSearchModel = new ResearcherEducationSearchModel();
+            ResearcherEducationListModel = new ResearcherEducationListModel();
         }
         [Display(Name = "คำนำหน้า(ไทย)")]
         public int TitleId { get; set; }
@@ -38,6 +39,7 @@ namespace Research.Web.Models.Researchers
         [Display(Name = "ตำแหน่งทางวิชาการ")]
         public int? AcademicRankId { get; set; }
         public IList<SelectListItem> AvailableAcademicRanks { get; set; }
+        public string AcademicRankName { get; set; }
         [Display(Name = "ประเภทบุคลากร")]
         public int PersonalTypeId { get; set; }
         public string PersonalTypeName { get; set; }
@@ -55,7 +57,7 @@ namespace Research.Web.Models.Researchers
         public int? DateOfBirthDay { get; set; }
         public int? DateOfBirthMonth { get; set; }
         public int? DateOfBirthYear { get; set; }
-
+        public string DateOfBirthName { get; set; }
         public DateTime? ParseDateOfBirth()
         {
             if (!DateOfBirthYear.HasValue || !DateOfBirthMonth.HasValue || !DateOfBirthDay.HasValue)
@@ -90,6 +92,7 @@ namespace Research.Web.Models.Researchers
         [Display(Name = "รูปภาพนักวิจัย")]
         public int? PictureId { get; set; }
         public AddressModel AddressModel { get; set; }
+        public ResearcherEducationListModel ResearcherEducationListModel { get; set; }
         public string FullName { get => $"{TitleName}{FirstName} {LastName}"; }
     
         public bool IsCompleted { get; set; }

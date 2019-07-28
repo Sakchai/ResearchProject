@@ -148,9 +148,13 @@ namespace Research.Web.Factories
                     model.DateOfBirthDay = researcher.Birthdate.Value.Day;
                     model.DateOfBirthMonth = researcher.Birthdate.Value.Month;
                     model.DateOfBirthYear = researcher.Birthdate.Value.Year + 543;
+                    model.DateOfBirthName = CommonHelper.ConvertToThaiDate(researcher.Birthdate.Value);
                 }
-                
+                    
                 PrepareResearcherEducationSearchModel(model.ResearcherEducationSearchModel, researcher);
+                model.AcademicRankName = researcher.AcademicRank != null ? researcher.AcademicRank.NameTh : string.Empty;
+                model.PersonalTypeName = researcher.PersonalType.GetAttributeOfType<EnumMemberAttribute>().Value;
+                model.ResearcherEducationListModel = PrepareResearcherEducationListModel(new ResearcherEducationSearchModel { ResearcherId = researcher.Id }, researcher);
 
             }
             else
@@ -214,6 +218,7 @@ namespace Research.Web.Factories
                 model.Address1 = researcher.Address.Address1;
                 model.Address2 = researcher.Address.Address2;
                 model.ProvinceId = researcher.Address.ProvinceId;
+                model.ProvinceName = researcher.Address.Province != null ? researcher.Address.Province.Name : string.Empty;
                 model.ZipCode = researcher.Address.ZipCode;
             }
 

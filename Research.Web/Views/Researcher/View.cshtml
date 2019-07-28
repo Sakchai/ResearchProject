@@ -53,7 +53,7 @@
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">วันเดือนปีเกิด</label>
                 <div class="col-sm-9">
-                    <label class="col-sm-9 col-form-label">@Model.DateOfBirthDay/@Model.DateOfBirthMonth/@Model.DateOfBirthYear</label>
+                    <label class="col-sm-9 col-form-label">@Model.DateOfBirthName</label>
                 </div>
             </div>
             <div class="form-group row">
@@ -65,7 +65,7 @@
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">ตำแหน่งทางวิชาการ</label>
                 <div class="col-sm-9">
-                    <label class="col-sm-9 col-form-label">@Model.AcademicRankId</label>
+                    <label class="col-sm-9 col-form-label">@Model.AcademicRankName</label>
                 </div>
             </div>
             <div class="form-group row">
@@ -89,7 +89,7 @@
             <div class="alert alert-primary"><h5>ที่อยู่สามารถติดต่อได้สะดวก</h5></div>
             <div class="form-group row">
                 <label class="col-sm-12 col-form-label">@Model.AddressModel.Address1 @Model.AddressModel.Address2</label>
-                <label class="col-sm-12 col-form-label">จังหวัด - @Model.AddressModel.ProvinceName รหัสไปรษณีย์ @Model.AddressModel.ZipCode</label>
+                <label class="col-sm-12 col-form-label">จังหวัด @Model.AddressModel.ProvinceName รหัสไปรษณีย์ @Model.AddressModel.ZipCode</label>
             </div>
             <div class="alert alert-primary"><h5>ข้อมูลการศึกษา</h5></div>
             <div class="form-group row">
@@ -103,15 +103,18 @@
                             <th scope="col">ปีการศึกษาที่จบ</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>ปริญญาตรี</td>
-                            <td>ศศ.บ. (การจัดการสารสนเทศ)</td>
-                            <td>มหาวิทยาลัยสงขลานครินทร์</td>
-                            <td>ไทย</td>
-                            <td>2551</td>
-                        </tr>
-                    </tbody>
+                    @foreach (var x in @Model.ResearcherEducationListModel.Data.ToList())
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@x.DegreeName</td>
+                                <td>@x.EducationLevelName</td>
+                                <td>@x.InstituteName</td>
+                                <td>@x.CountryName</td>
+                                <td>@x.GraduationYear</td>
+                            </tr>
+                        </tbody>
+                    }
                 </table>
             </div>
         </form>

@@ -1,0 +1,187 @@
+﻿@model ProjectModel
+
+@{
+    ViewData["Title"] = "รายละเอียดโครงการวิจัย";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>รายละเอียดโครงการวิจัย</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <environment names="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </environment>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="py-4">
+    <div class="container">
+
+        <form>
+            <div class="alert alert-primary"><h5>รายละเอียดข้อมูลโครงการวิจัย</h5></div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ชื่อโครงการวิจัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectCode</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ปีงบประมาณ</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.FiscalYear</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ชื่อโครงการวิจัย (ภาษาไทย)</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectNameTh</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ชื่อโครงการวิจัย (ภาษาอังกฤษ)</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectNameEn</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ชื่อแผนงานวิจัย (ภาษาไทย)</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.PlanNameTh</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ชื่อแผนงานวิจัย (ภาษาอังกฤษ)</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.PlanNameEn</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ลักษณะโครงการวิจัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectTypeName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ประเด็นการวิจัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ResearchIssueName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">งบประมาณ</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.FundAmount</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">กลุ่มเรื่องตามแนวยุทธศาสตร์มหาวิทยาลัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.StrategyGroupName</label>
+                </div>
+            </div>
+
+            <div class="alert alert-primary"><h5>นักวิจัย</h5></div>
+            <div class="form-group row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">ชื่อนักวิจัย</th>
+                            <th scope="col">บทบาทในโครงการ</th>
+                            <th scope="col">สัดส่วน</th>
+                        </tr>
+                    </thead>
+                    @if (@Model.ProjectResearcherListModel.Data != null)
+                    {
+                        @foreach (var x in @Model.ProjectResearcherListModel.Data.ToList())
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@x.ResearcherName</td>
+                                    <td>@x.RoleName</td>
+                                    <td>@x.Portion</td>
+                                </tr>
+                            </tbody>
+                        }
+                    }
+                </table>
+            </div>
+            <div class="alert alert-primary"><h5>ผู้ทรงคุณวุฒิ</h5></div>
+            <div class="form-group row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">ผู้ทรงคุณวุฒิ</th>
+                            <th scope="col">ประเภทผู้ทรงคุณวุฒิ</th>
+                        </tr>
+                    </thead>
+                    @if (@Model.ProjectProfessorListModel.Data != null)
+                    {
+                        @foreach (var x in @Model.ProjectProfessorListModel.Data.ToList())
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@x.ProfessorName</td>
+                                    <td>@x.ProfessorTypeName</td>
+                                </tr>
+                            </tbody>
+                        }
+                    }
+
+                </table>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">วันที่ยื่นข้อเสนอโครงการวิจัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.CreatedName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ผลการพิจารณา</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectStatusName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">วันที่ทำสัญญา</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectStartDateName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">วันที่สิ้นสุดสัญญา</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProjectEndDateName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">สถานะโครงการวิจัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.ProgressStatusName</label>
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

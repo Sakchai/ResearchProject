@@ -229,6 +229,7 @@ namespace Research.Web.Controllers
             //try to get a researcher with the specified id
             var researcher = _researcherService.GetResearcherById(model.Id);
             bool active = researcher.IsActive;
+            bool completed = researcher.IsCompleted;
             if (researcher == null)
                 return RedirectToAction("List");
 
@@ -236,6 +237,7 @@ namespace Research.Web.Controllers
             {
                 researcher = model.ToEntity(researcher);
                 researcher.IsActive = active;
+                researcher.IsCompleted = completed;
                 if (model.ParseDateOfBirth() != null)
                     researcher.Birthdate = model.ParseDateOfBirth();
 

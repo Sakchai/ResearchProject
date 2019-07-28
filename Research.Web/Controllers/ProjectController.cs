@@ -227,6 +227,22 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
+        public virtual IActionResult View(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProjects))
+                return AccessDeniedView();
+
+            //try to get a project with the specified id
+            var project = _projectService.GetProjectById(id);
+            if (project == null)
+                return RedirectToAction("List");
+
+            //prepare model
+            var model = _projectModelFactory.PrepareProjectModel(null, project);
+
+            return View(model);
+        }
+
         [HttpPost]
         public virtual IActionResult Delete(int id)
         {
