@@ -150,7 +150,8 @@ namespace Research.Web.Controllers
             }
 
             var model = _userModelFactory.PreparePasswordRecoveryConfirmModel();
-
+            model.Email = email;
+            model.Token = token;
             //validate token
             if (!user.IsPasswordRecoveryTokenValid(token))
             {
@@ -204,7 +205,7 @@ namespace Research.Web.Controllers
                     _genericAttributeService.SaveAttribute(user, ResearchUserDefaults.PasswordRecoveryTokenAttribute, "");
 
                     model.DisablePasswordChanging = true;
-                    model.Result = "Password has Been Changed";
+                    model.Result = "รหัสผ่านของท่านถูกเปลี่ยนแปลงเรียบร้อยแล้ว กรุณาล๊อคอินเพื่อเข้าใช้งานอีกครั้ง";
                 }
                 else
                 {
@@ -634,6 +635,10 @@ namespace Research.Web.Controllers
                 user.Roles = role.SystemName;
                 _userService.InsertUser(user);
 
+                var systemRole = _userService.GetUserRoleBySystemName(role.SystemName);
+                user.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = systemRole });
+                _userService.UpdateUser(user);
+
                 return continueEditing ? RedirectToAction("Edit", new { user.Id }) : RedirectToAction("List");
             }
 
@@ -690,6 +695,14 @@ namespace Research.Web.Controllers
                 user.Roles = role.SystemName;
                 _userService.UpdateUser(user);
 
+                var systemRole = _userService.GetUserRoleBySystemName(role.SystemName);
+                var userUserRoleMappings = user.UserUserRoleMappings.FirstOrDefault();
+                if (userUserRoleMappings == null)
+                    user.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = systemRole });
+                else {
+                    userUserRoleMappings.UserRole = systemRole;
+                }
+                _userService.UpdateUser(user);
                 return continueEditing ? RedirectToAction("Edit", new { user.Id }) : RedirectToAction("List");
 
             }

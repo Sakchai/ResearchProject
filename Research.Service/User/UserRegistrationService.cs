@@ -108,7 +108,7 @@ namespace Research.Services.Users
             if (!user.IsActive)
                 return UserLoginResults.NotActive;
             //only registered can login
-            if (!user.IsRegistered())
+            if (user.Researcher != null && !user.IsRegistered())
                 return UserLoginResults.NotRegistered;
             //check whether a user is locked out
             if (user.CannotLoginUntilDateUtc.HasValue && user.CannotLoginUntilDateUtc.Value > DateTime.UtcNow)

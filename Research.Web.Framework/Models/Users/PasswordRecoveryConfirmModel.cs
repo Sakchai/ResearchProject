@@ -6,6 +6,8 @@ namespace Research.Web.Models.Users
     //[Validator(typeof(PasswordRecoveryConfirmValidator))]
     public partial class PasswordRecoveryConfirmModel : BaseResearchModel
     {
+        public string Email { get; set; }
+        public string Token { get; set; }
         [DataType(DataType.Password)]
         //[NoTrim]
         //[ResearchResourceDisplayName("Account.PasswordRecovery.NewPassword")]

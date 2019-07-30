@@ -89,6 +89,7 @@ namespace Research.Services.Users
             string ipAddress = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = _userRepository.Table;
+            query = query.Where(c => c.Roles != null);
             if (createdFromUtc.HasValue)
                 query = query.Where(c => createdFromUtc.Value <= c.Created);
             if (createdToUtc.HasValue)
