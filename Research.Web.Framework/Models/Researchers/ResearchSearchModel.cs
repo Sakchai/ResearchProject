@@ -34,6 +34,7 @@ namespace Research.Web.Models.Researchers
         public string LastName { get; set; }
         [Display(Name = "สถานะเข้าใช้งานระบบ")]
         public int IsCompleted { get; set; }
+        public string Email { get; set; }
         #endregion
     }
 }

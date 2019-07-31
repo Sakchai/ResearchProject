@@ -2,7 +2,7 @@
 @inject IWorkContext workContext
 
 @{
-    var user = @workContext.CurrentUser;
+    var user = workContext.CurrentUser;
     string name = $"{user.FirstName}";
     string role = string.Empty;
 

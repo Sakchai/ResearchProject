@@ -121,7 +121,7 @@ namespace Research.Services.Authentication
             }
 
             //whether the found user is available
-            if (user == null || !user.IsActive || user.RequireReLogin || user.Deleted || !user.IsRegistered())
+            if (user == null || !user.IsActive || user.RequireReLogin || user.Deleted || (!user.IsRegistered() && user.UserTypeId == 2))
                 return null;
 
             //cache authenticated user

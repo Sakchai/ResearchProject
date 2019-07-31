@@ -244,7 +244,7 @@ namespace Research.Services.Users
             
             var query = from c in _userRepository.Table
                         orderby c.Id
-                        where c.Email == email
+                        where c.Email == email && !c.Deleted  
                         select c;
             var user = query.FirstOrDefault();
 

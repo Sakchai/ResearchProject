@@ -82,10 +82,13 @@ namespace Research.Services.Researchers
 
         }
 
-        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, int isCompleted = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public IPagedList<Researcher> GetAllResearchers(int agency = 0, int personalType = 0, string firstName = null, string lastName = null, int isCompleted = 0, string email = null, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var query = _researcherRepository.Table;
             query = query.Where(c => c.Deleted != true);
+
+            if (!string.IsNullOrWhiteSpace(email))
+                query = query.Where(c => c.Email == email.Trim());
 
             if (agency != 0)
                 query = query.Where(c => c.Agency.Id == agency);
@@ -105,7 +108,6 @@ namespace Research.Services.Researchers
                 query = query.Where(c => c.IsCompleted == active);
             }
 
-            //query = query.Where(c => c.IsActive == isActive);
             var customers = new PagedList<Researcher>(query, pageIndex, pageSize, getOnlyTotalCount);
             return customers;
         }

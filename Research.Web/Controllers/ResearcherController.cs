@@ -16,6 +16,7 @@ using Research.Web.Framework.Mvc;
 using Research.Web.Models.Common;
 using Research.Services.Researchers;
 using System.Collections.Generic;
+using Research.Core;
 
 namespace Research.Web.Controllers
 {
@@ -31,6 +32,7 @@ namespace Research.Web.Controllers
         private readonly IPictureService _pictureService;
         private readonly IAddressService _addressService;
         private readonly IAcademicRankService _academicRankService;
+        private readonly IWorkContext _workContext;
 
         #endregion Fields
 
@@ -43,7 +45,8 @@ namespace Research.Web.Controllers
             IResearcherService researcherService,
             IPictureService pictureService,
             IAddressService addressService,
-            IAcademicRankService academicRankService)
+            IAcademicRankService academicRankService,
+            IWorkContext workContext)
         {
             this._userActivityService = userActivityService;
             this._userService = userService;
@@ -53,6 +56,7 @@ namespace Research.Web.Controllers
             this._pictureService = pictureService;
             this._addressService = addressService;
             this._academicRankService = academicRankService;
+            this._workContext = workContext;
         }
 
         #endregion
@@ -116,6 +120,8 @@ namespace Research.Web.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageResearchers))
                 return AccessDeniedKendoGridJson();
 
+            if (_workContext.CurrentUser.UserTypeId == 2) //Researchers Role will see only owner researcher information
+                searchModel.Email = _workContext.CurrentUser.Email;
             //prepare model
             var model = _researcherModelFactory.PrepareResearcherListModel(searchModel);
 

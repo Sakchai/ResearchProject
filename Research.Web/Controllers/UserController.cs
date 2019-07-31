@@ -617,6 +617,11 @@ namespace Research.Web.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageUsers))
                 return AccessDeniedView();
 
+            var userEmail = _userService.GetUserByEmail(model.Email);
+
+            if ((userEmail != null) && userEmail.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase))
+                ModelState.AddModelError("", "อีเมลซ้ำในระบบ");
+
             if (ModelState.IsValid)
             {
                 var role = _userService.GetRoleById(model.UserTypeId);
@@ -678,6 +683,10 @@ namespace Research.Web.Controllers
             if (user == null)
                 return RedirectToAction("List");
 
+            var userEmail = _userService.GetUserByEmail(model.Email);
+            if ((userEmail != null) && userEmail.Email.Equals(model.Email,StringComparison.OrdinalIgnoreCase))
+                ModelState.AddModelError("", "อีเมลซ้ำในระบบ");
+
             if (ModelState.IsValid)
             {
                 var role = _userService.GetRoleById(model.UserTypeId);
@@ -696,6 +705,7 @@ namespace Research.Web.Controllers
                 _userService.UpdateUser(user);
 
                 var systemRole = _userService.GetUserRoleBySystemName(role.SystemName);
+
                 var userUserRoleMappings = user.UserUserRoleMappings.FirstOrDefault();
                 if (userUserRoleMappings == null)
                     user.UserUserRoleMappings.Add(new UserUserRoleMapping { UserRole = systemRole });

@@ -87,7 +87,8 @@ namespace Research.Web.Factories
                                                              personalType:searchModel.PersonTypeId,
                                                              firstName:searchModel.FirstName,
                                                              lastName:searchModel.LastName,
-                                                             isCompleted: searchModel.IsCompleted);
+                                                             isCompleted: searchModel.IsCompleted,
+                                                             email: searchModel.Email);
 
 
             //prepare grid model
