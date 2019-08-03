@@ -124,6 +124,7 @@ namespace Research.Web.Infrastructure
             //builder.RegisterType<ImportManager>().As<IImportManager>().InstancePerLifetimeScope();
             //builder.RegisterType<PdfService>().As<IPdfService>().InstancePerLifetimeScope();
             //builder.RegisterType<UploadService>().As<IUploadService>().InstancePerLifetimeScope();
+            
             builder.RegisterType<PictureService>().As<IPictureService>().SingleInstance();
             builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
@@ -159,6 +160,7 @@ namespace Research.Web.Infrastructure
             builder.RegisterType<ProjectModelFactory>().As<IProjectModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<UserModelFactory>().As<IUserModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ActivityLogModelFactory>().As<IActivityLogModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<LogModelFactory>().As<ILogModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ResearcherModelFactory>().As<IResearcherModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ProfessorModelFactory>().As<IProfessorModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ResearchIssueModelFactory>().As<IResearchIssueModelFactory>().InstancePerLifetimeScope();

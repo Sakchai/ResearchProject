@@ -1,5 +1,6 @@
 ﻿using Research.Web.Framework.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Research.Web.Models.Logging
 {
@@ -10,31 +11,31 @@ namespace Research.Web.Models.Logging
     {
         #region Properties
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.LogLevel")]
+        [Display(Name = "ประเภท Log")]
         public string LogLevel { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.ShortMessage")]
+        [Display(Name = "รายละเอียดสั้น")]
         public string ShortMessage { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.FullMessage")]
+        [Display(Name = "รายละเอียดยาว")]
         public string FullMessage { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.IPAddress")]
+        [Display(Name = "ไอพีเอดเดรส")]
         public string IpAddress { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.Customer")]
+        [Display(Name = "หมายเลข User")]
         public int? UserId { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.Customer")]
+        [Display(Name = "อีเมล")]
         public string UserEmail { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.PageURL")]
+        [Display(Name = "Page Url")]
         public string PageUrl { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.ReferrerURL")]
+        [Display(Name = "Referrer Url")]
         public string ReferrerUrl { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.Fields.CreatedOn")]
+        [Display(Name = "สร้างรายการเมื่อ")]
         public DateTime CreatedOn { get; set; }
 
         #endregion

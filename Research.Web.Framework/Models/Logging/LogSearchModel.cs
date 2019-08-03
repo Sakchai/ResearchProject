@@ -20,18 +20,19 @@ namespace Research.Web.Models.Logging
 
         #region Properties
 
-        //[NopResourceDisplayName("Admin.System.Log.List.CreatedOnFrom")]
+
+        [Display(Name = "วันที่จาก")]
         [UIHint("DateNullable")]
         public DateTime? CreatedOnFrom { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.List.CreatedOnTo")]
+        [Display(Name = "ถึงวันที่")]
         [UIHint("DateNullable")]
         public DateTime? CreatedOnTo { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.List.Message")]
+        [Display(Name = "รายละเอียด")]
         public string Message { get; set; }
 
-        //[NopResourceDisplayName("Admin.System.Log.List.LogLevel")]
+        [Display(Name = "ประเภท Log")]
         public int LogLevelId { get; set; }
 
         public IList<SelectListItem> AvailableLogLevels { get; set; }
