@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Context\DataSettingsManager.cs" />
+    <Compile Remove="Context\IDataProviderManager.cs" />
+    <Compile Remove="Context\TripThaiApiContext.cs" />
+    <Compile Remove="Entity\Program.cs" />
+    <Compile Remove="Entity\Role.cs" />
+    <Compile Remove="Entity\RoleProgram.cs" />
+    <Compile Remove="Enum\EnumConverter.cs" />
+    <Compile Remove="Enum\SortAttribute.cs" />
+    <Compile Remove="Enum\StringEnum.cs" />
+    <Compile Remove="Mapping\ProgramMap.cs" />
+    <Compile Remove="Mapping\RoleMap.cs" />
+    <Compile Remove="Mapping\RoleProgramMap.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Dapper" Version="1.50.5" developmentDependency="true" />
+    <PackageReference Include="Dapper.Contrib" Version="1.50.5" developmentDependency="true" />
+    <PackageReference Include="FluentMigrator" Version="3.1.3" developmentDependency="true" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" developmentDependency="true" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Html\" />
+  </ItemGroup>
+
+</Project>

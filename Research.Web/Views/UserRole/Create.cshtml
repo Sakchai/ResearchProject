@@ -1,0 +1,31 @@
+﻿@model UserRoleModel
+
+@{
+    //page title
+    ViewBag.Title = "เพิ่มสิทธิ์ผู้ใช้งาน";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("User roles");
+}
+
+<form asp-controller="UserRole" asp-action="Create" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            เพิ่มสิทธิ์ผู้ใช้งาน
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับไปรายการสิทธิ์ผู้ใช้งาน</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึก
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

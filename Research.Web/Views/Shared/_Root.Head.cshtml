@@ -1,0 +1,63 @@
+﻿@using Research.Core.Domain
+@using Research.Core.Domain.Common
+@using Research.Services.Events
+@using Research.Services.Security
+@using Research.Web.Framework.Events
+@using Research.Core
+@inject CommonSettings commonSettings
+@inject IEventPublisher eventPublisher
+@inject IPermissionService permissionService
+@inject IWorkContext workContext
+@inject SiteInformationSettings storeInformationSettings
+@{
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/js/public.ajaxcart.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/js/public.common.js");
+    Html.AppendScriptParts(ResourceLocation.Head, "~/lib/jquery-migrate-1.2.1.min.js");
+    Html.AppendScriptParts(ResourceLocation.Head, "~/lib/jquery-ui-1.10.3.custom.min.js");
+    Html.AppendScriptParts(ResourceLocation.Head, "~/lib/jquery.validate.unobtrusive.min.js");
+    Html.AppendScriptParts(ResourceLocation.Head, "~/lib/jquery.validate.min.js");
+    //jQuery is the only js file in the head. if we decide to move it to the footer, then ensure that all inline scripts (with jQuery usage) with are also moved to the footer
+    //the issue that it's not possible in some cases (e.g. "Edit address", when Ajax request is made on one-page checkout)
+    Html.AppendScriptParts(ResourceLocation.Head, "~/lib/jquery-1.10.2.min.js");
+   // Html.AppendScriptParts(ResourceLocation.Head, "~/lib/jquery-ui.js");
+
+    //X-UA-Compatible tag
+    if (commonSettings.RenderXuaCompatible)
+    {
+        Html.AppendHeadCustomParts($"<meta http-equiv=\"X-UA-Compatible\" content=\"{commonSettings.XuaCompatibleValue}\"/>");
+    }
+    var displayMiniProfiler = storeInformationSettings.DisplayMiniProfilerInPublicStore
+        && (!storeInformationSettings.DisplayMiniProfilerForAdminOnly || permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel));
+    //event
+    eventPublisher.Publish(new PageRenderingEvent(this.Html));
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Html.ResearchTitle()</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="description" content="@(Html.ResearchMetaDescription())" />
+    <meta name="keywords" content="@(Html.ResearchMetaKeywords())" />
+    <meta name="generator" content="Research" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @Html.ResearchHeadCustom()
+    @*This is used so that themes can inject content into the header*@
+    @await Html.PartialAsync("Head")
+    @Html.ResearchCssFiles(this.Url, ResourceLocation.Head)
+    @Html.ResearchScripts(this.Url, ResourceLocation.Head)
+    @Html.ResearchCanonicalUrls()
+    @*Favicon - upload favicon.ico file to the root directory*@
+    @await Component.InvokeAsync("Favicon")
+    @if (displayMiniProfiler)
+    {
+        <mini-profiler />
+    }
+    @Html.ResearchInlineScripts(this.Url, ResourceLocation.Head)
+</head>
+<body>
+    @RenderBody()
+    @Html.ResearchCssFiles(this.Url, ResourceLocation.Footer)
+    @Html.ResearchScripts(this.Url, ResourceLocation.Footer)
+    @Html.ResearchInlineScripts(this.Url, ResourceLocation.Footer)
+</body>
+</html>

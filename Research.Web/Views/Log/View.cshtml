@@ -1,0 +1,106 @@
+﻿@model LogModel
+
+@{
+    //page title
+    ViewBag.Title = "ดูรายละเอียด Log";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Log");
+}
+
+<form asp-controller="Log" asp-action="View" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            ดูรายละเอียด Log
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับไปหน้ารายการ</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <span id="log-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                ลบ
+            </span>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div asp-validation-summary="All"></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="LogLevel" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Model.LogLevel</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="ShortMessage" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Html.Raw(Model.ShortMessage)</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="FullMessage" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Html.Raw(Model.FullMessage)</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="IpAddress" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Model.IpAddress</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="UserId" />
+                            </div>
+                            <div class="col-md-9">
+                                @if (Model.UserId.HasValue)
+                                {
+                                    <a asp-controller="User" asp-action="Edit" asp-route-id="@Model.UserId">@(!string.IsNullOrEmpty(Model.UserEmail) ? Model.UserEmail : "Guest")</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PageUrl" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Model.PageUrl</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="ReferrerUrl" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Model.ReferrerUrl</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="CreatedOn" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-text-row">@Model.CreatedOn</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="log-delete" />

@@ -1,0 +1,29 @@
+﻿@model FiscalScheduleModel
+
+@{
+    ViewBag.Title = "กำหนดวันเปิดรับข้อเสนอโครงการวิจัย";
+}
+
+<form asp-controller="FiscalSchedule" asp-action="Create" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            เพิ่มวันเปิดรับข้อเสนอโครงการวิจัย
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับสู่รายการวันเปิดรับข้อเสนอโครงการวิจัย</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึก
+            </button>
+            @*<button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>*@
+            @*@await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.FiscalScheduleDetailsButtons, additionalData = Model })*@
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

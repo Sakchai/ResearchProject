@@ -1,0 +1,128 @@
+﻿@model ResearcherModel
+
+@inject IPictureService pictureService
+@{
+    ViewData["Title"] = "รายละเอียดนักวิจัย";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>รายละเอียดนักวิจัย</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <environment names="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </environment>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="py-4">
+    <div class="container">
+
+        <form>
+            <div class="alert alert-primary"><h5>ข้อมูลส่วนตัว</h5></div>
+            <img src="@(pictureService.GetPictureUrl(@Model.PictureId.Value, 200, true))" class="rounded float-right" >
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ชื่อนักวิจัย</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.FullName</label>
+                    <label class="col-sm-9 col-form-label">@Model.FirstNameEN @Model.LastNameEN</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">เลขประจำตัวประชาชน</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.IDCard</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">วันเดือนปีเกิด</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.DateOfBirthName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ประเภทบุคลากร</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.PersonalTypeName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">ตำแหน่งทางวิชาการ</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.AcademicRankName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">หน่วยงานหลัก</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.AgencyName</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">โทรศัพท์</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.Telephone</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">อีเมล</label>
+                <div class="col-sm-9">
+                    <label class="col-sm-9 col-form-label">@Model.Email</label>
+                </div>
+            </div>
+            <div class="alert alert-primary"><h5>ที่อยู่สามารถติดต่อได้สะดวก</h5></div>
+            <div class="form-group row">
+                <label class="col-sm-12 col-form-label">@Model.AddressModel.Address1 @Model.AddressModel.Address2</label>
+                <label class="col-sm-12 col-form-label">จังหวัด @Model.AddressModel.ProvinceName รหัสไปรษณีย์ @Model.AddressModel.ZipCode</label>
+            </div>
+            <div class="alert alert-primary"><h5>ข้อมูลการศึกษา</h5></div>
+            <div class="form-group row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">ระดับปริญญา</th>
+                            <th scope="col">วุฒิการศึกษา</th>
+                            <th scope="col">สถาบันการศึกษา</th>
+                            <th scope="col">ประเทศ</th>
+                            <th scope="col">ปีการศึกษาที่จบ</th>
+                        </tr>
+                    </thead>
+                    @foreach (var x in @Model.ResearcherEducationListModel.Data.ToList())
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@x.DegreeName</td>
+                                <td>@x.EducationLevelName</td>
+                                <td>@x.InstituteName</td>
+                                <td>@x.CountryName</td>
+                                <td>@x.GraduationYear</td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </form>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

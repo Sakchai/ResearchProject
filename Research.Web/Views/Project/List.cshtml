@@ -1,0 +1,191 @@
+﻿@model ProjectSearchModel
+@{
+    //page title
+    ViewBag.Title = "รายละเอียดข้อเสนอโครงการวิจัย";
+}
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        รายละเอียดข้อเสนอโครงการวิจัย
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            เพิ่มข้อเสนอโครงการวิจัย
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="SearchProjectName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="SearchProjectName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="FiscalScheduleId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="FiscalScheduleId" asp-items="Model.AvailableFiscalYears" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-projects" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        ค้นหา
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="AgencyId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencies" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ProgressStatusId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="ProgressStatusId" asp-items="Model.AvailableProgressStatuses" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ProjectStatusId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="ProjectStatusId" asp-items="Model.AvailableProjectStatuses" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="projects-grid"></div>
+                    <script>
+    $(document).ready(function() {
+        $("#projects-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "Project"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: function() {
+                            var data = {
+                                SearchProjectName: $('#@Html.IdFor(model => model.SearchProjectName)').val(),
+                                FiscalScheduleId: $('#@Html.IdFor(model => model.FiscalScheduleId)').val(),
+                                AgencyId: $('#@Html.IdFor(model => model.AgencyId)').val(),
+                                ProgressStatusId: $('#@Html.IdFor(model => model.ProgressStatusId)').val(),
+                                ProjectStatusId: $('#@Html.IdFor(model => model.ProjectStatusId)').val()
+                            };
+
+                            return data;
+                        }
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(Model.PageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(Model.AvailablePageSizes)],
+                @await Html.PartialAsync("_GridPagerMessages")
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "FiscalYear",
+                    title: "ปีงบ",
+                    width: 100,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                }, {
+                    field: "ProjectCode",
+                    title: "รหัสโครงการ",
+                    width: 100,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                }, {
+                    field: "ProjectNameTh",
+                    title: "ชื่อโครงการ",
+                    width: 450
+                }, {
+                    field: "ProjectStartDateName",
+                    title: "วันที่ยื่นข้อเสนอ",
+                    width: 150,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                }, {
+                    field: "ProjectStatusName",
+                    title: "ผลการพิจารณา",
+                    width: 150,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                }, {
+                    field: "ProgressStatusName",
+                    title: "สถานะโครงการวิจัย",
+                    width: 100,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                }, {
+                    field: "Id",
+                    title: "ดำเนินการ",
+                    width: 150,
+                    headerAttributes: { style: "text-align:center" },
+                    attributes: { style: "text-align:center" },
+                    template: '<a class="btn btn-default" href="/Project/Edit/#=Id#"><i class="fa fa-pencil"></i></a> <a class="btn btn-default" href="/Project/View/#=Id#" target="_blank"><i class="fa fa-eye"></i></a>'
+                }
+            ]
+        });
+    });
+                    </script>
+                    <script>
+                        $(document).ready(function () {
+                            //search button
+                            $('#search-projects').click(function () {
+                                //search
+                                var grid = $('#projects-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                                return false;
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

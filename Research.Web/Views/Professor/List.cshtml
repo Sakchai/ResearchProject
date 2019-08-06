@@ -1,0 +1,190 @@
+﻿@model ProfessorSearchModel
+
+@{
+    //page title
+    ViewBag.Title = "ข้อมูลผู้ทรงคุณวุฒิ";
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        ข้อมูลผู้ทรงคุณวุฒิ
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            เพิ่มรายการผู้ทรงคุณวุฒิ
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="TitleId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="FirstName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="FirstName" />
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-professors" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        ค้นหา
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="ProfessorTypeId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="ProfessorTypeId" asp-items="Model.AvailableProfessorTypes" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="LastName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="LastName" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="professors-grid"></div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#professors-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("List", "Professor"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: function() {
+                                                var data = {
+                                                    TitleId: $('#TitleId').val(),
+                                                    FirstName: $('#FirstName').val(),
+                                                    LastName: $('#LastName').val(),
+                                                    ProfessorTypeId: $('#ProfessorTypeId').val(),
+                                                };
+                                                //addAntiForgeryToken(data);
+                                                return data;
+                                            }
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors"
+                                    },
+                                    error: function (e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(Model.PageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(Model.AvailablePageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "คุณต้องการลบรายการนี้ใช่หรือไม่",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                {
+                                    field: "TitleName",
+                                    title: "คำนำหน้า",
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "FirstName",
+                                    title: "ชื่อ",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "LastName",
+                                    title: "นามสกุล",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "Telephone",
+                                    title: "เบอร์โทรศัพท์",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "Email",
+                                    title: "อีเมล",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "ProfessorTypeName",
+                                    title: "ประเภทผู้ทรงคุณวุฒิ",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                }, {
+                                    field: "Id",
+                                    title: "การกระทำ",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '<a class="btn btn-default" href="/Professor/Edit/#=Id#"><i class="fa fa-pencil"></i></a>'                                }
+                                ]
+                            });
+                        });
+                    </script>
+
+                    <script>
+                        $(document).ready(function () {
+                            //search button
+                            $('#search-professors').click(function () {
+                                //search
+                                var grid = $('#professors-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                                return false;
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

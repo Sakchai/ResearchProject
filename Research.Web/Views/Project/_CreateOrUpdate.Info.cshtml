@@ -1,0 +1,108 @@
+﻿@model ProjectModel
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="ProjectCode" />
+                </div>
+                <div class="col-md-9">
+                    <label>@Model.ProjectCode</label>
+                    <input asp-for="ProjectCode" type="hidden" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="ResearchIssueId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="ResearchIssueId" asp-items="Model.AvailableResearchIssues" asp-required="true"/>
+                    <span asp-validation-for="ResearchIssueId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="FiscalYear" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="FiscalYear"/>
+                    <span asp-validation-for="FiscalYear" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="ProjectNameTh" />
+                </div>
+                <div class="col-md-9">
+                    <nop-textarea asp-for="ProjectNameTh" asp-required="true"/>
+                    <span asp-validation-for="ProjectNameTh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="ProjectNameEn" />
+                </div>
+                <div class="col-md-9">
+                    <nop-textarea asp-for="ProjectNameEn" asp-required="true"/>
+                    <span asp-validation-for="ProjectNameEn" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PlanNameTh" />
+                </div>
+                <div class="col-md-9">
+                    <nop-textarea asp-for="PlanNameTh" />
+                    <span asp-validation-for="PlanNameTh"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PlanNameEn" />
+                </div>
+                <div class="col-md-9">
+                    <nop-textarea asp-for="PlanNameEn" />
+                    <span asp-validation-for="PlanNameEn"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="ProjectType" />
+                </div>
+
+                <div class="col-md-9">
+                    <div class="col-md-3">
+                        <input type="radio" asp-for="ProjectType" value="N" checked="@(Model.ProjectType == "N")" id="projecttype-new" />
+                        โครงการวิจัยใหม่
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" asp-for="ProjectType" value="C" checked="@(Model.ProjectType == "C")" id="projecttype-cont" />
+                        โครงการวิจัยต่อเนื่อง
+                    </div>
+                    <span asp-validation-for="ProjectType" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="FundAmount" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="FundAmount" asp-required="true"/>
+                    <span asp-validation-for="FundAmount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="StrategyGroupId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="StrategyGroupId" asp-items="Model.AvailableStrategyGroups" />
+                    <span asp-validation-for="StrategyGroupId"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

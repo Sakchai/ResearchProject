@@ -1,0 +1,72 @@
+﻿@model RegisterResultModel
+
+
+@inject IWebHelper webHelper
+@{
+    ViewData["Title"] = "ผลลงทะเบียนสมัครนักวิจัย";
+    Layout = "";
+    //register URL with return URL (if specified)
+    var registerUrl = Url.RouteUrl("Register", null, webHelper.CurrentRequestProtocol);
+    if (!string.IsNullOrEmpty(this.Context.Request.Query["returnUrl"]))
+    {
+        registerUrl = webHelper.ModifyQueryString(registerUrl, "returnurl", this.Context.Request.Query["returnUrl"]);
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ลงทะเบียนสมัครนักวิจัย</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css" />
+        <link rel="stylesheet" href="~/css/AdminLTE.css" />
+        <link rel="stylesheet" href="~/css/animation.css" />
+        <link rel="stylesheet" href="~/css/login.css" />
+
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/AdminLTE.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    </environment>
+
+</head>
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <p class="login-box-msg">ผลการลงทะเบียนสมัครนักวิจัย</p>
+        </div>
+
+        <div class="register-box-body">
+
+            <form asp-controller="User" asp-action="RegisterResult" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <center> <label>@Model.Result</label> </center>
+                    </div>
+                </div>
+   
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <input type="submit" value="เข้าสู่ระบบ" class="btn btn-primary btn-block btn-flat">
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_FooterScriptsPartial"); }
+    }
+</body>
+</html>

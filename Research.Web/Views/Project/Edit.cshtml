@@ -1,0 +1,37 @@
+﻿@model ProjectModel
+
+@{
+    //page title
+    ViewBag.Title = "ข้อเสนอโครงการวิจัย";
+}
+
+<form asp-controller="Project" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            ข้อเสนอโครงการวิจัย
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับสู่หน้ารายละเอียดข้อเสนอโครงการวิจัย</a>
+            </small>
+        </h1>
+        @*<div class="pull-right">
+            <span id="project-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                ลบรายการ
+            </span>
+        </div>*@
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึก
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>
+
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="nop-delete" />

@@ -1,0 +1,177 @@
+﻿@model ProjectModel
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="projectprofessors-grid"></div>
+            <script>
+                $(document).ready(function () {
+                    $("#projectprofessors-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("ProjectProfessorsSelect", "Project"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: function() {
+                                        var data = {
+                                            ProjectId: '@(Model.Id)'
+                                        };
+                                        //addAntiForgeryToken(data);
+                                        return data;
+                                    }
+                                },
+                                destroy: {
+                                    url: "@Html.Raw(Url.Action("ProjectProfessorDelete", "Project", new { professorId = Model.Id }))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    //data: addAntiForgeryToken
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors",
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        //do not implicitly specify all fields
+                                        //we do it only for fields which implicitly require it
+                                        //otherwise, they'll be formatted wrong way
+                                        CreatedOn: { type: "date" }
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(Model.ProjectProfessorSearchModel.PageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(Model.ProjectProfessorSearchModel.AvailablePageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        editable: {
+                            confirmation: "คุณต้องการจะลบรายการนี้ใช่หรือไม่",
+                            mode: "inline"
+                        },
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "ProfessorName",
+                                title: "ชื่อผู้ทรงคุณวุฒิ",
+                                width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                            }, {
+                                field: "ProfessorTypeName",
+                                title: "ประเภทผู้ทรงคุณวุฒิ",
+                                width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                            }, {
+                                command: { name: "destroy", text: "ลบรายการ" },
+                                title: "การกระทำ",
+                                width: 75,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                            }
+                        ]
+                    });
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            เพิ่มบัญชีรายชื่อผู้ทรงคุณวุฒิ
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddProjectProfessorName" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddProjectProfessorName" asp-required="true"  />
+                    <span asp-validation-for="AddProjectProfessorName"></span>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $("#AddProjectProfessorName").kendoAutoComplete({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "@Html.Raw(Url.Action("ProfessorsSelect", "Professor"))",
+                                        type: "POST",
+                                        dataType: "json",
+                                    }
+                                }
+                            },
+                        filter: "contains",
+                        placeholder: "เลือกผู้ทรงคุณวุฒิ...",
+                        });  
+                    });
+                    </script>
+                </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddProjectProfessorTypeId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="AddProjectProfessorTypeId" asp-items="Model.AvailableProfessorTypes" />
+                    <span asp-validation-for="AddProjectProfessorTypeId"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button type="button" id="addProjectProfessor" class="btn btn-primary">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#addProjectProfessor').click(function() {
+            var projectProfessorName = $("#@Html.IdFor(model => model.AddProjectProfessorName)").val();
+            var projectProfessorTypeId = $("#@Html.IdFor(model => model.AddProjectProfessorTypeId)").val();
+
+            $('#addProjectProfessor').attr('disabled', true);
+
+            var postData = {
+                projectId: '@(Model.Id)',
+                professorName: projectProfessorName,
+                professorTypeId: projectProfessorTypeId,
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@( Url.Action("ProjectProfessorAdd", "Project"))",
+                data: postData,
+                success: function(data) {
+                    var grid = $("#projectprofessors-grid").data('kendoGrid');
+                    grid.dataSource.read();
+                    $('#addProjectProfessor').attr('disabled', false);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to add project professor.');
+                    $('#addProjectProfessor').attr('disabled', false);
+                }
+            });
+        });
+    });
+</script>
+

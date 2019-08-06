@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "_Root.Head";
+}
+@await Html.PartialAsync("_Notifications")
+@await Html.PartialAsync("_JavaScriptDisabledWarning")
+<div class="master-wrapper-page">
+
+    <div class="master-wrapper-content">
+        <div class="master-column-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+</div>

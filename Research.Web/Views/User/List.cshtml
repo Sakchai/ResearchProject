@@ -1,0 +1,200 @@
+﻿@model UserSearchModel
+
+@{
+    //page title
+    ViewBag.Title = "บัญชีผู้ดูแลระบบ";
+    //active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("User");
+}
+
+<form asp-controller="User" asp-action="Create" method="post" id="users-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            รายการบัญชีผู้ดูแลระบบ
+        </h1>
+        <div class="pull-right">
+            &nbsp;
+            <a asp-action="Create" class="btn btn-primary">เพิ่มบัญชีผู้ดูแลระบบ</a>
+            @*@await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.UserListButtons })*@
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="FirstName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="FirstName" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-users" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        ค้นหา
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="LastName" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="LastName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="AgencyId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencyies"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="users-grid"></div>
+
+                    <script>
+                        $(document).ready(function() {
+                            $("#users-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("List", "User"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: function() {
+                                                var data = {
+                                                    Name: $('#Name').val(),
+                                                };
+                                                addAntiForgeryToken(data);
+                                                return data;
+                                            }
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("Delete", "User"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Name: { editable: true, type: "string" },
+                                                FiscalYear: { editable: true, type: "number" },
+                                                Id: { editable: false, type: "number" }
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function(e) {
+                                        if (e.type == "create" || e.type == "update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(Model.PageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(Model.AvailablePageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "คุณต้องการที่จะลบรายการใช่หรือไม่",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "FullName",
+                                        title: "ชื่อ - นามสกุล",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 200
+                                    }, {
+                                        field: "MobileNumber",
+                                        title: "เบอร์โทรศัพท์",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 150
+                                    }, {
+                                        field: "Email",
+                                        title: "อีเมล",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 150
+                                    }, {
+                                        field: "AgencyName",
+                                        title: "หน่วยงาน",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 150
+                                    }, {
+                                        field: "UserRoleName",
+                                        title: "ระดับสิทธิ์",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        width: 200
+                                    }, {
+                                        field: "Id",
+                                        title: "แก้ไข",
+                                        width: 50,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '<a class="btn btn-default" href="/User/Edit/#=Id#"><i class="fa fa-pencil"></i></a>'  
+                                    }, {
+                                        command: { name: "destroy", text: "ลบ" },
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        title: "ลบ",
+                                        width: 50
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+                    <input type="submit" id="btnRefresh" style="display: none" />
+                    <script>
+                        $(document).ready(function () {
+                            $('#btnRefresh').click(function () {
+                                //refresh grid
+                                var grid = $("#users-grid").data('kendoGrid');
+                                grid.dataSource.read();
+
+                                //return false to don't reload a page
+                                return false;
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

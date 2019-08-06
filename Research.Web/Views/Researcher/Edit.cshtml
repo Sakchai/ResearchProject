@@ -1,0 +1,39 @@
+﻿@model ResearcherModel
+
+@{
+    //page title
+    ViewBag.Title = "รายละเอียดข้อมูลนักวิจัย";
+}
+
+<form asp-controller="Researcher" asp-action="Edit" method="post">
+    
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            ข้อมูลนักวิจัย
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับสู่หน้ารายการข้อมูลผู้วิจัย</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            @*<a asp-action="Delete" class="btn bg-red">
+                <input asp-for="Id" type="hidden" />
+                <i class="fa fa-trash-o"></i>
+                ลบรายการ
+            </a>*@
+        </div>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึก
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>
+
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="nop-delete" />

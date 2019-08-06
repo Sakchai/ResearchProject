@@ -1,0 +1,195 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>Research.Web</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Research.Web</PackageId>
+    <UserSecretsId>aspnet-AdminLTE-c9131f1e-93fb-4772-8c8b-1d4c77bf4354</UserSecretsId>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <None Update="wwwroot\**\*;Views\**\*;Areas\**\Views">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.103" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.2">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.0.165" />
+  </ItemGroup>
+
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="bower install" />
+    <Exec Command="dotnet bundle" />
+  </Target>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.8.391" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\ActivityLog\ListLogs.cshtml" />
+    <None Include="Views\ActivityLog\ListTypes.cshtml" />
+    <None Include="Views\EmailAccount\Create.cshtml" />
+    <None Include="Views\EmailAccount\Edit.cshtml" />
+    <None Include="Views\EmailAccount\List.cshtml" />
+    <None Include="Views\EmailAccount\_CreateOrUpdate.cshtml" />
+    <None Include="Views\MessageTemplate\Edit.cshtml" />
+    <None Include="Views\MessageTemplate\List.cshtml" />
+    <None Include="Views\MessageTemplate\TestTemplate.cshtml" />
+    <None Include="Views\MessageTemplate\_CreateOrUpdate.cshtml" />
+    <None Include="Views\Researcher\Create.cshtml" />
+    <None Include="Views\Researcher\List.cshtml" />
+    <None Include="Views\Researcher\_CreateOrUpdate.cshtml" />
+    <None Include="Views\Researcher\_CreateOrUpdate.Info.cshtml" />
+    <None Include="Views\ScheduleTask\List.cshtml" />
+    <None Include="Views\Security\AccessDenied.cshtml" />
+    <None Include="Views\Security\Permissions.cshtml" />
+    <None Include="wwwroot\js\bbeditor\ed.js" />
+    <None Include="wwwroot\lib\tinymce\langs\ar.js" />
+    <None Include="wwwroot\lib\tinymce\langs\de_AT.js" />
+    <None Include="wwwroot\lib\tinymce\langs\de_DE.js" />
+    <None Include="wwwroot\lib\tinymce\langs\es_ES.js" />
+    <None Include="wwwroot\lib\tinymce\langs\es_MX.js" />
+    <None Include="wwwroot\lib\tinymce\langs\fr_CH.js" />
+    <None Include="wwwroot\lib\tinymce\langs\fr_FR.js" />
+    <None Include="wwwroot\lib\tinymce\langs\it_IT.js" />
+    <None Include="wwwroot\lib\tinymce\langs\nl_NL.js" />
+    <None Include="wwwroot\lib\tinymce\langs\pt_BR.js" />
+    <None Include="wwwroot\lib\tinymce\langs\pt_PT.js" />
+    <None Include="wwwroot\lib\tinymce\langs\readme.md" />
+    <None Include="wwwroot\lib\tinymce\langs\ru_RU.js" />
+    <None Include="wwwroot\lib\tinymce\langs\zh_CN.js" />
+    <None Include="wwwroot\lib\tinymce\langs\zh_TW.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\advlist\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\anchor\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\autolink\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\autoresize\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\autosave\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\bbcode\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\charmap\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\code\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\contextmenu\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\directionality\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\emoticons\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\example\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\example_dependency\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\fullpage\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\fullscreen\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\hr\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\image\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\importcss\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\editor_plugin.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\editor_plugin_src.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\js\dialog-v4.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\js\dialog.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\langs\en.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\langs\en_dlg.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\langs\fr.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\langs\fr_dlg.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\langs\ru.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\langs\ru_dlg.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\plugin.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\jbimages\readme" />
+    <None Include="wwwroot\lib\tinymce\plugins\layer\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\link\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\lists\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\media\moxieplayer.swf" />
+    <None Include="wwwroot\lib\tinymce\plugins\media\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\noneditable\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\pagebreak\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\paste\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\preview\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\print\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\save\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\searchreplace\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\spellchecker\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\tabfocus\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\table\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\template\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\textcolor\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\visualblocks\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\visualchars\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\wordcount\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\skins\lightgray\fonts\readme.md" />
+    <None Include="wwwroot\lib\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
+    <None Include="wwwroot\lib\tinymce\skins\lightgray\fonts\tinymce.svg" />
+    <None Include="wwwroot\lib\tinymce\themes\modern\theme.min.js" />
+    <None Include="wwwroot\lib\tinymce\tinymce.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Research.Data\Research.Data.csproj" />
+    <ProjectReference Include="..\Research.Service\Research.Services.csproj" />
+    <ProjectReference Include="..\Research.Web.Framework\Research.Web.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\Ionicons\css\ionicons.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jvectormap\jquery-jvectormap-1.2.2.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jvectormap\jquery-jvectormap-1.2.2.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jvectormap\jquery-jvectormap-usa-en.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jvectormap\jquery-jvectormap-world-mill-en.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\files\thumbs\" />
+  </ItemGroup>
+
+
+
+</Project>

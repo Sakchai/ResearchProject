@@ -1,0 +1,36 @@
+﻿@model UserRoleModel
+
+@{
+    //page title
+    ViewBag.Title = "สิทธิ์ผู้ใช้งาน";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("User roles");
+}
+
+<form asp-controller="UserRole" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            แก้ไขสิทธิ์ผู้ใช้งาน
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับไปรายการสิทธิ์ผู้ใช้งาน</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึก
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                บันทึกและทำรายการต่อ
+            </button>
+            <span id="customerrole-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                ลบ
+            </span>
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="customerrole-delete" />
