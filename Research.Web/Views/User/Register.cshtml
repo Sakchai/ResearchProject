@@ -30,12 +30,12 @@
 
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true"  />
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" asp-append-version="true"  />
-        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css"  asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/AdminLTE.css" asp-append-version="true"  />
-        <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true"  />
-        <link rel="stylesheet" href="~/css/login.css" asp-append-version="true"  />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/AdminLTE.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     </environment>
 
 </head>
@@ -103,7 +103,7 @@
                         <nop-label asp-for="IDCard" />
                     </div>
                     <div class="col-sm-8">
-                        <nop-editor asp-for="IDCard" maxlength="13" type="number" />
+                        <nop-editor asp-for="IDCard" maxlength="13" />
                         <span asp-validation-for="IDCard" class="text-danger"></span>
                     </div>
                 </div>
