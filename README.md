@@ -6,17 +6,17 @@ This project is for provide researcher registration and research project proposa
 
 For this reference app, we built serveral consumer and line-of-business apps. You can find all ResearchProject Repos in this location 
 
-### Project.Api
-Project.Api uses a microservice oriented architecture implemented using containers. There are various services developed in .NET Core 2.2 and use data stores SQL Server.
+### Research.Data
+Research.Data uses .NET Core 2.2, AutoMapper, and use Microsoft EntityFramworkCore for data stores SQL Server.
 
-### Project.Domain
-Project.Domain uses developed in .NET Core 2.2, AutoMapper.
+### Research.Service
+Research.Service uses dependency injection developed in .NET Core 2.2.
 
-### Project.Entity
-Project.Entity uses developed in .NET Core 2.2, Microsoft EntityFramworkCore.
+### Research.Web
+Research.Web uses dependency injection developed in .NET Core 2.2, Kendoui, Razor.
 
-### Project.Web
-Project.Entity uses developed in .NET Core 2.2, Microsoft AspNetCore Mvc 2.2, Microsoft Entensions Logging 2.2.
+### Research.Web.Framework
+Research.Web.Framework uses developed in .NET Core 2.2, Microsoft AspNetCore Mvc 2.2, and Autofac.
 
 ### Screen
 ResearchProject Web Apps
