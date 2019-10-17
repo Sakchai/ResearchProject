@@ -47,18 +47,23 @@ namespace Research.Web.Validators.Users
                 .WithMessage("ระบุเลขประจำตัวประชาชนจำนวน 13 หลัก!");
 
             RuleFor(x => x.IDCard)
-                .Matches(@"^\d{7}$")
+                .NotEmpty()
+                .Matches(@"^\d{13}$")
                 .WithMessage("ระบุเลขประจำตัวประชาชนเป็นตัวเลขเท่านั้น!");
 
-            RuleFor(x => x.IDCard).Must((x, context) =>
+            RuleFor(x => x.IDCard)
+                .NotEmpty()
+                .Must((x, context) =>
             {
                 return IsDuplicateIDCardChecked(x, userService);
             }).WithMessage("เลขประจำตัวประชาชนซ้ำในระบบ กรุณาระบุเลขประจำตัวประชาชนใหม่อีกครั้ง!");
 
-            RuleFor(x => x.IDCard).Must((x, context) =>
-            {
-                return IsValidIDCard(x);
-            }).WithMessage("เลขประจำตัวประชาชนไม่ถูกต้อง กรุณาระบุเลขประจำตัวประชาชนใหม่อีกครั้ง!");
+            //RuleFor(x => x.IDCard)
+            //    .NotEmpty()
+            //    .Must((x, context) =>
+            //{
+            //    return IsValidIDCard(x);
+            //}).WithMessage("เลขประจำตัวประชาชนไม่ถูกต้อง กรุณาระบุเลขประจำตัวประชาชนใหม่อีกครั้ง!");
 
 
             SetDatabaseValidationRules<User>(dbContext);

@@ -23,7 +23,7 @@ namespace Research.Services.Professors
         /// <param name="pageSize">Page size</param>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>Professors</returns>
-        IPagedList<Professor> GetAllProfessors(int titleId = 0, string firstName = null, string lastName = null, string professorType = null,
+        IPagedList<Professor> GetAllProfessors(string titleName = null, string firstName = null, string lastName = null, string professorType = null,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false);
 
         /// <summary>

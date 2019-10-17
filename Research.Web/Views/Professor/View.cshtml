@@ -1,0 +1,80 @@
+﻿@model ProfessorModel
+
+@{
+    //page title
+    ViewBag.Title = "รายละเอียดข้อมูลผู้ทรงคุณวุฒิ";
+}
+
+<form asp-controller="Professor" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            ข้อมูลผู้ทรงคุณวุฒิ
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">กลับสู่หน้ารายการข้อมูลผู้ทรงคุณวุฒิ</a>
+            </small>
+        </h1>
+    </div>
+
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="ProfessorCode" />
+            </div>
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.ProfessorCode">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="ProfessorTypeName" />
+            </div>
+
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.ProfessorTypeName">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>ชื่อผู้ทรงคุณวุฒิ</label>
+            </div>
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.TitleName@Model.FirstName @Model.LastName">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="Telephone" />
+            </div>
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.Telephone">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="Email" />
+            </div>
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="IsActive" />
+            </div>
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.IsActive.ToString()">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="Comment" />
+            </div>
+            <div class="col-md-9">
+                <input class="form-control text-box single-line" readonly type="text" value="@Model.Comment">
+            </div>
+        </div>
+
+
+    </div>
+</form>

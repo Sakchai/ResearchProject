@@ -71,18 +71,18 @@ namespace Research.Services.Professors
         /// <param name="pageSize">Page size</param>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>Professors</returns>
-        public virtual IPagedList<Professor> GetAllProfessors(int titleId = 0, string firstName = null, string lastName = null, string professorType = null,
+        public virtual IPagedList<Professor> GetAllProfessors(string titleName = null, string firstName = null, string lastName = null, string professorType = null,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
             var query = _professorRepository.Table;
-            if (titleId != 0)
-                query = query.Where(a => a.TitleId == titleId);
+            if (!string.IsNullOrEmpty(titleName))
+                query = query.Where(a => a.TitleName.Contains(titleName));
 
             if (!string.IsNullOrEmpty(firstName))
-                query = query.Where(a => a.FirstName == firstName);
+                query = query.Where(a => a.FirstName.Contains(firstName));
 
             if (!string.IsNullOrEmpty(lastName))
-                query = query.Where(a => a.LastName == lastName);
+                query = query.Where(a => a.LastName.Contains(lastName));
 
             if (!string.IsNullOrEmpty(professorType))
                 query = query.Where(a => a.ProfessorType == professorType);

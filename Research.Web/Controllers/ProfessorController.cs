@@ -189,6 +189,22 @@ namespace Research.Web.Controllers
             return View(model);
         }
 
+        public virtual IActionResult View(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProfessors))
+                return AccessDeniedView();
+
+            //try to get a professor with the specified id
+            var professor = _professorService.GetProfessorById(id);
+            if (professor == null)
+                return RedirectToAction("List");
+
+            //prepare model
+            var model = _professorModelFactory.PrepareProfessorModel(null, professor);
+
+            return View(model);
+        }
+
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public virtual IActionResult Edit(ProfessorModel model, bool continueEditing)
         {

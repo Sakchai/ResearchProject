@@ -7,9 +7,14 @@
     <OutputType>Exe</OutputType>
     <PackageId>Research.Web</PackageId>
     <UserSecretsId>aspnet-AdminLTE-c9131f1e-93fb-4772-8c8b-1d4c77bf4354</UserSecretsId>
-    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
     <ApplicationIcon />
     <StartupObject />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>2</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
 
 
@@ -50,6 +55,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0">
       <PrivateAssets>All</PrivateAssets>
@@ -169,6 +178,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\lib\bootstrap\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\css\bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\lib\Ionicons\css\ionicons.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -183,6 +198,9 @@
     </Content>
     <Content Update="wwwroot\lib\jvectormap\jquery-jvectormap-world-mill-en.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\moment\moment.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

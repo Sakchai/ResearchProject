@@ -26,10 +26,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-md-4">
-                                    <nop-label asp-for="TitleId" />
+                                    <nop-label asp-for="TitleName" />
                                 </div>
                                 <div class="col-md-8">
-                                    <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" />
+                                    <nop-editor asp-for="TitleName" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -89,7 +89,7 @@
                                             dataType: "json",
                                             data: function() {
                                                 var data = {
-                                                    TitleId: $('#TitleId').val(),
+                                                    TitleId: $('#TitleName').val(),
                                                     FirstName: $('#FirstName').val(),
                                                     LastName: $('#LastName').val(),
                                                     ProfessorTypeId: $('#ProfessorTypeId').val(),
@@ -128,12 +128,13 @@
                                 {
                                     field: "TitleName",
                                     title: "คำนำหน้า",
+                                    width: 50,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                 }, {
                                     field: "FirstName",
                                     title: "ชื่อ",
-                                    width: 150,
+                                    width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                 }, {
@@ -145,28 +146,28 @@
                                 }, {
                                     field: "Telephone",
                                     title: "เบอร์โทรศัพท์",
-                                    width: 150,
+                                    width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                 }, {
                                     field: "Email",
                                     title: "อีเมล",
-                                    width: 150,
+                                    width: 120,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                 }, {
                                     field: "ProfessorTypeName",
                                     title: "ประเภทผู้ทรงคุณวุฒิ",
-                                    width: 150,
+                                    width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                 }, {
                                     field: "Id",
                                     title: "การกระทำ",
-                                    width: 100,
+                                    width: 150,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '<a class="btn btn-default" href="/Professor/Edit/#=Id#"><i class="fa fa-pencil"></i></a>'                                }
+                                    template: '<a class="btn btn-default" href="/Professor/Edit/#=Id#"><i class="fa fa-pencil"></i></a> <a class="btn btn-default" href="/Professor/View/#=Id#" ><i class="fa fa-eye"></i></a>'                                }
                                 ]
                             });
                         });

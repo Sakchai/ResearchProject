@@ -11,7 +11,7 @@ namespace Research.Web.Models.Professors
     /// <summary>
     /// A ... attached to an Researcher
     /// </summary>
-    [Validator(typeof(ProfessorValidator))]
+   // [Validator(typeof(ProfessorValidator))]
     public class ProfessorModel : BaseEntityModel
     {
         public ProfessorModel()
@@ -20,8 +20,10 @@ namespace Research.Web.Models.Professors
             AvailableProvinces = new List<SelectListItem>();
             AddressModel = new AddressModel();
         }
-        [Display(Name = "คำนำหน้า")]
+       
         public int TitleId { get; set; }
+        [Display(Name = "คำนำหน้า")]
+        [Required]
         public string TitleName { get; set; }
         public IList<SelectListItem> AvailableTitles { get; set; }
         public IList<SelectListItem> AvailableProvinces { get; set; }
@@ -43,6 +45,7 @@ namespace Research.Web.Models.Professors
         public string ProfessorCode { get; set; }
         [Display(Name = "ประเภทผู้ทรงคุณวุฒิ")]
         public string ProfessorType { get; set; }
+        [Display(Name = "ประเภทผู้ทรงคุณวุฒิ")]
         public string ProfessorTypeName { get; set; }
         public AddressModel AddressModel { get; set; }
         [Display(Name = "หมายเหตุ")]

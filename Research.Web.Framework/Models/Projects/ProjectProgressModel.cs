@@ -16,8 +16,10 @@ namespace Research.Web.Models.Projects
             AvailableProgressStatuses = new List<SelectListItem>();
         }
         public int ProjectId { get; set; }
+        [UIHint("Date")]
         public DateTime ProgressStartDate { get; set; }
         public string ProgressStartDateName { get; set; }
+        [UIHint("Date")]
         public DateTime ProgressEndDate { get; set; }
         public string ProgressEndDateName { get; set; }
         public int ProgressStatusId { get; set; }

@@ -59,7 +59,7 @@ namespace Research.Web.Factories
                 throw new ArgumentNullException(nameof(searchModel));
 
             //prepare available stores
-            _baseAdminModelFactory.PrepareTitles(searchModel.AvailableTitles, true, "--รหัสคำนำหน้าชื่อ--");
+           // _baseAdminModelFactory.PrepareTitles(searchModel.AvailableTitles, true, "--รหัสคำนำหน้าชื่อ--");
             _baseAdminModelFactory.PrepareProfessorTypes(searchModel.AvailableProfessorTypes, true, "--รหัสประเภทผู้ทรงวุฒิ--");
 
             //prepare page parameters
@@ -83,7 +83,7 @@ namespace Research.Web.Factories
             else if (searchModel.ProfessorTypeId == 2)
                 professorType = ProfessorType.ExternalExpert.ToString();
             //get professors
-            var professors = _professorService.GetAllProfessors(titleId: searchModel.TitleId,
+            var professors = _professorService.GetAllProfessors(titleName: searchModel.TitleName,
                                                          firstName: searchModel.FirstName,
                                                          lastName: searchModel.LastName,
                                                          professorType: professorType);
@@ -98,7 +98,7 @@ namespace Research.Web.Factories
                     var professorModel = professor.ToModel<ProfessorModel>();
 
                     //little performance optimization: ensure that "Body" is not returned
-                    professorModel.TitleName = professor.Title != null ? professor.Title.TitleNameTH : string.Empty;
+                    professorModel.TitleName = professor.TitleName;
                     professorModel.FirstName = professor.FirstName;
                     professorModel.LastName = professor.LastName;
                     professorModel.Telephone = professor.Telephone;
@@ -129,11 +129,13 @@ namespace Research.Web.Factories
                 model.Id = professor.Id;
                 model.ProfessorCode = professor.ProfessorCode;
                 model.TitleId = professor.TitleId;
+                model.TitleName = professor.TitleName;
                 model.FirstName = professor.FirstName;
                 model.LastName = professor.LastName;
                 model.Telephone = professor.Telephone;
                 model.Email = professor.Email;
                 model.ProfessorType = professor.ProfessorType;
+                model.ProfessorTypeName = professor.ProfessorType.Equals("InternalExpert") ? "ผู้ทรงคุณวุฒิภายใน" : "ผู้ทรงคุณวุฒิภายนอก";
                 model.IsActive = professor.IsActive;
                 PrepareAddressModel(model.AddressModel, professor);
 

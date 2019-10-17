@@ -1,4 +1,4 @@
-@model FiscalScheduleModel
+﻿@model FiscalScheduleModel
 
 <div asp-validation-summary="All"></div>
 <input asp-for="Id" type="hidden" />
@@ -58,12 +58,74 @@
                             <nop-label asp-for="ClosingDate" />
                         </div>
                         <div class="col-sm-9">
+                            
                             <nop-editor asp-for="ClosingDate" asp-required="true" />
                             <span asp-validation-for="ClosingDate"></span>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>
+    <script>
+
+        $(document).ready(function() {
+                    function startChange() {
+                        var startDate = start.value(),
+                        endDate = end.value();
+
+                        if (startDate) {
+                            startDate = new Date(startDate);
+                            startDate.setDate(startDate.getDate());
+                            end.min(startDate);
+                        } else if (endDate) {
+                            start.max(new Date(endDate));
+                        } else {
+                            endDate = new Date();
+                            start.max(endDate);
+                            end.min(endDate);
+                        }
+                    }
+
+                    function endChange() {
+                        var endDate = end.value(),
+                        startDate = start.value();
+
+                        if (endDate) {
+                            endDate = new Date(endDate);
+                            endDate.setDate(endDate.getDate());
+                            start.max(endDate);
+                        } else if (startDate) {
+                            end.min(new Date(startDate));
+                        } else {
+                            endDate = new Date();
+                            start.max(endDate);
+                            end.min(endDate);
+                        }
+                    }
+
+            $("#OpeningDate").datepicker({
+                lang: 'th',
+                timepicker: false,
+                yearOffset: 543,
+                inline: true,
+                format:'d/m/Y'
+            });
+            $("#ClosingDate").datepicker({
+                timepicker: false,
+                yearOffset: 543,
+                lang: 'th',
+                inline: true,
+                format:'d/m/Y'
+            }); 
+
+                    start.max(end.value());
+                    end.min(start.value());
+        });
+
+   
+
+    </script>
 </div>

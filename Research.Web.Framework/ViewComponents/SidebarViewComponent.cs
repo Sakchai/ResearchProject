@@ -31,7 +31,7 @@ namespace Research.Web.ViewComponents
             //}
 
             // sidebars.Add(ModuleHelper.AddHeader("MAIN NAVIGATION"));
-            //sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Dashboards));
+            sidebars.Add(ModuleHelper.AddModule(ModuleHelper.Module.Dashboards));
 
             int userTypeId = _workContext.CurrentUser.UserTypeId;
             sidebars.Add(ModuleHelper.AddTree("โครงการวิจัย/ผู้วิจัย", "fa fa-university"));

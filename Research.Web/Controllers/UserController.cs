@@ -484,7 +484,7 @@ namespace Research.Web.Controllers
 
                             if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
                                 //return RedirectToRoute("Project");
-                                return RedirectToAction("List","Project");
+                                return RedirectToAction("Dashboard2","Dashboards");
 
                             return Redirect(returnUrl);
                         }

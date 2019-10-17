@@ -70,7 +70,7 @@ namespace Research.Enum
         Researchers = 1,
         [EnumMember(Value = "นักวิจัย")]
         Administrators = 2,
-        [EnumMember(Value = "เจ้าหน้าสถาบันพัฒนาวิจัย")]
+        [EnumMember(Value = "เจ้าหน้าที่สถาบันวิจัยและพัฒนา")]
         ResearchDevelopmentInstituteStaffs = 3,
         [EnumMember(Value = "ผู้ประสานงานวิจัย")]
         ResearchCoordinators = 4,

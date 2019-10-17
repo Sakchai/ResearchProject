@@ -13,7 +13,7 @@ namespace Research
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    .UseIISIntegration()
-                   .UseUrls("http://*:80/")
+                 //  .UseUrls("http://*:80/")
                    .UseStartup<Startup>();
     }
 }

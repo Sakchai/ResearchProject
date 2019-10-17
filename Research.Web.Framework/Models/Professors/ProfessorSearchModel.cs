@@ -22,8 +22,11 @@ namespace Research.Web.Models.Professors
         #region Properties
         [Display(Name = "ประเภทผู้ทรงคุณวุฒิ")]
         public int ProfessorTypeId { get; set; }
-        [Display(Name = "คำนำหน้าชื่อ")]
+        
         public int TitleId { get; set; }
+        [Display(Name = "คำนำหน้าชื่อ")]
+        public string TitleName { get; set; }
+     
         public IList<SelectListItem> AvailableTitles { get; set; }
         public IList<SelectListItem> AvailableProfessorTypes { get; set; }
         [Display(Name = "ชื่อ")]
