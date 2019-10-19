@@ -3,8 +3,6 @@ using Research.Data;
 using Research.Enum;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Research.Services
 {
@@ -165,6 +163,8 @@ namespace Research.Services
         /// <param name="maxLength">Maximum user name length</param>
         /// <returns>Formatted text</returns>
         string FormatUserName(User user, bool stripTooLong = false, int maxLength = 0);
+
+        List<ProjectByAgentRecord> ProjectByAgentDashboard(int year);
 
         #endregion
 

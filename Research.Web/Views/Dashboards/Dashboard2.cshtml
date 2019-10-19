@@ -1,6 +1,6 @@
 ﻿@model DashboardModel
 @{
-    ViewData["Title"] = "Dashboard2";
+    ViewData["Title"] = "ภาพรวม";
 }
 
 <environment names="Development">
@@ -39,7 +39,7 @@
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+            <span class="info-box-icon bg-aqua"><i class="fa fa-check"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">งบประมาณวิจัย</span>
                 <span class="info-box-number">@Model.FundAmount</span>
@@ -51,7 +51,7 @@
     <!-- /.col -->
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+            <span class="info-box-icon bg-red"><i class="fa fa-dashboard"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">โครงการวิจัย</span>
                 <span class="info-box-number">@Model.NoOfProject</span>
@@ -65,7 +65,7 @@
     <div class="clearfix visible-sm-block"></div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">นักวิจัย</span>
                 <span class="info-box-number">@Model.NoOfReseacher</span>
@@ -118,7 +118,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="text-center">
-                            <strong>ประจำปีงบประมาณ พ.ศ. 2559-2562 แยกตามหน่วยงาน/คณะ</strong>
+                            <strong>ประจำปีงบประมาณ พ.ศ. @Model.FiscalYear แยกตามหน่วยงาน/คณะ</strong>
                         </p>
                         <div class="chart">
                             <!-- Sales Chart Canvas -->

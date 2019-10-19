@@ -9,6 +9,7 @@ using Research.Core.Caching;
 using Research.Core.Data;
 using Research.Core.Data.Extensions;
 using Research.Core.Domain.Users;
+using Research.Core.Domain.Common;
 
 namespace Research.Services.Users
 {
@@ -372,6 +373,13 @@ namespace Research.Services.Users
             var totalRecordsDeleted = pTotalRecordsDeleted.Value != DBNull.Value ? Convert.ToInt32(pTotalRecordsDeleted.Value) : 0;
             return totalRecordsDeleted;
             //return 0;
+        }
+
+        public virtual List<ProjectByAgentRecord> ProjectByAgentDashboard(int year)
+        {
+            string strCommand = string.Format("ProjectByAgentDashboard @year = {0}", year);
+            return _dbContext.QueryFromSql<ProjectByAgentRecord>(strCommand).ToList();
+
         }
 
         /// <summary>

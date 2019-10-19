@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Research.Core.Domain.Common;
 using Research.Data.Mapping;
 using System;
 using System.Data;

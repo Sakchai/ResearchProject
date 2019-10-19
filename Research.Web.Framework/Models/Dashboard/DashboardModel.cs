@@ -11,18 +11,12 @@ namespace Research.Web.Models.Dashboard
     public partial class DashboardModel 
     {
 
-        public DashboardModel()
-        {
-            FundAmountByFaculties = new List<FundAmountByFacultyModel>();
-            NoOfProjectByFaculties = new List<NoOfProjectByFacultyModel>();
-        }
 
         public string FiscalYearList { get; set; }
         public string ProjectList { get; set; }
         public string FundAmountList { get; set; }
         public string FacultyList { get; set; }
-        public IList<FundAmountByFacultyModel> FundAmountByFaculties { get; set; }
-        public IList<NoOfProjectByFacultyModel> NoOfProjectByFaculties { get; set; }
+
         #region Properties
 
         public string FiscalYear { get; set; }
