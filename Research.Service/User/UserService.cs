@@ -371,7 +371,7 @@ namespace Research.Services.Users
 
             var totalRecordsDeleted = pTotalRecordsDeleted.Value != DBNull.Value ? Convert.ToInt32(pTotalRecordsDeleted.Value) : 0;
             return totalRecordsDeleted;
-            return 0;
+            //return 0;
         }
 
         /// <summary>

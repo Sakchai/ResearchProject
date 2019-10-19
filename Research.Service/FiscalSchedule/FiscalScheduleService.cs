@@ -19,7 +19,7 @@ namespace Research.Services.FiscalSchedules
         private readonly IRepository<FiscalSchedule> _fiscalScheduleRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+       // private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.FiscalSchedules
         /// <param name="fiscalScheduleRepository">FiscalSchedule repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public FiscalScheduleService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+      //      IStaticCacheManager staticCacheManager,
             IRepository<FiscalSchedule> fiscalScheduleRepository,
             IEventPublisher eventPublisher)
         {

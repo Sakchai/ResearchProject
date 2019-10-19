@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<StrategyGroup> _strategyGroupRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+      //  private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Common
         /// <param name="strategyGroupRepository">StrategyGroup repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public StrategyGroupService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+        //    IStaticCacheManager staticCacheManager,
             IRepository<StrategyGroup> strategyGroupRepository,
             IEventPublisher eventPublisher)
         {
@@ -113,7 +113,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchStrategyGroupDefaults.StrategyGroupsPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchStrategyGroupDefaults.StrategyGroupsPatternCacheKey);
+           // _staticCacheManager.RemoveByPattern(ResearchStrategyGroupDefaults.StrategyGroupsPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(strategyGroup);
@@ -136,7 +136,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchStrategyGroupDefaults.StrategyGroupsPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchStrategyGroupDefaults.StrategyGroupsPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchStrategyGroupDefaults.StrategyGroupsPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(strategyGroup);

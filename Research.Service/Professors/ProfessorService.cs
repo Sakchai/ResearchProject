@@ -19,7 +19,7 @@ namespace Research.Services.Professors
         private readonly IRepository<Professor> _professorRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+     //   private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Professors
         /// <param name="professorRepository">Professor repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public ProfessorService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+      //      IStaticCacheManager staticCacheManager,
             IRepository<Professor> professorRepository,
             IEventPublisher eventPublisher)
         {

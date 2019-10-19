@@ -26,11 +26,11 @@ namespace Research.Web.Models.FiscalSchedules
         [Display(Name = "ชื่อทุนวิจัย")]
         public string ScholarName { get; set; }
         [UIHint("Date")]
-        [Display(Name = "วันเปิดรับข้อเสนอโครงการวิจัย")]
+        [Display(Name = "วันเปิดรับข้อเสนอโครงการวิจัย (MM/dd/YYYY)")]
         public DateTime OpeningDate { get; set; }
         public string OpeningDateName { get; set; }
         [UIHint("Date")]
-        [Display(Name = "วันปิดรับข้อเสนอโครงการวิจัย")]
+        [Display(Name = "วันปิดรับข้อเสนอโครงการวิจัย (MM/dd/YYYY)")]
         public DateTime ClosingDate { get; set; }
         public string ClosingDateName { get; set; }
 

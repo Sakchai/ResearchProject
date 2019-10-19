@@ -115,16 +115,16 @@ namespace Research.Web.Factories
                 model = model ?? fiscalSchedule.ToModel<FiscalScheduleModel>();
                 model.Id = fiscalSchedule.Id;
                 model.FiscalYear = fiscalSchedule.FiscalYear;
-                model.ClosingDate = fiscalSchedule.ClosingDate;
+                model.ClosingDate = fiscalSchedule.ClosingDate.AddYears(543);
                 model.FiscalCode = fiscalSchedule.FiscalCode;
                 model.FiscalTimes = fiscalSchedule.FiscalTimes;
-                model.OpeningDate = fiscalSchedule.OpeningDate;
+                model.OpeningDate = fiscalSchedule.OpeningDate.AddYears(543);
             } else
             {
                 model.FiscalCode = _fiscalScheduleService.GetNextNumber();
                 model.FiscalYear = DateTime.Today.Year + 543;
-                model.OpeningDate = DateTime.Today;
-                model.ClosingDate = DateTime.Today.AddYears(1);
+                model.OpeningDate = DateTime.Today.AddYears(543);
+                model.ClosingDate = DateTime.Today.AddYears(544);
                 model.FiscalTimes = 1;
             }
 

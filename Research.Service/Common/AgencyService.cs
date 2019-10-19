@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<Agency> _agencyRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+      //  private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Common
         /// <param name="agencyRepository">Agency repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public AgencyService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+        //    IStaticCacheManager staticCacheManager,
             IRepository<Agency> agencyRepository,
             IEventPublisher eventPublisher)
         {
@@ -113,7 +113,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchAgencyDefaults.AgenciesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchAgencyDefaults.AgenciesPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchAgencyDefaults.AgenciesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(agency);
@@ -136,7 +136,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchAgencyDefaults.AgenciesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchAgencyDefaults.AgenciesPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchAgencyDefaults.AgenciesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(agency);

@@ -63,11 +63,11 @@ namespace Research.Web.Models.Projects
         public string ProgressStatusName { get; set; }
         public int ProjectUploadId { get; set; }
         [UIHint("Date")]
-        [Display(Name = "วันที่ทำสัญญา")]
+        [Display(Name = "วันที่ทำสัญญา (MM/dd/YYYY)")]
         public DateTime ProjectStartDate { get; set; }
         public string ProjectStartDateName { get; set; }
         [UIHint("Date")]
-        [Display(Name = "วันที่สิ้นสุดสัญญา")]
+        [Display(Name = "วันที่สิ้นสุดสัญญา (MM/dd/YYYY)")]
         public DateTime ProjectEndDate { get; set; }
         public string ProjectEndDateName { get; set; }
         public string LastUpdateBy { get; set; }
@@ -126,10 +126,10 @@ namespace Research.Web.Models.Projects
         public int AddProjectProgressStatusId { get; set; }
 
         [UIHint("Date")]
-        [Display(Name = "วันที่เริ่มต้น")]
+        [Display(Name = "วันที่เริ่มต้น (MM/dd/YYYY)")]
         public DateTime AddProjectProgressStartDate { get; set; }
         [UIHint("Date")]
-        [Display(Name = "วันที่สิ้นสุด")]
+        [Display(Name = "วันที่สิ้นสุด (MM/dd/YYYY)")]
         public DateTime AddProjectProgressEndDate { get; set; }
         [Display(Name = "หมายเหตุ")]
         public string AddProjectProgressComment { get; set; }

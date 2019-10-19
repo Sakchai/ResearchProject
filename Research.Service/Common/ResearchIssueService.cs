@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<ResearchIssue> _researchIssueRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+     //   private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 

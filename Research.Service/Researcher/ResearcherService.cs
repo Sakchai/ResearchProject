@@ -9,7 +9,7 @@ namespace Research.Services.Researchers
 {
     public class ResearcherService : IResearcherService
     {
-        private readonly IDataProvider _dataProvider;
+       // private readonly IDataProvider _dataProvider;
         private readonly IDbContext _dbContext;
         private readonly IRepository<Researcher> _researcherRepository;
         private readonly IRepository<ResearcherEducation> _researcherEducationRepository;

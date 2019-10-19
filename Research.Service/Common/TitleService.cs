@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<Title> _titleRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+      //  private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Common
         /// <param name="titleRepository">Title repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public TitleService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+       //     IStaticCacheManager staticCacheManager,
             IRepository<Title> titleRepository,
             IEventPublisher eventPublisher)
         {
@@ -113,8 +113,8 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchTitleDefaults.TitlesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchTitleDefaults.TitlesPatternCacheKey);
-
+          //  _staticCacheManager.RemoveByPattern(ResearchTitleDefaults.TitlesPatternCacheKey);
+///
             //event notification
             _eventPublisher.EntityInserted(title);
         }
@@ -136,7 +136,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchTitleDefaults.TitlesPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchTitleDefaults.TitlesPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchTitleDefaults.TitlesPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(title);

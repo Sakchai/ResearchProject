@@ -87,7 +87,8 @@ namespace Research.Web.Controllers
                 ModelState.AddModelError("", "ไม่พบช่วงเวลา วันเปิดรับข้อเสนอโครงการวิจัย โปรดติดต่อผู้ดูแลระบบ");
 
             project = model.ToEntity(project);
-
+            project.ProjectStartDate = project.ProjectStartDate.AddYears(-543);
+            project.ProjectEndDate = project.ProjectEndDate.AddYears(-543);
             if (project.ProjectStartDate <= fiscalSchedule.OpeningDate)
                 ModelState.AddModelError("", "วันยื่นข้อเสนอโครงการ น้อยกว่าวันเปิดรับข้อเสนอโครงการวิจัย.");
             
@@ -469,8 +470,8 @@ namespace Research.Web.Controllers
             {
                 ProjectId = project.Id,
                 ProgressStatusId = progressStatusId,
-                ProgressStartDate = DateTime.Parse(startDate),
-                ProgressEndDate = DateTime.Parse(endDate),
+                ProgressStartDate = DateTime.Parse(startDate).AddYears(-543),
+                ProgressEndDate = DateTime.Parse(endDate).AddYears(-543),
                 Comment = comment,
                 Modified = DateTime.Now,
                 ProjectUploadId = uploadId
@@ -505,77 +506,5 @@ namespace Research.Web.Controllers
         }
         #endregion
 
-        #region Export / Import
-
-        //public virtual IActionResult ExportPdf(int id, int projectId)
-        //{
-        //    //if (!_permissionService.Authorize(StandardPermissionProvider.ManageLanguages))
-        //    //    return AccessDeniedView();
-
-        //    var project = _projectService.GetProjectById(projectId)
-        //        ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
-
-        //    //try to get a project professor with the specified id
-        //    var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
-        //        ?? throw new ArgumentException("No project progress found with the specified id", nameof(id));
-
-        //    if (projectProgress == null)
-        //        return RedirectToAction("List");
-
-        //    try
-        //    {
-        //        var pdf = _projectService.ExportResourcesToPdf(projectProgress);
-        //        return File(Encoding.UTF8.GetBytes(pdf), "application/pdf", "project_progress.pdf");
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        ErrorNotification(exc);
-        //        return RedirectToAction("List");
-        //    }
-        //}
-
-        //[HttpPost]
-        //public virtual IActionResult ImportPdf(int id, int projectId, IFormFile importpdffile)
-        //{
-        //    //if (!_permissionService.Authorize(StandardPermissionProvider.ManageLanguages))
-        //    //    return AccessDeniedView();
-
-        //    //try to get a language with the specified id
-        //    var project = _projectService.GetProjectById(projectId)
-        //        ?? throw new ArgumentException("No project found with the specified id", nameof(projectId));
-
-        //    //try to get a project professor with the specified id
-        //    var projectProgress = project.ProjectProgresses.FirstOrDefault(vn => vn.Id == id)
-        //        ?? throw new ArgumentException("No project progress found with the specified id", nameof(id));
-
-        //    if (projectProgress == null)
-        //        return RedirectToAction("List");
-
-        //    try
-        //    {
-        //        if (importpdffile != null && importpdffile.Length > 0)
-        //        {
-        //            using (var sr = new StreamReader(importpdffile.OpenReadStream(), Encoding.UTF8))
-        //            {
-        //                _projectService.ImportResourcesFromPdf(projectProgress, sr.ReadToEnd());
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ErrorNotification("Admin.Common.UploadFile");
-        //            return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
-        //        }
-
-        //        SuccessNotification("Admin.Configuration.Languages.Imported");
-        //        return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        ErrorNotification(exc);
-        //        return RedirectToAction("Edit", new { id = projectProgress.Id, projectId = project.Id });
-        //    }
-        //}
-
-        #endregion
     }
 }

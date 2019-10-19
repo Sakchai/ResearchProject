@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<AcademicRank> _academicRankRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+      //  private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Common
         /// <param name="academicRankRepository">AcademicRank repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public AcademicRankService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+          //  IStaticCacheManager staticCacheManager,
             IRepository<AcademicRank> academicRankRepository,
             IEventPublisher eventPublisher)
         {
@@ -113,7 +113,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchAcademicRankDefaults.AcademicRanksPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchAcademicRankDefaults.AcademicRanksPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchAcademicRankDefaults.AcademicRanksPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(academicRank);
@@ -136,7 +136,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchAcademicRankDefaults.AcademicRanksPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchAcademicRankDefaults.AcademicRanksPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchAcademicRankDefaults.AcademicRanksPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(academicRank);

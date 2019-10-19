@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<EducationLevel> _educationLevelRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+     //   private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Common
         /// <param name="educationLevelRepository">EducationLevel repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public EducationLevelService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+        //    IStaticCacheManager staticCacheManager,
             IRepository<EducationLevel> educationLevelRepository,
             IEventPublisher eventPublisher)
         {
@@ -113,7 +113,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchEducationLevelDefaults.EducationLevelsPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchEducationLevelDefaults.EducationLevelsPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchEducationLevelDefaults.EducationLevelsPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityInserted(educationLevel);
@@ -136,7 +136,7 @@ namespace Research.Services.Common
 
             //cache
             _cacheManager.RemoveByPattern(ResearchEducationLevelDefaults.EducationLevelsPatternCacheKey);
-            _staticCacheManager.RemoveByPattern(ResearchEducationLevelDefaults.EducationLevelsPatternCacheKey);
+            //_staticCacheManager.RemoveByPattern(ResearchEducationLevelDefaults.EducationLevelsPatternCacheKey);
 
             //event notification
             _eventPublisher.EntityUpdated(educationLevel);

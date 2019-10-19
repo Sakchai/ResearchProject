@@ -179,13 +179,14 @@ namespace Research.Web.Factories
                     model.ProjectStatusId = project.ProjectStatusId.Value;
                 if (project.ProjectStartDate != null)
                 {
-                    model.ProjectStartDate = project.ProjectStartDate;
                     model.ProjectStartDateName = CommonHelper.ConvertToThaiDate(project.ProjectStartDate);
+                    model.ProjectStartDate = project.ProjectStartDate.AddYears(543);
                 }
                 if (project.ProjectEndDate != null)
                 {
-                    model.ProjectEndDate = project.ProjectEndDate;
+
                     model.ProjectEndDateName = CommonHelper.ConvertToThaiDate(project.ProjectEndDate);
+                    model.ProjectEndDate = project.ProjectEndDate.AddYears(543);
                 }
                 model.LastUpdateBy = project.LastUpdateBy;
                 model.Comment = project.Comment;
@@ -204,13 +205,13 @@ namespace Research.Web.Factories
             {
                 model.ProjectCode = _projectService.GetNextNumber();
                 model.ProjectType = "N";
-                model.ProjectStartDate = DateTime.Today;
-                model.ProjectEndDate = DateTime.Today.AddYears(1);
+                model.ProjectStartDate = DateTime.Today.AddYears(543);
+                model.ProjectEndDate = DateTime.Today.AddYears(543);
                 model.ProjectStatusId = (int) ProjectStatus.WaitingApproval;
             }
 
-            model.AddProjectProgressStartDate = DateTime.Today;
-            model.AddProjectProgressEndDate = model.ProjectEndDate.AddMonths(5);
+            model.AddProjectProgressStartDate = DateTime.Today.AddYears(543);
+            model.AddProjectProgressEndDate = DateTime.Today.AddYears(543);
 
             int fiscalYear = DateTime.Today.Year + 543;
 

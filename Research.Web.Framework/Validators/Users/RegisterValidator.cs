@@ -99,7 +99,7 @@ namespace Research.Web.Validators.Users
         private bool IsValidIDCard2(RegisterModel model)
         {
             long id = long.Parse(model.IDCard);
-            long _base = 100000000000l; //สร้างตัวแปร เพื่อสำหรับให้หารเพื่อเอาหลักที่ต้องการ
+            long _base = 100000000000L; //สร้างตัวแปร เพื่อสำหรับให้หารเพื่อเอาหลักที่ต้องการ
             int basenow; //สร้างตัวแปรเพื่อเก็บค่าประจำหลัก
             int sum = 0; //สร้างตัวแปรเริ่มตัวผลบวกให้เท่ากับ 0
             for (int i = 13; i > 1; i--)

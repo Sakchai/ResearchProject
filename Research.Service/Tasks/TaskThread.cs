@@ -31,7 +31,7 @@ namespace Research.Services.Tasks
             //TO-DO
             //chai
            // var storeContext = EngineContext.Current.Resolve<IStoreContext>();
-           // _scheduleTaskUrl = $"{storeContext.CurrentStore.Url}{ResearchTaskDefaults.ScheduleTaskPath}";
+           //S _scheduleTaskUrl = $"{storeContext.CurrentStore.Url}{ResearchTaskDefaults.ScheduleTaskPath}";
         }
 
         internal TaskThread()

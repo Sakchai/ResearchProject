@@ -264,7 +264,6 @@ __pycache__/
 /.vs/slnx.sqlite
 /.vs/config/applicationhost.config
 
-**/lib/*
 **/bower_components/*
 **/plugins/*
 

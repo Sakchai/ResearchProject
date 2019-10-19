@@ -19,7 +19,7 @@ namespace Research.Services.Common
         private readonly IRepository<Address> _addressRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
-        private readonly IStaticCacheManager _staticCacheManager;
+      //  private readonly IStaticCacheManager _staticCacheManager;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Research.Services.Common
         /// <param name="addressRepository">Address repository</param>
         /// <param name="eventPublisher">Event publisher</param>
         public AddressService(ICacheManager cacheManager,
-            IStaticCacheManager staticCacheManager,
+       //     IStaticCacheManager staticCacheManager,
             IRepository<Address> addressRepository,
             IEventPublisher eventPublisher)
         {

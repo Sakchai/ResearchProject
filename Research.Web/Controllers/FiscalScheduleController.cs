@@ -97,17 +97,16 @@ namespace Research.Web.Controllers
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageFiscalSchedules))
                 return AccessDeniedView();
-
+            var fiscalSchedule = model.ToEntity<FiscalSchedule>();
+            fiscalSchedule.ClosingDate = Convert.ToDateTime(model.ClosingDate).AddYears(-543);
+            fiscalSchedule.OpeningDate = Convert.ToDateTime(model.OpeningDate).AddYears(-543);
             if (ModelState.IsValid)
             {
-
-                var fiscalSchedule = model.ToEntity<FiscalSchedule>();
                 fiscalSchedule.FiscalYear = model.FiscalYear;
                 fiscalSchedule.FiscalCode = model.FiscalCode;
                 fiscalSchedule.FiscalTimes = model.FiscalTimes;
                 fiscalSchedule.ScholarName = model.ScholarName;
-                fiscalSchedule.ClosingDate = Convert.ToDateTime(model.ClosingDate);
-                fiscalSchedule.OpeningDate = Convert.ToDateTime(model.OpeningDate);
+
                 _fiscalScheduleService.InsertFiscalSchedule(fiscalSchedule);
 
                 return continueEditing ? RedirectToAction("Edit", new { fiscalSchedule.Id }) : RedirectToAction("List");
@@ -147,17 +146,15 @@ namespace Research.Web.Controllers
             var fiscalSchedule = _fiscalScheduleService.GetFiscalScheduleById(model.Id);
             if (fiscalSchedule == null)
                 return RedirectToAction("List");
-
+            fiscalSchedule = model.ToEntity(fiscalSchedule);
+            fiscalSchedule.ClosingDate = Convert.ToDateTime(model.ClosingDate).AddYears(-543);
+            fiscalSchedule.OpeningDate = Convert.ToDateTime(model.OpeningDate).AddYears(-543);
             if (ModelState.IsValid)
             {
-                fiscalSchedule = model.ToEntity(fiscalSchedule);
                 fiscalSchedule.FiscalYear = model.FiscalYear;
                 fiscalSchedule.FiscalCode = model.FiscalCode;
                 fiscalSchedule.FiscalTimes = model.FiscalTimes;
                 fiscalSchedule.ScholarName = model.ScholarName;
-                fiscalSchedule.ClosingDate = Convert.ToDateTime(model.ClosingDate);
-                fiscalSchedule.OpeningDate = Convert.ToDateTime(model.OpeningDate);
-
                 _fiscalScheduleService.UpdateFiscalSchedule(fiscalSchedule);
 
                 return continueEditing ? RedirectToAction("Edit", new { fiscalSchedule.Id }) : RedirectToAction("List");
