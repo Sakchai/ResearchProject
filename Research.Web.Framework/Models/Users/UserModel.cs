@@ -19,6 +19,11 @@ namespace Research.Web.Models.Users
         }
         [Display(Name = "รหัสผู้ดูแลระบบ")]
         public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "รหัสผ่าน")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
         [Required]
         [Display(Name = "ชื่อ")]
         public string FirstName { get; set; }

@@ -19,10 +19,19 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-3">
+                            <nop-label asp-for="Password" />
+                        </div>
+                        <div class="col-sm-9">
+                            <nop-editor asp-for="Password" asp-required="true" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
                             <nop-label asp-for="TitleId" />
                         </div>
                         <div class="col-sm-9">
-                            <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" asp-required="true"  />
+                            <nop-select asp-for="TitleId" asp-items="Model.AvailableTitles" asp-required="true" />
                             <span asp-validation-for="TitleId" class="text-danger"></span>
                         </div>
                     </div>
@@ -49,7 +58,7 @@
                             <nop-label asp-for="AgencyId" />
                         </div>
                         <div class="col-sm-9">
-                            <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencyies" asp-required="true"  />
+                            <nop-select asp-for="AgencyId" asp-items="Model.AvailableAgencyies" asp-required="true" />
                             <span asp-validation-for="AgencyId" class="text-danger"></span>
                         </div>
                     </div>
@@ -67,7 +76,7 @@
                             <nop-label asp-for="Email" />
                         </div>
                         <div class="col-sm-9">
-                            <nop-editor asp-for="Email"  asp-required="true" />
+                            <nop-editor asp-for="Email" asp-required="true" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
@@ -76,7 +85,7 @@
                             <nop-label asp-for="UserTypeId" />
                         </div>
                         <div class="col-sm-9">
-                            <nop-select asp-for="UserTypeId" asp-items="Model.AvailableUserRoles" asp-required="true"  />
+                            <nop-select asp-for="UserTypeId" asp-items="Model.AvailableUserRoles" asp-required="true" />
                             <span asp-validation-for="UserTypeId"></span>
                         </div>
                     </div>
@@ -94,7 +103,7 @@
                             <nop-label asp-for="Description" />
                         </div>
                         <div class="col-sm-9">
-                            <nop-textarea asp-for="Description"  />
+                            <nop-textarea asp-for="Description" />
                             <span asp-validation-for="Description"></span>
                         </div>
                     </div>

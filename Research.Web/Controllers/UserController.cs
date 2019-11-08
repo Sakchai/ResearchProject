@@ -692,6 +692,7 @@ namespace Research.Web.Controllers
                 var role = _userService.GetRoleById(model.UserTypeId);
                 user = model.ToEntity(user);
                 user.UserName = model.UserName;
+                user.Password = model.Password;
                 user.TitleId = model.TitleId;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
