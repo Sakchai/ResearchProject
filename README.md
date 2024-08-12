@@ -2,6 +2,11 @@
 
 This project is for provide researcher registration and research project proposal system.
 
+## Give a Star! :star:
+
+   If you like or are using this project to learn or start your solution, please give it a star. Thanks!
+   Or if you're feeling really generous, we now support GitHub sponsorships - see the button above.
+
 ## ResearchProject Repos
 
 For this reference app, we built serveral consumer and line-of-business apps. You can find all ResearchProject Repos in this location 
