@@ -28,7 +28,7 @@
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.103" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
